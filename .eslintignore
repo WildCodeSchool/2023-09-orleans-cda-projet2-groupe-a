@@ -1,0 +1,16 @@
+# Add files here to ignore them from eslint check
+
+dist
+build
+coverage
+node_modules
+.expo
+.vscode
+.vite
+packages/frontend/mobile/ios
+packages/frontend/mobile/android
+deployment/mysql/data
+
+.eslintrc.cjs
+vite.config.ts
+tailwind.config.js

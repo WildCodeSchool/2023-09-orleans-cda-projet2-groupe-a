@@ -1,0 +1,21 @@
+version: '3'
+
+name: '2023-09-orleans-cda-projet2-dev'
+
+services:
+  database:
+    image: mysql:8.2.0
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - ./mysql/.env
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    healthcheck:
+      test:
+        ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uuser', '-ppassword']
+      interval: 5s # Interval between health checks.
+      timeout: 5s # Timeout for each health checking.
+      retries: 20 # Hou many times retries.
+      start_period: 10s

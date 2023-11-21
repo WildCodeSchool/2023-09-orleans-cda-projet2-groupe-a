@@ -1,0 +1,26 @@
+{
+  "name": "@app/web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun vite",
+    "build": "bun tsc && bun vite build",
+    "preview": "bun vite preview",
+    "ts:check": "bun tsc"
+  },
+  "dependencies": {
+    "@app/frontend-shared": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.19.0"
+  },
+  "devDependencies": {
+    "@app/types": "workspace:*",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}

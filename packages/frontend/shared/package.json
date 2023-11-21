@@ -1,0 +1,14 @@
+{
+  "name": "@app/frontend-shared",
+  "main": "src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

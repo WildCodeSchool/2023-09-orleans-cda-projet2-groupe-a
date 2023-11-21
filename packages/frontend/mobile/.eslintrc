@@ -1,0 +1,17 @@
+{
+  "extends": ["universe/native", "../../../.eslintrc.cjs"],
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "react/style-prop-object": "off"
+      }
+    },
+    {
+      "files": ["*.ts?(x)"],
+      "rules": {
+        "import/order": "off"
+      }
+    }
+  ]
+}
