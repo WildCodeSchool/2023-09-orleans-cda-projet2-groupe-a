@@ -28,7 +28,7 @@ First, start the app with `bun run dev` then run `bun run dev:frontend:mobile`
 
 ### MySQL env
 
-In `deployment/mysql` folder, there's a `.env.sample`. Copy and paste it as `.env`.
+In `deployment` folder, there's a `.env.sample`. Copy and paste it as `.env`.
 
 Edit the variables as you see fit.
 
