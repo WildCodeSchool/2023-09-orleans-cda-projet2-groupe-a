@@ -7,9 +7,9 @@ services:
     image: mysql:8.2.0
     restart: always
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:3306
     env_file:
-      - ./mysql/.env
+      - ./.env
     volumes:
       - ./mysql/data:/var/lib/mysql
     healthcheck:

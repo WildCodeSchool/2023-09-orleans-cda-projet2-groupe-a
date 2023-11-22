@@ -3,8 +3,12 @@ import os from 'node:os';
 
 const NETWORK_INTERFACE = process.env.NETWORK_INTERFACE;
 
-if (!NETWORK_INTERFACE)
-  throw new Error('NETWORK_INTERFACE env variable is not set');
+if (!NETWORK_INTERFACE) {
+  console.error(
+    'Could not auto detect IP: NETWORK_INTERFACE env variable is not set',
+  );
+  process.exit(0);
+}
 
 const networkInterfaces = os.networkInterfaces();
 
@@ -53,7 +57,9 @@ if (networkInterface) {
     process.exit(0);
   }
 } else {
-  console.error(`Network interface "${NETWORK_INTERFACE}" not found.`);
+  console.error(
+    `Could not auto detect IP: Network interface "${NETWORK_INTERFACE}" not found.`,
+  );
 
   const networkInterfaceData = [];
 
