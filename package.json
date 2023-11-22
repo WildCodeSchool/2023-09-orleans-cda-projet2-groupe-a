@@ -54,6 +54,7 @@
     "husky": "^8.0.3",
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
+    "tailwindcss": "^3.3.5",
     "typescript": "^5.3.2"
   }
 }
