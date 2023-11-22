@@ -14,3 +14,4 @@ deployment/mysql/data
 .eslintrc.cjs
 vite.config.ts
 tailwind.config.js
+postcss.config.js
