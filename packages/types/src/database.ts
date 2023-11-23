@@ -55,7 +55,7 @@ export interface CocktailTable {
   id: Generated<number>;
   name: string;
   image: string;
-  total_kcal: number | null;
+  total_kcal?: number;
   total_degree: number;
   author: number;
   ratings_average:
@@ -69,17 +69,7 @@ export interface CocktailTable {
     | '3.5'
     | '4'
     | '4.5'
-    | '5'
-    | '5.5'
-    | '6'
-    | '6.5'
-    | '7'
-    | '7.5'
-    | '8'
-    | '8.5'
-    | '9'
-    | '9.5'
-    | '10';
+    | '5';
   glass_id: number;
   final_flavour:
     | 'fruity'
@@ -122,17 +112,7 @@ export interface RatingTable {
     | '3.5'
     | '4'
     | '4.5'
-    | '5'
-    | '5.5'
-    | '6'
-    | '6.5'
-    | '7'
-    | '7.5'
-    | '8'
-    | '8.5'
-    | '9'
-    | '9.5'
-    | '10';
+    | '5';
   created_at: Date;
 }
 export interface ToppingTable {
@@ -202,7 +182,7 @@ export interface RecipeTable {
   total_duration: number;
   step: number;
 }
-export interface Database {
+export type Database = {
   glass: GlassTable;
   user: UserTable;
   ingredient: IngredientTable;
@@ -216,7 +196,7 @@ export interface Database {
   action_ingredient: ActionIngredientTable;
   cocktail_topping: CocktailToppingTable;
   recipe: RecipeTable;
-}
+};
 export type Glass = Selectable<GlassTable>;
 export type NewGlass = Insertable<GlassTable>;
 export type GlassUpdate = Updateable<GlassTable>;

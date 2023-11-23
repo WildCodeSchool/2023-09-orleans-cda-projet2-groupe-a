@@ -4,13 +4,6 @@ import type { Database } from '@app/types';
 
 export async function up(db: Kysely<Database>): Promise<void> {
   // Migration code that update the database to the desired state.
-  await sql`
-    INSERT INTO user (email, password, pseudo, image, birthdate, created_at)
-    VALUES 
-      ('user1@example.com', 'password1', 'User1', 'image1.jpg', '2000-01-01', NOW()),
-      ('user2@example.com', 'password2', 'User2', 'image2.jpg', '2000-01-02', NOW()),
-      ('admin@example.com', 'adminpassword', 'admin', 'image3.jpg', '2000-01-03', NOW());
-  `.execute(db);
 
   await sql`
     INSERT INTO glass (name, capacity, image, material)
@@ -34,30 +27,6 @@ export async function up(db: Kysely<Database>): Promise<void> {
       ('Whiskey Sour', 'whiskey_sour.jpg', 150, 15, 1, '4.5', 1, 'fruity', NOW(), 1),
       ('Mojito', 'mojito.jpg', 100, 10, 2, '4.5', 2, 'sweet', NOW(), 1),
       ('Vodka Soda', 'vodka_soda.jpg', 70, 5, 1, '3.5', 3, 'neutral', NOW(), 1);
-  `.execute(db);
-
-  await sql`
-    INSERT INTO comment (user_id, cocktail_id, content, created_at)
-    VALUES 
-      (1, 1, 'Great cocktail!', NOW()),
-      (2, 2, 'I love it!', NOW()),
-      (3, 3, 'Refreshing!', NOW());
-  `.execute(db);
-
-  await sql`
-    INSERT INTO favorite (user_id, cocktail_id)
-    VALUES 
-      (1, 1),
-      (2, 2),
-      (1, 3);
-  `.execute(db);
-
-  await sql`
-    INSERT INTO rating (user_id, cocktail_id, score, created_at)
-    VALUES 
-      (1, 1, '1', NOW()),
-      (2, 1, '2', NOW()),
-      (1, 2, '3', NOW());
   `.execute(db);
 
   await sql`
@@ -106,48 +75,5 @@ export async function up(db: Kysely<Database>): Promise<void> {
       (1, 1, 2, 10, 1),
       (1, 2, 5, 15, 2),
       (1, 3, 1, 5, 3);
-  `.execute(db);
-}
-
-export async function down(db: Kysely<Database>): Promise<void> {
-  // Migration code that reverts the database to the previous state.
-  await sql`
-    DROP TABLE recipe;
-  `.execute(db);
-  await sql`
-    DROP TABLE cocktail_topping;
-  `.execute(db);
-  await sql`
-    DROP TABLE action_ingredient;
-  `.execute(db);
-  await sql`
-    DROP TABLE action;
-  `.execute(db);
-  await sql`
-    DROP TABLE tool;
-  `.execute(db);
-  await sql`
-    DROP TABLE topping;
-  `.execute(db);
-  await sql`
-    DROP TABLE rating;
-  `.execute(db);
-  await sql`
-    DROP TABLE favorite;
-  `.execute(db);
-  await sql`
-    DROP TABLE comment;
-  `.execute(db);
-  await sql`
-    DROP TABLE cocktail;
-  `.execute(db);
-  await sql`
-    DROP TABLE ingredient;
-  `.execute(db);
-  await sql`
-    DROP TABLE user;
-  `.execute(db);
-  await sql`
-    DROP TABLE glass;
   `.execute(db);
 }
