@@ -77,3 +77,52 @@ export async function up(db: Kysely<Database>): Promise<void> {
       (1, 3, 1, 5, 3);
   `.execute(db);
 }
+
+export async function down(db: Kysely<Database>): Promise<void> {
+  // Migration code that reverts the database back to the state it was in before up was run.
+
+  await sql`
+    DELETE FROM recipe
+    WHERE cocktail_id IN (1, 2, 3);
+  `.execute(db);
+
+  await sql`
+    DELETE FROM cocktail_topping
+    WHERE cocktail_id IN (1, 2, 3);
+  `.execute(db);
+
+  await sql`
+    DELETE FROM action_ingredient
+    WHERE ingredient_id IN (1, 2, 3);
+  `.execute(db);
+
+  await sql`
+    DELETE FROM action
+    WHERE verb IN ('muddle', 'shake', 'strain');
+  `.execute(db);
+
+  await sql`
+    DELETE FROM tool
+    WHERE name IN ('Muddler', 'Shaker', 'Strainer');
+  `.execute(db);
+
+  await sql`
+    DELETE FROM topping
+    WHERE name IN ('Lemon Twist', 'Mint Sprig', 'Cherry');
+  `.execute(db);
+
+  await sql`
+    DELETE FROM cocktail
+    WHERE name IN ('Whiskey Sour', 'Mojito', 'Vodka Soda');
+  `.execute(db);
+
+  await sql`
+    DELETE FROM ingredient
+    WHERE name IN ('Lemon', 'Mint', 'Vodka');
+  `.execute(db);
+
+  await sql`
+    DELETE FROM glass
+    WHERE name IN ('Whiskey Glass', 'Martini Glass', 'Mug');
+  `.execute(db);
+}
