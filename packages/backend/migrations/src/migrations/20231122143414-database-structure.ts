@@ -50,7 +50,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       image VARCHAR(255) NOT NULL,
       total_kcal TINYINT UNSIGNED NULL NOT NULL,
       total_degree TINYINT UNSIGNED NOT NULL,
-      author INT UNSIGNED,
+      author INT UNSIGNED NOT NULL,
       ratings_average ENUM('0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10') NOT NULL,
       glass_id INT UNSIGNED NOT NULL,
       final_flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL,
