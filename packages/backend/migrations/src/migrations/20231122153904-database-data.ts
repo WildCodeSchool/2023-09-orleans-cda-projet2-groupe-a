@@ -22,11 +22,11 @@ export async function up(db: Kysely<Database>): Promise<void> {
   `.execute(db);
 
   await sql`
-    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
+    INSERT INTO cocktail (name, image, total_kcal, total_degree, ratings_average, glass_id, final_flavour, created_at, total_quantity)
     VALUES 
-      ('Whiskey Sour', 'whiskey_sour.jpg', 150, 15, 1, '4.5', 1, 'fruity', NOW(), 1),
-      ('Mojito', 'mojito.jpg', 100, 10, 2, '4.5', 2, 'sweet', NOW(), 1),
-      ('Vodka Soda', 'vodka_soda.jpg', 70, 5, 1, '3.5', 3, 'neutral', NOW(), 1);
+      ('Whiskey Sour', 'whiskey_sour.jpg', 150, 15, '4.5', 1, 'fruity', NOW(), 1),
+      ('Mojito', 'mojito.jpg', 100, 10, '4.5', 2, 'sweet', NOW(), 1),
+      ('Vodka Soda', 'vodka_soda.jpg', 70, 5, '3.5', 3, 'neutral', NOW(), 1);
   `.execute(db);
 
   await sql`

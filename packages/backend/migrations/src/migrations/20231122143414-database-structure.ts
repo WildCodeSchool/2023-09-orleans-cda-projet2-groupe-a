@@ -23,7 +23,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       pseudo VARCHAR(50) NOT NULL,
       image VARCHAR(255) NOT NULL,
       birthdate VARCHAR(25) NOT NULL,
-      created_at STRING NOT NULL
+      created_at DATETIME NOT NULL
     );
   `.execute(db);
 
@@ -50,11 +50,11 @@ export async function up(db: Kysely<Database>): Promise<void> {
       image VARCHAR(255) NOT NULL,
       total_kcal TINYINT UNSIGNED NULL NOT NULL,
       total_degree TINYINT UNSIGNED NOT NULL,
-      author INT UNSIGNED NOT NULL,
+      author INT UNSIGNED,
       ratings_average ENUM('0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10') NOT NULL,
       glass_id INT UNSIGNED NOT NULL,
       final_flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL,
-      created_at STRING NOT NULL,
+      created_at DATETIME NOT NULL,
       total_quantity SMALLINT UNSIGNED NOT NULL,
       FOREIGN KEY (author) REFERENCES user(id),
       FOREIGN KEY (glass_id) REFERENCES glass(id)
@@ -68,7 +68,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       user_id INT UNSIGNED NOT NULL,
       cocktail_id INT UNSIGNED NOT NULL,
       content VARCHAR(255) NOT NULL,
-      created_at STRING NOT NULL,
+      created_at DATETIME NOT NULL,
       FOREIGN KEY (user_id) REFERENCES user(id),
       FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
     );
@@ -92,7 +92,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       user_id INT UNSIGNED NOT NULL,
       cocktail_id INT UNSIGNED NOT NULL,
       score ENUM('0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10') NOT NULL,
-      created_at STRING NOT NULL,
+      created_at DATETIME NOT NULL,
       FOREIGN KEY (user_id) REFERENCES user(id),
       FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
     );
