@@ -14,6 +14,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     );
   `.execute(db);
 
+  // Table user
   await sql`
     CREATE TABLE user (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +27,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     );
   `.execute(db);
 
+  // Table ingredient
   await sql`
     CREATE TABLE ingredient (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -40,6 +42,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     );
   `.execute(db);
 
+  // Table cocktail
   await sql`
     CREATE TABLE cocktail (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -52,38 +55,50 @@ export async function up(db: Kysely<Database>): Promise<void> {
       glass_id INT UNSIGNED NOT NULL,
       final_flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL,
       created_at STRING NOT NULL,
-      total_quantity SMALLINT UNSIGNED NOT NULL
+      total_quantity SMALLINT UNSIGNED NOT NULL,
+      FOREIGN KEY (author) REFERENCES user(id),
+      FOREIGN KEY (glass_id) REFERENCES glass(id)
     );
   `.execute(db);
 
+  // Table comment
   await sql`
     CREATE TABLE comment (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       user_id INT UNSIGNED NOT NULL,
       cocktail_id INT UNSIGNED NOT NULL,
       content VARCHAR(255) NOT NULL,
-      created_at STRING NOT NULL
+      created_at STRING NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES user(id),
+      FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
     );
   `.execute(db);
 
+  // Table favorite
   await sql`
     CREATE TABLE favorite (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       user_id INT UNSIGNED NOT NULL,
-      cocktail_id INT UNSIGNED NOT NULL
+      cocktail_id INT UNSIGNED NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES user(id),
+      FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
     );
   `.execute(db);
 
+  // Table rating
   await sql`
     CREATE TABLE rating (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       user_id INT UNSIGNED NOT NULL,
       cocktail_id INT UNSIGNED NOT NULL,
       score ENUM('0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10') NOT NULL,
-      created_at STRING NOT NULL
+      created_at STRING NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES user(id),
+      FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
     );
   `.execute(db);
 
+  // Table topping
   await sql`
     CREATE TABLE topping (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -91,6 +106,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     );
   `.execute(db);
 
+  // Table tool
   await sql`
     CREATE TABLE tool (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -99,6 +115,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     );
   `.execute(db);
 
+  // Table action
   await sql`
     CREATE TABLE action (
       id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -107,81 +124,44 @@ export async function up(db: Kysely<Database>): Promise<void> {
       tool_id INT UNSIGNED NOT NULL,
       duration SMALLINT UNSIGNED NOT NULL,
       complexity TINYINT UNSIGNED NOT NULL,
-      is_mandatory BOOL NOT NULL
+      is_mandatory BOOL NOT NULL,
+      FOREIGN KEY (tool_id) REFERENCES tool(id)
     );
   `.execute(db);
 
+  // Table action_ingredient
   await sql`
     CREATE TABLE action_ingredient (
       ingredient_id INT UNSIGNED NOT NULL,
       action_id INT UNSIGNED NOT NULL,
-      quantity SMALLINT UNSIGNED NOT NULL
+      quantity SMALLINT UNSIGNED NOT NULL,
+      FOREIGN KEY (ingredient_id) REFERENCES ingredient(id),
+      FOREIGN KEY (action_id) REFERENCES action(id)
     );
   `.execute(db);
 
+  // Table cocktail_topping
   await sql`
     CREATE TABLE cocktail_topping (
       cocktail_id INT UNSIGNED NOT NULL,
       topping_id INT UNSIGNED NOT NULL,
-      quantity SMALLINT UNSIGNED NOT NULL
+      quantity SMALLINT UNSIGNED NOT NULL,
+      FOREIGN KEY (cocktail_id) REFERENCES cocktail(id),
+      FOREIGN KEY (topping_id) REFERENCES topping(id)
     );
   `.execute(db);
 
+  // Table recipe
   await sql`
     CREATE TABLE recipe (
       cocktail_id INT UNSIGNED,
       action_id INT UNSIGNED NOT NULL,
       total_complexity TINYINT UNSIGNED NOT NULL,
       total_duration SMALLINT UNSIGNED NOT NULL,
-      step TINYINT UNSIGNED NOT NULL
+      step TINYINT UNSIGNED NOT NULL,
+      FOREIGN KEY (cocktail_id) REFERENCES cocktail(id),
+      FOREIGN KEY (action_id) REFERENCES action(id)
     );
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE cocktail
-    ADD FOREIGN KEY (author) REFERENCES user(id),
-    ADD FOREIGN KEY (glass_id) REFERENCES glass(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE comment
-    ADD FOREIGN KEY (user_id) REFERENCES user(id),
-    ADD FOREIGN KEY (cocktail_id) REFERENCES cocktail(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE favorite
-    ADD FOREIGN KEY (user_id) REFERENCES user(id),
-    ADD FOREIGN KEY (cocktail_id) REFERENCES cocktail(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE rating
-    ADD FOREIGN KEY (user_id) REFERENCES user(id),
-    ADD FOREIGN KEY (cocktail_id) REFERENCES cocktail(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE action
-    ADD FOREIGN KEY (tool_id) REFERENCES tool(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE action_ingredient
-    ADD FOREIGN KEY (ingredient_id) REFERENCES ingredient(id),
-    ADD FOREIGN KEY (action_id) REFERENCES action(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE cocktail_topping
-    ADD FOREIGN KEY (cocktail_id) REFERENCES cocktail(id),
-    ADD FOREIGN KEY (topping_id) REFERENCES topping(id);
-  `.execute(db);
-
-  await sql`
-    ALTER TABLE recipe
-    ADD FOREIGN KEY (cocktail_id) REFERENCES cocktail(id),
-    ADD FOREIGN KEY (action_id) REFERENCES action(id);
   `.execute(db);
 }
 
