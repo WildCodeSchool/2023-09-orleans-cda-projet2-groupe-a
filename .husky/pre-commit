@@ -2,5 +2,3 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 bun run pre:commit
-bun run lint:check
-bun run format:check
