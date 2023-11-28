@@ -5,7 +5,7 @@ import type { Database } from '@app/types';
 export async function up(db: Kysely<Database>): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await sql`
-      CREATE TABLE glass (
+      CREATE TABLE IF NOT EXISTS glass (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         capacity TINYINT UNSIGNED NOT NULL,
@@ -13,12 +13,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         material ENUM('glass', 'crystal', 'metal', 'plastic', 'wood') NOT NULL
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE glass;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE user (
+      CREATE TABLE IF NOT EXISTS user (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         email VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
@@ -28,12 +25,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         created_at DATETIME NOT NULL
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE user;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE ingredient (
+      CREATE TABLE IF NOT EXISTS ingredient (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         color VARCHAR(7) NOT NULL,
@@ -45,12 +39,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         family ENUM('water', 'alcohol', 'juice', 'soda', 'syrup', 'bitter', 'fruit', 'vegetable', 'herb', 'spice', 'milk', 'cream', 'condiment', 'other') NOT NULL
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE ingredient;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE cocktail (
+      CREATE TABLE IF NOT EXISTS cocktail (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         image VARCHAR(255) NOT NULL,
@@ -66,12 +57,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (glass_id) REFERENCES glass(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE cocktail;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE comment (
+      CREATE TABLE IF NOT EXISTS comment (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT UNSIGNED NOT NULL,
         cocktail_id INT UNSIGNED NOT NULL,
@@ -81,12 +69,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE comment;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE favorite (
+      CREATE TABLE IF NOT EXISTS favorite (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT UNSIGNED NOT NULL,
         cocktail_id INT UNSIGNED NOT NULL,
@@ -94,12 +79,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE favorite;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE rating (
+      CREATE TABLE IF NOT EXISTS rating (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         user_id INT UNSIGNED NOT NULL,
         cocktail_id INT UNSIGNED NOT NULL,
@@ -109,33 +91,24 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (cocktail_id) REFERENCES cocktail(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE rating;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE topping (
+      CREATE TABLE IF NOT EXISTS topping (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
         name VARCHAR(50) NOT NULL
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE topping;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE tool (
+      CREATE TABLE IF NOT EXISTS tool (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         image VARCHAR(255) NOT NULL
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE tool;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE action (
+      CREATE TABLE IF NOT EXISTS action (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         verb ENUM('muddle', 'stir', 'shake', 'strain', 'build', 'mix', 'pour', 'garnish', 'twist', 'spritz', 'layer', 'float', 'rim', 'ignite', 'blend', 'top', 'chill', 'heat', 'smoke', 'double strain', 'express', 'infuse', 'dissolve', 'whip', 'squeeze', 'roll', 'dash', 'steam', 'blast chill', 'carbonate', 'mist', 'stir-fry') NOT NULL,
         priority TINYINT UNSIGNED NOT NULL,
@@ -146,12 +119,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (tool_id) REFERENCES tool(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE action;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE action_ingredient (
+      CREATE TABLE IF NOT EXISTS action_ingredient (
         ingredient_id INT UNSIGNED NOT NULL,
         action_id INT UNSIGNED NOT NULL,
         quantity SMALLINT UNSIGNED NOT NULL,
@@ -159,12 +129,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (action_id) REFERENCES action(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE action_ingredient;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE cocktail_topping (
+      CREATE TABLE IF NOT EXISTS cocktail_topping (
         cocktail_id INT UNSIGNED NOT NULL,
         topping_id INT UNSIGNED NOT NULL,
         quantity SMALLINT UNSIGNED NOT NULL,
@@ -172,12 +139,9 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (topping_id) REFERENCES topping(id)
       );
     `.execute(trx);
-    await sql`
-      DROP TABLE cocktail_topping;
-    `.execute(trx);
 
     await sql`
-      CREATE TABLE recipe (
+      CREATE TABLE IF NOT EXISTS recipe (
         cocktail_id INT UNSIGNED,
         action_id INT UNSIGNED NOT NULL,
         total_complexity TINYINT UNSIGNED NOT NULL,
@@ -186,9 +150,6 @@ export async function up(db: Kysely<Database>): Promise<void> {
         FOREIGN KEY (cocktail_id) REFERENCES cocktail(id),
         FOREIGN KEY (action_id) REFERENCES action(id)
       );
-    `.execute(trx);
-    await sql`
-      DROP TABLE recipe;
     `.execute(trx);
   });
 }
