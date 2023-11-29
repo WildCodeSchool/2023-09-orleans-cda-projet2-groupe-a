@@ -117,7 +117,7 @@ export default function IngredientsPart({
         </div>
       </fieldset>
       <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] lg:top-[24%] lg:gap-6'>
-        <p className='lg:text-md md:text-md text-end uppercase sm:w-[50%] lg:w-full'>
+        <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           {'Choose your blend or amend'}
         </p>
         <MoveRight size={40} />
