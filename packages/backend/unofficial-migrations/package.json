@@ -1,0 +1,21 @@
+{
+  "name": "@app/migrations",
+  "type": "module",
+  "scripts": {
+    "migrations:up": "bun run ./src/lib/migrations/up",
+    "migrations:down": "bun run ./src/lib/migrations/down",
+    "migrations:latest": "bun run ./src/lib/migrations/latest",
+    "migrations:generate": "bun run ./src/lib/migrations/generate"
+  },
+  "dependencies": {
+    "@app/backend-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@app/types": "workspace:*",
+    "bun-types": "latest",
+    "commander": "^11.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
