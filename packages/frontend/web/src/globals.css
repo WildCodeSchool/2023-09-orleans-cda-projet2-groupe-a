@@ -1,10 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  height: 100dvh;
-  width: 100dvw;
-  margin: 0;
-  padding: 0;
+@layer base {
+  :root {
+    font-family: 'Mochiy Pop One', sans-serif;
+  }
+
+  body {
+    height: 100dvh;
+    width: 100dvw;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer utilities {
+  /* Stroke for the font */
+  .stroke-font {
+    -webkit-text-stroke: 1.5px #0e0f0f;
+  }
+
+  .padding-transparent {
+    padding: transparent;
+  }
+  .clip-path-polygon-purple-lg {
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  }
+  .clip-path-polygon-yellow-lg {
+    clip-path: polygon(3% 0, 97% 0, 80% 100%, 20% 100%);
+  }
+  .clip-path-polygon-blue-lg {
+    clip-path: polygon(16% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .clip-path-polygon-orange-lg {
+    clip-path: polygon(0 0, 90% 0%, 100% 100%, 0 100%);
+  }
+  .clip-path-polygon-green-lg {
+    clip-path: polygon(0 0, 100% 0, 89% 100%, 11% 100%);
+  }
+  .clip-path-polygon-pink-lg {
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .clip-path-polygon-blue-md {
+    clip-path: polygon(1% 0, 100% 0, 100% 100%, 21% 100%);
+  }
+  .clip-path-polygon-orange-md {
+    clip-path: polygon(0 0, 90% 0%, 97% 100%, 0 100%);
+  }
+  .clip-path-polygon-purple-md {
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  }
+  .clip-path-polygon-yellow-md {
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .clip-path-polygon-green-md {
+    clip-path: polygon(0 0, 98% 0, 85% 100%, 0 100%);
+  }
+  .clip-path-polygon-pink-md {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 7% 100%);
+  }
+
+  .alcohol-form-select {
+    appearance: none;
+    padding-right: 20px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #c0bdbd;
+    border-radius: 5px;
+  }
 }
