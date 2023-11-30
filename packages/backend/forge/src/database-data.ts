@@ -3,7 +3,29 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 
 await db.transaction().execute(async (trx) => {
-  const up = await sql`
+  const glassData = await sql`
+    INSERT INTO glass (name, capacity, image, material)
+    VALUES
+    ('Cocktail Glass', 150, 'cocktail-glass.jpg', 'glass'),
+    ('Old Fashioned Glass', 200, 'old-fashioned-glass.jpg', 'glass'),
+    ('Wine Glass', 400, 'wine-glass.jpg', 'glass'),
+    ('Champagne Flute', 150, 'champagne.jpg', 'glass'),
+    ('Tumbler', 350, 'tumbler.jpg', 'glass'),
+    ('Shot Glass', 50, 'shot.jpg', 'glass'),
+    ('Pint Glass', 500, 'pint.jpg', 'glass');
+  `.execute(trx);
+
+  const userData = await sql`
+    INSERT INTO user (email, password, pseudo, image, birthdate, created_at)
+    VALUES
+    ('admin@example.com', 'adminpassword', 'admin', 'avatar0.jpg', '1990-01-01', NOW()),
+    ('user1@example.com', 'userpassword', 'user1', 'avatar1.jpg', '1991-02-02', NOW()),
+    ('user2@example.com', 'userpassword', 'user2', 'avatar2.jpg', '1992-03-03', NOW()),
+    ('user3@example.com', 'userpassword', 'user3', 'avatar3.jpg', '1993-04-04', NOW()),
+    ('user4@example.com', 'userpassword', 'user4', 'avatar4.jpg', '1994-05-05', NOW());
+  `.execute(trx);
+
+  const ingredientData = await sql`
     INSERT INTO ingredient (name, color, kcal, degree, description, image, flavour, family)
     VALUES 
     ('Almond', 'Brown', 7, 0, 'Nutty and sweet', 'almond.jpg', 'sweet', 'fruit'),
@@ -121,5 +143,295 @@ await db.transaction().execute(async (trx) => {
     ('White Wine', 'White', 120, 12, 'Crisp and fruity', 'whitewine.jpg', 'fruity', 'alcohol'),
     ('Yogurt', 'White', 59, 0, 'Creamy and tangy', 'yogurt.jpg', 'other', 'cream'),
     ('Zucchini', 'Green', 17, 0, 'Mild and versatile', 'zucchini.jpg', 'neutral', 'vegetable');
+  `.execute(trx);
+
+  const cocktailData = await sql`
+    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
+    VALUES
+    ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1),
+    ('Aviation', 'aviation.jpg', 140, 14, 1, 4, 1, 'floral', NOW(), 1),
+    ('Bellini', 'bellini.jpg', 140, 10, 1, 4.5, 1, 'neutral', NOW(), 1),
+    ('Bloody Mary', 'bloodymary.jpg', 140, 15, 1, 4, 1, 'sour', NOW(), 1),
+    ('Boulevardier', 'boulevardier.jpg', 200, 20, 1, 5, 1, 'bitter', NOW(), 1),
+    ('Caipirinha', 'caipirinha.jpg', 160, 14, 1, 4.5, 1, 'fruity', NOW(), 1),
+    ('Casino', 'casino.jpg', 160, 14, 1, 4, 1, 'sweet', NOW(), 1),
+    ('Cosmopolitan', 'cosmopolitan.jpg', 180, 15, 1, 4, 1, 'other', NOW(), 1),
+    ('Corpse Reviver #2', 'corpsereviver.jpg', 160, 18, 1, 5, 1, 'fruity', NOW(), 1),
+    ('Daiquiri', 'daiquiri.jpg', 180, 12, 1, 5, 1, 'fruity', NOW(), 1),
+    ('Dark and Stormy', 'darknstormy.jpg', 170, 15, 1, 4, 1, 'spicy', NOW(), 1),
+    ('Espresso Martini', 'espressomartini.jpg', 150, 25, 1, 4.5, 1, 'salty', NOW(), 1),
+    ('French 75', 'french75.jpg', 180, 15, 1, 4, 1, 'herbaceous', NOW(), 1),
+    ('Gin Tonic', 'ginandtonic.jpg', 120, 10, 1, 4, 1, 'sweet', NOW(), 1),
+    ('Gin Fizz', 'ginfizz.jpg', 150, 10, 1, 4, 1, 'neutral', NOW(), 1),
+    ('Long Island Iced Tea', 'longislandicedtea.jpg', 250, 20, 1, 5, 1, 'bitter', NOW(), 1),
+    ('Mai Tai', 'maitai.jpg', 220, 15, 1, 4, 1, 'spicy', NOW(), 1),
+    ('Manhattan', 'manhattan.jpg', 220, 18, 1, 5, 1, 'other', NOW(), 1),
+    ('Martini', 'martini.jpg', 180, 20, 1, 5, 1, 'sweet', NOW(), 1),
+    ('Margarita', 'margarita.jpg', 200, 15, 1, 4, 1, 'fruity', NOW(), 1),
+    ('Mint Julep', 'mintjulep.jpg', 160, 14, 1, 5, 2, 'other', NOW(), 1),
+    ('Mojito', 'mojito.jpg', 160, 10, 1, 4.5, 2, 'floral', NOW(), 1),
+    ('Moscow Mule', 'moscowmule.jpg', 180, 10, 1, 4.5, 2, 'spicy', NOW(), 1),
+    ('Negroni', 'negroni.jpg', 200, 22, 1, 4, 2, 'bitter', NOW(), 1),
+    ('Old Fashioned', 'oldfashioned.jpg', 220, 18, 1, 5, 2, 'other', NOW(), 1),
+    ('Paloma', 'paloma.jpg', 160, 12, 1, 4.5, 2, 'fruity', NOW(), 1),
+    ('Piña Colada', 'pinacolada.jpg', 250, 10, 1, 5, 2, 'sour', NOW(), 1),
+    ('Raspberry Mojito', 'raspberrymojito.jpg', 160, 10, 1, 4.5, 2, 'fruity', NOW(), 1),
+    ('Rum Punch', 'rumpunch.jpg', 200, 12, 1, 4.5, 2, 'fruity', NOW(), 1),
+    ('Sazerac', 'sazerac.jpg', 180, 16, 1, 5, 2, 'herbaceous', NOW(), 1),
+    ('Screwdriver', 'screwdriver.jpg', 160, 8, 1, 4, 2, 'fruity', NOW(), 1),
+    ('Singapore Sling', 'singaporesling.jpg', 180, 16, 1, 4.5, 2, 'fruity', NOW(), 1),
+    ('Tequila Sunrise', 'tequilasunrise.jpg', 180, 14, 1, 4, 2, 'fruity', NOW(), 1),
+    ('Tom Collins', 'tomcollins.jpg', 150, 12, 1, 4, 2, 'floral', NOW(), 1),
+    ('Tommys Margarita', 'tommysmargarita.jpg', 180, 15, 1, 4.5, 2, 'spicy', NOW(), 1),
+    ('White Lady', 'whitelady.jpg', 170, 16, 1, 4.5, 2, 'fruity', NOW(), 1),
+    ('White Russian', 'whiterussian.jpg', 250, 14, 1, 5, 3, 'other', NOW(), 1);
+  `.execute(trx);
+
+  const commentData = await sql`
+    INSERT INTO comment (user_id, cocktail_id, content, created_at)
+    VALUES
+    (1, 2, 'Great cocktail!', NOW()),
+    (3, 5, 'Amazing drink!', NOW()),
+    (4, 6, 'Fantastic taste!', NOW());
+  `.execute(trx);
+
+  const favoriteData = await sql`
+    INSERT INTO favorite (user_id, cocktail_id)
+    VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3);
+  `.execute(trx);
+
+  const ratingData = await sql`
+    INSERT INTO rating (user_id, cocktail_id, score, created_at)
+    VALUES
+    (1, 1, '5', NOW()),
+    (2, 2, '4', NOW());
+  `.execute(trx);
+
+  const toppingData = await sql`
+    INSERT INTO topping (name)
+    VALUES
+    ('Whipped Cream'),
+    ('Cherry'),
+    ('Lime Twist'),
+    ('Orange Zest'),
+    ('Mint Sprig'),
+    ('Cinnamon Stick'),
+    ('Nutmeg Dust'),
+    ('Ginger Slice');
+  `.execute(trx);
+
+  const toolData = await sql`
+    INSERT INTO tool (name, image)
+    VALUES
+    ('Shaker', 'shaker.jpg'),
+    ('Muddler', 'muddler.jpg'),
+    ('Bar Spoon', 'barspoon.jpg'),
+    ('Jigger', 'jigger.jpg'),
+    ('Strainer', 'strainer.jpg'),
+    ('Citrus Juicer', 'citrusjuicer.jpg'),
+    ('Blender', 'blender.jpg'),
+    ('Ice Pick', 'icepick.jpg'),
+    ('Stirring Glass', 'stirringglass.jpg');
+  `.execute(trx);
+
+  const actionData = await sql`
+    INSERT INTO action (verb, priority, tool_id, duration, complexity, is_mandatory)
+    VALUES
+    ('muddle', 1, 1, 30, 3, true),
+    ('stir', 2, 2 , 20, 2, false),
+    ('shake', 3, 3, 15, 2, false),
+    ('strain', 4, 4, 25, 3, true),
+    ('build', 5, 5, 20, 2, true),
+    ('mix', 6, 6, 15, 2, true),
+    ('pour', 7, 7, 10, 1, true),
+    ('garnish', 8, 8, 5, 1, false),
+    ('twist', 9, 8, 15, 2, false),
+    ('spritz', 10, 6, 12, 2, false),
+    ('layer', 11, 4, 8, 2, false),
+    ('float', 12, 3, 30, 3, true),
+    ('rim', 13, 1, 5, 2, false),
+    ('ignite', 14, 4, 10, 2, false);
+  `.execute(trx);
+
+  const actionIngredientData = await sql`
+    INSERT INTO action_ingredient (ingredient_id, action_id, quantity)
+    VALUES
+    (1, 1, 2),
+    (2, 3, 4),
+    (3, 5, 1),
+    (4, 7, 3),
+    (5, 9, 2),
+    (6, 11, 5),
+    (7, 13, 3),
+    (8, 14, 1),
+    (9, 1, 4),
+    (10, 3, 2),
+    (11, 5, 3),
+    (12, 7, 1),
+    (13, 7, 4),
+    (14, 7, 2),
+    (13, 8, 3),
+    (12, 5, 5),
+    (11, 8, 2),
+    (10, 9, 1),
+    (9, 9, 4),
+    (8, 11, 3);
+  `.execute(trx);
+
+  const cocktailToppingData = await sql`
+    INSERT INTO cocktail_topping (cocktail_id, topping_id, quantity)
+    VALUES
+    (24, 7, 2),
+    (12, 1, 3),
+    (33, 6, 1),
+    (18, 2, 4),
+    (29, 8, 2),
+    (8, 4, 3),
+    (21, 1, 2),
+    (7, 8, 1),
+    (14, 6, 4),
+    (30, 4, 3),
+    (5, 1, 2),
+    (36, 4, 1),
+    (19, 5, 3),
+    (26, 3, 2),
+    (9, 8, 1),
+    (32, 6, 4),
+    (15, 7, 2),
+    (22, 3, 1),
+    (2, 2, 4),
+    (28, 1, 2),
+    (11, 4, 1),
+    (25, 4, 3),
+    (13, 6, 2),
+    (34, 8, 1),
+    (17, 5, 3),
+    (31, 7, 2),
+    (6, 3, 1),
+    (23, 1, 4),
+    (10, 8, 3),
+    (35, 8, 2),
+    (20, 4, 1),
+    (27, 6, 4),
+    (4, 8, 2),
+    (16, 5, 1),
+    (1, 3, 3),
+    (3, 2, 2);
+  `.execute(trx);
+
+  const recipeData = await sql`
+    INSERT INTO recipe (cocktail_id, action_id, total_complexity, total_duration, step)
+    VALUES
+    (1, 1, 3, 45, 2),
+    (1, 6, 3, 55, 3),
+    (1, 11, 2, 80, 1),
+    (2, 2, 2, 80, 3),
+    (2, 8, 3, 90, 1),
+    (2, 14, 2, 75, 2),
+    (3, 3, 3, 15, 1),
+    (3, 5, 2, 25, 2),
+    (3, 12, 3, 30, 3),
+    (4, 4, 2, 35, 2),
+    (4, 9, 3, 40, 1),
+    (4, 13, 2, 60, 3),
+    (5, 5, 3, 65, 1),
+    (5, 7, 2, 55, 3),
+    (5, 10, 3, 70, 2),
+    (6, 6, 2, 50, 3),
+    (6, 2, 3, 40, 1),
+    (6, 4, 2, 65, 2),
+    (7, 7, 3, 95, 2),
+    (7, 13, 2, 85, 1),
+    (7, 9, 3, 75, 3),
+    (8, 8, 2, 20, 1),
+    (8, 11, 3, 25, 2),
+    (8, 1, 2, 15, 3),
+    (9, 9, 3, 70, 2),
+    (9, 14, 2, 80, 1),
+    (9, 3, 3, 60, 3),
+    (10, 10, 2, 110, 3),
+    (10, 4, 3, 100, 1),
+    (10, 12, 2, 90, 2),
+    (11, 11, 3, 45, 1),
+    (11, 6, 2, 55, 3),
+    (11, 2, 3, 70, 2),
+    (12, 12, 2, 80, 2),
+    (12, 9, 3, 90, 1),
+    (12, 8, 2, 75, 3),
+    (13, 13, 3, 15, 3),
+    (13, 3, 2, 25, 1),
+    (13, 5, 3, 30, 2),
+    (14, 14, 2, 35, 1),
+    (14, 10, 3, 40, 2),
+    (14, 1, 2, 60, 3),
+    (15, 11, 3, 65, 2),
+    (15, 2, 2, 55, 1),
+    (15, 7, 3, 70, 3),
+    (16, 12, 2, 50, 1),
+    (16, 4, 3, 40, 2),
+    (16, 11, 2, 65, 3),
+    (17, 12, 3, 95, 3),
+    (17, 14, 2, 85, 1),
+    (17, 6, 3, 75, 2),
+    (18, 1, 2, 20, 1),
+    (18, 5, 3, 25, 2),
+    (18, 12, 2, 15, 3),
+    (19, 9, 3, 70, 2),
+    (19, 8, 2, 80, 1),
+    (19, 13, 3, 60, 3),
+    (20, 2, 2, 110, 3),
+    (20, 11, 3, 100, 1),
+    (20, 3, 2, 90, 2),
+    (21, 1, 3, 45, 1),
+    (21, 13, 2, 55, 3),
+    (21, 5, 3, 70, 2),
+    (22, 2, 2, 80, 2),
+    (22, 9, 3, 90, 1),
+    (22, 1, 2, 75, 3),
+    (23, 3, 3, 15, 3),
+    (23, 3, 2, 25, 1),
+    (23, 11, 3, 30, 2),
+    (24, 4, 2, 35, 1),
+    (24, 10, 3, 40, 2),
+    (24, 12, 2, 60, 3),
+    (25, 8, 3, 65, 2),
+    (25, 6, 2, 55, 1),
+    (25, 2, 3, 70, 3),
+    (26, 6, 2, 50, 1),
+    (26, 14, 3, 40, 2),
+    (26, 8, 2, 65, 3),
+    (27, 7, 3, 95, 3),
+    (27, 3, 2, 85, 1),
+    (27, 9, 3, 75, 2),
+    (28, 8, 2, 20, 1),
+    (28, 5, 3, 25, 2),
+    (28, 13, 2, 15, 3),
+    (29, 9, 3, 70, 2),
+    (29, 8, 2, 80, 1),
+    (29, 11, 3, 60, 3),
+    (30, 3, 2, 110, 3),
+    (30, 11, 3, 100, 1),
+    (30, 9, 2, 90, 2),
+    (31, 1, 3, 45, 1),
+    (31, 6, 2, 55, 3),
+    (31, 2, 3, 70, 2),
+    (32, 3, 2, 80, 2),
+    (32, 9, 3, 90, 1),
+    (32, 14, 2, 75, 3),
+    (33, 11, 3, 15, 3),
+    (33, 3, 2, 25, 1),
+    (33, 5, 3, 30, 2),
+    (34, 4, 2, 35, 1),
+    (34, 10, 3, 40, 2),
+    (34, 1, 2, 60, 3),
+    (35, 5, 3, 65, 2),
+    (35, 2, 2, 55, 1),
+    (35, 7, 3, 70, 3),
+    (36, 6, 2, 50, 1),
+    (36, 4, 3, 40, 2),
+    (36, 11, 2, 65, 3);
   `.execute(trx);
 });
