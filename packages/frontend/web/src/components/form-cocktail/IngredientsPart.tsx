@@ -1,17 +1,12 @@
 import { MoveRight, Skull } from 'lucide-react';
-import type { UseFormRegister } from 'react-hook-form';
 
-import type { Inputs } from '@app/types';
+import type { IngredientsPart } from '@app/types/src/cocktail-form';
 
 export default function IngredientsPart({
   register,
   selectedIngredient,
   handleIngredientChange,
-}: {
-  readonly register: UseFormRegister<Inputs>;
-  readonly selectedIngredient: string;
-  readonly handleIngredientChange: (ingredient: string) => void;
-}) {
+}: IngredientsPart) {
   return (
     <>
       <h1 className='relative bottom-[2%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>

@@ -1,13 +1,8 @@
 import { Shuffle } from 'lucide-react';
-import type { UseFormRegister } from 'react-hook-form';
 
-import type { Inputs } from '@app/types';
+import type { GlassPart } from '@app/types/src/cocktail-form';
 
-interface GlassPartProps {
-  readonly register: UseFormRegister<Inputs>;
-}
-
-export default function GlassPart({ register }: GlassPartProps) {
+export default function GlassPart({ register }: GlassPart) {
   return (
     <>
       <h1 className='relative bottom-[9%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl md:bottom-[22%]'>

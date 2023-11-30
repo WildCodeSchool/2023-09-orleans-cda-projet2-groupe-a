@@ -1,16 +1,10 @@
-import type { UseFormRegister } from 'react-hook-form';
-
-import type { Inputs } from '@app/types';
+import type { ToppingPart } from '@app/types/src/cocktail-form';
 
 export default function ToppingPart({
   register,
   selectedTopping,
   handleToppingChange,
-}: {
-  readonly register: UseFormRegister<Inputs>;
-  readonly selectedTopping: string;
-  readonly handleToppingChange: (topping: string) => void;
-}) {
+}: ToppingPart) {
   return (
     <>
       <h1 className='relative bottom-[9%] w-[300px] text-center text-xl uppercase sm:bottom-[19%] sm:text-2xl'>

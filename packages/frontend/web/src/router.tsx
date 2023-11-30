@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: 'add-cocktail',
+    path: 'cocktail-form',
     element: <AddCocktail />,
   },
 ]);

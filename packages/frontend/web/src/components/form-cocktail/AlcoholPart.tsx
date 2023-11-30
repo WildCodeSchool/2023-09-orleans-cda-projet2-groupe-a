@@ -1,18 +1,25 @@
-import type { UseFormWatch } from 'react-hook-form';
+import type { AlcoholPart } from '@app/types/src/cocktail-form';
 
-import type { Inputs } from '@app/types';
+const alcoholArray = [
+  'Gin',
+  'Tequila',
+  'Vodka',
+  'Cider',
+  'Amaretto',
+  'Red wine',
+  'White wine',
+  'Peach wine',
+  'Wisky',
+  'Cognac',
+  'Chmpagne',
+];
 
 export default function AlcoholPart({
   isOpen,
   handleClickSelect,
   handleClickAlcohol,
   watch,
-}: {
-  readonly isOpen: boolean;
-  readonly handleClickSelect: () => void;
-  readonly handleClickAlcohol: (alcohol: string) => void;
-  readonly watch: UseFormWatch<Inputs>;
-}) {
+}: AlcoholPart) {
   return (
     <>
       <label className='relative bottom-[7%] w-[250px] text-center text-xl uppercase sm:bottom-[17%] sm:w-[300px] sm:text-2xl'>
@@ -40,102 +47,17 @@ export default function AlcoholPart({
               >
                 {'Alcohol'}
               </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('gin');
-                }}
-              >
-                {'Gin'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('vodka');
-                }}
-              >
-                {'Vodka'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('tequila');
-                }}
-              >
-                {'Tequila'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('cider');
-                }}
-              >
-                {'Cider'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('apple juice');
-                }}
-              >
-                {'Appel Juice'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('amaretto');
-                }}
-              >
-                {'Amaretto'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('wine');
-                }}
-              >
-                {'Wine'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('soho');
-                }}
-              >
-                {'Soho'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('white wine');
-                }}
-              >
-                {'White wine'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('red wine');
-                }}
-              >
-                {'Red wine'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('beer');
-                }}
-              >
-                {'Beer'}
-              </li>
-              <li
-                className='w-[100px]  hover:cursor-pointer'
-                onClick={() => {
-                  handleClickAlcohol('rum');
-                }}
-              >
-                {'Rum'}
-              </li>
+              {alcoholArray.map((name) => (
+                <li
+                  key={name}
+                  className='w-[100px] hover:cursor-pointer'
+                  onClick={() => {
+                    handleClickAlcohol(name);
+                  }}
+                >
+                  {name}
+                </li>
+              ))}
             </ul>
           ) : (
             <ul>
