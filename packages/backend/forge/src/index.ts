@@ -100,7 +100,7 @@ await db.transaction().execute(async (trx) => {
     ('Shallot', 'Purple', 72, 0, 'Sweet and mild', 'shallot.jpg', 'sweet', 'vegetable'),
     ('Shrimp', 'Pink', 85, 0, 'Sweet and briny', 'shrimp.jpg', 'other', 'seafood'),
     ('Snow Pea', 'Green', 42, 0, 'Sweet and crisp', 'snowpea.jpg', 'other', 'vegetable'),
-    ('Soy Sauce', 'Brown', 8, 15, 'Savory and salty', 'soysauce.jpg', 'salty', 'sauce'),
+    ('Soy Sauce', 'Brown', 8, 0, 'Savory and salty', 'soysauce.jpg', 'salty', 'sauce'),
     ('Spinach', 'Green', 23, 0, 'Leafy and earthy', 'spinach.jpg', 'other', 'vegetable'),
     ('Strawberry', 'Red', 32, 0, 'Sweet and juicy', 'strawberry.jpg', 'fruity', 'fruit'),
     ('Sweet Potato', 'Orange', 86, 0, 'Sweet and starchy', 'sweetpotato.jpg', 'other', 'vegetable'),
