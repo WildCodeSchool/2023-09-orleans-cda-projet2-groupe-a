@@ -2,14 +2,7 @@ import { MoveRight, Skull } from 'lucide-react';
 
 import type { IngredientsPart } from '@app/types/src/cocktail-form';
 
-const ingredients = [
-  'mint',
-  'salmon',
-  'ice',
-  'coriander',
-  'orange',
-  'lemon',
-] as const;
+const ingredients = ['mint', 'salmon', 'ice', 'coriander', 'orange', 'lemon'];
 
 export default function IngredientsPart({
   register,
