@@ -15,7 +15,7 @@ export async function down(db: Kysely<Database>): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await sql`
       ALTER TABLE glass
-      MODIFY capacity TINYINT UNSIGNED NOT NULL;;
+      MODIFY capacity TINYINT UNSIGNED NOT NULL;
     `.execute(trx);
   });
 }
