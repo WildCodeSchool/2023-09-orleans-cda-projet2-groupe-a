@@ -9,6 +9,20 @@ export default function CocktailComments() {
     setIsCommentsOpen(!isCommentsOpen);
   };
 
+  const starCount = 5;
+
+  const stars = [];
+  for (let index = 0; index < starCount; index++) {
+    stars.push(
+      <img
+        key={index}
+        src={index === 0 ? 'star-yellow.png' : 'star.png'}
+        className='h-[1.7rem] w-[1.7rem]'
+        alt={`Star ${index + 1}`}
+      />,
+    );
+  }
+
   return (
     <div>
       <div className='ps-2'>
@@ -31,13 +45,7 @@ export default function CocktailComments() {
             </button>
           )}
           <h2 className='pe-2'>{`review`}</h2>
-          <div className='my-auto flex'>
-            <img src='star-yellow.png' className='h-[1.7rem] w-[1.7rem]' />
-            <img src='star.png' className='h-[1.7rem] w-[1.7rem]' />
-            <img src='star.png' className='h-[1.7rem] w-[1.7rem]' />
-            <img src='star.png' className='h-[1.7rem] w-[1.7rem]' />
-            <img src='star.png' className='h-[1.7rem] w-[1.7rem]' />
-          </div>
+          <div className='my-auto flex'>{stars}</div>
         </div>
       </div>
       <AnimatePresence>
