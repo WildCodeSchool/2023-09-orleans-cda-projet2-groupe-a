@@ -8,7 +8,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       CREATE TABLE IF NOT EXISTS glass (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
-        capacity TINYINT UNSIGNED NOT NULL,
+        capacity SMALLINT UNSIGNED NOT NULL,
         image VARCHAR(255) NOT NULL,
         material ENUM('glass', 'crystal', 'metal', 'plastic', 'wood') NOT NULL
       );
