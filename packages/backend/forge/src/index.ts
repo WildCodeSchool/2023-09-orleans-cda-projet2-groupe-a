@@ -3,7 +3,7 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 
 await db.transaction().execute(async (trx) => {
-  const up = await sql`
+  await sql`
     INSERT INTO ingredient (name, color, kcal, degree, description, image, flavour, family)
     VALUES 
     ('Almond', 'Brown', 7, 0, 'Nutty and sweet', 'almond.jpg', 'sweet', 'fruit'),
