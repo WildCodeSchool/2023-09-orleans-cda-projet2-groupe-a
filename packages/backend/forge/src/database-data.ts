@@ -3,7 +3,7 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 
 await db.transaction().execute(async (trx) => {
-  const glassData = await sql`
+  await sql`
     INSERT INTO glass (name, capacity, image, material)
     VALUES
     ('Cocktail Glass', 150, 'cocktail-glass.jpg', 'glass'),
@@ -15,7 +15,7 @@ await db.transaction().execute(async (trx) => {
     ('Pint Glass', 500, 'pint.jpg', 'glass');
   `.execute(trx);
 
-  const userData = await sql`
+  await sql`
     INSERT INTO user (email, password, pseudo, image, birthdate, created_at)
     VALUES
     ('admin@example.com', 'adminpassword', 'admin', 'avatar0.jpg', '1990-01-01', NOW()),
@@ -25,7 +25,7 @@ await db.transaction().execute(async (trx) => {
     ('user4@example.com', 'userpassword', 'user4', 'avatar4.jpg', '1994-05-05', NOW());
   `.execute(trx);
 
-  const ingredientData = await sql`
+  await sql`
     INSERT INTO ingredient (name, color, kcal, degree, description, image, flavour, family)
     VALUES 
     ('Almond', 'Brown', 7, 0, 'Nutty and sweet', 'almond.jpg', 'sweet', 'fruit'),
@@ -145,7 +145,7 @@ await db.transaction().execute(async (trx) => {
     ('Zucchini', 'Green', 17, 0, 'Mild and versatile', 'zucchini.jpg', 'neutral', 'vegetable');
   `.execute(trx);
 
-  const cocktailData = await sql`
+  await sql`
     INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
     VALUES
     ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1),
@@ -187,7 +187,7 @@ await db.transaction().execute(async (trx) => {
     ('White Russian', 'whiterussian.jpg', 250, 14, 1, 5, 3, 'other', NOW(), 1);
   `.execute(trx);
 
-  const commentData = await sql`
+  await sql`
     INSERT INTO comment (user_id, cocktail_id, content, created_at)
     VALUES
     (1, 2, 'Great cocktail!', NOW()),
@@ -195,7 +195,7 @@ await db.transaction().execute(async (trx) => {
     (4, 6, 'Fantastic taste!', NOW());
   `.execute(trx);
 
-  const favoriteData = await sql`
+  await sql`
     INSERT INTO favorite (user_id, cocktail_id)
     VALUES
     (1, 1),
@@ -203,14 +203,14 @@ await db.transaction().execute(async (trx) => {
     (3, 3);
   `.execute(trx);
 
-  const ratingData = await sql`
+  await sql`
     INSERT INTO rating (user_id, cocktail_id, score, created_at)
     VALUES
     (1, 1, '5', NOW()),
     (2, 2, '4', NOW());
   `.execute(trx);
 
-  const toppingData = await sql`
+  await sql`
     INSERT INTO topping (name)
     VALUES
     ('Whipped Cream'),
@@ -223,7 +223,7 @@ await db.transaction().execute(async (trx) => {
     ('Ginger Slice');
   `.execute(trx);
 
-  const toolData = await sql`
+  await sql`
     INSERT INTO tool (name, image)
     VALUES
     ('Shaker', 'shaker.jpg'),
@@ -237,7 +237,7 @@ await db.transaction().execute(async (trx) => {
     ('Stirring Glass', 'stirringglass.jpg');
   `.execute(trx);
 
-  const actionData = await sql`
+  await sql`
     INSERT INTO action (verb, priority, tool_id, duration, complexity, is_mandatory)
     VALUES
     ('muddle', 1, 1, 30, 3, true),
@@ -256,7 +256,7 @@ await db.transaction().execute(async (trx) => {
     ('ignite', 14, 4, 10, 2, false);
   `.execute(trx);
 
-  const actionIngredientData = await sql`
+  await sql`
     INSERT INTO action_ingredient (ingredient_id, action_id, quantity)
     VALUES
     (1, 1, 2),
@@ -281,7 +281,7 @@ await db.transaction().execute(async (trx) => {
     (8, 11, 3);
   `.execute(trx);
 
-  const cocktailToppingData = await sql`
+  await sql`
     INSERT INTO cocktail_topping (cocktail_id, topping_id, quantity)
     VALUES
     (24, 7, 2),
@@ -322,7 +322,7 @@ await db.transaction().execute(async (trx) => {
     (3, 2, 2);
   `.execute(trx);
 
-  const recipeData = await sql`
+  await sql`
     INSERT INTO recipe (cocktail_id, action_id, total_complexity, total_duration, step)
     VALUES
     (1, 1, 3, 45, 2),
