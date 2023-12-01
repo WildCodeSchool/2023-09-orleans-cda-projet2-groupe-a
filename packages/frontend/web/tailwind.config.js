@@ -1,6 +1,76 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
+  safelist: [
+    'md:ps-2.5',
+    'md:pe-2.5',
+    'lg:ps-2.5',
+    'lg:pe-2.5',
+    'order-1',
+    'order-2',
+    'order-3',
+    'order-4',
+    'order-5',
+    'order-6',
+    'md:order-1',
+    'md:order-2',
+    'md:order-3',
+    'md:order-4',
+    'md:order-5',
+    'md:order-6',
+    'lg:order-1',
+    'lg:order-2',
+    'lg:order-3',
+    'lg:order-4',
+    'lg:order-5',
+    'lg:order-6',
+    'lg:right-[15%]',
+    'lg:right-[8%]',
+    'lg:right-[4%]',
+    'lg:right-[0%]',
+    'md:right-[16%]',
+    'md:right-[10%]',
+    'md:right-[5%]',
+    'md:right-[0%]',
+    'lg:w-[130%]',
+    'lg:w-[110%]',
+    'lg:w-[108%]',
+    'lg:w-[104%]',
+    'lg:w-[103%]',
+    'md:w-[116%]',
+    'md:w-[110%]',
+    'md:w-[105%]',
+    'lg:clip-path-polygon-purple-lg',
+    'lg:clip-path-polygon-yellow-lg',
+    'lg:clip-path-polygon-green-lg',
+    'lg:clip-path-polygon-blue-lg',
+    'lg:clip-path-polygon-orange-lg',
+    'lg:clip-path-polygon-pink-lg',
+    'md:clip-path-polygon-purple-md',
+    'md:clip-path-polygon-yellow-md',
+    'md:clip-path-polygon-green-md',
+    'md:clip-path-polygon-blue-md',
+    'md:clip-path-polygon-orange-md',
+    'md:clip-path-polygon-pink-md',
+    'bg-dark-purple',
+    'bg-dark-blue',
+    'bg-dark-green',
+    'bg-dark-yellow',
+    'bg-dark-orange',
+    'bg-dark-pink',
+    'filter-black-to-purple',
+    'filter-black-to-blue',
+    'filter-black-to-green',
+    'filter-black-to-pink',
+    'filter-black-to-yellow',
+    'filter-black-to-orange',
+    "bg-[url('form-cocktail/bubble/bubble-1.png')]",
+    "bg-[url('form-cocktail/bubble/bubble-2.png')]",
+    "bg-[url('form-cocktail/bubble/bubble-3.png')]",
+    "bg-[url('form-cocktail/bubble/bubble-4.png')]",
+    "bg-[url('form-cocktail/bubble/bubble-5.png')]",
+    "bg-[url('form-cocktail/bubble/bubble-6.png')]",
+  ],
   theme: {
     extend: {
       colors: {
@@ -25,17 +95,17 @@ export default {
         'pastel-brown': '#D3BA95',
       },
       filter: {
-        blackToPurple:
+        'black-to-purple':
           'invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg) brightness(94%) contrast(93%)',
-        blackToYellow:
+        'black-to-yellow':
           'invert(91%) sepia(83%) saturate(6947%) hue-rotate(323deg) brightness(111%) contrast(98%)',
-        blackToBlue:
+        'black-to-blue':
           'invert(56%) sepia(91%) saturate(1079%) hue-rotate(140deg) brightness(104%) contrast(92%)',
-        blackToOrange:
+        'black-to-orange':
           'invert(74%) sepia(41%) saturate(4587%) hue-rotate(332deg) brightness(101%) contrast(92%)',
-        blackToGreen:
+        'black-to-green':
           'invert(75%) sepia(81%) saturate(317%) hue-rotate(99deg) brightness(87%) contrast(87%)',
-        blackToPink:
+        'black-to-pink':
           'invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg) brightness(99%) contrast(85%)',
       },
     },

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import type { AlcoholPart } from '@app/types/src/cocktail-form';
 
 const alcoholArray = [
@@ -11,25 +13,37 @@ const alcoholArray = [
   'Peach wine',
   'Wisky',
   'Cognac',
-  'Chmpagne',
+  'Champagne',
 ];
 
 export default function AlcoholPart({
-  isOpen,
-  handleClickSelect,
   handleClickAlcohol,
   watch,
+  errors,
 }: AlcoholPart) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleClickSelect = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-      <label className='relative bottom-[7%] w-[250px] text-center text-xl uppercase sm:bottom-[17%] sm:w-[300px] sm:text-2xl'>
+      <label className='relative bottom-[7%] w-[250px] text-center text-xl uppercase sm:bottom-[12%] sm:w-[300px] sm:text-2xl'>
         {'Choose your booze'}
       </label>
-      <div className='relative bottom-[5%] left-[-7%] flex gap-3 sm:bottom-[12%] sm:left-[0%]'>
+      {errors.alcohol ? (
+        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
+          {'This field is required'}
+        </span>
+      ) : undefined}
+      <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img
           src='form-cocktail/arrow-yellow.png'
           className={`hover:cursor-pointer ${
-            isOpen ? 'relative right-[104%]' : ''
+            isOpen
+              ? 'relative right-[103%] sm:right-[105%] lg:right-[105%]'
+              : ''
           }`}
           alt=''
           onClick={() => {
@@ -38,7 +52,7 @@ export default function AlcoholPart({
         />
         <div>
           {isOpen ? (
-            <ul className='absolute bottom-[-100px] left-[-10%] h-[250px] w-[125px] overflow-y-scroll bg-white p-1 sm:bottom-[-122px] md:h-[150px]'>
+            <ul className='absolute bottom-[-220px] left-[-12%] h-[250px] w-[125px] overflow-y-scroll bg-white p-1 sm:bottom-[-220px] sm:h-[250px] md:bottom-[-95px] md:left-[-11.8%] md:h-[125px] lg:bottom-[-190px] lg:left-[-12%] lg:h-[220px]'>
               <li
                 className='w-[100px] hover:cursor-pointer'
                 onClick={() => {
@@ -53,6 +67,7 @@ export default function AlcoholPart({
                   className='w-[100px] hover:cursor-pointer'
                   onClick={() => {
                     handleClickAlcohol(name);
+                    handleClickSelect();
                   }}
                 >
                   {name}
