@@ -1,7 +1,6 @@
 import CocktailCard from '@/components/CocktailCard';
 import CocktailComments from '@/components/CocktailComments';
 import CocktailForm from '@/components/CocktailForm';
-import Navbar from '@/components/Navbar';
 import StarRating from '@/components/StarRating';
 
 export default function CocktailsDetails() {
@@ -10,7 +9,6 @@ export default function CocktailsDetails() {
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('bg-details.png')` }}
     >
-      <Navbar />
       <h1 className='font-stroke text-light z-50 mx-5 pt-10 text-center text-[1.6rem] font-extrabold uppercase sm:pt-16 sm:text-start'>{`Cocktail's name`}</h1>
       <div className='flex flex-col sm:flex-row'>
         <div className='relative h-[30rem] w-[25rem]'>

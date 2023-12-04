@@ -27,6 +27,13 @@ export default {
       'card-green': '#85DABF',
       'card-pink-dark': '#F5A975',
     },
+    fontFamily: {
+      sans: [
+        'Mochiy Pop One',
+        'sans-serif',
+        ...require('tailwindcss/defaultTheme').fontFamily.sans,
+      ],
+    },
     extend: {},
   },
   plugins: [],
