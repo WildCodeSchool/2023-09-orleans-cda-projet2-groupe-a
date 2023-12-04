@@ -229,44 +229,44 @@ export default function AddCocktail() {
   return (
     <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
       <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
-        {squares.map((div, index) => (
+        {squares.map((square, index) => (
           <div
-            key={div.color}
+            key={square.color}
             className={`bg-dark relative lg:clip-path-polygon-${
-              div.color
-            }-lg md:clip-path-polygon-${div.color}-md lg:order-${
-              div.order.lg
-            } md:order-${div.order.md} h-screen w-full md:h-full lg:w-[${
-              div.width.lg
-            }%] md:w-[${div.width.md}%] ${
-              div.right === undefined
+              square.color
+            }-lg md:clip-path-polygon-${square.color}-md lg:order-${
+              square.order.lg
+            } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
+              square.width.lg
+            }%] md:w-[${square.width.md}%] ${
+              square.right === undefined
                 ? ''
-                : `lg:right-[${div.right.lg}%] md:right-[${div.right.md}%]`
+                : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
             }`}
           >
             <div
               className={`lg:clip-path-polygon-${
-                div.color
+                square.color
               }-lg md:clip-path-polygon-${
-                div.color
+                square.color
               }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
-                div.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
-              } ${div.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
-                div.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
-              } ${div.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
+                square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
+              } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
+                square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
+              } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
             >
               <div
-                className={`bg-dark-${div.color} lg:clip-path-polygon-${div.color}-lg md:clip-path-polygon-${div.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
+                className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
               >
                 <div
-                  className={`filter-black-to-${div.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
+                  className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
                 />
                 <div
                   className={`absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
                     index + 1
                   }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
                 >
-                  {div.component}
+                  {square.component}
                 </div>
               </div>
             </div>

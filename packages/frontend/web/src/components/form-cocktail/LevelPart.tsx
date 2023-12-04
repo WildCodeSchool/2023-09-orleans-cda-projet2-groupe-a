@@ -1,6 +1,6 @@
 import type { LevelPartProps } from '@app/types';
 
-const myLevel = [3, 2, 1];
+const numberLevel = [3, 2, 1];
 
 export default function LevelPart({
   level,
@@ -25,7 +25,7 @@ export default function LevelPart({
       ) : undefined}
 
       <div className='relative bottom-[3%] left-[-4%] flex flex-row-reverse sm:bottom-[6%] sm:left-[-2%]'>
-        {myLevel.map((number) => (
+        {numberLevel.map((number) => (
           <div
             key={number}
             className={`peer h-[90px] w-[70px] bg-[url('/form-cocktail/fire-level.png')] bg-cover bg-no-repeat grayscale hover:cursor-pointer hover:grayscale-0 peer-hover:grayscale-0 sm:h-[120px] sm:w-[100px] ${

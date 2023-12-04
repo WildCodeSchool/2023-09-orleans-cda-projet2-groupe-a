@@ -30,6 +30,7 @@ export interface LevelPartProps {
   handleClick: (level: number) => void;
   errors: FieldErrors<CocktailForm>;
 }
+
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedIngredient: string;
@@ -41,6 +42,7 @@ export interface GlassPartProps {
   register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
 }
+
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedTopping: string;

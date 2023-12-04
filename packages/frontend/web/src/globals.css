@@ -4,10 +4,6 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    font-family: 'Mochiy Pop One', sans-serif;
-  }
-
   body {
     height: 100dvh;
     width: 100dvw;

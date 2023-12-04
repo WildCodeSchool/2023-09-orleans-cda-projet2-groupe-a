@@ -72,6 +72,13 @@ export default {
     "bg-[url('form-cocktail/bubble/bubble-6.png')]",
   ],
   theme: {
+    fontFamily: {
+      sans: [
+        'Mochiy Pop One',
+        'sans-serif',
+        ...require('tailwindcss/defaultTheme').fontFamily.sans,
+      ],
+    },
     extend: {
       colors: {
         white: '#FFFFFF',
