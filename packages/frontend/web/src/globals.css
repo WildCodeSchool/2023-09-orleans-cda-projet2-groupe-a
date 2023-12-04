@@ -13,26 +13,51 @@ body {
   /* Stroke for the font */
   .font-stroke-profil-main {
     text-shadow:
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f,
-      0 0 5px #0e0f0f;
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f;
+    -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+
+  .font-stroke-profile-h2 {
+    text-shadow:
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
   }
 }
