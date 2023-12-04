@@ -9,7 +9,7 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: 'my-profil',
+    path: 'profile',
     element: <ProfilPage />,
   },
 ]);
