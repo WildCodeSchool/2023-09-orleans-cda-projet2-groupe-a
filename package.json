@@ -62,6 +62,7 @@
   "dependencies": {
     "@types/cookie-parser": "^1.4.6",
     "cookie-parser": "^1.4.6",
+    "express-validator": "^7.0.1",
     "jose": "^5.1.3"
   }
 }

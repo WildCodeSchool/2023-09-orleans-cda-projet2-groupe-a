@@ -1,8 +1,12 @@
+import type { Request, Response } from 'express';
 import express from 'express';
 import * as jose from 'jose';
 
 import { db } from '@app/backend-shared';
 import type { AuthBody } from '@app/types';
+
+import validateLogin from './middlewares/validate-login';
+import validateRegister from './middlewares/validate-register';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const isProduction: boolean = process.env.NODE_ENV === 'production';
@@ -24,7 +28,7 @@ authRouter.get('/users', async (req, res) => {
 
 authRouter.get('/check', async (req, res) => {
   //bien vérifier le booléen de signed plus bas. d'où req.cookies ou req.signedCookies.
-  const jwt: string | undefined = req.cookies.token;
+  const jwt: string | undefined = req.signedCookies.token;
 
   //On vérifie si l'on est toujours connecté (si le jwt existe bien)
   if (jwt === undefined) {
@@ -35,14 +39,14 @@ authRouter.get('/check', async (req, res) => {
   }
 
   try {
-    //   const check =
+    // const check =
     await jose.jwtVerify(jwt, SECRET, {
       //options
       issuer: 'http://localhost',
       audience: 'http://localhost',
     });
 
-    //On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
+    // On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
 
     return res.json({
       ok: true,
@@ -64,113 +68,120 @@ authRouter.get('/check', async (req, res) => {
   }
 });
 
-authRouter.post('/register', async (req, res) => {
-  const {
-    email,
-    password,
-    pseudo,
-    image,
-    birthdate,
-    created_at: createdAt = new Date(),
-  } = req.body as AuthBody;
-
-  try {
-    const hashedPassword = await Bun.password.hash(password, {
-      algorithm: 'bcrypt',
-      cost: 10,
-    });
-
-    await db
-      .insertInto('user')
-      .values({
-        email,
-        password: hashedPassword,
-        pseudo,
-        image,
-        birthdate,
-        created_at: createdAt,
-      })
-      .execute();
-
-    return res.json({
-      ok: true,
-    });
-  } catch (error) {
-    return res.json({
-      ok: false,
-      error,
-    });
-  }
-});
-
-authRouter.post('/login', async (req, res) => {
-  const { email, password } = req.body as AuthBody;
-  //
-  try {
-    const user = await db
-      .selectFrom('user')
-      .select(['user.password'])
-      .where('user.email', '=', email)
-      .executeTakeFirst();
-
-    if (user === undefined) {
-      return res.json({
-        ok: true,
-        isLoggedIn: false,
-      });
-    }
-
-    const isCorrectPassword = await Bun.password.verify(
+authRouter.post(
+  '/register',
+  validateRegister,
+  async (req: Request, res: Response) => {
+    const {
+      email,
       password,
-      user.password, //à récuperer dans la BDD donc querybuilder ci-dessus l.87)
-      'bcrypt',
-    );
+      pseudo,
+      image,
+      birthdate,
+      created_at: createdAt = new Date(),
+    } = req.body as AuthBody;
 
-    if (!isCorrectPassword) {
+    try {
+      const hashedPassword = await Bun.password.hash(password, {
+        algorithm: 'bcrypt',
+        cost: 15,
+      });
+
+      await db
+        .insertInto('user')
+        .values({
+          email,
+          password: hashedPassword,
+          pseudo,
+          image,
+          birthdate,
+          created_at: createdAt,
+        })
+        .execute();
+
       return res.json({
         ok: true,
-        isLoggedIn: false,
+      });
+    } catch (error) {
+      return res.json({
+        ok: false,
+        error,
       });
     }
+  },
+);
 
-    // Dans le cas inverse, on appelle la méthode signJWT de jose pour générer un jwt.
-    // Ce JWT va être utilisé pour hâcher le mot de passe.
-    // On le place en haut du fichier, sous les imports, après le if qui vérifie
-    // l'existence du JWT ou fait crasher l'appli, le cas échéant.
+authRouter.post(
+  '/login',
+  validateLogin,
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body as AuthBody;
+    try {
+      const user = await db
+        .selectFrom('user')
+        .select(['user.password'])
+        .where('user.email', '=', email)
+        .executeTakeFirst();
 
-    const jwt = await new jose.SignJWT({
-      sub: email,
-    })
-      .setProtectedHeader({
-        alg: 'HS256',
+      if (user === undefined) {
+        return res.json({
+          ok: true,
+          isLoggedIn: false,
+        });
+      }
+
+      const isCorrectPassword = await Bun.password.verify(
+        password,
+        user.password, //à récuperer dans la BDD donc querybuilder ci-dessus l.90)
+        'bcrypt',
+      );
+
+      if (!isCorrectPassword) {
+        return res.json({
+          ok: true,
+          isLoggedIn: false,
+        });
+      }
+
+      // Dans le cas inverse, on appelle la méthode signJWT de jose pour générer un jwt.
+      // Ce JWT va être utilisé pour hâcher le mot de passe.
+      // On le place en haut du fichier, sous les imports, après le if qui vérifie
+      // l'existence du JWT ou fait crasher l'appli, le cas échéant.
+
+      const jwt = await new jose.SignJWT({
+        sub: email,
       })
-      .setIssuedAt()
-      .setIssuer('http://localhost')
-      .setAudience('http://localhost')
-      .setExpirationTime('24h')
-      .sign(SECRET);
+        .setProtectedHeader({
+          alg: 'HS256',
+        })
+        .setIssuedAt()
+        .setIssuer('http://localhost')
+        .setAudience('http://localhost')
+        .setExpirationTime('24h')
+        .sign(SECRET);
 
-    // Envoi du jwt dans le token via l'objet res.
-    // Param1 qu'on appelle arbitrairement 'token'. Param2, le jwt.
-    // Puis options sous forme d'un objet qui définissent le niveau de sécurité du cookie.
+      // Envoi du jwt dans le token via l'objet res.
+      // Param1 qu'on appelle arbitrairement 'token'. Param2, le jwt.
+      // Puis options sous forme d'un objet qui définissent le niveau de sécurité du cookie.
 
-    res.cookie('token', jwt, {
-      httpOnly: true, //signifie au client que le cookie est inaccessible.
-      sameSite: 'strict', //Permet au cookie de ne pas être utilisé sur d'autres sites.
-      secure: isProduction, //correspond au HTTPS, en prod. (Cf. variable d'environnement)
-      //   signed: true,
-    });
+      res.cookie('token', jwt, {
+        httpOnly: true, //signifie au client que le cookie est inaccessible.
+        sameSite: 'strict', //Permet au cookie de ne pas être utilisé sur d'autres sites.
+        secure: isProduction, //correspond au HTTPS, en prod. (Cf. variable d'environnement)
+        signed: true,
+      });
 
-    return res.json({
-      ok: true,
-      isLoggedIn: isCorrectPassword,
-    });
-  } catch (error) {
-    return res.json({
-      ok: false,
-      error,
-    });
-  }
-});
+      return res.json({
+        ok: true,
+        isLoggedIn: isCorrectPassword,
+      });
+    } catch (error) {
+      return res.json({
+        ok: false,
+        error,
+      });
+    }
+  },
+);
 
 export { authRouter };

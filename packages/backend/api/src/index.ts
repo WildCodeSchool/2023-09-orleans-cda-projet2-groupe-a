@@ -4,6 +4,7 @@ import express from 'express';
 
 import router from './router';
 
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
 const app = express();
 
 const HOST = process.env.BACKEND_HOST ?? 'localhost';
@@ -11,7 +12,7 @@ const PORT = process.env.BACKEND_PORT ?? 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use(cookieParser());
+app.use(cookieParser(COOKIE_SECRET));
 
 app.use('/api', router);
 
