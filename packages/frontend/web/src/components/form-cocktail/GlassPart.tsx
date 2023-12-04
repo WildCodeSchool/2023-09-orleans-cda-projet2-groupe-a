@@ -1,24 +1,40 @@
 import { Shuffle } from 'lucide-react';
 
-import type { GlassPart } from '@app/types/src/cocktail-form';
+import type { GlassPartProps } from '@app/types';
 
-export default function GlassPart({ register, errors }: GlassPart) {
+export default function GlassPart({ register, errors }: GlassPartProps) {
   return (
     <>
       <h1 className='relative bottom-[9%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl md:bottom-[22%]'>
         {'Your glass'}
       </h1>
-      {errors.glass ? (
-        <span className='relative bottom-[25px]'>
+
+      {errors.glass?.type === 'required' ? (
+        <span className='relative bottom-[65px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      <div className='sm: relative bottom-[5%] flex md:bottom-[12%]'>
+      {errors.glass?.type === 'maxLength' ? (
+        <span className='relative bottom-[65px]'>{errors.glass.message}</span>
+      ) : undefined}
+      {errors.glass?.type === 'isString' ? (
+        <span className='relative bottom-[-10px] rotate-[-12deg]'>
+          {errors.glass.message}
+        </span>
+      ) : undefined}
+
+      <div className='relative bottom-[5%] flex md:bottom-[12%]'>
         <input
           className='w-[150px]'
           value={'Wisky glass'}
-          readOnly
-          {...register('glass', { required: true })}
+          {...register('glass', {
+            required: true,
+            maxLength: { value: 255, message: "can't be longer than 255" },
+            validate: {
+              isString: (value) =>
+                typeof value === 'string' || 'Must be a string',
+            },
+          })}
         />
         <button type='button'>
           <Shuffle />

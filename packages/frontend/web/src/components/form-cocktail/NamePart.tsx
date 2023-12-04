@@ -1,4 +1,4 @@
-import type { NamePart } from '@app/types/src/cocktail-form';
+import type { NamePartProps } from '@app/types';
 
 import ShakerIcon from '../icons/ShakerIcon';
 
@@ -6,7 +6,7 @@ export default function NamePart({
   register,
   errors,
   handleErroSubmit,
-}: NamePart) {
+}: NamePartProps) {
   return (
     <>
       <h1 className='relative w-[300px] rotate-[-12deg] text-center text-xl uppercase sm:text-2xl md:bottom-[8%] lg:w-[350px]'>
@@ -14,11 +14,29 @@ export default function NamePart({
       </h1>
       <input
         className='w-[200px] rotate-[-12deg] border-b-[2px] border-dashed'
-        {...register('name', { required: true })}
+        {...register('name', {
+          required: true,
+          maxLength: { value: 255, message: "can't be longer than 255" },
+          validate: {
+            isString: (value) =>
+              typeof value === 'string' || 'Must be a string',
+          },
+        })}
       />
-      {errors.name ? (
+
+      {errors.name?.type === 'required' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {'This field is required'}
+        </span>
+      ) : undefined}
+      {errors.name?.type === 'maxLength' ? (
+        <span className='relative bottom-[-10px] rotate-[-12deg]'>
+          {errors.name.message}
+        </span>
+      ) : undefined}
+      {errors.name?.type === 'isString' ? (
+        <span className='relative bottom-[-10px] rotate-[-12deg]'>
+          {errors.name.message}
         </span>
       ) : undefined}
 

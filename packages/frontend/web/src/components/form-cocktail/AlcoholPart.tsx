@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { AlcoholPart } from '@app/types/src/cocktail-form';
+import type { AlcoholPartProps } from '@app/types';
 
 const alcoholArray = [
   'Gin',
@@ -20,7 +20,7 @@ export default function AlcoholPart({
   handleClickAlcohol,
   watch,
   errors,
-}: AlcoholPart) {
+}: AlcoholPartProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClickSelect = () => {
@@ -32,11 +32,18 @@ export default function AlcoholPart({
       <label className='relative bottom-[7%] w-[250px] text-center text-xl uppercase sm:bottom-[12%] sm:w-[300px] sm:text-2xl'>
         {'Choose your booze'}
       </label>
-      {errors.alcohol ? (
+
+      {errors.alcohol?.type === 'required' ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
           {'This field is required'}
         </span>
       ) : undefined}
+      {errors.alcohol?.type === 'validate' ? (
+        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
+          {errors.alcohol.message}
+        </span>
+      ) : undefined}
+
       <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img
           src='form-cocktail/arrow-yellow.png'

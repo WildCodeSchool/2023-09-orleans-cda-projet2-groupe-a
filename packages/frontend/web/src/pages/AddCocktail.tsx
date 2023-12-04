@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import type { CocktailForm } from '@app/types/src/cocktail-form';
+import type { CocktailForm } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
@@ -52,16 +52,34 @@ export default function AddCocktail() {
   };
 
   const handleErroSubmit = () => {
-    if (watch('alcohol') === undefined) {
+    const alcoholValue = watch('alcohol');
+
+    if (alcoholValue === undefined) {
       setError('alcohol', { type: 'required', message: 'required' });
-    } else {
+    } else if (typeof alcoholValue === 'string' && alcoholValue.length <= 255) {
       clearErrors('alcohol');
+    } else {
+      setError('alcohol', {
+        type: 'validate',
+        message: 'must be a string of 255 characters max',
+      });
     }
 
-    if (watch('level') === undefined) {
+    const levelValue = watch('level');
+
+    if (levelValue === undefined) {
       setError('level', { type: 'required', message: 'required' });
-    } else {
+    } else if (
+      typeof levelValue === 'number' &&
+      levelValue <= 3 &&
+      levelValue >= 1
+    ) {
       clearErrors('level');
+    } else {
+      setError('level', {
+        type: 'validate',
+        message: 'must be a number between 1 and 3',
+      });
     }
   };
 
@@ -72,7 +90,7 @@ export default function AddCocktail() {
         lg: 1,
         md: 1,
       },
-      square: {
+      biasSide: {
         lg: ['right'],
         md: ['right'],
       },
@@ -80,7 +98,7 @@ export default function AddCocktail() {
         lg: 110,
         md: 105,
       },
-      myComponent: (
+      component: (
         <LevelPart level={level} handleClick={handleClick} errors={errors} />
       ),
     },
@@ -90,7 +108,7 @@ export default function AddCocktail() {
         lg: 3,
         md: 4,
       },
-      square: {
+      biasSide: {
         lg: ['right', 'left'],
         md: ['left'],
       },
@@ -102,7 +120,7 @@ export default function AddCocktail() {
         lg: 15,
         md: 16,
       },
-      myComponent: (
+      component: (
         <AlcoholPart
           handleClickAlcohol={handleClickAlcohol}
           watch={watch}
@@ -116,7 +134,7 @@ export default function AddCocktail() {
         lg: 5,
         md: 2,
       },
-      square: {
+      biasSide: {
         lg: ['left'],
         md: ['left'],
       },
@@ -128,7 +146,7 @@ export default function AddCocktail() {
         lg: 8,
         md: 0,
       },
-      myComponent: (
+      component: (
         <IngredientsPart
           register={register}
           selectedIngredient={selectedIngredient}
@@ -143,7 +161,7 @@ export default function AddCocktail() {
         lg: 2,
         md: 5,
       },
-      square: {
+      biasSide: {
         lg: ['right'],
         md: ['right'],
       },
@@ -155,7 +173,7 @@ export default function AddCocktail() {
         lg: 0,
         md: 10,
       },
-      myComponent: <GlassPart register={register} errors={errors} />,
+      component: <GlassPart register={register} errors={errors} />,
     },
     {
       color: 'green',
@@ -163,7 +181,7 @@ export default function AddCocktail() {
         lg: 4,
         md: 3,
       },
-      square: {
+      biasSide: {
         lg: ['right', 'left'],
         md: ['right'],
       },
@@ -171,7 +189,7 @@ export default function AddCocktail() {
         lg: 103,
         md: 105,
       },
-      myComponent: (
+      component: (
         <ToppingPart
           register={register}
           selectedTopping={selectedTopping}
@@ -183,10 +201,10 @@ export default function AddCocktail() {
     {
       color: 'pink',
       order: {
-        lg: 'last',
-        md: 'last',
+        lg: '6',
+        md: '6',
       },
-      square: {
+      biasSide: {
         lg: ['left'],
         md: ['left'],
       },
@@ -198,7 +216,7 @@ export default function AddCocktail() {
         lg: 4,
         md: 5,
       },
-      myComponent: (
+      component: (
         <NamePart
           register={register}
           handleErroSubmit={handleErroSubmit}
@@ -216,13 +234,11 @@ export default function AddCocktail() {
             key={div.color}
             className={`bg-dark relative lg:clip-path-polygon-${
               div.color
-            }-lg md:clip-path-polygon-${div.color}-md order-${
-              index + 1
-            } lg:order-${div.order.lg} md:order-${
-              div.order.md
-            } h-screen w-full md:h-full lg:w-[${div.width.lg}%] md:w-[${
-              div.width.md
-            }%] ${
+            }-lg md:clip-path-polygon-${div.color}-md lg:order-${
+              div.order.lg
+            } md:order-${div.order.md} h-screen w-full md:h-full lg:w-[${
+              div.width.lg
+            }%] md:w-[${div.width.md}%] ${
               div.right === undefined
                 ? ''
                 : `lg:right-[${div.right.lg}%] md:right-[${div.right.md}%]`
@@ -234,10 +250,10 @@ export default function AddCocktail() {
               }-lg md:clip-path-polygon-${
                 div.color
               }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
-                div.square.md.includes('left') ? 'md:ps-2.5' : ''
-              } ${div.square.md.includes('right') ? 'md:pe-2.5' : ''} ${
-                div.square.lg.includes('left') ? 'lg:ps-2.5' : ''
-              } ${div.square.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
+                div.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
+              } ${div.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
+                div.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
+              } ${div.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
             >
               <div
                 className={`bg-dark-${div.color} lg:clip-path-polygon-${div.color}-lg md:clip-path-polygon-${div.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
@@ -250,7 +266,7 @@ export default function AddCocktail() {
                     index + 1
                   }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
                 >
-                  {div.myComponent}
+                  {div.component}
                 </div>
               </div>
             </div>
