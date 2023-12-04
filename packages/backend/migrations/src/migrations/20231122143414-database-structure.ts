@@ -35,8 +35,8 @@ export async function up(db: Kysely<Database>): Promise<void> {
         degree TINYINT UNSIGNED NOT NULL,
         description TEXT NOT NULL,
         image VARCHAR(255) NOT NULL,
-        flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL,
-        family ENUM('water', 'alcohol', 'juice', 'soda', 'syrup', 'bitter', 'fruit', 'vegetable', 'herb', 'spice', 'milk', 'cream', 'condiment', 'other') NOT NULL
+        flavour ENUM('fruity', 'spicy', 'earthy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'peppery', 'mixed', 'fresh', 'acidulous', 'sour', 'neutral', 'umami', 'astringent', 'other') NOT NULL,
+        family ENUM('water', 'alcohol', 'juice', 'soda', 'syrup', 'bitter', 'fruit', 'vegetable', 'herb', 'spice', 'sauce', 'milk', 'cream', 'condiment', 'meat', 'seafood', 'other') NOT NULL
       );
     `.execute(trx);
 
@@ -50,7 +50,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
         author INT UNSIGNED NOT NULL,
         ratings_average ENUM('0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10') NOT NULL,
         glass_id INT UNSIGNED NOT NULL,
-        final_flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL,
+        final_flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral', 'other') NOT NULL,
         created_at DATETIME NOT NULL,
         total_quantity SMALLINT UNSIGNED NOT NULL,
         FOREIGN KEY (author) REFERENCES user(id),
