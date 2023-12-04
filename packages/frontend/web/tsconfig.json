@@ -25,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../../backend/api/src/auth.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

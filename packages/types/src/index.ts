@@ -1,4 +1,5 @@
 export * from './database';
+export * from './auth';
 
 export type User = {
   name: string;

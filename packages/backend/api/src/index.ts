@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 
@@ -10,6 +11,7 @@ const PORT = process.env.BACKEND_PORT ?? 3000;
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use('/api', router);
 
