@@ -2,22 +2,9 @@ import CocktailCard from '@/components/CocktailCard';
 import CocktailComments from '@/components/CocktailComments';
 import CocktailForm from '@/components/CocktailForm';
 import Navbar from '@/components/Navbar';
+import StarRating from '@/components/StarRating';
 
 export default function CocktailsDetails() {
-  const starCount = 5;
-
-  const stars = [];
-  for (let index = 0; index < starCount; index++) {
-    stars.push(
-      <img
-        key={index}
-        src={index === 0 ? 'star-yellow.png' : 'star.png'}
-        className='h-[1.7rem] w-[1.7rem]'
-        alt={`Star ${index + 1}`}
-      />,
-    );
-  }
-
   return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
@@ -69,7 +56,10 @@ export default function CocktailsDetails() {
           />
           <div>
             <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
-            <div className='mt-2 flex justify-center'>{stars}</div>
+            <div className='mt-2 flex justify-center'>
+              {' '}
+              <StarRating starCount={5} />
+            </div>
           </div>
         </div>
         <div className='border-dark bg-card-green absolute m-auto mb-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
@@ -80,7 +70,10 @@ export default function CocktailsDetails() {
           />
           <div>
             <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
-            <div className='mt-2 flex justify-center'>{stars}</div>
+            <div className='mt-2 flex justify-center'>
+              {' '}
+              <StarRating starCount={5} />
+            </div>
           </div>
         </div>
       </div>

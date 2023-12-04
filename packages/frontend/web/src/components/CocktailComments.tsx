@@ -2,26 +2,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
 
+import StarRating from './StarRating';
+
 export default function CocktailComments() {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
   const handleToggle = () => {
     setIsCommentsOpen(!isCommentsOpen);
   };
-
-  const starCount = 5;
-
-  const stars = [];
-  for (let index = 0; index < starCount; index++) {
-    stars.push(
-      <img
-        key={index}
-        src={index === 0 ? 'star-yellow.png' : 'star.png'}
-        className='h-[1.7rem] w-[1.7rem]'
-        alt={`Star ${index + 1}`}
-      />,
-    );
-  }
 
   return (
     <div>
@@ -45,7 +33,9 @@ export default function CocktailComments() {
             </button>
           )}
           <h2 className='pe-2'>{`review`}</h2>
-          <div className='my-auto flex'>{stars}</div>
+          <div className='my-auto flex'>
+            <StarRating starCount={5} />
+          </div>
         </div>
       </div>
       <AnimatePresence>

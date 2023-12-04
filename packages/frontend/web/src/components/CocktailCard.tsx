@@ -1,18 +1,6 @@
+import StarRating from './StarRating';
+
 export default function CocktailCard() {
-  const starCount = 5;
-
-  const stars = [];
-  for (let index = 0; index < starCount; index++) {
-    stars.push(
-      <img
-        key={index}
-        src={index === 0 ? 'star-yellow.png' : 'star.png'}
-        className='h-[1.7rem] w-[1.7rem]'
-        alt={`Star ${index + 1}`}
-      />,
-    );
-  }
-
   return (
     <div className='relative -top-8'>
       <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
@@ -25,7 +13,10 @@ export default function CocktailCard() {
         />
         <div>
           <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
-          <div className='mt-2 flex justify-center'>{stars}</div>
+          <div className='mt-2 flex justify-center'>
+            {' '}
+            <StarRating starCount={5} />
+          </div>
         </div>
       </div>
     </div>
