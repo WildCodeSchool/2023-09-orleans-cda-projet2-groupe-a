@@ -51,7 +51,7 @@ export default function AddCocktail() {
     setValue('alcohol', alcohol, { shouldValidate: true });
   };
 
-  const handleErroSubmit = () => {
+  const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
 
     if (alcoholValue === undefined) {
@@ -219,7 +219,7 @@ export default function AddCocktail() {
       component: (
         <NamePart
           register={register}
-          handleErroSubmit={handleErroSubmit}
+          handleErrorSubmit={handleErrorSubmit}
           errors={errors}
         />
       ),

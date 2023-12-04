@@ -21,7 +21,7 @@ export interface AlcoholPartProps {
 
 export interface NamePartProps {
   register: UseFormRegister<CocktailForm>;
-  handleErroSubmit: () => void;
+  handleErrorSubmit: () => void;
   errors: FieldErrors<CocktailForm>;
 }
 

@@ -5,7 +5,7 @@ import ShakerIcon from '../icons/ShakerIcon';
 export default function NamePart({
   register,
   errors,
-  handleErroSubmit,
+  handleErrorSubmit,
 }: NamePartProps) {
   return (
     <>
@@ -47,7 +47,7 @@ export default function NamePart({
         <button
           type='submit'
           onClick={() => {
-            handleErroSubmit();
+            handleErrorSubmit();
           }}
         >
           <ShakerIcon />
