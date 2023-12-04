@@ -11,11 +11,11 @@ export default function ProfilPage() {
           alt=''
         />
         <div className="absolute right-[5%] top-[-5%] h-[80%] w-[35%] bg-[url('profil-page/bubble.png')] bg-cover bg-no-repeat" />
-        <div className='mt-[1200px] flex w-screen flex-col items-center'>
-          <div className="z-20 h-[400px] w-[600px] bg-[url('profil-page/miss-hold-it.png')] bg-cover" />
-          <div className='bg-light border-dark relative top-[-60px] z-10 h-[400px] w-[80%] border-[6px]'>
-            {' '}
-          </div>
+      </div>
+      <div className='mt-[px] flex w-screen flex-col items-center'>
+        <div className="z-20 h-[400px] w-[600px] bg-[url('profil-page/miss-hold-it.png')] bg-cover" />
+        <div className='bg-light border-dark relative top-[-60px] z-10 h-[800px] w-[80%] overflow-y-visible border-[6px]'>
+          {' '}
         </div>
       </div>
     </div>
