@@ -10,7 +10,6 @@ export default function Login() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
-    console.log(email, password);
 
     // le fetch envoie une requête à la route /login et retourne une promesse qui est la réponse à la requête.
     // Await suspend l'exécution du code à la résolution de la promesse.
@@ -37,8 +36,6 @@ export default function Login() {
       // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
       navigate('/home');
     }
-
-    console.log(data); // pour vérifier ce que contient data.
   };
 
   return (
