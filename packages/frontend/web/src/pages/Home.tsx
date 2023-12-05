@@ -1,24 +1,13 @@
-import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
-  useEffect(() => {
-    const abortController = new AbortController();
+  const { isLoggedIn } = useAuth();
 
-    (async () => {
-      const res = await fetch('192.168.1.166:3333/api/auth/check', {
-        credentials: 'include', // Essentiel pour retrouver le cookie. Idem login.tsx.
-      });
-      (await res.json()) as {
-        // parenthèses autour d'await res.json() puis as pour bien typer.
-        ok: boolean;
-        isLoggedIn: boolean;
-      };
-    })();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  if (!isLoggedIn) {
+    return <Navigate to='/login' />;
+  }
 
   return (
     <div
@@ -33,6 +22,7 @@ export default function Home() {
       }}
     >
       <span className='text-red-900'>{'Coucou'}</span>
+      <span>{'je suis co'}</span>
     </div>
   );
 }

@@ -1,9 +1,11 @@
-import type { FormEvent } from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { type FormEvent, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -33,10 +35,14 @@ export default function Login() {
     }; // la souris au-dessus de json ci-contre montre que c'est d'une promesse. D'où await devant.
 
     if (data.isLoggedIn) {
-      // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
-      navigate('/home');
+      setIsLoggedIn(true);
+      navigate('/home'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
     }
   };
+
+  if (isLoggedIn) {
+    return <Navigate to='/' />;
+  }
 
   return (
     <>

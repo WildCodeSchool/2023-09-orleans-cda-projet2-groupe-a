@@ -83,6 +83,7 @@ authRouter.post(
           birthdate,
         })
         .execute();
+      // ajouter la logique du JWT + génération d'un cookie ici.
 
       const jwt = await new jose.SignJWT({
         sub: email,
