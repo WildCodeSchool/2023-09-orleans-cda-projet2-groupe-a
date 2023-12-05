@@ -3,7 +3,7 @@ import express from 'express';
 import * as jose from 'jose';
 
 import { db } from '@app/backend-shared';
-import type { AuthBody } from '@app/types';
+import type { AuthLoginBody, AuthRegisterBody } from '@app/types';
 
 import validateLogin from './middlewares/validate-login';
 import validateRegister from './middlewares/validate-register';
@@ -19,12 +19,6 @@ if (JWT_SECRET === undefined) {
 
 const SECRET = new TextEncoder().encode(JWT_SECRET);
 const authRouter = express.Router();
-
-authRouter.get('/users', async (req, res) => {
-  const users = await db.selectFrom('user').selectAll().execute();
-
-  return res.json(users);
-});
 
 authRouter.get('/check', async (req, res) => {
   //bien vérifier le booléen de signed plus bas. d'où req.cookies ou req.signedCookies.
@@ -72,14 +66,8 @@ authRouter.post(
   '/register',
   validateRegister,
   async (req: Request, res: Response) => {
-    const {
-      email,
-      password,
-      pseudo,
-      image,
-      birthdate,
-      created_at: createdAt = new Date(),
-    } = req.body as AuthBody;
+    const { email, password, pseudo, image, birthdate } =
+      req.body as AuthRegisterBody;
 
     try {
       const hashedPassword = await Bun.password.hash(password, {
@@ -95,9 +83,31 @@ authRouter.post(
           pseudo,
           image,
           birthdate,
-          created_at: createdAt,
         })
         .execute();
+
+      const jwt = await new jose.SignJWT({
+        sub: email,
+      })
+        .setProtectedHeader({
+          alg: 'HS256',
+        })
+        .setIssuedAt()
+        .setIssuer('http://localhost')
+        .setAudience('http://localhost')
+        .setExpirationTime('24h')
+        .sign(SECRET);
+
+      // Envoi du jwt dans le token via l'objet res.
+      // Param1 qu'on appelle arbitrairement 'token'. Param2, le jwt.
+      // Puis options sous forme d'un objet qui définissent le niveau de sécurité du cookie.
+
+      res.cookie('token', jwt, {
+        httpOnly: true, //signifie au client que le cookie est inaccessible.
+        sameSite: 'strict', //Permet au cookie de ne pas être utilisé sur d'autres sites.
+        secure: isProduction, //correspond au HTTPS, en prod. (Cf. variable d'environnement)
+        signed: true,
+      });
 
       return res.json({
         ok: true,
@@ -115,7 +125,7 @@ authRouter.post(
   '/login',
   validateLogin,
   async (req: Request, res: Response) => {
-    const { email, password } = req.body as AuthBody;
+    const { email, password } = req.body as AuthLoginBody;
     try {
       const user = await db
         .selectFrom('user')
