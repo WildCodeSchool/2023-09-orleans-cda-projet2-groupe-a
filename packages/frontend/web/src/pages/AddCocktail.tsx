@@ -1,4 +1,3 @@
-import type { Response } from 'express';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -42,7 +41,7 @@ export default function AddCocktail() {
     watch,
   } = useForm<CocktailForm>();
 
-  const handleLevelClick = async (selectedLevel: number, res: Response) => {
+  const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(
         `http://192.168.1.7:3333/api/alcohols/${selectedLevel}`,
@@ -55,8 +54,11 @@ export default function AddCocktail() {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
       }
-    } catch {
-      res.status(500).json({ error: 'Internal Server Error' });
+    } catch (error) {
+      console.error(
+        'Une erreur est survenue lors de la récupération des alcools',
+        error,
+      );
     }
   };
 
