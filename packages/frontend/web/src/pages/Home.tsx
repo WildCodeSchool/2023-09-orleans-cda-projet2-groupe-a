@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react';
-
-import { useDisclosure } from '@app/frontend-shared';
-import type { SomeInterface, User } from '@app/types';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const [someData, setSomeData] = useState<SomeInterface>({
-    someProperty: 'someValue',
-  });
-  const { isOpen: isDetailsOpen, onToggle: onDetailsToggle } =
-    useDisclosure(false);
-
-  const user: Partial<User> = {};
-
   useEffect(() => {
     const abortController = new AbortController();
 
     (async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/some-route`,
-        {
-          signal: abortController.signal,
-        },
-      );
-      const data = await response.json();
-      setSomeData(data);
+      const res = await fetch('192.168.1.166:3333/api/auth/check', {
+        credentials: 'include', // Essentiel pour retrouver le cookie. Idem login.tsx.
+      });
+      const data = (await res.json()) as {
+        // parenthèses autour d'await res.json() puis as pour bien typer.
+        ok: boolean;
+        isLoggedIn: boolean;
+      };
     })();
 
     return () => {
@@ -43,30 +32,7 @@ export default function Home() {
         gap: '1rem',
       }}
     >
-      <span>{'Coucou'}</span>
-
-      <span>{`${someData.someProperty}`}</span>
-
-      <button
-        type='button'
-        onClick={() => {
-          onDetailsToggle();
-        }}
-      >
-        {'Click me'}
-      </button>
-
-      {isDetailsOpen ? (
-        <pre>
-          {JSON.stringify(
-            {
-              user,
-            },
-            undefined,
-            2,
-          )}
-        </pre>
-      ) : undefined}
+      <span className='text-red-900'>{'Coucou'}</span>
     </div>
   );
 }

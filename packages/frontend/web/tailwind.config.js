@@ -103,6 +103,7 @@ export default {
         'card-pink': '#F5A2A2',
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
+        'pastel-blue': '#A7D9EF',
       },
     },
   },
