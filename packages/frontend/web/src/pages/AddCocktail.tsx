@@ -1,8 +1,10 @@
+import type { Response } from 'express';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import type { CocktailForm } from '@app/types';
+import type { Ingredient } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
@@ -21,6 +23,8 @@ export default function AddCocktail() {
   const [selectedIngredient, setSelectedIngredient] = useState<string>('');
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
+  const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
+
   const handleIngredientChange = (value: string) => {
     setSelectedIngredient(value);
   };
@@ -38,12 +42,21 @@ export default function AddCocktail() {
     watch,
   } = useForm<CocktailForm>();
 
-  const handleClick = (number: number) => {
-    if (number === level) {
-      setLevel(0);
-    } else {
-      setLevel(number);
-      setValue('level', number);
+  const handleLevelClick = async (selectedLevel: number, res: Response) => {
+    try {
+      const response = await fetch(
+        `http://192.168.1.7:3333/api/alcohols/${selectedLevel}`,
+      );
+      const result = await response.json();
+      setSelectedAlcohols(result);
+      if (selectedLevel === level) {
+        setLevel(0);
+      } else {
+        setLevel(selectedLevel);
+        setValue('level', selectedLevel);
+      }
+    } catch {
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   };
 
@@ -99,7 +112,11 @@ export default function AddCocktail() {
         md: 105,
       },
       component: (
-        <LevelPart level={level} handleClick={handleClick} errors={errors} />
+        <LevelPart
+          level={level}
+          handleLevelClick={handleLevelClick}
+          errors={errors}
+        />
       ),
     },
     {
@@ -122,6 +139,7 @@ export default function AddCocktail() {
       },
       component: (
         <AlcoholPart
+          alcohols={selectedAlcohols}
           handleClickAlcohol={handleClickAlcohol}
           watch={watch}
           errors={errors}

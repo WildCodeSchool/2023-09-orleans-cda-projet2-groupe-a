@@ -4,6 +4,8 @@ import type {
   UseFormWatch,
 } from 'react-hook-form';
 
+import type { Ingredient } from '.';
+
 export type CocktailForm = {
   name?: string;
   topping?: string;
@@ -14,6 +16,7 @@ export type CocktailForm = {
 };
 
 export interface AlcoholPartProps {
+  alcohols: Ingredient[];
   handleClickAlcohol: (alcohol: string) => void;
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
@@ -27,7 +30,7 @@ export interface NamePartProps {
 
 export interface LevelPartProps {
   level: number;
-  handleClick: (level: number) => void;
+  handleLevelClick: (level: number) => void;
   errors: FieldErrors<CocktailForm>;
 }
 
