@@ -1,4 +1,5 @@
 export * from './database';
+export * from './cocktail-detail';
 export * from './auth-login';
 export * from './auth-register';
 export * from './cocktail-form';
