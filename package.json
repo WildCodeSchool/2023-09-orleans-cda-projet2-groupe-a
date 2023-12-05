@@ -8,7 +8,8 @@
     "packages/backend/shared",
     "packages/frontend/web",
     "packages/frontend/mobile",
-    "packages/frontend/shared"
+    "packages/frontend/shared",
+    "packages/backend/forge"
   ],
   "scripts": {
     "dev": "bun concurrently \"bun run dev:*(!mobile)\"",
