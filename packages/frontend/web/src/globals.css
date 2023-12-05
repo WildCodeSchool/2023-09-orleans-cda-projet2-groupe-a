@@ -13,7 +13,67 @@
 }
 
 @layer utilities {
-  /* Stroke for the font */
+  .clip-path-polygon-purple-lg {
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  }
+
+  .clip-path-polygon-yellow-lg {
+    clip-path: polygon(3% 0, 98% 0, 81% 100%, 20% 100%);
+  }
+
+  .clip-path-polygon-blue-lg {
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .clip-path-polygon-orange-lg {
+    clip-path: polygon(0 0, 90% 0%, 100% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-green-lg {
+    clip-path: polygon(0 0, 100% 0, 92% 100%, 11% 100%);
+  }
+
+  .clip-path-polygon-pink-lg {
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .clip-path-polygon-blue-md {
+    clip-path: polygon(0 0, 98% 0, 85% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-orange-md {
+    clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-purple-md {
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  }
+
+  .clip-path-polygon-yellow-md {
+    clip-path: polygon(1% 0, 100% 0, 100% 100%, 19% 100%);
+  }
+
+  .clip-path-polygon-green-md {
+    clip-path: polygon(0 0, 90% 0%, 97% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-pink-md {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 7% 100%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #c0bdbd;
+    border-radius: 5px;
+  }
+
   .font-stroke {
     text-shadow:
       0 0 3px #0e0f0f,
@@ -37,5 +97,35 @@
       0 0 3px #0e0f0f,
       0 0 3px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+
+  .filter-black-to-purple {
+    filter: invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg)
+      brightness(94%) contrast(93%);
+  }
+
+  .filter-black-to-yellow {
+    filter: invert(91%) sepia(83%) saturate(6947%) hue-rotate(323deg)
+      brightness(111%) contrast(98%);
+  }
+
+  .filter-black-to-blue {
+    filter: invert(56%) sepia(91%) saturate(1079%) hue-rotate(140deg)
+      brightness(104%) contrast(92%);
+  }
+
+  .filter-black-to-orange {
+    filter: invert(74%) sepia(41%) saturate(4587%) hue-rotate(332deg)
+      brightness(101%) contrast(92%);
+  }
+
+  .filter-black-to-green {
+    filter: invert(75%) sepia(81%) saturate(317%) hue-rotate(99deg)
+      brightness(87%) contrast(87%);
+  }
+
+  .filter-black-to-pink {
+    filter: invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg)
+      brightness(99%) contrast(85%);
   }
 }

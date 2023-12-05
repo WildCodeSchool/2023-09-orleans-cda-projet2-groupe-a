@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
 
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
   {
     path: '/details',
     element: <CocktailsDetails />,
+  },
+  {
+    path: 'shaker',
+    element: <AddCocktail />,
   },
 ]);
 
