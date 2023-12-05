@@ -20,11 +20,11 @@ if (JWT_SECRET === undefined) {
 const SECRET = new TextEncoder().encode(JWT_SECRET);
 const authRouter = express.Router();
 
-authRouter.get('/users', async (req, res) => {
-  const users = await db.selectFrom('user').selectAll().execute();
+// authRouter.get('/users', async (req, res) => {
+//   const users = await db.selectFrom('user').selectAll().execute();
 
-  return res.json(users);
-});
+//   return res.json(users);
+// }); A virer, car juste route de test.
 
 authRouter.get('/check', async (req, res) => {
   //bien vérifier le booléen de signed plus bas. d'où req.cookies ou req.signedCookies.
@@ -98,6 +98,7 @@ authRouter.post(
           created_at: createdAt,
         })
         .execute();
+      // ajouter la logique du JWT + génération d'un cookie ici.
 
       return res.json({
         ok: true,
