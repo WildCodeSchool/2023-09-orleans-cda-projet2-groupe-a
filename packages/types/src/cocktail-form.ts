@@ -30,7 +30,7 @@ export interface NamePartProps {
 
 export interface LevelPartProps {
   level: number;
-  handleLevelClick: (level: number, res: Response) => void;
+  handleLevelClick: (level: number) => void;
   errors: FieldErrors<CocktailForm>;
 }
 export interface IngredientsPartProps {
