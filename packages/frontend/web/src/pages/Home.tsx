@@ -43,7 +43,7 @@ export default function Home() {
         gap: '1rem',
       }}
     >
-      <span className='text-red-900'>{'Coucou'}</span>
+      <span>{'Coucou'}</span>
 
       <span>{`${someData.someProperty}`}</span>
 
