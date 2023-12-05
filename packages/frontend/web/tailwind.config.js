@@ -1,3 +1,5 @@
+import { fontFamily } from 'tailwindcss/defaultTheme';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
@@ -73,11 +75,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: [
-        'Mochiy Pop One',
-        'sans-serif',
-        ...require('tailwindcss/defaultTheme').fontFamily.sans,
-      ],
+      sans: ['Mochiy Pop One', 'sans-serif', ...fontFamily.sans],
     },
     extend: {
       colors: {
@@ -101,21 +99,7 @@ export default {
         'pastel-yellow': '#F5E4A2',
         'pastel-brown': '#D3BA95',
       },
-      filter: {
-        'black-to-purple':
-          'invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg) brightness(94%) contrast(93%)',
-        'black-to-yellow':
-          'invert(91%) sepia(83%) saturate(6947%) hue-rotate(323deg) brightness(111%) contrast(98%)',
-        'black-to-blue':
-          'invert(56%) sepia(91%) saturate(1079%) hue-rotate(140deg) brightness(104%) contrast(92%)',
-        'black-to-orange':
-          'invert(74%) sepia(41%) saturate(4587%) hue-rotate(332deg) brightness(101%) contrast(92%)',
-        'black-to-green':
-          'invert(75%) sepia(81%) saturate(317%) hue-rotate(99deg) brightness(87%) contrast(87%)',
-        'black-to-pink':
-          'invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg) brightness(99%) contrast(85%)',
-      },
     },
   },
-  plugins: [require('tailwindcss-filters')],
+  plugins: [],
 };
