@@ -55,7 +55,6 @@ export default function CocktailsDetails() {
           <div>
             <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
             <div className='mt-2 flex justify-center'>
-              {' '}
               <StarRating starCount={5} />
             </div>
           </div>
@@ -69,7 +68,6 @@ export default function CocktailsDetails() {
           <div>
             <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
             <div className='mt-2 flex justify-center'>
-              {' '}
               <StarRating starCount={5} />
             </div>
           </div>

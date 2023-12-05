@@ -1,16 +1,12 @@
-import Star from './StarIndex';
+import type { StarRatingProps } from '@app/types';
 
-interface StarRatingProps {
-  starCount: number;
-}
+import Star from './Star';
 
-const starRating: React.FC<StarRatingProps> = ({ starCount }) => {
+export default function StarRating({ starCount }: StarRatingProps) {
   const stars = [];
   for (let index = 0; index < starCount; index++) {
     stars.push(<Star key={index} index={index} />);
   }
 
   return <div className='mt-2 flex justify-center'>{stars}</div>;
-};
-
-export default starRating;
+}

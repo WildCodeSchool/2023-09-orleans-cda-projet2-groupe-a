@@ -5,7 +5,7 @@ export default function CocktailForm() {
     <div>
       <div className='border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap'>
         <h3 className='mt-6 text-center uppercase'>{`change me!!!`}</h3>
-        <div className='bg-light-beige border-dark m-auto  mt-10 h-[60%] w-[85%] rounded-sm border-2' />
+        <div className='bg-light-beige border-dark m-auto mt-10 h-[60%] w-[85%] rounded-sm border-2' />
         <div className='my-6 me-6 ms-8 flex justify-between'>
           <Upload
             color='#0E0F0F'

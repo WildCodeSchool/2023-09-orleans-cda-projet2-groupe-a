@@ -1,3 +1,5 @@
+import { fontFamily } from 'tailwindcss/defaultTheme';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
@@ -28,11 +30,7 @@ export default {
       'card-pink-dark': '#F5A975',
     },
     fontFamily: {
-      sans: [
-        'Mochiy Pop One',
-        'sans-serif',
-        ...require('tailwindcss/defaultTheme').fontFamily.sans,
-      ],
+      sans: ['Mochiy Pop One', 'sans-serif', ...fontFamily.sans],
     },
     extend: {},
   },

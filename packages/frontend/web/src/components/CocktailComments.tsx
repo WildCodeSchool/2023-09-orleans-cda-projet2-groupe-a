@@ -3,7 +3,7 @@ import { Minus, Plus } from 'lucide-react';
 
 import { useDisclosure } from '@app/frontend-shared';
 
-import Comment from './CommentComponent';
+import Comment from './Comment';
 import StarRating from './StarRating';
 
 export default function CocktailComments() {
@@ -46,7 +46,7 @@ export default function CocktailComments() {
             transition={{ duration: 1 }}
             className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain uppercase sm:w-[90%]'
           >
-            <Comment numberComment={3} />
+            <Comment numberComment={4} />
           </motion.div>
         ) : undefined}
       </AnimatePresence>
