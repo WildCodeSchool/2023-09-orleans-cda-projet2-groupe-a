@@ -22,7 +22,7 @@ export default function Home() {
       }}
     >
       <span className='text-red-900'>{'Coucou'}</span>
-      <span>{'je suis co'}</span>
+      <span>{'You are connected'}</span>
     </div>
   );
 }
