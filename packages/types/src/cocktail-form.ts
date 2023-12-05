@@ -49,3 +49,7 @@ export interface ToppingPartProps {
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
 }
+
+export interface Ingredient {
+  name: string;
+}
