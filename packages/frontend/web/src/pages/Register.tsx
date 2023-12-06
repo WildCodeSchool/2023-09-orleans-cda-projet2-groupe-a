@@ -9,6 +9,7 @@ export default function Register() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [birthdate, setBirthdate] = useState<string>('');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
@@ -73,6 +74,15 @@ export default function Register() {
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
+            }}
+          />
+          <input
+            className='2px m-1 rounded border border-green-400 p-1'
+            type='birthdate'
+            placeholder='Birthdate'
+            value={birthdate}
+            onChange={(event) => {
+              setEmail(event.target.value);
             }}
           />
           <button

@@ -79,7 +79,7 @@ export default function Login() {
             className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 font-bold text-white hover:bg-blue-700'
             type='submit'
           >
-            {'Register'}
+            {'Login'}
           </button>
         </form>
       </div>
