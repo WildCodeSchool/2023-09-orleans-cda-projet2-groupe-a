@@ -52,11 +52,11 @@ export default function Register() {
         <img
           src='enter.svg'
           alt='boom enter'
-          className='z-40 h-auto w-1/2 justify-center'
+          className='z-40 h-full w-4/5 justify-center'
         />
         <form
           onSubmit={onSubmit}
-          className='absolute z-50 m-6 w-1/4 justify-items-center bg-red-400'
+          className='absolute z-50 m-6 w-1/4 justify-items-center'
         >
           <input
             className='2px m-1 rounded border border-green-400 p-1'
@@ -71,6 +71,15 @@ export default function Register() {
             className='2px m-1 rounded border border-red-400 p-1'
             type='password'
             placeholder='Password'
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+          <input
+            className='2px m-1 rounded border border-red-400 p-1'
+            type='password'
+            placeholder='Confirm your password'
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);

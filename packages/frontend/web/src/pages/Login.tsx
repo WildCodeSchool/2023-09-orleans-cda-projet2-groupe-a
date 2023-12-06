@@ -51,14 +51,14 @@ export default function Login() {
         <img
           src='enter.svg'
           alt='boom enter'
-          className='z-40 h-auto w-1/2 justify-center'
+          className='z-40 h-full w-4/5 justify-center'
         />
         <form
           onSubmit={onSubmit}
-          className='absolute z-50 m-6 w-1/4 justify-items-center bg-red-400'
+          className='flex flex-col absolute z-50 m-4 w-2/5'
         >
           <input
-            className='2px m-1 rounded border border-green-400 p-1'
+            className='2px m-1 rounded border border-green-400 p-1 md:w-96 sm:w-8 text-center text-sm md:text-xl'
             type='email'
             placeholder='Email'
             value={email}
@@ -67,7 +67,7 @@ export default function Login() {
             }}
           />
           <input
-            className='2px m-1 rounded border border-red-400 p-1'
+            className='2px m-1 rounded border border-red-400 p-1 md:w-96 sm:w-8 text-center text-sm md:text-xl'
             type='password'
             placeholder='Password'
             value={password}
@@ -76,7 +76,7 @@ export default function Login() {
             }}
           />
           <button
-            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 font-bold text-white hover:bg-blue-700'
+            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 font-bold text-white hover:bg-blue-700 md:w-96 sm:w-8 text-sm md:text-xl'
             type='submit'
           >
             {'Login'}

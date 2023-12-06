@@ -17,7 +17,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
     await sql`
       CREATE TABLE IF NOT EXISTS user (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(254) NOT NULL,
+        email VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
         pseudo VARCHAR(50) NOT NULL,
         image VARCHAR(255) NOT NULL,
