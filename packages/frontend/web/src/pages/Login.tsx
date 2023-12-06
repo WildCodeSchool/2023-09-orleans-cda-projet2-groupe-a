@@ -55,7 +55,7 @@ export default function Login() {
         />
         <form
           onSubmit={onSubmit}
-          className='absolute w-1/4 z-50 justify-items-center bg-red-400 m-6'
+          className='absolute z-50 m-6 w-1/4 justify-items-center bg-red-400'
         >
           <input
             className='2px m-1 rounded border border-green-400 p-1'
