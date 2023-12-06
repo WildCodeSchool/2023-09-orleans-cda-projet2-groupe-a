@@ -24,6 +24,5 @@ export async function down(db: Kysely<Database>): Promise<void> {
       .modifyColumn('password', 'varchar(255)', (col) => col.notNull())
       .modifyColumn('created_at', 'datetime', (col) => col.notNull())
       .execute();
-    await trx.schema.dropTable('item').ifExists().execute();
   });
 }
