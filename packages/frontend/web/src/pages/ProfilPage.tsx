@@ -1,7 +1,7 @@
 export default function ProfilPage() {
   return (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('profil-page/bg-profil-page.png')] bg-cover ">
-      <h1 className='font-stroke-profil-main text-light mx-10 pt-10 text-center text-[2rem] font-extrabold uppercase sm:pt-16 sm:text-start sm:text-[2.5rem]'>
+      <h1 className='font-stroke-profil-main text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-10 sm:pt-16 sm:text-start sm:text-[2.5rem]'>
         {'Welcome Justin'}
       </h1>
       <div className="gb-center relative right-[48%] flex h-[75%] w-[200%] items-center justify-center bg-[url('profil-page/profil-header.png')] bg-contain bg-no-repeat sm:right-[0%] sm:m-2 sm:w-[97%] lg:m-6">
@@ -10,7 +10,7 @@ export default function ProfilPage() {
           src='profil-page/avatar.png'
           alt=''
         />
-        <p className='rotate relative right-[12%] top-[-25%] w-[50px] rotate-[40deg] text-sm'>
+        <p className='rotate relative right-[-14%] top-[-25%] w-[50px] rotate-[30deg] text-[0.60rem] sm:right-[14%] sm:top-[-28%] md:right-[12%] md:top-[-23%] lg:right-[12%] lg:top-[-15%] lg:rotate-[40deg] lg:text-sm'>
           {'change your avatar'}
         </p>
         <img
@@ -18,9 +18,7 @@ export default function ProfilPage() {
           alt=''
           className='absolute right-[20%] top-[25%] h-[450px] w-[450px] rotate-[80deg] md:right-[-9%] md:top-[-5%] md:h-[350px] md:w-[500px] md:rotate-[-15deg] lg:right-[1%] lg:top-[0%] lg:h-[350px] lg:w-[550px]'
         />
-        {/**  md:right-[-6%] md:top-[-7%] md:h-[65%] md:w-[55%] lg:right-[1%] lg:h-[70%] lg:w-[45%] */}
-        {/**  sm:right-[7%] sm:top-[15%] sm:rotate-[30deg] lg:right-[14%] lg:top-[20%] lg:rotate-[25deg] */}
-        <div className='md:w-[500px]] absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center md:right-[-10%] md:top-[-5%] md:h-[350px] md:rotate-[20deg] lg:right-[1%] lg:top-[2%] lg:h-[350px] lg:w-[500px]'>
+        <div className='md:w-[500px]] absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center md:right-[-10%] md:top-[-4%] md:h-[350px] md:rotate-[20deg] lg:right-[1%] lg:top-[2%] lg:h-[350px] lg:w-[500px]'>
           <div className='flex flex-col gap-3'>
             <div>
               <h2 className='uppercase'>{'email:'}</h2>
@@ -35,7 +33,7 @@ export default function ProfilPage() {
           </div>
         </div>
       </div>
-      <div className='relative top-[50px] flex w-screen flex-col items-center md:top-[-300px] lg:top-[-100px]'>
+      <div className='relative top-[-40px] flex w-screen flex-col items-center md:top-[-300px] lg:top-[-100px]'>
         <h1 className='font-stroke-profile-h2 text-light mb-10 mt-5 text-xl font-extrabold uppercase sm:absolute sm:right-[75%] sm:top-[17%] sm:w-[160px] md:right-[80%] md:top-[20%] lg:top-[22%] lg:w-[200px] lg:text-2xl '>
           {'your recipes'}
         </h1>
