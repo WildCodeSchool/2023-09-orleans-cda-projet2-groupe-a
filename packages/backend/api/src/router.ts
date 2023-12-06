@@ -6,6 +6,7 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { ingredient } from './ingredient';
+import { getAlcoholsByDegree } from './services/alcohol-service';
 
 const router = express.Router();
 
@@ -26,7 +27,18 @@ router.get('/some-route', (_request, response) => {
   return response.json(value);
 });
 
-router.use('/ingredient', ingredient);
+router.get('/alcohols/:level', async (req, res) => {
+  const degree = Number.parseInt(req.params.level);
+
+  try {
+    const result = await getAlcoholsByDegree(db, degree);
+    res.json(result);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.use('/auth', authRouter);
+router.use('/ingredient', ingredient);
 
 export default router;

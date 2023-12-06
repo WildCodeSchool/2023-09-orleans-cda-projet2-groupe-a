@@ -14,7 +14,7 @@ export default function IngredientsPart({
   errors,
 }: IngredientsPartProps) {
   const [url, setUrl] = useState(
-    `${import.meta.env.VITE_API_URL}/api/ingredient/${
+    `${import.meta.env.VITE_API_URL}/ingredient/${
       alcoholId[Math.floor(Math.random() * alcoholId.length)]
     }`,
   );
