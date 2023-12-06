@@ -14,10 +14,11 @@ export default function IngredientsPart({
   errors,
 }: IngredientsPartProps) {
   const [url, setUrl] = useState(
-    `http://localhost:3333/api/ingredient/${
+    `${import.meta.env.VITE_API_URL}/api/ingredient/${
       alcoholId[Math.floor(Math.random() * alcoholId.length)]
     }`,
   );
+
   const { data, isLoading } = useFetch<Oneingredient[]>(url);
 
   useEffect(() => {
