@@ -4,12 +4,12 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { authRouter } from './auth';
 import { ingredient } from './ingredient';
 
 const router = express.Router();
 
 router.get('/', async (_request, response) => {
-  // you can remove this; it's just for the demo
   const result = await sql<{
     coucou: number;
   }>`SELECT 1 as coucou`.execute(db);
@@ -27,5 +27,6 @@ router.get('/some-route', (_request, response) => {
 });
 
 router.use('/ingredient', ingredient);
+router.use('/auth', authRouter);
 
 export default router;
