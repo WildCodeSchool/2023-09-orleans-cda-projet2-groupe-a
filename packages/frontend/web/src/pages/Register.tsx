@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
