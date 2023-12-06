@@ -4,12 +4,12 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { authRouter } from './auth';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 
 const router = express.Router();
 
 router.get('/', async (_request, response) => {
-  // you can remove this; it's just for the demo
   const result = await sql<{
     coucou: number;
   }>`SELECT 1 as coucou`.execute(db);
@@ -36,5 +36,6 @@ router.get('/alcohols/:level', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+router.use('/auth', authRouter);
 
 export default router;
