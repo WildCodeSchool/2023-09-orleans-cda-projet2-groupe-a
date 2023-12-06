@@ -4,14 +4,15 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
+import { getAlcoholsByDegree } from './services/alcohol-service';
 
 const router = express.Router();
 
 router.use('/cocktail', cocktailRouter);
 
 router.get('/', async (_request, response) => {
-  // you can remove this; it's just for the demo
   const result = await sql<{
     coucou: number;
   }>`SELECT 1 as coucou`.execute(db);
@@ -27,5 +28,17 @@ router.get('/some-route', (_request, response) => {
 
   return response.json(value);
 });
+
+router.get('/alcohols/:level', async (req, res) => {
+  const degree = Number.parseInt(req.params.level);
+
+  try {
+    const result = await getAlcoholsByDegree(db, degree);
+    res.json(result);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.use('/auth', authRouter);
 
 export default router;
