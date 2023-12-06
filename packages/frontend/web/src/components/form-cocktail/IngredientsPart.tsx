@@ -5,29 +5,22 @@ import type { IngredientsPartProps, Oneingredient } from '@app/types';
 
 import useFetch from '@/hook/use-fetch';
 
-const alcoholId = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export default function IngredientsPart({
   register,
   selectedIngredient,
   handleIngredientChange,
   errors,
+  watch,
 }: IngredientsPartProps) {
   const [url, setUrl] = useState(
-    `${import.meta.env.VITE_API_URL}/ingredient/${
-      alcoholId[Math.floor(Math.random() * alcoholId.length)]
-    }`,
+    `${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`,
   );
 
   const { data, isLoading } = useFetch<Oneingredient[]>(url);
 
   useEffect(() => {
-    setUrl(
-      `http://localhost:3333/api/ingredient/${
-        alcoholId[Math.floor(Math.random() * alcoholId.length)]
-      }`,
-    );
-  }, []);
+    setUrl(`http://localhost:3333/api/ingredient/${watch('alcohol.id')}`);
+  }, [watch('alcohol')]);
 
   return (
     <>

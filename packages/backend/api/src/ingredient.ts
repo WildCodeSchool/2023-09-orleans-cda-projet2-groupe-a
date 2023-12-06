@@ -7,7 +7,8 @@ const ingredient = express.Router();
 ingredient.get('/:ingredientId', async (req, res) => {
   const ingredientId = req.params.ingredientId;
 
-  const cocktailByIngredient = await db
+  // It get the 6 most popular ingredients base on one ingredient
+  const ingredientsByIngredient = await db
     .selectFrom('ingredient')
     .select(({ fn }) => [
       'ingredient.name',
@@ -40,10 +41,35 @@ ingredient.get('/:ingredientId', async (req, res) => {
     )
     .groupBy('ingredient.name')
     .orderBy('count', 'desc')
-    .limit(7)
+    .limit(6)
+    .offset(1)
     .execute();
 
-  return res.json(cocktailByIngredient);
+  // It get all the ingredients
+  const ingredient = async () =>
+    await db.selectFrom('ingredient').selectAll().execute();
+
+  // It check if i have enough ingredients to return 6. If not, it add random ingredients
+  for (let index = ingredientsByIngredient.length; index < 6; index++) {
+    const ingredientArray = await ingredient();
+    const randomNumber = Math.floor(Math.random() * ingredientArray.length);
+    const randomIngredient = ingredientArray[randomNumber];
+
+    if (
+      ingredientsByIngredient.some(
+        (ingredient) =>
+          ingredient.name === randomIngredient.name &&
+          Number.parseInt(ingredientId) === randomIngredient.id,
+      )
+    ) {
+      index--;
+    } else {
+      const newIngredient = { name: randomIngredient.name, count: 0 };
+      ingredientsByIngredient.push(newIngredient);
+    }
+  }
+
+  return res.json(ingredientsByIngredient);
 });
 
 export { ingredient };

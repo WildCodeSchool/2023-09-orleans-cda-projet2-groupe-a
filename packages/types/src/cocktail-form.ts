@@ -10,14 +10,14 @@ export type CocktailForm = {
   name?: string;
   topping?: string;
   ingredient?: string;
-  alcohol?: string;
+  alcohol?: Ingredient;
   level?: number;
   glass?: string;
 };
 
 export interface AlcoholPartProps {
   alcohols: Ingredient[];
-  handleClickAlcohol: (alcohol: string) => void;
+  handleClickAlcohol: (alcohol: Ingredient) => void;
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
 }
@@ -38,6 +38,7 @@ export interface IngredientsPartProps {
   selectedIngredient: string;
   handleIngredientChange: (ingredient: string) => void;
   errors: FieldErrors<CocktailForm>;
+  watch: UseFormWatch<CocktailForm>;
 }
 
 export interface GlassPartProps {
