@@ -2,8 +2,8 @@ import type { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 const validateLogin = [
-  body('email').exists().isLength({ max: 254 }).trim().isEmail().notEmpty(),
-  body('password').exists().isLength({ max: 255 }).trim().notEmpty(),
+  body('email').exists().isLength({ max: 254 }).isEmail(),
+  body('password').exists().isLength({ max: 255 }),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
