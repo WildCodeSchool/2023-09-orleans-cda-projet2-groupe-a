@@ -28,8 +28,6 @@ export default function IngredientsPart({
     );
   }, []);
 
-  console.log(data);
-
   return (
     <>
       <h1 className='relative bottom-[3%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
