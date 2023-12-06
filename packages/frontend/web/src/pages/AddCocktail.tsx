@@ -44,7 +44,7 @@ export default function AddCocktail() {
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3333/api/alcohols/${selectedLevel}`,
+        `${import.meta.env.VITE_API_URL}/alcohols/${selectedLevel}`,
       );
       const result = await response.json();
       setSelectedAlcohols(result);

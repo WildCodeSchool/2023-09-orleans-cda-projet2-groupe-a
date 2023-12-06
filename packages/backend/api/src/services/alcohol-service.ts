@@ -1,7 +1,6 @@
 import { type Kysely, sql } from 'kysely';
 
-import type { Database } from '@app/types';
-import type { Ingredient } from '@app/types';
+import type { Database, Ingredient } from '@app/types';
 
 async function getAlcoholsByDegree(
   db: Kysely<Database>,
