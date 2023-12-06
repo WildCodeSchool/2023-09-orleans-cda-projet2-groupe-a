@@ -16,22 +16,26 @@ export default function ProfilPage() {
         <img
           src='profil-page/bubble.png'
           alt=''
-          className='absolute right-[20%] top-[25%] h-[450px] w-[450px] rotate-[80deg] sm:right-[-6%] sm:top-[-5%] sm:h-[450px] sm:w-[450px] sm:rotate-0'
+          className='absolute right-[20%] top-[25%] h-[450px] w-[450px] rotate-[80deg] md:right-[-9%] md:top-[-5%] md:h-[350px] md:w-[500px] md:rotate-[-15deg] lg:right-[1%] lg:top-[0%] lg:h-[350px] lg:w-[550px]'
         />
         {/**  md:right-[-6%] md:top-[-7%] md:h-[65%] md:w-[55%] lg:right-[1%] lg:h-[70%] lg:w-[45%] */}
         {/**  sm:right-[7%] sm:top-[15%] sm:rotate-[30deg] lg:right-[14%] lg:top-[20%] lg:rotate-[25deg] */}
-        <div className='absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center'>
-          <div className='felx flex-col gap-1'>
-            <h2 className='uppercase'>{'email:'}</h2>
-            <p>{'email.fake@gmail.com'}</p>
-            <p className='text-xs'>{'change your email'}</p>
-            <h2 className='uppercase'>{'password:'}</h2>
-            <p>{'*********'}</p>
-            <p className='text-xs'>{'change your password'}</p>
+        <div className='md:w-[500px]] absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center md:right-[-10%] md:top-[-5%] md:h-[350px] md:rotate-[20deg] lg:right-[1%] lg:top-[2%] lg:h-[350px] lg:w-[500px]'>
+          <div className='flex flex-col gap-3'>
+            <div className='flex flex-col gap-1'>
+              <h2 className='uppercase'>{'email:'}</h2>
+              <p className='lg:text-md md:text-sm'>{'email.fake@gmail.com'}</p>
+              <p className='text-xs'>{'change your email'}</p>
+            </div>
+            <div className='flex flex-col gap-1'>
+              <h2 className='uppercase'>{'password:'}</h2>
+              <p>{'*********'}</p>
+              <p className='text-xs'>{'change your password'}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div className='relative top-[50px] flex w-screen flex-col items-center sm:top-[-400px] md:top-[-300px] lg:top-[-100px]'>
+      <div className='relative top-[50px] flex w-screen flex-col items-center md:top-[-300px] lg:top-[-100px]'>
         <h1 className='font-stroke-profile-h2 text-light mb-10 mt-5 text-xl font-extrabold uppercase sm:absolute sm:right-[75%] sm:top-[17%] sm:w-[160px] md:right-[80%] md:top-[20%] lg:top-[22%] lg:w-[200px] lg:text-2xl '>
           {'your recipes'}
         </h1>
