@@ -48,7 +48,7 @@ export default function IngredientsPart({
         {isLoading
           ? undefined
           : data.map((ingredient: Oneingredient) => (
-              <div key={ingredient.name} className='flex gap-3'>
+              <div key={ingredient.name + Date.now()} className='flex gap-3'>
                 <input
                   className='hover:cursor-pointer'
                   type='radio'

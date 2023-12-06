@@ -1,4 +1,5 @@
 import express from 'express';
+import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
@@ -10,10 +11,7 @@ ingredient.get('/:ingredientId', async (req, res) => {
   // It get the 6 most popular ingredients base on one ingredient
   const ingredientsByIngredient = await db
     .selectFrom('ingredient')
-    .select(({ fn }) => [
-      'ingredient.name',
-      fn.count<number>('ingredient.id').as('count'),
-    ])
+    .select(['ingredient.id', 'ingredient.name'])
     .innerJoin(
       'action_ingredient',
       'ingredient.id',
@@ -39,37 +37,22 @@ ingredient.get('/:ingredientId', async (req, res) => {
           Number.parseInt(ingredientId),
         ),
     )
-    .groupBy('ingredient.name')
-    .orderBy('count', 'desc')
+    .groupBy('ingredient.id')
+    .orderBy(sql`COUNT(ingredient.id)`, 'desc')
     .limit(6)
     .offset(1)
     .execute();
 
-  // It get all the ingredients
-  const ingredient = async () =>
-    await db.selectFrom('ingredient').selectAll().execute();
+  // It complete my function with random ingredients, in cas there is not enough
+  const ingredient = await db
+    .selectFrom('ingredient')
+    .select(['ingredient.id', 'ingredient.name'])
+    .where('ingredient.id', '!=', Number.parseInt(ingredientId))
+    .orderBy(sql`rand()`)
+    .limit(6 - ingredientsByIngredient.length)
+    .execute();
 
-  // It check if i have enough ingredients to return 6. If not, it add random ingredients
-  for (let index = ingredientsByIngredient.length; index < 6; index++) {
-    const ingredientArray = await ingredient();
-    const randomNumber = Math.floor(Math.random() * ingredientArray.length);
-    const randomIngredient = ingredientArray[randomNumber];
-
-    if (
-      ingredientsByIngredient.some(
-        (ingredient) =>
-          ingredient.name === randomIngredient.name &&
-          Number.parseInt(ingredientId) === randomIngredient.id,
-      )
-    ) {
-      index--;
-    } else {
-      const newIngredient = { name: randomIngredient.name, count: 0 };
-      ingredientsByIngredient.push(newIngredient);
-    }
-  }
-
-  return res.json(ingredientsByIngredient);
+  return res.json([...ingredientsByIngredient, ...ingredient]);
 });
 
 export { ingredient };
