@@ -22,12 +22,12 @@ export default function ProfilPage() {
         {/**  sm:right-[7%] sm:top-[15%] sm:rotate-[30deg] lg:right-[14%] lg:top-[20%] lg:rotate-[25deg] */}
         <div className='md:w-[500px]] absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center md:right-[-10%] md:top-[-5%] md:h-[350px] md:rotate-[20deg] lg:right-[1%] lg:top-[2%] lg:h-[350px] lg:w-[500px]'>
           <div className='flex flex-col gap-3'>
-            <div className='flex flex-col gap-1'>
+            <div>
               <h2 className='uppercase'>{'email:'}</h2>
               <p className='lg:text-md md:text-sm'>{'email.fake@gmail.com'}</p>
               <p className='text-xs'>{'change your email'}</p>
             </div>
-            <div className='flex flex-col gap-1'>
+            <div>
               <h2 className='uppercase'>{'password:'}</h2>
               <p>{'*********'}</p>
               <p className='text-xs'>{'change your password'}</p>
