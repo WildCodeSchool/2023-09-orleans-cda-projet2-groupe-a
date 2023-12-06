@@ -9,7 +9,7 @@ export default function Register() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [birthdate, setBirthdate] = useState<string>('');
+  // const [birthdate, setBirthdate] = useState<string>('');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
@@ -77,12 +77,12 @@ export default function Register() {
             }}
           />
           <input
-            className='2px m-1 rounded border border-green-400 p-1'
-            type='birthdate'
-            placeholder='Birthdate'
-            value={birthdate}
+            className='2px m-1 rounded border border-red-400 p-1'
+            type='password'
+            placeholder='Confirm your password'
+            value={password}
             onChange={(event) => {
-              setEmail(event.target.value);
+              setPassword(event.target.value);
             }}
           />
           <button
