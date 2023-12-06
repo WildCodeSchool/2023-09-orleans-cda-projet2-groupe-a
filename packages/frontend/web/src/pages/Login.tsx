@@ -55,10 +55,10 @@ export default function Login() {
         />
         <form
           onSubmit={onSubmit}
-          className='flex flex-col absolute z-50 m-4 w-2/5'
+          className='absolute z-50 m-4 flex w-2/5 flex-col'
         >
           <input
-            className='2px m-1 rounded border border-green-400 p-1 md:w-96 sm:w-8 text-center text-sm md:text-xl'
+            className='2px m-1 rounded border border-green-400 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
             type='email'
             placeholder='Email'
             value={email}
@@ -67,7 +67,7 @@ export default function Login() {
             }}
           />
           <input
-            className='2px m-1 rounded border border-red-400 p-1 md:w-96 sm:w-8 text-center text-sm md:text-xl'
+            className='2px m-1 rounded border border-red-400 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
             type='password'
             placeholder='Password'
             value={password}
@@ -76,7 +76,7 @@ export default function Login() {
             }}
           />
           <button
-            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 font-bold text-white hover:bg-blue-700 md:w-96 sm:w-8 text-sm md:text-xl'
+            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 sm:w-8 md:w-96 md:text-xl'
             type='submit'
           >
             {'Login'}
