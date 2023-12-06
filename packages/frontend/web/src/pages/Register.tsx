@@ -9,7 +9,7 @@ export default function Register() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  // const [birthdate, setBirthdate] = useState<string>('');
+  const [birthdate, setBirthdate] = useState<string>('');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
@@ -18,7 +18,7 @@ export default function Register() {
     // Await suspend l'exécution du code à la résolution de la promesse.
     // Param1 du fetch : adresse du serveur et route.
     // Param2: un objet contenant
-    const res = await fetch('localhost:3333/api/auth/login', {
+    const res = await fetch('http://10.0.28.76:3333/api/auth/register', {
       method: 'POST',
       credentials: 'include', // optionnel mais indispensable pour retrouver le cookie.
       headers: {
@@ -83,6 +83,15 @@ export default function Register() {
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
+            }}
+          />
+          <input
+            className='2px m-1 rounded border border-green-400 p-1'
+            type='birthdate'
+            placeholder='Birthdate'
+            value={birthdate}
+            onChange={(event) => {
+              setBirthdate(event.target.value);
             }}
           />
           <button
