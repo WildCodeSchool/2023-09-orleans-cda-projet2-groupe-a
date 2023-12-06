@@ -216,6 +216,7 @@ module.exports = {
         ],
         'react/style-prop-object': 'error',
         'react/void-dom-elements-no-children': 'error',
+        'unicorn/no-null': 'off',
         'unicorn/prevent-abbreviations': [
           'error',
           {

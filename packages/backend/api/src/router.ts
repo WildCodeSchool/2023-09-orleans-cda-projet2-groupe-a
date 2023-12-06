@@ -4,7 +4,11 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { cocktailRouter } from './cocktail';
+
 const router = express.Router();
+
+router.use('/cocktail', cocktailRouter);
 
 router.get('/', async (_request, response) => {
   // you can remove this; it's just for the demo

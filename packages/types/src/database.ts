@@ -84,6 +84,7 @@ export interface CocktailTable {
     | 'neutral';
   created_at: Date;
   total_quantity: number;
+  anecdote: string;
 }
 export interface CommentTable {
   id: Generated<number>;
@@ -209,7 +210,7 @@ export type Ingredient = Selectable<IngredientTable>;
 export type NewIngredient = Insertable<IngredientTable>;
 export type IngredientUpdate = Updateable<IngredientTable>;
 
-export type Cocktail = Selectable<CocktailTable>;
+export type Cocktail = Selectable<CocktailTable> | undefined;
 export type NewCocktail = Insertable<CocktailTable>;
 export type CocktailUpdate = Updateable<CocktailTable>;
 

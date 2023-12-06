@@ -1,0 +1,93 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { Upload } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+
+import type { CocktailProps, Inputs } from '@app/types';
+
+export default function CocktailForm({ cocktail }: CocktailProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({
+    defaultValues: {
+      anecdote: '',
+      file: '',
+    },
+  });
+
+  const onSubmit = async (data: Inputs) => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/cocktail/${cocktail?.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error(`Fetch anecdote error, ${error}`);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap ${
+            cocktail?.anecdote === undefined ? '' : 'hidden'
+          }`}
+        >
+          <div className='mt-6 text-center'>
+            <label htmlFor='text' className='uppercase'>
+              {cocktail?.name}
+            </label>
+            <input
+              type='text'
+              id='text'
+              placeholder='Put your description !'
+              className='bg-light-beige border-dark mt-10 h-[13rem] w-[85%] rounded-sm border-2 p-5'
+              {...register('anecdote', {
+                required: false,
+                maxLength: { value: 255, message: 'Max length exceeded !' },
+              })}
+            />
+            <p className='ms-5 mt-5 text-[rgb(232,40,40)]'>
+              {errors.anecdote?.message}
+            </p>
+            <div className='flex ps-10'>
+              <Upload
+                color='#0E0F0F'
+                className='stroke-4 my-auto me-4 h-7 w-7'
+                style={{ strokeWidth: '3' }}
+              />
+              <label htmlFor='text' className='uppercase' />
+              <input
+                type='file'
+                {...register('file', {
+                  required: false,
+                })}
+                className='cursor-pointer'
+              />
+            </div>
+            <button type='submit' className='ms-auto flex items-center p-3'>
+              <p className='uppercase'>{`shake it !`}</p>
+              <img
+                src='/shaker.svg'
+                alt='shaker'
+                className=' my-auto h-10 w-10 rotate-[30deg] cursor-pointer'
+              />
+            </button>
+          </div>
+        </form>
+      </div>
+      <div
+        className={`border-dark bg-pastel-beige m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px] uppercase ${
+          cocktail?.anecdote === undefined ? 'hidden' : ''
+        }`}
+      >
+        <h3 className='m-4 mt-8 text-center uppercase'>{`discover me !!!`}</h3>
+        <p className='p-5'>{cocktail?.anecdote}</p>
+      </div>
+    </div>
+  );
+}
