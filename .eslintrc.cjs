@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       rules: {
-        'no-console': 'warn',
+        'no-console': ['warn', { allow: ['warn', 'error'] }],
         'no-extra-boolean-cast': 'off',
         'no-unused-vars': 'off',
         '@typescript-eslint/consistent-type-exports': 'error',

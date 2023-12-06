@@ -10,8 +10,6 @@ import StarRating from '@/components/cocktail-detail/StarRating';
 
 export default function CocktailsDetails() {
   const { id } = useParams();
-
-  const [error, setError] = useState();
   const [cocktail, setCocktail] = useState<Cocktail>();
 
   const fetchCocktails = async (url: string, signal: AbortSignal) => {
@@ -34,7 +32,7 @@ export default function CocktailsDetails() {
       `${import.meta.env.VITE_API_URL}/cocktail/${id}`,
       signal,
     ).catch((error) => {
-      setError(error);
+      throw new Error(error);
     });
 
     return () => {
