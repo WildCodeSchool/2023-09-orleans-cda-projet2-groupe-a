@@ -37,10 +37,10 @@ ingredient.get('/:ingredientId', async (req, res) => {
           Number.parseInt(ingredientId),
         ),
     )
+    .where('ingredient.id', '!=', Number.parseInt(ingredientId))
     .groupBy('ingredient.id')
     .orderBy(sql`COUNT(ingredient.id)`, 'desc')
     .limit(6)
-    .offset(1)
     .execute();
 
   // It complete my function with random ingredients, in cas there is not enough

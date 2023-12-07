@@ -53,6 +53,7 @@ export interface ToppingPartProps {
   errors: FieldErrors<CocktailForm>;
 }
 
-export interface Oneingredient {
+export interface OneIngredient {
+  id: number;
   name: string;
 }

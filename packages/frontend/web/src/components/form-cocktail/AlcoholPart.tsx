@@ -57,7 +57,7 @@ export default function AlcoholPart({
               </li>
               {alcohols.map((alcohol) => (
                 <li
-                  key={alcohol.name}
+                  key={alcohol.name + Date.now()}
                   className='w-[100px] hover:cursor-pointer'
                   onClick={() => {
                     handleClickAlcohol(alcohol);
