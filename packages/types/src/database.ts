@@ -12,7 +12,7 @@ export interface UserTable {
   email: string;
   password: string;
   pseudo: string;
-  image: string;
+  image?: string;
   birthdate: Date;
   created_at?: Date;
 }
