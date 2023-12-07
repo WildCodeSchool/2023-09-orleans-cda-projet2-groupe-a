@@ -210,7 +210,7 @@ export type Ingredient = Selectable<IngredientTable>;
 export type NewIngredient = Insertable<IngredientTable>;
 export type IngredientUpdate = Updateable<IngredientTable>;
 
-export type Cocktail = Selectable<CocktailTable> | undefined;
+export type Cocktail = Selectable<CocktailTable>;
 export type NewCocktail = Insertable<CocktailTable>;
 export type CocktailUpdate = Updateable<CocktailTable>;
 

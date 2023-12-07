@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
@@ -10,17 +10,19 @@ import StarRating from '@/components/cocktail-detail/StarRating';
 
 export default function CocktailsDetails() {
   const { id } = useParams();
-  const [cocktail, setCocktail] = useState<Cocktail>();
+  const [cocktail, setCocktail] = useState<Cocktail | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchCocktails = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
-      signal: signal,
+      signal,
     });
     if (response.ok) {
       const data = await response.json();
       setCocktail(data.cocktails);
+      setIsLoading(false);
     } else {
-      throw new Error(`Request error: ${response.status}`);
+      console.error(`Request error: ${response.status}`);
     }
   };
 
@@ -32,7 +34,7 @@ export default function CocktailsDetails() {
       `${import.meta.env.VITE_API_URL}/cocktail/${id}`,
       signal,
     ).catch((error) => {
-      throw new Error(error);
+      console.error(error);
     });
 
     return () => {
@@ -40,13 +42,17 @@ export default function CocktailsDetails() {
     };
   }, [id]);
 
-  return (
+  if (cocktail === undefined && !isLoading) {
+    return <Navigate to='/' />;
+  }
+
+  return cocktail ? (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('/bg-details.png')` }}
     >
       <h1 className='font-stroke text-light z-50 mx-5 pt-10 text-center text-[1.6rem] font-extrabold uppercase sm:pt-16 sm:text-start'>
-        {cocktail?.name}
+        {cocktail.name}
       </h1>
       <div className='flex flex-col sm:flex-row'>
         <div className='relative h-[30rem] w-[25rem]'>
@@ -86,7 +92,7 @@ export default function CocktailsDetails() {
       <div className='relative left-10 mb-20 sm:hidden'>
         <div className='border-dark bg-card-pink-dark absolute m-auto mb-20 h-[21rem] w-[18rem] -rotate-3 rounded-sm border-[3px] uppercase'>
           <img
-            src='/packagescocktail-placeholder.png'
+            src='/cocktail-placeholder.png'
             alt='Cocktail picture'
             className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
           />
@@ -112,5 +118,5 @@ export default function CocktailsDetails() {
         </div>
       </div>
     </div>
-  );
+  ) : undefined;
 }

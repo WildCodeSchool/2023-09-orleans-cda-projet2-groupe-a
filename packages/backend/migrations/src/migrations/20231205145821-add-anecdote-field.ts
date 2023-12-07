@@ -16,7 +16,7 @@ export async function down(db: Kysely<Database>): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await sql`
       ALTER TABLE cocktail
-      DROP anecdote TEXT NULL;
+      DROP COLUMN anecdote;
     `.execute(trx);
   });
 }

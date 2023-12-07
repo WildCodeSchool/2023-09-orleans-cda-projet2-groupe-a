@@ -19,7 +19,7 @@ export type File = {
 };
 
 // Input de la page cocktail-detail
-export type Inputs = {
+export type InputCocktailForm = {
   anecdote: string;
   file: string;
 };

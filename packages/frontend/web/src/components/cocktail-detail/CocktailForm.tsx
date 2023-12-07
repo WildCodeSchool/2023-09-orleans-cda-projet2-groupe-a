@@ -1,30 +1,29 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Upload } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import type { CocktailProps, Inputs } from '@app/types';
+import type { CocktailProps, InputCocktailForm } from '@app/types';
 
 export default function CocktailForm({ cocktail }: CocktailProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<InputCocktailForm>({
     defaultValues: {
       anecdote: '',
       file: '',
     },
   });
 
-  const onSubmit = async (data: Inputs) => {
+  const onSubmit = async (data: InputCocktailForm) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/cocktail/${cocktail?.id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-    } catch (error) {
-      console.error(`Fetch anecdote error, ${error}`);
+    } catch {
+      console.error(`Request error`);
     }
   };
 
@@ -33,13 +32,11 @@ export default function CocktailForm({ cocktail }: CocktailProps) {
       <div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={`border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap ${
-            cocktail?.anecdote === undefined ? '' : 'hidden'
-          }`}
+          className={`border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap`}
         >
-          <div className='mt-6 text-center'>
+          <div className='mx-auto mt-6 flex flex-col items-center'>
             <label htmlFor='text' className='uppercase'>
-              {cocktail?.name}
+              {cocktail.name}
             </label>
             <input
               type='text'
@@ -57,17 +54,10 @@ export default function CocktailForm({ cocktail }: CocktailProps) {
             <div className='flex ps-10'>
               <Upload
                 color='#0E0F0F'
-                className='stroke-4 my-auto me-4 h-7 w-7'
+                className='stroke-4 my-auto h-7 w-7'
                 style={{ strokeWidth: '3' }}
               />
               <label htmlFor='text' className='uppercase' />
-              <input
-                type='file'
-                {...register('file', {
-                  required: false,
-                })}
-                className='cursor-pointer'
-              />
             </div>
             <button type='submit' className='ms-auto flex items-center p-3'>
               <p className='uppercase'>{`shake it !`}</p>
@@ -81,12 +71,11 @@ export default function CocktailForm({ cocktail }: CocktailProps) {
         </form>
       </div>
       <div
-        className={`border-dark bg-pastel-beige m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px] uppercase ${
-          cocktail?.anecdote === undefined ? 'hidden' : ''
-        }`}
+        className={`border-dark bg-pastel-beige } m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px]
+        uppercase`}
       >
         <h3 className='m-4 mt-8 text-center uppercase'>{`discover me !!!`}</h3>
-        <p className='p-5'>{cocktail?.anecdote}</p>
+        <p className='p-5'>{cocktail.anecdote}</p>
       </div>
     </div>
   );
