@@ -46,7 +46,16 @@ export default function CocktailsDetails() {
     return <Navigate to='/' />;
   }
 
-  return cocktail ? (
+  if (isLoading) {
+    return null;
+  }
+  if (!cocktail) {
+    return <Navigate to='/' />;
+
+    return;
+  }
+
+  return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('/bg-details.png')` }}
@@ -118,5 +127,5 @@ export default function CocktailsDetails() {
         </div>
       </div>
     </div>
-  ) : undefined;
+  );
 }
