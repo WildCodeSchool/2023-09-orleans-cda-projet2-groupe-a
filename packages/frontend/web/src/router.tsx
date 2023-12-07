@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
-import ProfilPage from './pages/ProfilPage';
+import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'profile',
-    element: <ProfilPage />,
+    element: <ProfilePage />,
   },
   {
     path: '/details',

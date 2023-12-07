@@ -1,0 +1,76 @@
+import CocktailCard from '@/components/CocktailCard';
+
+export default function ProfilePage() {
+  return (
+    <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('profile-page/bg-profil-page.png')] bg-cover ">
+      <h1 className='font-stroke-profile-main text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-10 sm:pt-16 sm:text-start sm:text-[2.5rem]'>
+        {'Welcome Justin'}
+      </h1>
+      <div className="gb-center relative right-[48%] flex h-[75%] w-[200%] items-center justify-center bg-[url('profile-page/profile-header.png')] bg-contain bg-no-repeat sm:right-[0%] sm:m-2 sm:w-[97%] lg:m-6">
+        {/* <img
+          className='absolute left-[41%] top-[7%] w-[20%] sm:top-[6%] md:top-[8%] lg:top-[10%] '
+          src='profile-page/avatar.png'
+          alt=''
+        />
+        <p className='rotate relative right-[-14%] top-[-25%] w-[50px] rotate-[30deg] text-[0.60rem] sm:right-[14%] sm:top-[-28%] md:right-[12%] md:top-[-23%] lg:right-[12%] lg:top-[-15%] lg:rotate-[40deg] lg:text-sm'>
+          {'change your avatar'}
+        </p> */}
+        <img
+          src='profile-page/bubble.png'
+          alt=''
+          className='absolute right-[20%] top-[25%] h-[450px] w-[450px] rotate-[80deg] lg:right-[10%] lg:top-[25%] lg:h-[450px] lg:w-[450px] lg:rotate-[35deg]'
+        />
+        <div className='md:w-[500px]] absolute right-[20%] top-[25%] flex h-[450px] w-[450px] rotate-[25deg] items-center justify-center lg:right-[10%] lg:top-[25%] lg:h-[450px] lg:w-[450px]'>
+          <div className='flex flex-col gap-3'>
+            <div>
+              <h2 className='uppercase'>{'email:'}</h2>
+              <p className='lg:text-md md:text-sm'>{'email.fake@gmail.com'}</p>
+              <p className='text-xs'>{'change your email'}</p>
+            </div>
+            <div>
+              <h2 className='uppercase'>{'password:'}</h2>
+              <p>{'*********'}</p>
+              <p className='text-xs'>{'change your password'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
+        <h1 className='font-stroke-profile-h2 text-light mb-10 mt-5 text-xl font-extrabold uppercase sm:absolute sm:right-[75%] sm:top-[17%] sm:w-[160px] md:right-[80%] md:top-[20%] lg:top-[22%] lg:w-[200px] lg:text-2xl '>
+          {'your recipes'}
+        </h1>
+        <div className="z-20 h-[240px] w-[350px] bg-[url('profile-page/miss-hold-it.png')] bg-cover sm:h-[400px] sm:w-[600px]" />
+        <div className='bg-light border-dark relative top-[-40px] z-10 h-[400px] w-full overflow-y-scroll border-y-[6px] sm:top-[-60px] sm:h-[800px] sm:w-[80%] sm:border-[6px]'>
+          <div className='grid h-[400px] gap-5 gap-y-10 overflow-y-visible md:grid-cols-2 lg:grid-cols-3'>
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+            <CocktailCard />
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1 className='font-stroke-profile-h2 text-light text-xl font-extrabold uppercase lg:text-2xl'>
+          {'your comments'}
+        </h1>
+      </div>
+    </div>
+  );
+}
