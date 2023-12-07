@@ -4,7 +4,7 @@ const numberLevel = [3, 2, 1];
 
 export default function LevelPart({
   level,
-  handleClick,
+  handleLevelClick,
   errors,
 }: LevelPartProps) {
   return (
@@ -32,7 +32,7 @@ export default function LevelPart({
               level >= number ? 'grayscale-0 ' : 'grayscale'
             }`}
             onClick={() => {
-              handleClick(number);
+              handleLevelClick(number);
             }}
           />
         ))}

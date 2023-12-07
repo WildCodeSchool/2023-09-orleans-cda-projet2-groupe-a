@@ -2,21 +2,8 @@ import { useState } from 'react';
 
 import type { AlcoholPartProps } from '@app/types';
 
-const alcoholArray = [
-  'Gin',
-  'Tequila',
-  'Vodka',
-  'Cider',
-  'Amaretto',
-  'Red wine',
-  'White wine',
-  'Peach wine',
-  'Wisky',
-  'Cognac',
-  'Champagne',
-];
-
 export default function AlcoholPart({
+  alcohols,
   handleClickAlcohol,
   watch,
   errors,
@@ -68,16 +55,16 @@ export default function AlcoholPart({
               >
                 {'Alcohol'}
               </li>
-              {alcoholArray.map((name) => (
+              {alcohols.map((alcohol) => (
                 <li
-                  key={name}
+                  key={alcohol.name}
                   className='w-[100px] hover:cursor-pointer'
                   onClick={() => {
-                    handleClickAlcohol(name);
+                    handleClickAlcohol(alcohol.name);
                     handleClickSelect();
                   }}
                 >
-                  {name}
+                  {alcohol.name}
                 </li>
               ))}
             </ul>
