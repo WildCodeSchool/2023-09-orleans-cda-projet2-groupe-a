@@ -1,7 +1,7 @@
 import { MoveRight, Skull } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import type { IngredientsPartProps, OneIngredient } from '@app/types';
+import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
@@ -16,7 +16,7 @@ export default function IngredientsPart({
     `${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`,
   );
 
-  const { data, isLoading } = useFetch<OneIngredient[]>(url);
+  const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
 
   useEffect(() => {
     setUrl(`${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`);
@@ -48,7 +48,7 @@ export default function IngredientsPart({
         {isLoading
           ? undefined
           : data?.map((ingredient) => (
-              <div key={ingredient.name + Date.now()} className='flex gap-3'>
+              <div key={ingredient.id} className='flex gap-3'>
                 <input
                   className='hover:cursor-pointer'
                   type='radio'
