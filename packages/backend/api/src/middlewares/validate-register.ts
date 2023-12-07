@@ -2,11 +2,16 @@ import type { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 const validateRegister = [
-  body('email').exists().isLength({ max: 254 }).notEmpty().trim().isEmail(),
-  body('password').exists().isLength({ max: 255 }).notEmpty(),
-  body('pseudo').exists().isLength({ max: 60 }).notEmpty(),
-  body('image').exists().isLength({ max: 255 }).notEmpty(),
-  body('birthdate').exists().isISO8601().toDate().notEmpty(),
+  body('email')
+    .exists()
+    .trim()
+    .notEmpty()
+    .isLength({ max: 254 })
+    .toLowerCase()
+    .isEmail(),
+  body('password').exists().trim().notEmpty().isLength({ min: 3, max: 255 }),
+  body('pseudo').exists().trim().notEmpty().isLength({ min: 3, max: 60 }),
+  body('birthdate').exists().trim().notEmpty().isISO8601().toDate(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 

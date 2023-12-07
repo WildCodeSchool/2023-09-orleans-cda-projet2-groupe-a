@@ -66,8 +66,7 @@ authRouter.post(
   '/register',
   validateRegister,
   async (req: Request, res: Response) => {
-    const { email, password, pseudo, image, birthdate } =
-      req.body as AuthRegisterBody;
+    const { email, password, pseudo, birthdate } = req.body as AuthRegisterBody;
 
     try {
       const hashedPassword = await Bun.password.hash(password, {
@@ -81,7 +80,6 @@ authRouter.post(
           email,
           password: hashedPassword,
           pseudo,
-          image,
           birthdate,
         })
         .execute();
