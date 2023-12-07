@@ -19,7 +19,7 @@ export default function IngredientsPart({
   const { data, isLoading } = useFetch<Oneingredient[]>(url);
 
   useEffect(() => {
-    setUrl(`http://localhost:3333/api/ingredient/${watch('alcohol.id')}`);
+    setUrl(`${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`);
   }, [watch('alcohol')]);
 
   return (
