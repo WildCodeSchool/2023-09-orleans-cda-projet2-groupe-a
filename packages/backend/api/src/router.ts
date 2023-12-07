@@ -6,6 +6,7 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { getAlcoholsByDegree } from './services/alcohol-service';
+import { user } from './user';
 
 const router = express.Router();
 
@@ -37,5 +38,6 @@ router.get('/alcohols/:level', async (req, res) => {
   }
 });
 router.use('/auth', authRouter);
+router.use('/user', user);
 
 export default router;
