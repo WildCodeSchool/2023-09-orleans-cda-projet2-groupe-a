@@ -1,22 +1,31 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus } from 'lucide-react';
+import { useState } from 'react';
 
 import { useDisclosure } from '@app/frontend-shared';
 
 import CocktailCard from '@/components/CocktailCard';
 import Comment from '@/components/Comment';
 import StarRating from '@/components/StarRating';
+import useFetch from '@/hooks/use-fetch';
 
 // Add the correct import path for StarRating
 
 export default function ProfilePage() {
+  const [user, setUser] = useState();
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
     useDisclosure(false);
+  const urlCocktail = 'http://localhost:3333/api/user/1/';
+
+  const { data, isLoading } = useFetch(urlCocktail);
+
+  console.log({ data });
+  console.log(isLoading);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('profile-page/bg-profil-page.png')] bg-cover ">
       <h1 className='font-stroke-profile-main text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-10 sm:pt-16 sm:text-start sm:text-[2.5rem]'>
-        {'Welcome Justin'}
+        {`Welcome ${data?.pseudo}`}
       </h1>
       <div className="gb-center relative right-[54%] flex h-[75%] w-[200%] items-center justify-center bg-[url('profile-page/profile-header.png')] bg-contain bg-no-repeat sm:right-[0%] sm:m-2 sm:w-[97%] lg:m-6">
         {/* <img
