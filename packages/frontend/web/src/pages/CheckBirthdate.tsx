@@ -63,7 +63,7 @@ export default function CheckBirthdate() {
             className='m-4 flex flex-col items-center justify-center pt-[.5rem]'
           >
             <input
-              className='z-50 2px border-dark h-18 m-1 rounded border-8 p-1 text-center  text-sm sm:w-8 md:w-96 md:text-3xl'
+              className='2px border-dark h-18 z-50 m-1 rounded border-8 p-1 text-center  text-sm sm:w-8 md:w-96 md:text-3xl'
               type='birthdate'
               placeholder='Birthdate'
               value={birthdate}
