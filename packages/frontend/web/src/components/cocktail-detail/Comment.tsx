@@ -7,7 +7,7 @@ export default function Comment({ numberComment }: CommentProps) {
         <img
           key={index}
           src='/comment.png'
-          className='w-full p-2 sm:w-1/2 md:w-1/3 lg:w-[1/4]'
+          className='w-full p-2 sm:w-1/2 md:w-1/3 lg:w-1/4'
         />
       ))}
     </div>
