@@ -31,7 +31,7 @@ module.exports = {
         },
       },
       rules: {
-        'no-console': 'warn',
+        'no-console': ['warn', { allow: ['warn', 'error'] }],
         'no-extra-boolean-cast': 'off',
         'no-unused-vars': 'off',
         '@typescript-eslint/consistent-type-exports': 'error',
@@ -216,6 +216,7 @@ module.exports = {
         ],
         'react/style-prop-object': 'error',
         'react/void-dom-elements-no-children': 'error',
+        'unicorn/no-null': 'off',
         'unicorn/prevent-abbreviations': [
           'error',
           {

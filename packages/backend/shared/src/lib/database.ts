@@ -30,12 +30,10 @@ try {
   await sql`SELECT 1;`.execute(db);
 } catch (error) {
   if (error instanceof Error) {
-    // eslint-disable-next-line no-console
     console.error(
       `Failed to connect to database using "${DB_HOST}:${DB_PORT}" (${error.message})`,
     );
   } else {
-    // eslint-disable-next-line no-console
     console.error('Failed to connect to database', error);
   }
 }
