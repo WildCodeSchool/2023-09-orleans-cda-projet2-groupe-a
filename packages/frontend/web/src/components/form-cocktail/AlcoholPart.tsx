@@ -57,10 +57,10 @@ export default function AlcoholPart({
               </li>
               {alcohols.map((alcohol) => (
                 <li
-                  key={alcohol.name}
+                  key={alcohol.id}
                   className='w-[100px] hover:cursor-pointer'
                   onClick={() => {
-                    handleClickAlcohol(alcohol.name);
+                    handleClickAlcohol(alcohol);
                     handleClickSelect();
                   }}
                 >
@@ -76,7 +76,7 @@ export default function AlcoholPart({
                   handleClickSelect();
                 }}
               >
-                {watch('alcohol') ?? 'Alcohol'}
+                {watch('alcohol.name') || 'Alcohol'}
               </li>
             </ul>
           )}
