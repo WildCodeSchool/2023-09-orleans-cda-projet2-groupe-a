@@ -5,10 +5,13 @@ import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
+import { cocktailRouter } from './cocktail';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { user } from './user';
 
 const router = express.Router();
+
+router.use('/cocktail', cocktailRouter);
 
 router.get('/', async (_request, response) => {
   const result = await sql<{

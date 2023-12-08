@@ -84,6 +84,7 @@ export interface CocktailTable {
     | 'neutral';
   created_at: Date;
   total_quantity: number;
+  anecdote: string;
 }
 export interface CommentTable {
   id: Generated<number>;
