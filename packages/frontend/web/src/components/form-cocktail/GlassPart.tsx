@@ -26,7 +26,7 @@ export default function GlassPart({ register, errors }: GlassPartProps) {
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
         <input
           className='w-[150px]'
-          value={'Wisky glass'}
+          value={'Whisky glass'}
           {...register('glass', {
             required: true,
             maxLength: { value: 255, message: "can't be longer than 255" },

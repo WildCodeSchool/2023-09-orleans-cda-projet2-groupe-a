@@ -62,7 +62,7 @@ export default function AddCocktail() {
     }
   };
 
-  const handleClickAlcohol = (alcohol: string) => {
+  const handleClickAlcohol = (alcohol: Ingredient) => {
     setValue('alcohol', alcohol, { shouldValidate: true });
   };
 
@@ -71,7 +71,10 @@ export default function AddCocktail() {
 
     if (alcoholValue === undefined) {
       setError('alcohol', { type: 'required', message: 'required' });
-    } else if (typeof alcoholValue === 'string' && alcoholValue.length <= 255) {
+    } else if (
+      typeof alcoholValue.name === 'string' &&
+      alcoholValue.name.length <= 255
+    ) {
       clearErrors('alcohol');
     } else {
       setError('alcohol', {
@@ -172,6 +175,7 @@ export default function AddCocktail() {
           selectedIngredient={selectedIngredient}
           handleIngredientChange={handleIngredientChange}
           errors={errors}
+          watch={watch}
         />
       ),
     },

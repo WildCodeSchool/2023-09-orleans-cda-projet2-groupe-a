@@ -6,6 +6,7 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
+import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { user } from './user';
 
@@ -40,7 +41,9 @@ router.get('/alcohols/:level', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 router.use('/auth', authRouter);
 router.use('/user', user);
+router.use('/ingredient', ingredient);
 
 export default router;
