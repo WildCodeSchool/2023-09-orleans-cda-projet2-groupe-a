@@ -1,5 +1,4 @@
 import { MoveRight, Skull } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 import type { Ingredient, IngredientsPartProps } from '@app/types';
 
