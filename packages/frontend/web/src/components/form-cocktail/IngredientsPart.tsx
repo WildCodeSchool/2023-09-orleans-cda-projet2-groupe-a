@@ -12,15 +12,11 @@ export default function IngredientsPart({
   errors,
   watch,
 }: IngredientsPartProps) {
-  const [url, setUrl] = useState(
-    `${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`,
-  );
+  const url = `${import.meta.env.VITE_API_URL}/ingredient/${watch(
+    'alcohol.id',
+  )}`;
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
-
-  useEffect(() => {
-    setUrl(`${import.meta.env.VITE_API_URL}/ingredient/${watch('alcohol.id')}`);
-  }, [watch('alcohol')]);
 
   return (
     <>
