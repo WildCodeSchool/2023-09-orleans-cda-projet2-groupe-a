@@ -51,8 +51,6 @@ export default function CocktailsDetails() {
   }
   if (!cocktail) {
     return <Navigate to='/' />;
-
-    return;
   }
 
   return (

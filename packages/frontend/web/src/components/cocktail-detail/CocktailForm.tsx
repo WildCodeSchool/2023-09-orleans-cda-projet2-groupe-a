@@ -54,8 +54,7 @@ export default function CocktailForm({ cocktail }: CocktailProps) {
             <div className='flex ps-10'>
               <Upload
                 color='#0E0F0F'
-                className='my-auto h-7 w-7'
-                style={{ strokeWidth: '3' }}
+                className='my-auto h-7 w-7 stroke-[3px]'
               />
               <label htmlFor='text' className='uppercase' />
             </div>
