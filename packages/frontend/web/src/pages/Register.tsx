@@ -9,8 +9,8 @@ export default function Register() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
-  console.log(birthdate);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
@@ -19,7 +19,7 @@ export default function Register() {
     // Await suspend l'exécution du code à la résolution de la promesse.
     // Param1 du fetch : adresse du serveur et route.
     // Param2: un objet contenant
-    const res = await fetch('http://10.0.28.76:3333/api/auth/register', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
       method: 'POST',
       credentials: 'include', // optionnel mais indispensable pour retrouver le cookie.
       headers: {
@@ -47,63 +47,85 @@ export default function Register() {
   }
 
   return (
-    <>
-      {/* */}
-      <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
-        <img
-          src='enter.svg'
-          alt='boom enter'
-          className='z-40 h-full w-4/5 justify-center'
-        />
-        <form
-          onSubmit={onSubmit}
-          className='absolute z-50 m-6 w-1/4 justify-items-center'
-        >
-          <input
-            className='2px m-1 rounded border border-green-400 p-1'
-            type='email'
-            placeholder='Email'
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
-          <input
-            className='2px m-1 rounded border border-red-400 p-1'
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-          <input
-            className='2px m-1 rounded border border-red-400 p-1'
-            type='password'
-            placeholder='Confirm your password'
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-          <input
-            className='2px m-1 rounded border border-green-400 p-1'
-            type='birthdate'
-            placeholder='Birthdate'
-            value={birthdate}
-            onChange={(event) => {
-              setBirthdate(event.target.value);
-            }}
-          />
-          <button
-            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 font-bold text-white hover:bg-blue-700'
-            type='submit'
-          >
+    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
+      <div
+        className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        style={{ backgroundImage: `url('/enter.svg')` }}
+      >
+        <div className='flex h-screen w-screen flex-col items-center justify-center'>
+          <h1 className='text-light font-stroke text-center  text-5xl font-bold'>
             {'Register'}
-          </button>
-        </form>
+          </h1>
+          <form
+            onSubmit={onSubmit}
+            className='m-4 flex flex-col items-center justify-center pt-[3.5rem]'
+          >
+            <input
+              className='2px border-dark m-1 gap-2 rounded border-4 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
+              type='email'
+              placeholder='Email'
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
+            <input
+              className='2px border-dark m-1 gap-2 rounded border-4 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
+              type='password'
+              placeholder='Password'
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            />
+            <input
+              className='2px border-dark m-1 gap-2 rounded border-4 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
+              type='password'
+              placeholder='Confirm your password'
+              value={confirmPassword}
+              onChange={(event) => {
+                setConfirmPassword(event.target.value);
+              }}
+            />
+            <input
+              className='2px border-dark m-1 rounded border-4 p-1 text-center text-sm  sm:w-8 md:w-96 md:text-xl'
+              type='birthdate'
+              placeholder='Birthdate'
+              value={birthdate}
+              onChange={(event) => {
+                setBirthdate(event.target.value);
+              }}
+            />
+            <button
+              className='button border-dark m-1 rounded border-4 bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 sm:w-8 md:w-96 md:text-xl'
+              type='submit'
+            >
+              {'Register'}
+            </button>
+          </form>
+        </div>
       </div>
-      {/* */}
-    </>
+      <div className='z-50'>
+        {email !== '' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
+          <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+            {'example@example.com'}
+          </div>
+        )}
+        {confirmPassword !== '' && confirmPassword !== password && (
+          <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+            {'Confirm Password must match Password'}
+          </div>
+        )}
+        {birthdate !== '' &&
+          !/^\d{4}-\d{2}-\d{2}$/.test(birthdate) &&
+          !/^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(
+            birthdate,
+          ) && (
+            <div className='rounded border-2 border-red-600 bg-red-300 p-1'>
+              {'Birthdate format must be YYYY-MM-DD'}
+            </div>
+          )}
+      </div>
+    </div>
   );
 }

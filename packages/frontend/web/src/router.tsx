@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import AddCocktail from './pages/AddCocktail';
+import CheckBirthdate from './pages/CheckBirthdate';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/checkbirthdate',
+    element: <CheckBirthdate />,
   },
   {
     path: '/register',

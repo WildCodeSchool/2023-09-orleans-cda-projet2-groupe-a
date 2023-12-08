@@ -11,20 +11,20 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // pour empêcher le rafraîchissement de la page.
+    event.preventDefault(); // prevents default behaviour that would refresh the page.
 
-    // le fetch envoie une requête à la route /login et retourne une promesse qui est la réponse à la requête.
-    // Await suspend l'exécution du code à la résolution de la promesse.
-    // Param1 du fetch : adresse du serveur et route.
-    // Param2: un objet contenant
-    const res = await fetch('localhost:3333/api/auth/login', {
+    // Fetch sends request to /login route and returns a promise that is the answer to that request.
+    // Await suspends code execution as soon as the promise is resolved.
+    // Param1 from fetch : server adress & route.
+    // Param2: Object ocntaining :
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: 'POST',
-      credentials: 'include', // optionnel mais indispensable pour retrouver le cookie.
+      credentials: 'include', // Optional but essential to find out cookie.
       headers: {
-        'content-type': 'application/json', // L'entête content-type spécifie à Express le type de contenu de la requête HTTP. Aka du JSON.
+        'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
       },
       body: JSON.stringify({
-        // body contient email et password. JSON.stringify convertit l'objet en chaîne JSON.
+        // body contains email & password. JSON.stringify converts the objet into a JSON string.
         email,
         password,
       }),
@@ -32,11 +32,11 @@ export default function Login() {
 
     const data = (await res.json()) as {
       isLoggedIn: boolean;
-    }; // la souris au-dessus de json ci-contre montre que c'est d'une promesse. D'où await devant.
+    }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
 
     if (data.isLoggedIn) {
       setIsLoggedIn(true);
-      navigate('/home'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
+      navigate('/home'); // If the user is logged in, he's redirected towards homepage.
     }
   };
 
@@ -45,45 +45,58 @@ export default function Login() {
   }
 
   return (
-    <>
-      {/* */}
-      <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
-        <img
-          src='enter.svg'
-          alt='boom enter'
-          className='z-40 h-full w-4/5 justify-center'
-        />
-        <form
-          onSubmit={onSubmit}
-          className='absolute z-50 m-4 flex w-2/5 flex-col'
-        >
-          <input
-            className='2px m-1 rounded border border-green-400 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
-            type='email'
-            placeholder='Email'
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-          />
-          <input
-            className='2px m-1 rounded border border-red-400 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
-            type='password'
-            placeholder='Password'
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-          <button
-            className='button m-1 rounded border border-blue-950 bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 sm:w-8 md:w-96 md:text-xl'
-            type='submit'
-          >
+    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
+      <div
+        className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        style={{ backgroundImage: `url('/enter.svg')` }}
+      >
+        <div className='flex h-screen w-screen flex-col items-center justify-center'>
+          <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
-          </button>
-        </form>
+          </h1>
+          <form
+            onSubmit={onSubmit}
+            className='z-50 m-10 flex flex-col items-center gap-2'
+          >
+            <input
+              className='2px border-dark m-1 rounded border-4 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
+              type='email'
+              placeholder='Email'
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
+            <input
+              className='2px border-dark m-1 rounded border-4 p-1 text-center text-sm sm:w-8 md:w-96 md:text-xl'
+              type='password'
+              placeholder='Password'
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            />
+            <button
+              className='button border-dark m-1 rounded border-4 bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 sm:w-8 md:w-96 md:text-xl'
+              type='submit'
+            >
+              {'Login'}
+            </button>
+          </form>
+        </div>
       </div>
-      {/* */}
-    </>
+      <div className='z-50'>
+        {email !== '' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
+          <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+            {'example@example.com'}
+          </div>
+        )}
+        {password == '' && (
+          <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+            {'Password field must be completed'}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
