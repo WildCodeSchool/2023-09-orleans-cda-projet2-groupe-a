@@ -66,12 +66,26 @@
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: #f4f7f6;
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #c0bdbd;
     border-radius: 5px;
+  }
+
+  .scrollbarProfile::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scrollbarProfile::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 35px;
+    border: 2px solid #000000;
+  }
+
+  .scrollbarProfile::-webkit-scrollbar-track {
+    background-color: #f4f7f6;
   }
 
   .font-stroke {
@@ -99,38 +113,6 @@
     -webkit-text-stroke: 0.5px #0e0f0f;
   }
 
-  .filter-black-to-purple {
-    filter: invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg)
-      brightness(94%) contrast(93%);
-  }
-
-  .filter-black-to-yellow {
-    filter: invert(91%) sepia(83%) saturate(6947%) hue-rotate(323deg)
-      brightness(111%) contrast(98%);
-  }
-
-  .filter-black-to-blue {
-    filter: invert(56%) sepia(91%) saturate(1079%) hue-rotate(140deg)
-      brightness(104%) contrast(92%);
-  }
-
-  .filter-black-to-orange {
-    filter: invert(74%) sepia(41%) saturate(4587%) hue-rotate(332deg)
-      brightness(101%) contrast(92%);
-  }
-
-  .filter-black-to-green {
-    filter: invert(75%) sepia(81%) saturate(317%) hue-rotate(99deg)
-      brightness(87%) contrast(87%);
-  }
-
-  .filter-black-to-pink {
-    filter: invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg)
-      brightness(99%) contrast(85%);
-  }
-}
-
-@layer utilities {
   /* Stroke for the font */
   .font-stroke-profile-main {
     text-shadow:
@@ -180,5 +162,35 @@
       0 0 2px #0e0f0f,
       0 0 2px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+
+  .filter-black-to-purple {
+    filter: invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg)
+      brightness(94%) contrast(93%);
+  }
+
+  .filter-black-to-yellow {
+    filter: invert(91%) sepia(83%) saturate(6947%) hue-rotate(323deg)
+      brightness(111%) contrast(98%);
+  }
+
+  .filter-black-to-blue {
+    filter: invert(56%) sepia(91%) saturate(1079%) hue-rotate(140deg)
+      brightness(104%) contrast(92%);
+  }
+
+  .filter-black-to-orange {
+    filter: invert(74%) sepia(41%) saturate(4587%) hue-rotate(332deg)
+      brightness(101%) contrast(92%);
+  }
+
+  .filter-black-to-green {
+    filter: invert(75%) sepia(81%) saturate(317%) hue-rotate(99deg)
+      brightness(87%) contrast(87%);
+  }
+
+  .filter-black-to-pink {
+    filter: invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg)
+      brightness(99%) contrast(85%);
   }
 }
