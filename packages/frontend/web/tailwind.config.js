@@ -80,11 +80,12 @@ export default {
     'bg-card-virgin-salmon',
   ],
   theme: {
+    fontFamily: {
+      sans: ['Mochiy Pop One', 'sans-serif', ...fontFamily.sans],
+    },
     extend: {
-      fontFamily: {
-        sans: ['Mochiy Pop One', 'sans-serif', ...fontFamily.sans],
-      },
       colors: {
+        white: '#FFFFFF',
         light: '#F4F7F6',
         dark: '#0E0F0F',
         'dark-purple': '#9F13AF',

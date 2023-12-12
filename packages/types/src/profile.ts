@@ -19,6 +19,10 @@ export interface UserProfile {
   cocktails: CocktailsProfile[] | null;
 }
 
+export interface UserProfileProps {
+  pseudo: string;
+}
+
 export interface CommentsSectionProfileProps {
   comments: CommentsProfile[] | null;
 }

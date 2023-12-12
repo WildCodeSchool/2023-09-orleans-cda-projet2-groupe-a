@@ -6,6 +6,17 @@ import type { Database } from '@app/types';
 
 const user = express.Router();
 
+// This SQL query retrieves the following:
+// - The user's pseudonym
+// - All cocktails posted by this user, including:
+//    - The average rating received by their cocktails
+//    - The name of each cocktail
+//    - The main ingredient of each cocktail (determined by either the highest alcohol content or the highest quantity)
+// - All comments posted by the user, including:
+//    - The content of each comment
+//    - The rating given in each comment
+//    - The name of the cocktail associated with each comment
+
 async function getUserById(db: Kysely<Database>, id: number) {
   return db.transaction().execute(async (trx) => {
     const result =

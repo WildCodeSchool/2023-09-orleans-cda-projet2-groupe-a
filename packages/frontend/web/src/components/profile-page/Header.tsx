@@ -1,7 +1,6 @@
-import type { UserProfile } from '@app/types';
+import type { UserProfileProps } from '@app/types';
 
-export function Header(data: UserProfile) {
-  const { pseudo } = data;
+export function Header({ pseudo }: UserProfileProps) {
   return (
     <>
       <h1 className='font-stroke-profile-main text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-10 sm:pt-16 sm:text-start sm:text-[2.5rem]'>

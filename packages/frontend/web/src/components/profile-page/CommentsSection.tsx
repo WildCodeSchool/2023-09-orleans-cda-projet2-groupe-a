@@ -59,13 +59,12 @@ export default function CommentsSection({
               transition={{ duration: 1 }}
               className='m-auto mb-20 flex w-[90%] flex-wrap rounded-sm object-contain uppercase sm:w-[90%]'
             >
-              {' '}
               <div className='my-3 flex grid h-full w-full items-center justify-center gap-5 md:grid-cols-2 lg:grid-cols-3'>
                 {comments === null ? (
                   'no comments yet'
                 ) : (
                   <Comments comments={comments} />
-                )}{' '}
+                )}
               </div>
             </motion.div>
           ) : undefined}

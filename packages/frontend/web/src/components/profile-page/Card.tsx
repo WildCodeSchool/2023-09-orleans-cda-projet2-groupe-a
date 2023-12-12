@@ -35,8 +35,8 @@ export default function Card({ cocktails }: CocktailProfileProps) {
                   <img
                     src={`${
                       cocktail.family === 'alcohol'
-                        ? '/placeholder-cocktail.png'
-                        : '/placeholder-cocktail-virgin.png'
+                        ? '/placeholder-cocktail.webp'
+                        : '/placeholder-cocktail-virgin.webp'
                     }`}
                     alt='Cocktail picture'
                     className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
