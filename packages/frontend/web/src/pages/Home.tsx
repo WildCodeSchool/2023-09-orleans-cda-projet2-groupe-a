@@ -7,166 +7,166 @@ import ProfilePart from '@/components/home/ProfilePart';
 import ShakeItPart from '@/components/home/ShakeItPart';
 import VirginPart from '@/components/home/VirginPart';
 
-export default function Home() {
-  const squares = [
-    {
-      color: 'purple',
-      order: {
-        all: 1,
-      },
-      biasSide: {
-        all: ['right'],
-        md: ['right'],
-        lg: ['right'],
-      },
-      width: {
-        all: 105,
-        md: 105,
-        lg: 110,
-      },
-      component: (
-        <Link to='/community'>
-          <CommunityPart />
-        </Link>
-      ),
+const squares = [
+  {
+    color: 'purple',
+    order: {
+      all: 1,
     },
-    {
-      color: 'yellow',
-      order: {
-        all: 4,
-        md: 4,
-        lg: 3,
-      },
-      biasSide: {
-        all: ['left'],
-        md: ['left'],
-        lg: ['right', 'left'],
-      },
-      width: {
-        all: 108,
-        md: 116,
-        lg: 130,
-      },
-      right: {
-        all: 8,
-        md: 16,
-        lg: 15,
-      },
-      component: (
-        <Link to='/profile'>
-          <ProfilePart />
-        </Link>
-      ),
+    biasSide: {
+      all: ['right'],
+      md: ['right'],
+      lg: ['right'],
     },
-    {
-      color: 'blue',
-      order: {
-        all: 2,
-        md: 2,
-        lg: 5,
-      },
-      biasSide: {
-        all: ['left'],
-        md: ['left'],
-        lg: ['left'],
-      },
-      width: {
-        all: 105,
-        md: 105,
-        lg: 108,
-      },
-      right: {
-        all: 0,
-        md: 0,
-        lg: 8,
-      },
-      component: (
-        <Link to='/cocktails'>
-          <CocktailsPart />
-        </Link>
-      ),
+    width: {
+      all: 105,
+      md: 105,
+      lg: 110,
     },
-    {
-      color: 'orange',
-      order: {
-        all: 5,
-        md: 5,
-        lg: 2,
-      },
-      biasSide: {
-        all: ['right'],
-        md: ['right'],
-        lg: ['right'],
-      },
-      width: {
-        all: 108,
-        md: 110,
-        lg: 110,
-      },
-      right: {
-        all: 8,
-        md: 10,
-        lg: 0,
-      },
-      component: (
-        <Link to='/shaker'>
-          <ShakeItPart />
-        </Link>
-      ),
+    component: (
+      <Link to='/community'>
+        <CommunityPart />
+      </Link>
+    ),
+  },
+  {
+    color: 'yellow',
+    order: {
+      all: 4,
+      md: 4,
+      lg: 3,
     },
-    {
-      color: 'green',
-      order: {
-        all: 3,
-        md: 3,
-        lg: 4,
-      },
-      biasSide: {
-        all: ['right'],
-        md: ['right'],
-        lg: ['right', 'left'],
-      },
-      width: {
-        all: 105,
-        md: 105,
-        lg: 103,
-      },
-      component: (
-        <Link to='/virgin'>
-          <VirginPart />
-        </Link>
-      ),
+    biasSide: {
+      all: ['left'],
+      md: ['left'],
+      lg: ['right', 'left'],
     },
-    {
-      color: 'pink',
-      order: {
-        all: '6',
-        md: '6',
-        lg: '6',
-      },
-      biasSide: {
-        all: ['left'],
-        md: ['left'],
-        lg: ['left'],
-      },
-      width: {
-        all: 113,
-        md: 105,
-        lg: 104,
-      },
-      right: {
-        all: 8,
-        md: 5,
-        lg: 4,
-      },
-      component: (
-        <Link to='/favorites'>
-          <FavoritesPart />
-        </Link>
-      ),
+    width: {
+      all: 108,
+      md: 116,
+      lg: 130,
     },
-  ];
+    right: {
+      all: 8,
+      md: 16,
+      lg: 15,
+    },
+    component: (
+      <Link to='/profile'>
+        <ProfilePart />
+      </Link>
+    ),
+  },
+  {
+    color: 'blue',
+    order: {
+      all: 2,
+      md: 2,
+      lg: 5,
+    },
+    biasSide: {
+      all: ['left'],
+      md: ['left'],
+      lg: ['left'],
+    },
+    width: {
+      all: 105,
+      md: 105,
+      lg: 108,
+    },
+    right: {
+      all: 0,
+      md: 0,
+      lg: 8,
+    },
+    component: (
+      <Link to='/cocktails'>
+        <CocktailsPart />
+      </Link>
+    ),
+  },
+  {
+    color: 'orange',
+    order: {
+      all: 5,
+      md: 5,
+      lg: 2,
+    },
+    biasSide: {
+      all: ['right'],
+      md: ['right'],
+      lg: ['right'],
+    },
+    width: {
+      all: 108,
+      md: 110,
+      lg: 110,
+    },
+    right: {
+      all: 8,
+      md: 10,
+      lg: 0,
+    },
+    component: (
+      <Link to='/shaker'>
+        <ShakeItPart />
+      </Link>
+    ),
+  },
+  {
+    color: 'green',
+    order: {
+      all: 3,
+      md: 3,
+      lg: 4,
+    },
+    biasSide: {
+      all: ['right'],
+      md: ['right'],
+      lg: ['right', 'left'],
+    },
+    width: {
+      all: 105,
+      md: 105,
+      lg: 103,
+    },
+    component: (
+      <Link to='/virgin'>
+        <VirginPart />
+      </Link>
+    ),
+  },
+  {
+    color: 'pink',
+    order: {
+      all: '6',
+      md: '6',
+      lg: '6',
+    },
+    biasSide: {
+      all: ['left'],
+      md: ['left'],
+      lg: ['left'],
+    },
+    width: {
+      all: 113,
+      md: 105,
+      lg: 104,
+    },
+    right: {
+      all: 8,
+      md: 5,
+      lg: 4,
+    },
+    component: (
+      <Link to='/favorites'>
+        <FavoritesPart />
+      </Link>
+    ),
+  },
+];
 
+export default function Home() {
   return (
     <div className='overflow-x-hidden'>
       <form

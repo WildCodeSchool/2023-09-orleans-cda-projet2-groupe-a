@@ -1,12 +1,8 @@
 export default function ShakeItPart() {
   return (
-    <>
-      <div />
-      <h1 className='text-light font-stroke relative bottom-[-80%] mb-16 w-[200px] text-center text-xl uppercase sm:w-[300px] md:bottom-[-95px] md:text-2xl'>
-        {'shake'}
-        <br />
-        {'it!'}
-      </h1>
-    </>
+    <h1 className='text-light font-stroke relative bottom-[-125%] text-center text-xl uppercase sm:bottom-[-130%] sm:text-2xl md:relative md:bottom-[-70%] md:mb-20 md:text-2xl'>
+      <span className='block'>{'shake'}</span>
+      <span className='block'>{'it!'}</span>
+    </h1>
   );
 }
