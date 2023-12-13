@@ -6,6 +6,7 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
+import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 
@@ -43,5 +44,6 @@ router.get('/alcohols/:level', async (req, res) => {
 
 router.use('/auth', authRouter);
 router.use('/ingredient', ingredient);
+router.use('/', glass);
 
 export default router;

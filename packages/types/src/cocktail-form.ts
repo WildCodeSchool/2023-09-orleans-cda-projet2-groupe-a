@@ -4,7 +4,7 @@ import type {
   UseFormWatch,
 } from 'react-hook-form';
 
-import type { Ingredient } from '.';
+import type { Glass, Ingredient } from '.';
 
 export type CocktailForm = {
   name?: string;
@@ -12,7 +12,7 @@ export type CocktailForm = {
   ingredient?: string;
   alcohol?: Ingredient;
   level?: number;
-  glass?: string;
+  glass?: Pick<Glass, 'name' | 'id'>;
 };
 
 export interface AlcoholPartProps {
@@ -42,8 +42,12 @@ export interface IngredientsPartProps {
 }
 
 export interface GlassPartProps {
-  register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  watch: UseFormWatch<CocktailForm>;
 }
 
 export interface ToppingPartProps {

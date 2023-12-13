@@ -1,8 +1,24 @@
 import { Shuffle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-import type { GlassPartProps } from '@app/types';
+import type { Glass, GlassPartProps } from '@app/types';
 
-export default function GlassPart({ register, errors }: GlassPartProps) {
+import useFetch from '@/hooks/use-fetch';
+
+export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
+  const [isReload, setIsReload] = useState(false);
+  const url = `${import.meta.env.VITE_API_URL}/glass`;
+  const { data } = useFetch<Pick<Glass, 'name' | 'id'>[]>(url, [isReload]);
+
+  const shuffleClick = () => {
+    setIsReload(!isReload);
+  };
+  useEffect(() => {
+    if (data !== undefined) {
+      setValue('glass', data[0]);
+    }
+  }, [data, setValue]);
+
   return (
     <>
       <h1 className='relative bottom-[9%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl md:bottom-[22%]'>
@@ -14,29 +30,18 @@ export default function GlassPart({ register, errors }: GlassPartProps) {
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.glass?.type === 'maxLength' ? (
+      {errors.glass?.type === 'validate' ? (
         <span className='relative bottom-[65px]'>{errors.glass.message}</span>
-      ) : undefined}
-      {errors.glass?.type === 'isString' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.glass.message}
-        </span>
       ) : undefined}
 
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
-        <input
-          className='w-[150px]'
-          value={'Whisky glass'}
-          {...register('glass', {
-            required: true,
-            maxLength: { value: 255, message: "can't be longer than 255" },
-            validate: {
-              isString: (value) =>
-                typeof value === 'string' || 'Must be a string',
-            },
-          })}
-        />
-        <button type='button'>
+        <input className='w-[200px]' value={watch('glass.name')} />
+        <button
+          type='button'
+          onClick={() => {
+            shuffleClick();
+          }}
+        >
           <Shuffle />
         </button>
       </div>

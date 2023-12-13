@@ -99,6 +99,19 @@ export default function AddCocktail() {
         message: 'must be a number between 1 and 3',
       });
     }
+
+    const glassValue = watch('glass');
+
+    if (glassValue === undefined) {
+      setError('glass', { type: 'required', message: 'required' });
+    } else if (typeof glassValue.id === 'number') {
+      clearErrors('glass');
+    } else {
+      setError('glass', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
   };
 
   const squares = [
@@ -197,7 +210,9 @@ export default function AddCocktail() {
         lg: 0,
         md: 10,
       },
-      component: <GlassPart register={register} errors={errors} />,
+      component: (
+        <GlassPart errors={errors} setValue={setValue} watch={watch} />
+      ),
     },
     {
       color: 'green',

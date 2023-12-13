@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function useFetch<T>(url: string) {
+export default function useFetch<T>(url: string, deps: unknown[] = []) {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
@@ -24,7 +24,7 @@ export default function useFetch<T>(url: string) {
     return () => {
       controller.abort();
     };
-  }, [url]);
+  }, [url, ...deps]);
 
   return { data, isLoading, error };
 }
