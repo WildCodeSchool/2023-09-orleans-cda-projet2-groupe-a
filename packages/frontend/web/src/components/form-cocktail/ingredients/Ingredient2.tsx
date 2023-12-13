@@ -1,14 +1,13 @@
 import { MoveRight, Skull } from 'lucide-react';
 
-import type { Ingredient, Ingredient1Props } from '@app/types';
+import type { Ingredient, IngredientProps } from '@app/types';
 
 export default function Ingredient2({
   isLoading,
   data,
   watch,
   setValue,
-  setShow,
-}: Ingredient1Props) {
+}: Omit<IngredientProps, 'setShow'>) {
   const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
     setValue(`ingredient2`, value);
   };

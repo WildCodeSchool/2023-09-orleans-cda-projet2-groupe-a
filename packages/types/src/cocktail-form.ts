@@ -58,7 +58,7 @@ export interface ToppingPartProps {
   errors: FieldErrors<CocktailForm>;
 }
 
-export interface Ingredient1Props {
+export interface IngredientProps {
   isLoading: boolean;
   data: Pick<Ingredient, 'name' | 'id'>[] | undefined;
   watch: UseFormWatch<CocktailForm>;

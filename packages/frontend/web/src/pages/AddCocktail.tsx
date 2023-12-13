@@ -13,8 +13,6 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
-  console.log({ data });
-
   return data;
 };
 
@@ -40,12 +38,6 @@ export default function AddCocktail() {
     setValue,
     watch,
   } = useForm<CocktailForm>();
-
-  console.log(errors.alcohol);
-  console.log(errors.glass);
-  console.log(errors.name);
-  console.log(errors.level);
-  console.log(errors.topping);
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
@@ -333,11 +325,12 @@ export default function AddCocktail() {
                   className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
                 />
                 <div
-                  className={`${
-                    show < index + 1 ? 'hidden' : ''
-                  } absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
-                    index + 1
-                  }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
+                  className={`
+    ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
+    absolute left-[3%] 
+    top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
+      index + 1
+    }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
                 >
                   {square.component}
                 </div>

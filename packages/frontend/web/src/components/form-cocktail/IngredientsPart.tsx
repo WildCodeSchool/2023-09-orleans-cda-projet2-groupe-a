@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
@@ -17,14 +19,6 @@ export default function IngredientsPart({
   )}`;
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
-
-  console.log(watch('ingredient1'));
-  console.log(watch('ingredient2'));
-  console.log(watch('ingredient3'));
-  console.log();
-  console.log(errors.ingredient1);
-  console.log(errors.ingredient2);
-  console.log(errors.ingredient3);
 
   return (
     <>
@@ -64,37 +58,54 @@ export default function IngredientsPart({
           {errors.ingredient3.message}
         </span>
       ) : undefined}
+
       {watch('ingredient1') === undefined &&
         watch('ingredient2') === undefined &&
         watch('ingredient3') === undefined && (
-          <Ingredient1
-            isLoading={isLoading}
-            data={data}
-            watch={watch}
-            setValue={setValue}
-            setShow={setShow}
-          />
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <Ingredient1
+              isLoading={isLoading}
+              data={data}
+              watch={watch}
+              setValue={setValue}
+            />
+          </motion.div>
         )}
       {watch('ingredient1') !== undefined &&
         watch('ingredient2') === undefined &&
         watch('ingredient3') === undefined && (
-          <Ingredient2
-            isLoading={isLoading}
-            data={data}
-            watch={watch}
-            setValue={setValue}
-            setShow={setShow}
-          />
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <Ingredient2
+              isLoading={isLoading}
+              data={data}
+              watch={watch}
+              setValue={setValue}
+            />
+          </motion.div>
         )}
       {watch('ingredient1') !== undefined &&
         watch('ingredient2') !== undefined && (
-          <Ingredient3
-            isLoading={isLoading}
-            data={data}
-            watch={watch}
-            setValue={setValue}
-            setShow={setShow}
-          />
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 1 }}
+          >
+            <Ingredient3
+              isLoading={isLoading}
+              data={data}
+              watch={watch}
+              setValue={setValue}
+              setShow={setShow}
+            />
+          </motion.div>
         )}
     </>
   );
