@@ -13,6 +13,24 @@ export type CocktailForm = {
   alcohol?: Ingredient;
   level?: number;
   glass?: string;
+  flavours?: {
+    sweet: number;
+    spicy: number;
+    fruity: number;
+    neutral: number;
+    herbaceous: number;
+    bitter: number;
+    other: number;
+    salty: number;
+    mixed: number;
+    fresh: number;
+    acidulous: number;
+    floral: number;
+    sour: number;
+    earthy: number;
+    peppery: number;
+    umami: number;
+  };
 };
 
 export interface AlcoholPartProps {

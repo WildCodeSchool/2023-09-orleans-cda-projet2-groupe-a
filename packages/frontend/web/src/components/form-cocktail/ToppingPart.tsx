@@ -1,6 +1,6 @@
-import type { ToppingPartProps } from '@app/types';
+import { useEffect, useState } from 'react';
 
-const toppings = ['shrimps', 'lemon', 'mint'];
+import type { Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
   register,
@@ -8,10 +8,25 @@ export default function ToppingPart({
   handleToppingChange,
   errors,
 }: ToppingPartProps) {
+  const [toppings, setToppings] = useState<Topping[]>([]);
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/toppings`)
+      .then((response) => response.json())
+      .then((data) => {
+        setToppings(data);
+      })
+      .catch((error) => {
+        console.error(
+          'Erreur lors de la récupération des toppings depuis le backend :',
+          error,
+        );
+      });
+  }, []);
+
   return (
     <>
       <h1 className='relative bottom-[7%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl'>
-        {'Pick a topic'}
+        {'Pick a topping'}
       </h1>
 
       {errors.topping?.type === 'required' ? (
@@ -32,12 +47,12 @@ export default function ToppingPart({
 
       <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
         {toppings.map((topping) => (
-          <div key={topping} className='flex gap-3'>
+          <div key={topping.id} className='flex gap-3'>
             <input
               className='hover:cursor-pointer'
               type='radio'
-              id={topping}
-              value={topping}
+              id={topping.name}
+              value={topping.name}
               {...register('topping', {
                 required: true,
                 maxLength: { value: 255, message: "can't be longer than 255" },
@@ -46,13 +61,13 @@ export default function ToppingPart({
                     typeof value === 'string' || 'Must be a string',
                 },
               })}
-              checked={selectedTopping === topping}
+              checked={selectedTopping === topping.name}
               onChange={() => {
-                handleToppingChange(topping);
+                handleToppingChange(topping.name);
               }}
             />
-            <label className='hover:cursor-pointer' htmlFor={topping}>
-              {topping}
+            <label className='hover:cursor-pointer' htmlFor={topping.name}>
+              {topping.name}
             </label>
           </div>
         ))}

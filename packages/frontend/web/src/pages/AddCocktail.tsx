@@ -24,6 +24,25 @@ export default function AddCocktail() {
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
+  /*  const [flavours, setFlavours] = useState<{ [key: string]: number }>({
+    sweet: 0,
+    spicy: 0,
+    fruity: 0,
+    neutral: 0,
+    herbaceous: 0,
+    bitter: 0,
+    other: 0,
+    salty: 0,
+    mixed: 0,
+    fresh: 0,
+    acidulous: 0,
+    floral: 0,
+    sour: 0,
+    earthy: 0,
+    peppery: 0,
+    umami: 0,
+  });  */
+
   const handleIngredientChange = (value: string) => {
     setSelectedIngredient(value);
   };

@@ -8,6 +8,7 @@ import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
+import { getRandomToppings } from './services/topping-service';
 
 const router = express.Router();
 
@@ -35,6 +36,15 @@ router.get('/alcohols/:level', async (req, res) => {
 
   try {
     const result = await getAlcoholsByDegree(db, degree);
+    res.json(result);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/toppings', async (req, res) => {
+  try {
+    const result = await getRandomToppings(db);
     res.json(result);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
