@@ -37,9 +37,13 @@ export interface LevelPartProps {
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
-  handleIngredientChange: (ingredient: Pick<Ingredient, 'id' | 'name'>) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
 }
 
 export interface GlassPartProps {
@@ -52,4 +56,15 @@ export interface ToppingPartProps {
   selectedTopping: string;
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
+}
+
+export interface Ingredient1Props {
+  isLoading: boolean;
+  data: Pick<Ingredient, 'name' | 'id'>[] | undefined;
+  watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
 }

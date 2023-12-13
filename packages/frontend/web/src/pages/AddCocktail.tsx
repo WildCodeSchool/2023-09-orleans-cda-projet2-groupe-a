@@ -39,11 +39,6 @@ export default function AddCocktail() {
     watch,
   } = useForm<CocktailForm>();
 
-  const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
-    setValue(`ingredient1`, value);
-    setShow(show + 1);
-  };
-
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(
@@ -102,6 +97,45 @@ export default function AddCocktail() {
       setError('level', {
         type: 'validate',
         message: 'must be a number between 1 and 3',
+      });
+    }
+
+    const ingredient1Value = watch('ingredient1');
+
+    if (ingredient1Value === undefined) {
+      setError('ingredient1', { type: 'required', message: 'required' });
+    } else if (typeof ingredient1Value === 'number') {
+      clearErrors('ingredient1');
+    } else {
+      setError('ingredient1', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
+
+    const ingredient2Value = watch('ingredient2');
+
+    if (ingredient2Value === undefined) {
+      setError('ingredient2', { type: 'required', message: 'required' });
+    } else if (typeof ingredient2Value === 'number') {
+      clearErrors('ingredient2');
+    } else {
+      setError('ingredient2', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
+
+    const ingredient3Value = watch('ingredient3');
+
+    if (ingredient3Value === undefined) {
+      setError('ingredient3', { type: 'required', message: 'required' });
+    } else if (typeof ingredient3Value === 'number') {
+      clearErrors('ingredient3');
+    } else {
+      setError('ingredient3', {
+        type: 'validate',
+        message: 'must be a number',
       });
     }
   };
@@ -177,9 +211,10 @@ export default function AddCocktail() {
       component: (
         <IngredientsPart
           register={register}
-          handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
+          setValue={setValue}
+          setShow={setShow}
         />
       ),
     },
