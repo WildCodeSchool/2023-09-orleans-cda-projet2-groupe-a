@@ -5,8 +5,6 @@ import type { Ingredient, IngredientsPartProps } from '@app/types';
 import useFetch from '@/hooks/use-fetch';
 
 export default function IngredientsPart({
-  register,
-  selectedIngredient,
   handleIngredientChange,
   errors,
   watch,
@@ -23,19 +21,14 @@ export default function IngredientsPart({
         {'Choose your fuse'}
       </h1>
 
-      {errors.ingredient?.type === 'required' ? (
+      {errors.ingredient1?.type === 'required' ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.ingredient?.type === 'maxLength' ? (
-        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {errors.ingredient.message}
-        </span>
-      ) : undefined}
-      {errors.ingredient?.type === 'isString' ? (
+      {errors.ingredient1?.type === 'isString' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredient.message}
+          {errors.ingredient1.message}
         </span>
       ) : undefined}
 
@@ -48,21 +41,10 @@ export default function IngredientsPart({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={ingredient.name}
-                  {...register('ingredient', {
-                    required: true,
-                    maxLength: {
-                      value: 255,
-                      message: "can't be longer than 255",
-                    },
-                    validate: {
-                      isString: (value) =>
-                        typeof value === 'string' || 'Must be a string',
-                    },
-                  })}
-                  checked={selectedIngredient === ingredient.name}
+                  value={watch('ingredient1.name')}
+                  checked={watch('ingredient1.name') === ingredient.name}
                   onChange={() => {
-                    handleIngredientChange(ingredient.name);
+                    handleIngredientChange(ingredient);
                   }}
                 />
                 <label

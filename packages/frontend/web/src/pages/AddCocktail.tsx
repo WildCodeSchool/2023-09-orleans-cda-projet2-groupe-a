@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import type { CocktailForm } from '@app/types';
 import type { Ingredient } from '@app/types';
@@ -20,17 +20,13 @@ export default function AddCocktail() {
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
 
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  const handleIngredientChange = (value: string) => {
-    setSelectedIngredient(value);
-    setShow(4);
-  };
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
+    setShow(6);
   };
 
   const {
@@ -42,6 +38,11 @@ export default function AddCocktail() {
     setValue,
     watch,
   } = useForm<CocktailForm>();
+
+  const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
+    setValue(`ingredient1`, value);
+    setShow(show + 1);
+  };
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
@@ -176,7 +177,6 @@ export default function AddCocktail() {
       component: (
         <IngredientsPart
           register={register}
-          selectedIngredient={selectedIngredient}
           handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
