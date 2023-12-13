@@ -5,7 +5,7 @@ import { db } from '@app/backend-shared';
 
 const glass = express.Router();
 
-glass.get('/glass', async (req, res) => {
+glass.get('/', async (req, res) => {
   const glass = await db
     .selectFrom('glass')
     .select(['glass.id', 'glass.name'])

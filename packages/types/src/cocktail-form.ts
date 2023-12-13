@@ -1,6 +1,7 @@
 import type {
   FieldErrors,
   UseFormRegister,
+  UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
 
@@ -43,10 +44,7 @@ export interface IngredientsPartProps {
 
 export interface GlassPartProps {
   errors: FieldErrors<CocktailForm>;
-  setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
+  setValue: UseFormSetValue<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
 }
 

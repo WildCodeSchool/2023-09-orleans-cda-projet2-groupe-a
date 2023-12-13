@@ -44,6 +44,6 @@ router.get('/alcohols/:level', async (req, res) => {
 
 router.use('/auth', authRouter);
 router.use('/ingredient', ingredient);
-router.use('/', glass);
+router.use('/glass', glass);
 
 export default router;

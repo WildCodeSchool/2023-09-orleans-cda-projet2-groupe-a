@@ -1,23 +1,34 @@
 import { Shuffle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import type { Glass, GlassPartProps } from '@app/types';
+import type { GlassPartProps } from '@app/types';
 
-import useFetch from '@/hooks/use-fetch';
+const url = `${import.meta.env.VITE_API_URL}/glass`;
 
 export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
   const [isReload, setIsReload] = useState(false);
-  const url = `${import.meta.env.VITE_API_URL}/glass`;
-  const { data } = useFetch<Pick<Glass, 'name' | 'id'>[]>(url, [isReload]);
+
+  const fetchData = async (url: RequestInfo, controller: AbortController) => {
+    const res = await fetch(url, {
+      signal: controller.signal,
+    });
+    const info = await res.json();
+    setValue('glass', info[0]);
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData(url, controller).catch((error) => {
+      console.error(error);
+    });
+    return () => {
+      controller.abort();
+    };
+  }, [isReload]);
 
   const shuffleClick = () => {
     setIsReload(!isReload);
   };
-  useEffect(() => {
-    if (data !== undefined) {
-      setValue('glass', data[0]);
-    }
-  }, [data, setValue]);
 
   return (
     <>
