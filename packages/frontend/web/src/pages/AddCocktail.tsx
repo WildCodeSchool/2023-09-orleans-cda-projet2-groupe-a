@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 
 import type { CocktailForm } from '@app/types';
 import type { Ingredient } from '@app/types';
@@ -18,6 +18,7 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 
 export default function AddCocktail() {
   const [level, setLevel] = useState<number>(0);
+  const [show, setShow] = useState<number>(1);
 
   const [selectedIngredient, setSelectedIngredient] = useState<string>('');
   const [selectedTopping, setSelectedTopping] = useState<string>('');
@@ -26,6 +27,7 @@ export default function AddCocktail() {
 
   const handleIngredientChange = (value: string) => {
     setSelectedIngredient(value);
+    setShow(4);
   };
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
@@ -53,6 +55,7 @@ export default function AddCocktail() {
       } else {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
+        setShow(2);
       }
     } catch (error) {
       console.error(
@@ -64,6 +67,7 @@ export default function AddCocktail() {
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setValue('alcohol', alcohol, { shouldValidate: true });
+    setShow(3);
   };
 
   const handleErrorSubmit = () => {
@@ -286,7 +290,9 @@ export default function AddCocktail() {
                   className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
                 />
                 <div
-                  className={`absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
+                  className={`${
+                    show < index + 1 ? 'hidden' : ''
+                  } absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
                     index + 1
                   }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
                 >
