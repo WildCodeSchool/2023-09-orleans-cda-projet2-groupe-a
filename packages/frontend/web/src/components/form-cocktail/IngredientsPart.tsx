@@ -3,6 +3,8 @@ import type { Ingredient, IngredientsPartProps } from '@app/types';
 import useFetch from '@/hooks/use-fetch';
 
 import Ingredient1 from './ingredients/Ingredient1';
+import Ingredient2 from './ingredients/Ingredient2';
+import Ingredient3 from './ingredients/Ingredient3';
 
 export default function IngredientsPart({
   errors,
@@ -16,6 +18,14 @@ export default function IngredientsPart({
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
 
+  console.log(watch('ingredient1'));
+  console.log(watch('ingredient2'));
+  console.log(watch('ingredient3'));
+  console.log();
+  console.log(errors.ingredient1);
+  console.log(errors.ingredient2);
+  console.log(errors.ingredient3);
+
   return (
     <>
       <h1 className='relative bottom-[3%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
@@ -27,7 +37,7 @@ export default function IngredientsPart({
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.ingredient1?.type === 'isString' ? (
+      {errors.ingredient1?.type === 'validate' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {errors.ingredient1.message}
         </span>
@@ -38,7 +48,7 @@ export default function IngredientsPart({
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.ingredient2?.type === 'isString' ? (
+      {errors.ingredient2?.type === 'validate' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {errors.ingredient2.message}
         </span>
@@ -49,18 +59,43 @@ export default function IngredientsPart({
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.ingredient3?.type === 'isString' ? (
+      {errors.ingredient3?.type === 'validate' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {errors.ingredient3.message}
         </span>
       ) : undefined}
-      <Ingredient1
-        isLoading={isLoading}
-        data={data}
-        watch={watch}
-        setValue={setValue}
-        setShow={setShow}
-      />
+      {watch('ingredient1') === undefined &&
+        watch('ingredient2') === undefined &&
+        watch('ingredient3') === undefined && (
+          <Ingredient1
+            isLoading={isLoading}
+            data={data}
+            watch={watch}
+            setValue={setValue}
+            setShow={setShow}
+          />
+        )}
+      {watch('ingredient1') !== undefined &&
+        watch('ingredient2') === undefined &&
+        watch('ingredient3') === undefined && (
+          <Ingredient2
+            isLoading={isLoading}
+            data={data}
+            watch={watch}
+            setValue={setValue}
+            setShow={setShow}
+          />
+        )}
+      {watch('ingredient1') !== undefined &&
+        watch('ingredient2') !== undefined && (
+          <Ingredient3
+            isLoading={isLoading}
+            data={data}
+            watch={watch}
+            setValue={setValue}
+            setShow={setShow}
+          />
+        )}
     </>
   );
 }

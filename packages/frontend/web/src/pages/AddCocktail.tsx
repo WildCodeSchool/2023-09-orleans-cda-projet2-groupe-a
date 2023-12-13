@@ -13,6 +13,8 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
+  console.log({ data });
+
   return data;
 };
 
@@ -38,6 +40,12 @@ export default function AddCocktail() {
     setValue,
     watch,
   } = useForm<CocktailForm>();
+
+  console.log(errors.alcohol);
+  console.log(errors.glass);
+  console.log(errors.name);
+  console.log(errors.level);
+  console.log(errors.topping);
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
@@ -104,7 +112,7 @@ export default function AddCocktail() {
 
     if (ingredient1Value === undefined) {
       setError('ingredient1', { type: 'required', message: 'required' });
-    } else if (typeof ingredient1Value === 'number') {
+    } else if (typeof ingredient1Value.id === 'number') {
       clearErrors('ingredient1');
     } else {
       setError('ingredient1', {
@@ -117,7 +125,7 @@ export default function AddCocktail() {
 
     if (ingredient2Value === undefined) {
       setError('ingredient2', { type: 'required', message: 'required' });
-    } else if (typeof ingredient2Value === 'number') {
+    } else if (typeof ingredient2Value.id === 'number') {
       clearErrors('ingredient2');
     } else {
       setError('ingredient2', {
@@ -130,7 +138,7 @@ export default function AddCocktail() {
 
     if (ingredient3Value === undefined) {
       setError('ingredient3', { type: 'required', message: 'required' });
-    } else if (typeof ingredient3Value === 'number') {
+    } else if (typeof ingredient3Value.id === 'number') {
       clearErrors('ingredient3');
     } else {
       setError('ingredient3', {

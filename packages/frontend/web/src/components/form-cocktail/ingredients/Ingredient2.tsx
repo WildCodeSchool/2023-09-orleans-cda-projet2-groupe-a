@@ -2,7 +2,7 @@ import { MoveRight, Skull } from 'lucide-react';
 
 import type { Ingredient, Ingredient1Props } from '@app/types';
 
-export default function Ingredient1({
+export default function Ingredient2({
   isLoading,
   data,
   watch,
@@ -11,10 +11,10 @@ export default function Ingredient1({
 }: Ingredient1Props) {
   const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
     setValue(`ingredient2`, value);
-    setShow(5);
   };
+
   return (
-    <div>
+    <>
       <fieldset className='relative bottom-[2%] grid grid-flow-col grid-rows-3 gap-2 gap-x-4 sm:bottom-[4%]'>
         {isLoading
           ? undefined
@@ -24,8 +24,8 @@ export default function Ingredient1({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={watch('ingredient1.name')}
-                  checked={watch('ingredient1.name') === ingredient.name}
+                  value={watch('ingredient2.name')}
+                  checked={watch('ingredient2.name') === ingredient.name}
                   onChange={() => {
                     handleIngredientChange(ingredient);
                   }}
@@ -48,6 +48,6 @@ export default function Ingredient1({
           <Skull size={45} />
         </button>
       </div>
-    </div>
+    </>
   );
 }

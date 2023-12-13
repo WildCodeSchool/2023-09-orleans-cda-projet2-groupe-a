@@ -11,10 +11,9 @@ export default function Ingredient1({
 }: Ingredient1Props) {
   const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
     setValue(`ingredient1`, value);
-    setShow(5);
   };
   return (
-    <div>
+    <>
       <fieldset className='relative bottom-[2%] grid grid-flow-col grid-rows-3 gap-2 gap-x-4 sm:bottom-[4%]'>
         {isLoading
           ? undefined
@@ -48,6 +47,6 @@ export default function Ingredient1({
           <Skull size={45} />
         </button>
       </div>
-    </div>
+    </>
   );
 }

@@ -13,8 +13,9 @@ export default function Ingredient3({
     setValue(`ingredient3`, value);
     setShow(5);
   };
+
   return (
-    <div>
+    <>
       <fieldset className='relative bottom-[2%] grid grid-flow-col grid-rows-3 gap-2 gap-x-4 sm:bottom-[4%]'>
         {isLoading
           ? undefined
@@ -24,8 +25,8 @@ export default function Ingredient3({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={watch('ingredient1.name')}
-                  checked={watch('ingredient1.name') === ingredient.name}
+                  value={watch('ingredient3.name')}
+                  checked={watch('ingredient3.name') === ingredient.name}
                   onChange={() => {
                     handleIngredientChange(ingredient);
                   }}
@@ -48,6 +49,6 @@ export default function Ingredient3({
           <Skull size={45} />
         </button>
       </div>
-    </div>
+    </>
   );
 }
