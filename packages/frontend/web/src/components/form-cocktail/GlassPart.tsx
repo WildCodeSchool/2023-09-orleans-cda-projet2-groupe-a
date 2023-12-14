@@ -1,28 +1,18 @@
 import { Shuffle } from 'lucide-react';
-import { useState } from 'react';
 
 import type { GlassPartProps } from '@app/types';
 
 const url = `${import.meta.env.VITE_API_URL}/glass`;
 
 export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
-  const [controller, setController] = useState(new AbortController());
-
-  const fetchData = async (url: RequestInfo, controller: AbortController) => {
-    const res = await fetch(url, {
-      signal: controller.signal,
-    });
-    const info = await res.json();
-    setValue('glass', info[0]);
-  };
-
   const shuffleClick = async () => {
-    controller.abort();
-    const newController = new AbortController();
-    setController(newController);
-
     try {
-      await fetchData(url, newController);
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setValue('glass', data?.[0]);
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +36,7 @@ export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
         <input
           className='w-[200px]'
-          value={watch('glass.name') || `Click me`}
+          value={watch('glass.name') || 'click me'}
         />
         <button
           type='button'
