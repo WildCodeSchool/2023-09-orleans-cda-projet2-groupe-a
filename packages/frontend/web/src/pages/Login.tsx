@@ -36,10 +36,10 @@ export default function Login() {
       isLoggedIn: boolean;
     }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
 
-    if (isLoggedIn && !isUnder18) {
+    if (isLoggedIn && isUnder18 == null) {
       setIsLoggedIn(true);
       navigate('/'); // If the user is logged in, he's redirected towards homepage.
-    } else if (isLoggedIn && isUnder18) {
+    } else if (isLoggedIn && isUnder18 != null) {
       setIsLoggedIn(true);
       navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
     }
