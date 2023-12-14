@@ -2,9 +2,9 @@ import { MoveRight, Skull } from 'lucide-react';
 
 import type { Ingredient, IngredientProps } from '@app/types';
 
+import useFetch from '@/hooks/use-fetch';
+
 export default function Ingredient3({
-  isLoading,
-  data,
   watch,
   setValue,
   setShow,
@@ -14,9 +14,15 @@ export default function Ingredient3({
     setShow(5);
   };
 
+  const url = `${import.meta.env.VITE_API_URL}/ingredient/${watch(
+    'ingredient2.id',
+  )}`;
+
+  const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
+
   return (
     <>
-      <fieldset className='relative bottom-[2%] grid grid-flow-col grid-rows-3 gap-2 gap-x-4 sm:bottom-[4%]'>
+      <fieldset className='relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[4%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
           : data?.map((ingredient) => (
@@ -40,7 +46,7 @@ export default function Ingredient3({
               </div>
             ))}
       </fieldset>
-      <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[24%] lg:me-0 lg:gap-6'>
+      <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:top-[70%] lg:me-0 lg:gap-6'>
         <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           {'Choose your blend or amend'}
         </p>

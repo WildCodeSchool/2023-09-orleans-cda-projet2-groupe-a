@@ -59,8 +59,6 @@ export interface ToppingPartProps {
 }
 
 export interface IngredientProps {
-  isLoading: boolean;
-  data: Pick<Ingredient, 'name' | 'id'>[] | undefined;
   watch: UseFormWatch<CocktailForm>;
   setValue: (
     name: keyof CocktailForm,
