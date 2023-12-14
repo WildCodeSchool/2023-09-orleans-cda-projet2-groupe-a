@@ -1,12 +1,12 @@
 import { Shuffle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import type { GlassPartProps } from '@app/types';
 
 const url = `${import.meta.env.VITE_API_URL}/glass`;
 
 export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
-  const [isReload, setIsReload] = useState(false);
+  const [controller, setController] = useState(new AbortController());
 
   const fetchData = async (url: RequestInfo, controller: AbortController) => {
     const res = await fetch(url, {
@@ -16,18 +16,16 @@ export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
     setValue('glass', info[0]);
   };
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchData(url, controller).catch((error) => {
-      console.error(error);
-    });
-    return () => {
-      controller.abort();
-    };
-  }, [isReload]);
+  const shuffleClick = async () => {
+    controller.abort();
+    const newController = new AbortController();
+    setController(newController);
 
-  const shuffleClick = () => {
-    setIsReload(!isReload);
+    try {
+      await fetchData(url, newController);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -46,11 +44,14 @@ export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
       ) : undefined}
 
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
-        <input className='w-[200px]' value={watch('glass.name')} />
+        <input
+          className='w-[200px]'
+          value={watch('glass.name') || `Click me`}
+        />
         <button
           type='button'
-          onClick={() => {
-            shuffleClick();
+          onClick={async () => {
+            await shuffleClick();
           }}
         >
           <Shuffle />
