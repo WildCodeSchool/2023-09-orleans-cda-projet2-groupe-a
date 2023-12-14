@@ -19,7 +19,7 @@ export default function useFetch<T>(url: string) {
     const controller = new AbortController();
     fetchData(url, controller).catch((error) => {
       setError(error);
-      setIsLoading(true);
+      setIsLoading(false);
     });
     return () => {
       controller.abort();

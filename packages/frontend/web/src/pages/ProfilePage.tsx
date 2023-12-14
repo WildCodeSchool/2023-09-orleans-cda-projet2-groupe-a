@@ -20,11 +20,11 @@ export default function ProfilePage() {
     return null;
   }
 
-  if (!data) {
+  if (!data && error === null) {
     return <Navigate to='/' />;
   }
 
-  return (
+  return data === undefined ? null : (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/profile-page/bg-profil-page.webp')] bg-cover ">
       <Header pseudo={data[0].pseudo} />
       <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
