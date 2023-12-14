@@ -3,6 +3,7 @@ export interface CommentsProfile {
   content: string;
   cocktail_id: number;
   cocktail_name: string;
+  comment_id: number;
 }
 
 export interface CocktailsProfile {
@@ -17,19 +18,4 @@ export interface UserProfile {
   pseudo: string;
   comments: CommentsProfile[] | null;
   cocktails: CocktailsProfile[] | null;
-}
-
-export interface UserProfileProps {
-  pseudo: string;
-}
-
-export interface CommentsSectionProfileProps {
-  comments: CommentsProfile[] | null;
-}
-export interface CommentsProfileProps {
-  comments: CommentsProfile[];
-}
-
-export interface CocktailProfileProps {
-  cocktails: CocktailsProfile[];
 }

@@ -11,15 +11,15 @@ export default function ProfilePage() {
   const { id } = useParams();
   const urlCocktail = `${import.meta.env.VITE_API_URL}/user/${id}`;
 
-  const { data, isLoading } = useFetch<UserProfile[]>(urlCocktail);
-
-  if (data === undefined && !isLoading) {
-    return <Navigate to='/' />;
-  }
+  const { data, isLoading, error } = useFetch<UserProfile[]>(urlCocktail);
+  console.log('data', data);
+  console.log('error', error);
+  console.log('isloading', isLoading);
 
   if (isLoading) {
     return null;
   }
+
   if (!data) {
     return <Navigate to='/' />;
   }
@@ -28,7 +28,7 @@ export default function ProfilePage() {
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/profile-page/bg-profil-page.webp')] bg-cover ">
       <Header pseudo={data[0].pseudo} />
       <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
-        <h1 className='font-stroke-profile-h2 text-light mb-10 mt-5 text-xl font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:w-[160px] lg:top-[22%] lg:w-[250px] lg:text-2xl '>
+        <h1 className='font-stroke-small-text text-light mb-10 mt-5 text-xl font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:w-[160px] lg:top-[22%] lg:w-[250px] lg:text-2xl '>
           {'your recipes'}
         </h1>
         <div className="z-20 h-[240px] w-[350px] bg-[url('/profile-page/miss-hold-it.webp')] bg-cover sm:h-[400px] sm:w-[600px]" />

@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 
-import type { CocktailProfileProps } from '@app/types';
+import type { CocktailsProfile } from '@app/types';
+
+interface CocktailProfileProps {
+  readonly cocktails: CocktailsProfile[];
+}
 
 export default function Card({ cocktails }: CocktailProfileProps) {
   return (
@@ -46,7 +50,7 @@ export default function Card({ cocktails }: CocktailProfileProps) {
                       <h1 className='font-stroke text-light text-md'>
                         {cocktail.cocktail_name}
                       </h1>
-                      <p className=''>{`(${cocktail.ingredient_name})`}</p>
+                      <p>{`(${cocktail.ingredient_name})`}</p>
                     </div>
                     <div className='flex justify-center'>
                       {cocktail.avg_rating === 0 ? (

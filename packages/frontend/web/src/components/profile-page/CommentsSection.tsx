@@ -2,9 +2,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import type { CommentsSectionProfileProps } from '@app/types';
+import type { CommentsProfile } from '@app/types';
 
 import Comments from './Comments';
+
+interface CommentsSectionProfileProps {
+  readonly comments: CommentsProfile[] | null;
+}
 
 export default function CommentsSection({
   comments,
@@ -14,7 +18,7 @@ export default function CommentsSection({
   const commentsReference = useRef<HTMLDivElement | null>(null);
 
   const onCommentsToggle = () => {
-    setIsOpen(() => !isOpen);
+    setIsOpen((currentIsOpen) => !currentIsOpen);
   };
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export default function CommentsSection({
   }, [isOpen]);
   return (
     <div ref={commentsReference}>
-      <h1 className='font-stroke-profile-h2 text-light ml-7 text-xl font-extrabold uppercase lg:text-2xl'>
+      <h1 className='font-stroke-small-text text-light ml-7 text-xl font-extrabold uppercase lg:text-2xl'>
         {'your comments'}
       </h1>
       <div>
@@ -34,16 +38,14 @@ export default function CommentsSection({
               <button type='button' onClick={onCommentsToggle}>
                 <Minus
                   color='#0E0F0F'
-                  className='stroke-4 my-auto me-3 h-7 w-7 cursor-pointer'
-                  style={{ strokeWidth: '4' }}
+                  className='my-auto me-3 h-7 w-7 cursor-pointer stroke-[4px]'
                 />
               </button>
             ) : (
               <button type='button' onClick={onCommentsToggle}>
                 <Plus
                   color='#0E0F0F'
-                  className='stroke-4 my-auto me-3 h-7 w-7 cursor-pointer'
-                  style={{ strokeWidth: '4' }}
+                  className='my-auto me-3 h-7 w-7 cursor-pointer stroke-[4px]'
                 />
               </button>
             )}

@@ -20,7 +20,7 @@ const user = express.Router();
 async function getUserById(db: Kysely<Database>, id: number) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
-      WITH RankedIngredients AS (
+      WITH ranked_ingredients AS (
         SELECT 
           cocktail.id AS cocktail_id, 
           ingredient.id, 
@@ -38,7 +38,7 @@ async function getUserById(db: Kysely<Database>, id: number) {
         INNER JOIN action_ingredient ON action.id = action_ingredient.action_id 
         INNER JOIN ingredient ON action_ingredient.ingredient_id = ingredient.id
       ), 
-      CocktailsWithAverageRating AS (
+      cocktails_with_average_rating AS (
         SELECT 
           cocktail.id AS cocktail_id, 
           cocktail.name AS cocktail_name, 
@@ -87,8 +87,8 @@ async function getUserById(db: Kysely<Database>, id: number) {
                 'family', ri.family
               )
             ) 
-          FROM CocktailsWithAverageRating ci 
-          JOIN RankedIngredients ri ON ci.cocktail_id = ri.cocktail_id AND ri.rnk = 1 
+          FROM cocktails_with_average_rating ci 
+          JOIN ranked_ingredients ri ON ci.cocktail_id = ri.cocktail_id AND ri.rnk = 1 
           WHERE user.id = ci.author_id
         ) AS cocktails, 
         (
