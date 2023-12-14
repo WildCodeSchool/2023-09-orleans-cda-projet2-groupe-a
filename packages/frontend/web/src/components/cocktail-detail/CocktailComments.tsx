@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useDisclosure } from '@app/frontend-shared';
-import type { CommentsProps } from '@app/types';
+import type { CommentsProps, RatingsProps } from '@app/types';
 
 import Comment from './Comment';
 import StarRating from './StarRating';
 
 export default function CocktailComments() {
   const [comments, setComments] = useState<CommentsProps[]>();
+  const [ratings, setRatings] = useState<RatingsProps[]>();
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -22,19 +23,20 @@ export default function CocktailComments() {
     });
     if (response.ok) {
       const data = await response.json();
-
-      setComments(data.comments);
-      // console.log(data.comments);
+      setComments(data.commentsByUserIdCocktailId);
+      setRatings(data.ratings);
     } else {
       console.error(`Request error: ${response.status}`);
     }
   };
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
 
     fetchComments(
-      `${import.meta.env.VITE_API_URL}/comment/${id}`,
+      `
+        ${import.meta.env.VITE_API_URL}/comment/${id}`,
       signal,
     ).catch((error) => {
       console.error(error);
@@ -68,7 +70,7 @@ export default function CocktailComments() {
           )}
           <h2 className='pe-2'>{`review`}</h2>
           <div className='my-auto flex'>
-            <StarRating comments={comments} />
+            <StarRating comments={comments} ratings={ratings} />
           </div>
         </div>
       </div>
@@ -81,7 +83,7 @@ export default function CocktailComments() {
             transition={{ duration: 1 }}
             className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain sm:w-[90%] md:w-[90%]'
           >
-            <Comment comments={comments} />
+            <Comment comments={comments} ratings={ratings} />
           </motion.div>
         ) : undefined}
       </AnimatePresence>

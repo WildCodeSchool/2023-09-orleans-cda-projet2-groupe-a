@@ -73,7 +73,7 @@ export default function CocktailsDetails() {
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('/bg-details.png')` }}
     >
-      <h1 className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4'>
+      <h1 className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-24'>
         {cocktail.name}
       </h1>
       <div className='flex flex-col justify-center sm:flex-row'>

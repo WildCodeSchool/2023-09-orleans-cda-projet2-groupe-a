@@ -20,35 +20,24 @@ commentRouter.get('/:id', async (req, res) => {
   const id = req.params.id;
 
   try {
-    const comment = await db
-      .selectFrom('cocktail')
+    const commentsByUserIdCocktailId = await db
+      .selectFrom('comment')
       .selectAll()
-      .where('id', '=', Number.parseInt(id))
-      .executeTakeFirst();
+      .where('cocktail_id', '=', Number.parseInt(id))
+      .orderBy('created_at', 'desc')
+      .execute();
 
-    if (!comment) {
+    const ratings = await db
+      .selectFrom('rating')
+      .selectAll()
+      .where('cocktail_id', '=', Number.parseInt(id))
+      .execute();
+
+    if (!Boolean(commentsByUserIdCocktailId)) {
       return res.status(404).send('Cocktail not found');
     }
 
-    const comments = await db
-      .selectFrom('cocktail')
-      .innerJoin('comment', 'comment.id', 'cocktail.id')
-      .innerJoin('rating', 'cocktail.id', 'rating.cocktail_id')
-      .select([
-        'cocktail.final_flavour as cocktail_flavour',
-        'comment.id as comment_id',
-        'comment.cocktail_id as comment_cocktail_id',
-        'cocktail.name as cocktail_name',
-        'cocktail.id as cocktail_id',
-        'comment.user_id as comment_user',
-        'comment.content as comment_content',
-        'rating.user_id as rating_user',
-        'rating.score as rating_score',
-      ])
-      .where('cocktail.id', '=', Number.parseInt(id))
-      .execute();
-
-    res.json({ comments });
+    res.json({ commentsByUserIdCocktailId, ratings });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -57,10 +46,9 @@ commentRouter.get('/:id', async (req, res) => {
 
 // Ajouter un commentaire en base de donnée
 commentRouter.post('/:id', async (req, res) => {
-  const cocktailId = Number.parseInt(req.params.id, 10);
   const { content } = req.body;
-  const userId = 1;
   const createdAt = new Date();
+  const { cocktailId, userId } = req.body;
 
   try {
     await db

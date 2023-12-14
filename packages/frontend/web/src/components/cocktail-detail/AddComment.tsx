@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { Star } from 'lucide-react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +13,11 @@ interface AddCommentProps {
 }
 export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
   const { id } = useParams();
+  const [hoveredStars, setHoveredStars] = useState(0);
+
+  const handleStarHover = (hoveredCount: number) => {
+    setHoveredStars(hoveredCount);
+  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -47,23 +53,42 @@ export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0, transition: { duration: 0.6 } }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
-        className='fixed inset-0 z-[99] flex items-center justify-center bg-black bg-opacity-70'
+        className='fixed inset-0 z-[99] flex-col items-center justify-center bg-black bg-opacity-70 shadow-md'
       >
-        <div
-          ref={popUp}
-          className='bg-light border-dark h-[45vh] w-[45vw] rounded-xl border-[3px] bg-[url("/comment2.jpg")] bg-cover bg-center bg-no-repeat shadow-lg'
-        >
-          <div className='h-full w-full flex-col '>
-            <p className='mb-28 mt-4 text-center text-xl'>{`How is it?`}</p>
-
+        {' '}
+        <div className='font-stroke text-light hover:text-dark-orange duration-250 mt-44 cursor-pointer text-center text-[2rem] transition-transform ease-in-out hover:scale-110'>
+          <p>{`How is it?`}</p>
+        </div>
+        <div className='my-4 flex justify-center'>
+          {[1, 2, 3, 4, 5].map((index) => (
+            <Star
+              key={index}
+              className={`fill-light hover:fill-dark-orange duration-250 h-[3.5rem] w-[3.5rem] cursor-pointer stroke-[2px] transition-transform ease-in-out hover:scale-110 ${
+                index < hoveredStars ? 'fill-dark-orange' : ''
+              }`}
+              onMouseEnter={() => {
+                handleStarHover(index + 1);
+              }}
+              onMouseLeave={() => {
+                handleStarHover(hoveredStars);
+              }}
+            />
+          ))}
+        </div>
+        <div className='flex justify-center'>
+          <div
+            ref={popUp}
+            className='bg-light border-dark h-[32rem] w-[90%] rounded-xl border-[3px] bg-[url("/comment2.jpg")] bg-cover bg-center bg-no-repeat shadow-md sm:w-[40rem] '
+          >
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='mx-auto h-[17rem] w-[20rem] flex-col'
+              className='mx-auto sm:h-[25rem] sm:w-[25rem] '
             >
               <input
                 type='text'
                 id='text'
-                className='border-dark ms-12 flex h-[42%] w-[75%] rounded-[1rem] border-[3px]'
+                placeholder='Add your comment!'
+                className='border-dark ms-10 mt-[10.5rem] h-[12rem] w-[80%] rounded-[1rem] border-[4px] px-5 sm:ms-12 sm:h-[42%]'
                 {...register('content', {
                   required: false,
                   maxLength: { value: 255, message: 'Max length exceeded !' },
@@ -72,18 +97,22 @@ export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
               <p className='ms-5 mt-5 text-[rgb(232,40,40)]'>
                 {errors.content?.message}
               </p>
-              <div className='mt-28 flex justify-center'>
+              <div className='flex w-full justify-center'>
                 <button type='submit'>
-                  <p className='uppercase'> {`send`}</p>
+                  <p className='border-dark hover:bg-dark-orange duration-250 mt-16 rounded border-[3px] p-2 uppercase shadow-sm transition-transform ease-in-out hover:scale-110 sm:mt-24'>
+                    {`send`}
+                  </p>
                 </button>
               </div>
             </form>
           </div>
-          <div className='flex justify-center'>
-            <button type='button' onClick={handleClose}>
-              <X className='h-8 w-8 cursor-pointer ' />
-            </button>
-          </div>
+        </div>
+        <div className='flex justify-center'>
+          <button type='button' onClick={handleClose}>
+            <div className='font-stroke text-light hover:text-dark-orange duration-250 mt-8 cursor-pointer text-[2rem] transition-transform ease-in-out hover:scale-110'>
+              {'X'}
+            </div>
+          </button>
         </div>
       </motion.div>
     </AnimatePresence>

@@ -46,18 +46,22 @@ export type ToolsProps = {
 };
 
 export type CommentsProps = {
-  cocktail_flavour: string;
   comment_id: number;
   comment_user: string;
-  comment_content: string;
-  rating_user: number;
-  rating_score: number;
+  cocktail_id: number;
+  content: string;
+  user_id: number;
   numberComment: number;
-  user_name: string;
-  cocktail_name: string;
+};
+
+export type RatingsProps = {
+  rating_id: number;
+  score: number;
+  user_id: number;
   cocktail_id: number;
 };
 
 export interface CocktailCommentsProps {
   comments: CommentsProps[] | undefined;
+  ratings: RatingsProps[] | undefined;
 }
