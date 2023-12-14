@@ -6,12 +6,11 @@ import type { SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
+import { commentRouter } from './comment';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 
 const router = express.Router();
-
-router.use('/cocktail', cocktailRouter);
 
 router.get('/', async (_request, response) => {
   const result = await sql<{
@@ -43,5 +42,7 @@ router.get('/alcohols/:level', async (req, res) => {
 
 router.use('/auth', authRouter);
 router.use('/ingredient', ingredient);
+router.use('/cocktail', cocktailRouter);
+router.use('/comment', commentRouter);
 
 export default router;

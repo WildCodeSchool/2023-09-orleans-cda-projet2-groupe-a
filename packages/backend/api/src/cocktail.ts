@@ -46,13 +46,45 @@ cocktailRouter.get('/:id', async (req, res) => {
         'ingredient.id',
       )
       .select([
-        'cocktail.name as cocktail_name',
+        'ingredient.id as ingredient_id',
         'ingredient.name as ingredient_name',
         'action_ingredient.quantity as quantity',
+        'action.verb as verb',
+        'action.priority as priority',
       ])
       .where('cocktail.id', '=', Number.parseInt(id))
       .execute();
-    res.json({ cocktail, ingredients });
+
+    const tools = await db
+      .selectFrom('cocktail')
+      .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+      .innerJoin('action', 'recipe.action_id', 'action.id')
+      .innerJoin('tool', 'action.tool_id', 'tool.id')
+      .select([
+        'tool.id as tool_id',
+        'tool.name as tool_name',
+        'tool.image as tool_image',
+      ])
+      .where('cocktail.id', '=', Number.parseInt(id))
+      .execute();
+
+    const toppings = await db
+      .selectFrom('cocktail')
+      .innerJoin(
+        'cocktail_topping',
+        'cocktail_topping.cocktail_id',
+        'cocktail.id',
+      )
+      .innerJoin('topping', 'topping.id', 'cocktail.id')
+      .select([
+        'cocktail_topping.quantity as topping_quantity',
+        'topping.id as topping_id',
+        'topping.name as topping_name',
+      ])
+      .where('cocktail.id', '=', Number.parseInt(id))
+      .execute();
+
+    res.json({ cocktail, ingredients, toppings, tools });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
