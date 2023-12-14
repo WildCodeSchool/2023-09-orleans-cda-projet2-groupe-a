@@ -10,7 +10,7 @@ import { Header } from '@/components/profile-page/Header';
 export default function ProfilePage() {
   const { id } = useParams();
   const urlUser = `${import.meta.env.VITE_API_URL}/user/${id}`;
-  const [user, setUser] = useState<UserProfile | undefined>();
+  const [user, setUser] = useState<UserProfile>();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async (urlUser: string, signal: AbortSignal) => {
