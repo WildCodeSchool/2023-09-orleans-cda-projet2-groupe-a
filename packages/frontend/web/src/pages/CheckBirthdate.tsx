@@ -12,13 +12,6 @@ export default function CheckBirthdate() {
 
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const value = useMemo(
-    () => ({
-      isUnder18,
-      setIsUnder18,
-    }),
-    [isUnder18],
-  );
 
   // useMemo is going to memorize the eighteenYearsAgo value, as long as birthdate doesn't change.
   const eighteenYearsAgo: Date = useMemo(() => {
