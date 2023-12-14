@@ -1,12 +1,12 @@
 import { type FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import AgeContext from '@/contexts/AgeContext';
+import { CurrentAgeContext } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const isUnder18 = useContext(AgeContext);
+  const isUnder18 = useContext(CurrentAgeContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
@@ -60,7 +60,7 @@ export default function Login() {
             className='z-50 m-10 flex flex-col items-center gap-2'
           >
             <input
-              className='2px border-dark z-40 m-1 h-14 w-48 rounded border-[5px] p-1 text-center text-2xl md:w-80 md:text-2xl'
+              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
               type='email'
               placeholder='Email'
               value={email}
@@ -69,7 +69,7 @@ export default function Login() {
               }}
             />
             <input
-              className='2px border-dark z-40 m-1 h-14 w-48 rounded border-[5px] p-1 text-center text-2xl md:w-80 md:text-2xl'
+              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
               type='password'
               placeholder='Password'
               value={password}
@@ -78,7 +78,7 @@ export default function Login() {
               }}
             />
             <button
-              className='button border-dark m-1 h-14 w-[190px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[320px] md:text-xl'
+              className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[320px] md:text-xl'
               type='submit'
             >
               {'Login'}

@@ -24,7 +24,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
         credentials: 'include', // Essentiel pour retrouver le cookie. Idem login.tsx.
       });
       const data = (await res.json()) as {
-        // parenthèses autour d'await res.json() puis as pour bien typer.
+        // parenthèses autour d'await res.json() puis 'as' pour bien typer.
         ok: boolean;
         isLoggedIn: boolean;
       };

@@ -1,17 +1,33 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 
-type AgeProviderProps = {
-  readonly children: React.ReactNode;
+type AgeProviderState = {
+  isUnder18: boolean; // typage du contenu du context.
+  setIsUnder18: (value: boolean) => void;
 };
 
-const AgeContext = createContext<boolean | undefined>(undefined);
+export const CurrentAgeContext = createContext<AgeProviderState | undefined>(
+  undefined,
+);
 
-export function AgeProvider({ children }: AgeProviderProps) {
-  const [isUnder18, setIsUnder18] = useState<boolean>(false);
-
-  return (
-    <AgeContext.Provider value={isUnder18}>{children}</AgeContext.Provider>
-  );
+interface CurrentAgeProviderProps {
+  readonly children: ReactNode;
 }
 
-export default AgeContext;
+export const AgeProvider = ({ children }: CurrentAgeProviderProps) => {
+  const [isUnder18, setIsUnder18] = useState<boolean>(false);
+
+  const value = useMemo(
+    () => ({
+      isUnder18: isUnder18,
+      setIsUnder18: setIsUnder18,
+    }),
+    [isUnder18],
+  );
+
+  return (
+    <CurrentAgeContext.Provider value={value}>
+      {children}
+    </CurrentAgeContext.Provider>
+  );
+};
