@@ -56,7 +56,7 @@ export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
         className='fixed inset-0 z-[99] flex-col items-center justify-center bg-black bg-opacity-70 shadow-md'
       >
         {' '}
-        <div className='font-stroke text-light hover:text-dark-orange duration-250 mt-44 cursor-pointer text-center text-[2rem] transition-transform ease-in-out hover:scale-110'>
+        <div className='font-stroke text-light hover:text-dark-orange duration-250 mt-24 cursor-pointer text-center text-[2rem] transition-transform ease-in-out hover:scale-110'>
           <p>{`How is it?`}</p>
         </div>
         <div className='my-4 flex justify-center'>
