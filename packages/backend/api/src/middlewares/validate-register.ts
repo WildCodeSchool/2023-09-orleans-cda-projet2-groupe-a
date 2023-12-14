@@ -11,7 +11,15 @@ const validateRegister = [
     .isEmail(),
   body('password').exists().trim().notEmpty().isLength({ min: 3, max: 255 }),
   body('pseudo').exists().trim().notEmpty().isLength({ min: 3, max: 60 }),
-  body('birthdate').exists().trim().notEmpty().isISO8601().toDate(),
+  body('birthdate')
+    .exists()
+    .trim()
+    .notEmpty()
+    .isISO8601({
+      strict: true,
+      strictSeparator: true,
+    })
+    .toDate(),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 

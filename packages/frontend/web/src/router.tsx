@@ -1,9 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import AddCocktail from './pages/AddCocktail';
+import CheckBirthdate from './pages/CheckBirthdate';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import NoKidsAllowed from './pages/NoKidsAllowed';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
   {
     path: '/details/:id',
     element: <CocktailsDetails />,
+  },
+  {
+    path: '/checkbirthdate',
+    element: <CheckBirthdate />,
+  },
+  {
+    path: '/nokidsallowed', // TODO : attribuer cette page avec virgins filtrés ou autres.
+    element: <NoKidsAllowed />, // Composant ébauché.
   },
   {
     path: '/register',
@@ -32,8 +42,8 @@ const router = createBrowserRouter([
     element: <AddCocktail />,
   },
   {
-    path: '/login',
-    element: <Login />,
+    // path: 'virgin', à prévoir
+    //element: <Virgin />, à prévoir
   },
 ]);
 

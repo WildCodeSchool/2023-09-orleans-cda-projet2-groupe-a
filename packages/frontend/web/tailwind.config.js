@@ -104,8 +104,19 @@ export default {
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
         'pastel-blue': '#A7D9EF',
+        'pastel-pink': '#FF017B',
+      },
+      animation: {
+        'fade-out': 'fadeOut 2000ms ease-in forwards',
+      },
+      keyframes: {
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
     },
   },
+  variants: {},
   plugins: [],
 };
