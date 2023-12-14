@@ -6,8 +6,6 @@ export default {
   safelist: [
     'md:ps-2.5',
     'md:pe-2.5',
-    'lg:ps-2.5',
-    'lg:pe-2.5',
     'order-1',
     'order-2',
     'order-3',
@@ -26,6 +24,7 @@ export default {
     'lg:order-4',
     'lg:order-5',
     'lg:order-6',
+    'right-[8%]',
     'lg:right-[15%]',
     'lg:right-[8%]',
     'lg:right-[4%]',
@@ -42,6 +41,30 @@ export default {
     'md:w-[116%]',
     'md:w-[110%]',
     'md:w-[105%]',
+    'w-[5%]',
+    'w-[10%]',
+    'w-[15%]',
+    'w-[20%]',
+    'w-[25%]',
+    'w-[30%]',
+    'w-[35%]',
+    'w-[40%]',
+    'w-[45%]',
+    'w-[50%]',
+    'w-[55%]',
+    'w-[60%]',
+    'w-[65%]',
+    'w-[70%]',
+    'w-[75%]',
+    'w-[80%]',
+    'w-[85%]',
+    'w-[90%]',
+    'w-[95%]',
+    'w-[100%]',
+    'w-[105%]',
+    'w-[108%]',
+    'w-[110%]',
+    'w-[113%]',
     'lg:clip-path-polygon-purple-lg',
     'lg:clip-path-polygon-yellow-lg',
     'lg:clip-path-polygon-green-lg',
@@ -54,6 +77,12 @@ export default {
     'md:clip-path-polygon-blue-md',
     'md:clip-path-polygon-orange-md',
     'md:clip-path-polygon-pink-md',
+    'clip-path-polygon-purple',
+    'clip-path-polygon-yellow',
+    'clip-path-polygon-green',
+    'clip-path-polygon-blue',
+    'clip-path-polygon-orange',
+    'clip-path-polygon-pink',
     'bg-dark-purple',
     'bg-dark-blue',
     'bg-dark-green',
@@ -72,6 +101,12 @@ export default {
     "bg-[url('form-cocktail/bubble/bubble-4.png')]",
     "bg-[url('form-cocktail/bubble/bubble-5.png')]",
     "bg-[url('form-cocktail/bubble/bubble-6.png')]",
+    "bg-[url('home/home-1.png')]",
+    "bg-[url('home/home-2.png')]",
+    "bg-[url('home/home-3.png')]",
+    "bg-[url('home/home-4.png')]",
+    "bg-[url('home/home-5.png')]",
+    "bg-[url('home/home-6.png')]",
   ],
   theme: {
     fontFamily: {
@@ -106,6 +141,12 @@ export default {
         'pastel-blue': '#A7D9EF',
         'pastel-pink': '#FF017B',
       },
+      rotate: {
+        17: '17deg',
+      },
+      textStroke: (theme) => ({
+        dark: '4px #000000',
+      }),
       animation: {
         'fade-out': 'fadeOut 2000ms ease-in forwards',
       },
@@ -119,4 +160,15 @@ export default {
   },
   variants: {},
   plugins: [],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      const newUtilities = {
+        '.text-stroke': {
+          '-webkit-text-stroke': theme('textStroke.dark'),
+          'text-stroke': theme('textStroke.dark'),
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
