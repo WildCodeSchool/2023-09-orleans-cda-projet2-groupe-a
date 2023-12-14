@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDisclosure } from '@app/frontend-shared';
 import type { SomeInterface, User } from '@app/types';
 
+import LegalNotice from './LegalModal';
+
 export default function Home() {
   const [someData, setSomeData] = useState<SomeInterface>({
     someProperty: 'someValue',
@@ -30,6 +32,8 @@ export default function Home() {
       abortController.abort();
     };
   }, []);
+
+  LegalNotice();
 
   return (
     <div
