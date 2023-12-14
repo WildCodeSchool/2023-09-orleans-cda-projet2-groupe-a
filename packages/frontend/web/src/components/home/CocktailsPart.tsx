@@ -1,7 +1,7 @@
 export default function CocktailsPart() {
   return (
-    <h1 className='text-light font-stroke relative top-[-60%] mb-16 w-[200px] text-center text-xl uppercase sm:top-[20px] sm:w-[300px] md:top-[-60px] md:text-2xl lg:left-[10px] lg:top-[-60px]'>
-      {'cocktails'}
+    <h1 className='text-light font-stroke rotate-17 relative left-[2%] top-[310%] ml-16 w-[200px] text-xl uppercase sm:left-[12%] sm:top-[350%] sm:w-[300px] sm:text-2xl md:bottom-[-30%] md:left-[45px] md:text-2xl lg:bottom-[-100px] lg:left-[45px]'>
+      {`cocktails`}
     </h1>
   );
 }

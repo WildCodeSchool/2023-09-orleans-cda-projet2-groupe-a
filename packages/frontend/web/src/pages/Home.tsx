@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import CocktailsPart from '@/components/home/CocktailsPart';
+import VirginPart from '@/components/home/CocktailsPart';
 import CommunityPart from '@/components/home/CommunityPart';
 import FavoritesPart from '@/components/home/FavoritesPart';
-import ProfilePart from '@/components/home/ProfilePart';
-import ShakeItPart from '@/components/home/ShakeItPart';
-import VirginPart from '@/components/home/VirginPart';
+import CocktailsPart from '@/components/home/ProfilePart';
+import ProfilePart from '@/components/home/ShakeItPart';
+import ShakeItPart from '@/components/home/VirginPart';
 
 const squares = [
   {
