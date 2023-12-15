@@ -148,10 +148,10 @@ export default {
         dark: '4px #000000',
       }),
       animation: {
-        'fade-out': 'fadeOut 2000ms ease-in forwards',
+        'fade-out': 'fade-out 2000ms ease-in forwards',
       },
       keyframes: {
-        fadeOut: {
+        fadeout: {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
         },

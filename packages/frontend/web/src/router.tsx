@@ -14,10 +14,6 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '/details/:id',
-    element: <CocktailsDetails />,
-  },
-  {
     path: '/checkbirthdate',
     element: <CheckBirthdate />,
   },

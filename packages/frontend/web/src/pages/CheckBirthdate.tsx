@@ -159,7 +159,7 @@ export default function CheckBirthdate() {
             </div>
             <img
               className='shadow-2x1 z-50 h-2/3 w-2/3 justify-center rounded-[90px] border-[6px] border-black object-center opacity-100 shadow-inner'
-              src='./alcohol-free-cocktails.webp'
+              src='alcohol-free-cocktails.webp'
               alt='redirection page for under18'
             />
             <button
@@ -169,7 +169,7 @@ export default function CheckBirthdate() {
                 setIsModalShown(false);
               }}
             >
-              <div className=''>{'X'}</div>
+              <div>{'X'}</div>
             </button>
           </div>
         </div>
