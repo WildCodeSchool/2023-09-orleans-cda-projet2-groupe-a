@@ -21,20 +21,12 @@ export default function CheckBirthdate() {
 
   useEffect(() => {
     const abortController = new AbortController();
-    // hide the image and clear the previous timer when birthdate changes.
-    setIsImageShown(false);
-    let timer: NodeJS.Timeout;
 
     if (
       birthdate !== '' &&
       new Date(birthdate).getTime() >= eighteenYearsAgo.getTime()
     ) {
       setIsImageShown(true);
-
-      // clear the timer when the component is unmounted or if birthdate changes.
-      return () => {
-        clearTimeout(timer);
-      };
     }
     return () => {
       abortController.abort();
@@ -154,7 +146,7 @@ export default function CheckBirthdate() {
       {isModalShown ? (
         <div className='flex-end font-stroke text-light flex items-center'>
           <div className='z-40 flex h-1/6 flex-col items-center gap-6 text-4xl'>
-            <div className='hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-black p-4 text-6xl font-bold transition-transform  duration-500 ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:border-[5px] hover:bg-opacity-80'>
+            <div className='hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500  ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
               <a href='/virgin'>{'Grab your Mocktail!'}</a>
             </div>
             <img
