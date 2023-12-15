@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import CocktailsPart from '@/components/home/CocktailsPart';
@@ -169,13 +168,9 @@ const squares = [
   },
 ];
 
-
 export default function Home() {
-
-  const [isModalShown, setIsModalShown] = useState(false);
-
   return (
-    <div className='overflow-x-hidden'>
+    <div className='relative overflow-x-hidden'>
       <form
         className='flex h-screen w-screen justify-center'
         onSubmit={undefined}
@@ -183,20 +178,20 @@ export default function Home() {
         <div className='grid h-full w-full grid-flow-col grid-rows-3 gap-y-2 p-1 md:p-3 lg:grid-rows-2'>
           {squares.map((square, index) => (
             <div
-            key={square.color}
-            className={`bg-dark relative clip-path-polygon-${
-              square.color
-            } md:clip-path-polygon-${square.color}-md lg:clip-path-polygon-${
-              square.color
-            }-lg order-${square.order.all} md:order-${
-              square.order.md
-            } lg:order-${square.order.lg} h-full w-[${
-              square.width.all
-            }%] md:w-[${square.width.md}%] lg:w-[${square.width.lg}%] ${
-              square.right === undefined
-              ? ''
-              : `right-[${square.right.all}%] md:right-[${square.right.md}%] lg:right-[${square.right.lg}%]`
-            }`}
+              key={square.color}
+              className={`bg-dark relative clip-path-polygon-${
+                square.color
+              } md:clip-path-polygon-${square.color}-md lg:clip-path-polygon-${
+                square.color
+              }-lg order-${square.order.all} md:order-${
+                square.order.md
+              } lg:order-${square.order.lg} h-full w-[${
+                square.width.all
+              }%] md:w-[${square.width.md}%] lg:w-[${square.width.lg}%] ${
+                square.right === undefined
+                  ? ''
+                  : `right-[${square.right.all}%] md:right-[${square.right.md}%] lg:right-[${square.right.lg}%]`
+              }`}
             >
               <div
                 className={`lg:clip-path-polygon-${
@@ -217,17 +212,17 @@ export default function Home() {
                   />
                   {square.color === 'yellow' ? (
                     <div
-                    className={`absolute left-[14%] top-0 flex w-[80%] flex-col items-center justify-center sm:left-[20%] md:left-[8%] lg:left-[8%] bg-[url('home/home-${
-                      index + 1
-                    }.png')] h-full w-[80%] bg-contain bg-center bg-no-repeat sm:w-[60%] md:w-[80%] md:bg-auto lg:w-[80%]`}
+                      className={`absolute left-[14%] top-0 flex w-[80%] flex-col items-center justify-center sm:left-[20%] md:left-[8%] lg:left-[8%] bg-[url('home/home-${
+                        index + 1
+                      }.png')] h-full w-[80%] bg-contain bg-center bg-no-repeat sm:w-[60%] md:w-[80%] md:bg-auto lg:w-[80%]`}
                     >
                       {square.component}
                     </div>
                   ) : (
                     <div
-                    className={`absolute left-[8%] top-0 flex w-[80%] flex-col items-center justify-center sm:left-[20%] md:left-[8%] lg:left-[8%] bg-[url('home/home-${
-                      index + 1
-                    }.png')] h-full w-[70%] bg-contain bg-center bg-no-repeat sm:w-[60%] md:w-[80%] md:bg-auto lg:w-[80%]`}
+                      className={`absolute left-[8%] top-0 flex w-[80%] flex-col items-center justify-center sm:left-[20%] md:left-[8%] lg:left-[8%] bg-[url('home/home-${
+                        index + 1
+                      }.png')] h-full w-[70%] bg-contain bg-center bg-no-repeat sm:w-[60%] md:w-[80%] md:bg-auto lg:w-[80%]`}
                     >
                       {square.component}
                     </div>
@@ -238,7 +233,9 @@ export default function Home() {
           ))}
         </div>
       </form>
-      <LegalNotice />
+      <div className='z40 absolute top-0 bg-black bg-opacity-60 shadow-inner'>
+        <LegalNotice />
+      </div>
     </div>
   );
 }
