@@ -222,6 +222,8 @@ export default function Home() {
                         index + 1
                       }.png')] h-full w-[70%] bg-contain bg-center bg-no-repeat sm:w-[60%] md:w-[80%] md:bg-auto lg:w-[80%]`}
                     >
+                      {/* <img src={`home/home-${index + 1}.png'`} /> */}
+
                       {square.component}
                     </div>
                   )}

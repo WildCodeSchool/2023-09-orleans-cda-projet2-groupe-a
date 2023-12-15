@@ -117,6 +117,30 @@
       0 0 3px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
   }
+  .font-stroke-navbar {
+    text-shadow:
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f;
+    -webkit-text-stroke: 0.5px #0e0f0f;
+  }
 
   .filter-black-to-purple {
     filter: invert(17%) sepia(91%) saturate(5311%) hue-rotate(288deg)
@@ -146,5 +170,15 @@
   .filter-black-to-pink {
     filter: invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg)
       brightness(99%) contrast(85%);
+  }
+
+  /* Brightness navbar */
+  .filter-hover:hover {
+    @apply drop-shadow(0 0 2em #646cffaa) filter;
+  }
+
+  .logo {
+    @apply will-change-filter transition-filter duration-300;
+    width: 400px;
   }
 }
