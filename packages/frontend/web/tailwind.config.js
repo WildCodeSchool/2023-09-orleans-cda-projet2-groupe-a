@@ -151,7 +151,7 @@ export default {
         'fade-out': 'fade-out 2000ms ease-in forwards',
       },
       keyframes: {
-        fadeout: {
+        'fade-out': {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
         },
