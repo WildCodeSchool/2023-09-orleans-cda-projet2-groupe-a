@@ -26,7 +26,7 @@ export default function Comment({ ratings, comments }: CocktailCommentsProps) {
                 >
                   {[1, 2, 3, 4, 5].map((index) => (
                     <div
-                      key={index}
+                      key={rating.rating_id}
                       className={`h-[20px] w-[20px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat grayscale sm:h-[30px] sm:w-[30px] ${
                         index <= Math.floor(rating.score / 2)
                           ? 'grayscale-0 '
