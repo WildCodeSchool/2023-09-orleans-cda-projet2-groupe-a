@@ -53,10 +53,10 @@ export interface LevelPartProps {
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedIngredient: string;
-  handleIngredientChange: (ingredient: string) => void;
-  errors: FieldErrors<CocktailForm>;
+  selectedIngredient: Ingredient | null;
+  handleIngredientChange: (ingredient: Ingredient | null) => void;
   watch: UseFormWatch<CocktailForm>;
+  errors: FieldErrors<CocktailForm>;
 }
 
 export interface GlassPartProps {
@@ -67,6 +67,8 @@ export interface GlassPartProps {
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedTopping: string;
+  selectedIngredient: Ingredient | null;
+  selectedAlcohol: Ingredient | null;
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
 }

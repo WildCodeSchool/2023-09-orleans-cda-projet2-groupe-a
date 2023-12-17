@@ -146,45 +146,45 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
+    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity, anecdote)
     VALUES
-    ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1),
-    ('Aviation', 'aviation.jpg', 140, 14, 1, 4, 1, 'floral', NOW(), 1),
-    ('Bellini', 'bellini.jpg', 140, 10, 1, 4.5, 1, 'neutral', NOW(), 1),
-    ('Bloody Mary', 'bloodymary.jpg', 140, 15, 1, 4, 1, 'sour', NOW(), 1),
-    ('Boulevardier', 'boulevardier.jpg', 200, 20, 1, 5, 1, 'bitter', NOW(), 1),
-    ('Caipirinha', 'caipirinha.jpg', 160, 14, 1, 4.5, 1, 'fruity', NOW(), 1),
-    ('Casino', 'casino.jpg', 160, 14, 1, 4, 1, 'sweet', NOW(), 1),
-    ('Cosmopolitan', 'cosmopolitan.jpg', 180, 15, 1, 4, 1, 'other', NOW(), 1),
-    ('Corpse Reviver #2', 'corpsereviver.jpg', 160, 18, 1, 5, 1, 'fruity', NOW(), 1),
-    ('Daiquiri', 'daiquiri.jpg', 180, 12, 1, 5, 1, 'fruity', NOW(), 1),
-    ('Dark and Stormy', 'darknstormy.jpg', 170, 15, 1, 4, 1, 'spicy', NOW(), 1),
-    ('Espresso Martini', 'espressomartini.jpg', 150, 25, 1, 4.5, 1, 'salty', NOW(), 1),
-    ('French 75', 'french75.jpg', 180, 15, 1, 4, 1, 'herbaceous', NOW(), 1),
-    ('Gin Tonic', 'ginandtonic.jpg', 120, 10, 1, 4, 1, 'sweet', NOW(), 1),
-    ('Gin Fizz', 'ginfizz.jpg', 150, 10, 1, 4, 1, 'neutral', NOW(), 1),
-    ('Long Island Iced Tea', 'longislandicedtea.jpg', 250, 20, 1, 5, 1, 'bitter', NOW(), 1),
-    ('Mai Tai', 'maitai.jpg', 220, 15, 1, 4, 1, 'spicy', NOW(), 1),
-    ('Manhattan', 'manhattan.jpg', 220, 18, 1, 5, 1, 'other', NOW(), 1),
-    ('Martini', 'martini.jpg', 180, 20, 1, 5, 1, 'sweet', NOW(), 1),
-    ('Margarita', 'margarita.jpg', 200, 15, 1, 4, 1, 'fruity', NOW(), 1),
-    ('Mint Julep', 'mintjulep.jpg', 160, 14, 1, 5, 2, 'other', NOW(), 1),
-    ('Mojito', 'mojito.jpg', 160, 10, 1, 4.5, 2, 'floral', NOW(), 1),
-    ('Moscow Mule', 'moscowmule.jpg', 180, 10, 1, 4.5, 2, 'spicy', NOW(), 1),
-    ('Negroni', 'negroni.jpg', 200, 22, 1, 4, 2, 'bitter', NOW(), 1),
-    ('Old Fashioned', 'oldfashioned.jpg', 220, 18, 1, 5, 2, 'other', NOW(), 1),
-    ('Paloma', 'paloma.jpg', 160, 12, 1, 4.5, 2, 'fruity', NOW(), 1),
-    ('Piña Colada', 'pinacolada.jpg', 250, 10, 1, 5, 2, 'sour', NOW(), 1),
-    ('Raspberry Mojito', 'raspberrymojito.jpg', 160, 10, 1, 4.5, 2, 'fruity', NOW(), 1),
-    ('Rum Punch', 'rumpunch.jpg', 200, 12, 1, 4.5, 2, 'fruity', NOW(), 1),
-    ('Sazerac', 'sazerac.jpg', 180, 16, 1, 5, 2, 'herbaceous', NOW(), 1),
-    ('Screwdriver', 'screwdriver.jpg', 160, 8, 1, 4, 2, 'fruity', NOW(), 1),
-    ('Singapore Sling', 'singaporesling.jpg', 180, 16, 1, 4.5, 2, 'fruity', NOW(), 1),
-    ('Tequila Sunrise', 'tequilasunrise.jpg', 180, 14, 1, 4, 2, 'fruity', NOW(), 1),
-    ('Tom Collins', 'tomcollins.jpg', 150, 12, 1, 4, 2, 'floral', NOW(), 1),
-    ('Tommys Margarita', 'tommysmargarita.jpg', 180, 15, 1, 4.5, 2, 'spicy', NOW(), 1),
-    ('White Lady', 'whitelady.jpg', 170, 16, 1, 4.5, 2, 'fruity', NOW(), 1),
-    ('White Russian', 'whiterussian.jpg', 250, 14, 1, 5, 3, 'other', NOW(), 1);
+    ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Aviation', 'aviation.jpg', 140, 14, 1, 4, 1, 'floral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Bellini', 'bellini.jpg', 140, 10, 1, 4.5, 1, 'neutral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Bloody Mary', 'bloodymary.jpg', 140, 15, 1, 4, 1, 'sour', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Boulevardier', 'boulevardier.jpg', 200, 20, 1, 5, 1, 'bitter', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Caipirinha', 'caipirinha.jpg', 160, 14, 1, 4.5, 1, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Casino', 'casino.jpg', 160, 14, 1, 4, 1, 'sweet', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Cosmopolitan', 'cosmopolitan.jpg', 180, 15, 1, 4, 1, 'other', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Corpse Reviver #2', 'corpsereviver.jpg', 160, 18, 1, 5, 1, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Daiquiri', 'daiquiri.jpg', 180, 12, 1, 5, 1, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Dark and Stormy', 'darknstormy.jpg', 170, 15, 1, 4, 1, 'spicy', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Espresso Martini', 'espressomartini.jpg', 150, 25, 1, 4.5, 1, 'salty', NOW(), 1, 'coucou je suis une anecdote'),
+    ('French 75', 'french75.jpg', 180, 15, 1, 4, 1, 'herbaceous', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Gin Tonic', 'ginandtonic.jpg', 120, 10, 1, 4, 1, 'sweet', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Gin Fizz', 'ginfizz.jpg', 150, 10, 1, 4, 1, 'neutral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Long Island Iced Tea', 'longislandicedtea.jpg', 250, 20, 1, 5, 1, 'bitter', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Mai Tai', 'maitai.jpg', 220, 15, 1, 4, 1, 'spicy', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Manhattan', 'manhattan.jpg', 220, 18, 1, 5, 1, 'other', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Martini', 'martini.jpg', 180, 20, 1, 5, 1, 'sweet', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Margarita', 'margarita.jpg', 200, 15, 1, 4, 1, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Mint Julep', 'mintjulep.jpg', 160, 14, 1, 5, 2, 'other', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Mojito', 'mojito.jpg', 160, 10, 1, 4.5, 2, 'floral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Moscow Mule', 'moscowmule.jpg', 180, 10, 1, 4.5, 2, 'spicy', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Negroni', 'negroni.jpg', 200, 22, 1, 4, 2, 'bitter', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Old Fashioned', 'oldfashioned.jpg', 220, 18, 1, 5, 2, 'other', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Paloma', 'paloma.jpg', 160, 12, 1, 4.5, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Piña Colada', 'pinacolada.jpg', 250, 10, 1, 5, 2, 'sour', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Raspberry Mojito', 'raspberrymojito.jpg', 160, 10, 1, 4.5, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Rum Punch', 'rumpunch.jpg', 200, 12, 1, 4.5, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Sazerac', 'sazerac.jpg', 180, 16, 1, 5, 2, 'herbaceous', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Screwdriver', 'screwdriver.jpg', 160, 8, 1, 4, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Singapore Sling', 'singaporesling.jpg', 180, 16, 1, 4.5, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Tequila Sunrise', 'tequilasunrise.jpg', 180, 14, 1, 4, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Tom Collins', 'tomcollins.jpg', 150, 12, 1, 4, 2, 'floral', NOW(), 1, 'coucou je suis une anecdote'),
+    ('Tommys Margarita', 'tommysmargarita.jpg', 180, 15, 1, 4.5, 2, 'spicy', NOW(), 1, 'coucou je suis une anecdote'),
+    ('White Lady', 'whitelady.jpg', 170, 16, 1, 4.5, 2, 'fruity', NOW(), 1, 'coucou je suis une anecdote'),
+    ('White Russian', 'whiterussian.jpg', 250, 14, 1, 5, 3, 'other', NOW(), 1, 'coucou je suis une anecdote');
   `.execute(trx);
 
   await sql`
@@ -211,16 +211,16 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO topping (name)
+    INSERT INTO topping (name, flavour)
     VALUES
-    ('Whipped Cream'),
-    ('Cherry'),
-    ('Lime Twist'),
-    ('Orange Zest'),
-    ('Mint Sprig'),
-    ('Cinnamon Stick'),
-    ('Nutmeg Dust'),
-    ('Ginger Slice');
+    ('Whipped Cream', 'sweet'),
+      ('Cherry', 'sweet'),
+      ('Lime Twist', 'sour'),
+      ('Orange Zest', 'fruity'),
+      ('Mint Sprig', 'herbaceous'),
+      ('Cinnamon Stick', 'spicy'),
+      ('Nutmeg Dust', 'spicy'),
+      ('Ginger Slice', 'spicy');
   `.execute(trx);
 
   await sql`

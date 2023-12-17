@@ -1,5 +1,16 @@
 import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
 
+export type Flavour =
+  | 'fruity'
+  | 'spicy'
+  | 'herbaceous'
+  | 'floral'
+  | 'woody'
+  | 'bitter'
+  | 'sweet'
+  | 'salty'
+  | 'sour'
+  | 'neutral';
 export interface GlassTable {
   id: Generated<number>;
   name: string;

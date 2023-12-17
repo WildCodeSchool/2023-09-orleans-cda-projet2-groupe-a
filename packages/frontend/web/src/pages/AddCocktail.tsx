@@ -19,32 +19,18 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 export default function AddCocktail() {
   const [level, setLevel] = useState<number>(0);
 
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
+  const [selectedAlcohol, setSelectedAlcohol] = useState<Ingredient | null>(
+    null,
+  );
+  const [selectedIngredient, setSelectedIngredient] =
+    useState<Ingredient | null>(null);
+
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  /*  const [flavours, setFlavours] = useState<{ [key: string]: number }>({
-    sweet: 0,
-    spicy: 0,
-    fruity: 0,
-    neutral: 0,
-    herbaceous: 0,
-    bitter: 0,
-    other: 0,
-    salty: 0,
-    mixed: 0,
-    fresh: 0,
-    acidulous: 0,
-    floral: 0,
-    sour: 0,
-    earthy: 0,
-    peppery: 0,
-    umami: 0,
-  });  */
-
-  const handleIngredientChange = (value: string) => {
-    setSelectedIngredient(value);
+  const handleIngredientChange = (ingredient: Ingredient | null) => {
+    setSelectedIngredient(ingredient);
   };
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
@@ -83,6 +69,7 @@ export default function AddCocktail() {
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setValue('alcohol', alcohol, { shouldValidate: true });
+    setSelectedAlcohol(alcohol);
   };
 
   const handleErrorSubmit = () => {
@@ -236,6 +223,8 @@ export default function AddCocktail() {
         <ToppingPart
           register={register}
           selectedTopping={selectedTopping}
+          selectedIngredient={selectedIngredient}
+          selectedAlcohol={selectedAlcohol}
           handleToppingChange={handleToppingChange}
           errors={errors}
         />

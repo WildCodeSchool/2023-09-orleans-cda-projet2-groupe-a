@@ -2,13 +2,13 @@ import express from 'express';
 import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
-import type { SomeInterface } from '@app/types';
+import type { Flavour, SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
-import { getRandomToppings } from './services/topping-service';
+import { getToppingsByFlavour } from './services/topping-service';
 
 const router = express.Router();
 
@@ -42,9 +42,10 @@ router.get('/alcohols/:level', async (req, res) => {
   }
 });
 
-router.get('/toppings', async (req, res) => {
+router.get('/toppings/:mainFlavour', async (req, res) => {
+  const mainFlavour: Flavour = req.params.mainFlavour as Flavour;
   try {
-    const result = await getRandomToppings(db);
+    const result = await getToppingsByFlavour(db, mainFlavour);
     res.json(result);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });

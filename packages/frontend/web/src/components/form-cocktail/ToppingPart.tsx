@@ -5,23 +5,97 @@ import type { Topping, ToppingPartProps } from '@app/types';
 export default function ToppingPart({
   register,
   selectedTopping,
+  selectedIngredient,
+  selectedAlcohol,
   handleToppingChange,
   errors,
 }: ToppingPartProps) {
   const [toppings, setToppings] = useState<Topping[]>([]);
+
+  const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
+  const flavoursCount = {
+    fruity: 0,
+    spicy: 0,
+    herbaceous: 0,
+    floral: 0,
+    woody: 0,
+    bitter: 0,
+    sweet: 0,
+    salty: 0,
+    sour: 0,
+    neutral: 0,
+  };
+
+  for (const flavour of allFlavours) {
+    switch (flavour) {
+      case 'fruity': {
+        flavoursCount.fruity += 1;
+        break;
+      }
+      case 'spicy': {
+        flavoursCount.spicy += 1;
+        break;
+      }
+      case 'herbaceous': {
+        flavoursCount.herbaceous += 1;
+        break;
+      }
+      case 'floral': {
+        flavoursCount.floral += 1;
+        break;
+      }
+      case 'woody': {
+        flavoursCount.woody += 1;
+        break;
+      }
+      case 'bitter': {
+        flavoursCount.bitter += 1;
+        break;
+      }
+      case 'sweet': {
+        flavoursCount.sweet += 1;
+        break;
+      }
+      case 'salty': {
+        flavoursCount.salty += 1;
+        break;
+      }
+      case 'sour': {
+        flavoursCount.sour += 1;
+        break;
+      }
+      case 'neutral': {
+        flavoursCount.neutral += 1;
+        break;
+      }
+    }
+  }
+
+  let mainFlavour = '';
+  let mainFlavourCount = 0;
+
+  for (const [key, count] of Object.entries(flavoursCount)) {
+    if (count > mainFlavourCount) {
+      mainFlavour = key;
+      mainFlavourCount = count;
+    }
+  }
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/toppings`)
-      .then((response) => response.json())
-      .then((data) => {
-        setToppings(data);
-      })
-      .catch((error) => {
-        console.error(
-          'Erreur lors de la récupération des toppings depuis le backend :',
-          error,
-        );
-      });
-  }, []);
+    if (selectedAlcohol && selectedIngredient) {
+      fetch(`${import.meta.env.VITE_API_URL}/toppings/${mainFlavour}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setToppings(data);
+        })
+        .catch((error) => {
+          console.error(
+            'Erreur lors de la récupération des toppings depuis le backend :',
+            error,
+          );
+        });
+    }
+  }, [mainFlavour, selectedAlcohol, selectedIngredient]);
 
   return (
     <>
