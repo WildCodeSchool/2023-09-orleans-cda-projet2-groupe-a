@@ -9,7 +9,9 @@ import type { Ingredient } from '.';
 export type CocktailForm = {
   name?: string;
   topping?: string;
-  ingredient?: string;
+  ingredient1?: Pick<Ingredient, 'id' | 'name'>;
+  ingredient2?: Pick<Ingredient, 'id' | 'name'>;
+  ingredient3?: Pick<Ingredient, 'id' | 'name'>;
   alcohol?: Ingredient;
   level?: number;
   glass?: string;
@@ -35,10 +37,13 @@ export interface LevelPartProps {
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedIngredient: string;
-  handleIngredientChange: (ingredient: string) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
 }
 
 export interface GlassPartProps {
@@ -51,4 +56,13 @@ export interface ToppingPartProps {
   selectedTopping: string;
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
+}
+
+export interface IngredientProps {
+  watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
 }

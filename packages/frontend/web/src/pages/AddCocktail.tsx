@@ -18,17 +18,15 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 
 export default function AddCocktail() {
   const [level, setLevel] = useState<number>(0);
+  const [show, setShow] = useState<number>(1);
 
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  const handleIngredientChange = (value: string) => {
-    setSelectedIngredient(value);
-  };
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
+    setShow(6);
   };
 
   const {
@@ -53,6 +51,7 @@ export default function AddCocktail() {
       } else {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
+        setShow(2);
       }
     } catch (error) {
       console.error(
@@ -64,6 +63,7 @@ export default function AddCocktail() {
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setValue('alcohol', alcohol, { shouldValidate: true });
+    setShow(3);
   };
 
   const handleErrorSubmit = () => {
@@ -97,6 +97,45 @@ export default function AddCocktail() {
       setError('level', {
         type: 'validate',
         message: 'must be a number between 1 and 3',
+      });
+    }
+
+    const ingredient1Value = watch('ingredient1');
+
+    if (ingredient1Value === undefined) {
+      setError('ingredient1', { type: 'required', message: 'required' });
+    } else if (typeof ingredient1Value.id === 'number') {
+      clearErrors('ingredient1');
+    } else {
+      setError('ingredient1', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
+
+    const ingredient2Value = watch('ingredient2');
+
+    if (ingredient2Value === undefined) {
+      setError('ingredient2', { type: 'required', message: 'required' });
+    } else if (typeof ingredient2Value.id === 'number') {
+      clearErrors('ingredient2');
+    } else {
+      setError('ingredient2', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
+
+    const ingredient3Value = watch('ingredient3');
+
+    if (ingredient3Value === undefined) {
+      setError('ingredient3', { type: 'required', message: 'required' });
+    } else if (typeof ingredient3Value.id === 'number') {
+      clearErrors('ingredient3');
+    } else {
+      setError('ingredient3', {
+        type: 'validate',
+        message: 'must be a number',
       });
     }
   };
@@ -172,10 +211,10 @@ export default function AddCocktail() {
       component: (
         <IngredientsPart
           register={register}
-          selectedIngredient={selectedIngredient}
-          handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
+          setValue={setValue}
+          setShow={setShow}
         />
       ),
     },
@@ -286,9 +325,12 @@ export default function AddCocktail() {
                   className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
                 />
                 <div
-                  className={`absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
-                    index + 1
-                  }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
+                  className={`
+    ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
+    absolute left-[3%] 
+    top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
+      index + 1
+    }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
                 >
                   {square.component}
                 </div>
