@@ -81,7 +81,6 @@ export default function AddComment({ refEl, setIsOpen }: AddCommentProps) {
         </div>
         <div ref={refEl}>
           <div className='my-4 flex justify-center'>
-            {/* {[1, 2, 3, 4, 5].map((index) => ( */}
             {[1, 2, 3, 4, 5].map((index) => (
               <Star
                 key={index}
