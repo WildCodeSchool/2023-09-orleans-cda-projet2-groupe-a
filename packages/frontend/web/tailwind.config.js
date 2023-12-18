@@ -113,6 +113,10 @@ export default {
       sans: ['Mochiy Pop One', 'sans-serif', ...fontFamily.sans],
     },
     extend: {
+      screens: {
+        xs: '360px',
+        xxs: '260px',
+      },
       colors: {
         white: '#FFFFFF',
         light: '#F4F7F6',
