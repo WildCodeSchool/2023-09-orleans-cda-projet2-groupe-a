@@ -4,14 +4,24 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useDisclosure } from '@app/frontend-shared';
-import type { CommentsProps, RatingsProps } from '@app/types';
 
 import Comment from './Comment';
 import StarRating from './StarRating';
 
+interface CocktailComments {
+  content: string;
+  comment_id: number;
+  user_id: number;
+  cocktail_id: number;
+  comment_user: string;
+  numberComment: number;
+  score: number;
+  rating_id: number;
+}
+
 export default function CocktailComments() {
-  const [comments, setComments] = useState<CommentsProps[]>();
-  const [ratings, setRatings] = useState<RatingsProps[]>();
+  const [comments, setComments] = useState<CocktailComments[]>();
+  const [ratings, setRatings] = useState<CocktailComments[]>();
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -70,7 +80,7 @@ export default function CocktailComments() {
           )}
           <h2 className='pe-2'>{`review`}</h2>
           <div className='my-auto flex'>
-            <StarRating comments={comments} ratings={ratings} />
+            <StarRating ratings={ratings} />
           </div>
         </div>
       </div>
@@ -83,7 +93,7 @@ export default function CocktailComments() {
             transition={{ duration: 1 }}
             className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain sm:w-[90%] md:w-[90%]'
           >
-            <Comment comments={comments} ratings={ratings} />
+            <Comment comments={comments} />
           </motion.div>
         ) : undefined}
       </AnimatePresence>

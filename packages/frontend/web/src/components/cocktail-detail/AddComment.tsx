@@ -5,13 +5,18 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
-import type { InputCocktailForm } from '@app/types';
+// Input de la page cocktail-detail
+export type InputCocktailForm = {
+  anecdote?: string;
+  file?: string;
+  content?: string;
+};
 
 interface AddCommentProps {
   readonly setIsOpen: Dispatch<SetStateAction<boolean>>;
-  readonly popUp: RefObject<HTMLDivElement>;
+  readonly refEl: RefObject<HTMLDivElement>;
 }
-export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
+export default function AddComment({ refEl, setIsOpen }: AddCommentProps) {
   const { id } = useParams();
   const [hoveredStars, setHoveredStars] = useState(0);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
@@ -74,7 +79,7 @@ export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
         <div className='font-stroke text-light hover:text-dark-orange duration-250 mt-24 cursor-pointer text-center text-[2rem] transition-transform ease-in-out hover:scale-110'>
           <p>{`How is it?`}</p>
         </div>
-        <div ref={popUp}>
+        <div ref={refEl}>
           <div className='my-4 flex justify-center'>
             {/* {[1, 2, 3, 4, 5].map((index) => ( */}
             {[1, 2, 3, 4, 5].map((index) => (
@@ -98,7 +103,7 @@ export default function AddComment({ setIsOpen, popUp }: AddCommentProps) {
             ))}
           </div>
           <div className='flex justify-center'>
-            <div className='bg-light border-dark h-[32rem] w-[90%] rounded-xl border-[3px] bg-[url("/comment2.jpg")] bg-cover bg-center bg-no-repeat shadow-md sm:w-[40rem] '>
+            <div className='bg-light border-dark h-[32rem] w-[90%] rounded-xl border-[3px] bg-[url("/comment.jpg")] bg-cover bg-center bg-no-repeat shadow-md sm:w-[40rem] '>
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className='mx-auto sm:h-[25rem] sm:w-[25rem] '

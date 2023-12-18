@@ -1,4 +1,13 @@
-import type { CocktailCommentsProps } from '@app/types';
+export interface CocktailCommentsProps {
+  readonly ratings: RatingsProps[] | undefined;
+}
+
+export type RatingsProps = {
+  rating_id: number;
+  score: number;
+  user_id: number;
+  cocktail_id: number;
+};
 
 export default function StarRating({ ratings }: CocktailCommentsProps) {
   return (

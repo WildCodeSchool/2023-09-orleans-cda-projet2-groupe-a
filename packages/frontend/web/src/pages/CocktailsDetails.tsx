@@ -1,16 +1,31 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
-import type {
-  Cocktail,
-  IngredientsProps,
-  ToolsProps,
-  ToppingsProps,
-} from '@app/types';
+import type { Cocktail } from '@app/types';
 
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
+
+type ToppingsProps = {
+  topping_id: number;
+  topping_name: string;
+  topping_quantity: number;
+};
+
+type ToolsProps = {
+  tool_id: number;
+  tool_name: string;
+  tool_image: string;
+};
+
+type IngredientsProps = {
+  ingredient_id: number;
+  ingredient_name: string;
+  quantity: number;
+  verb: string;
+  priority: number;
+};
 
 // import StarRating from '@/components/cocktail-detail/StarRating';
 
@@ -85,11 +100,11 @@ export default function CocktailsDetails() {
               className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
             />
             <div className='flex flex-wrap justify-center px-5 pt-4'>
-              {ingredients?.map((ingredient) => (
+              {ingredients?.map((ingredient, index) => (
                 <div key={ingredient.ingredient_name}>
                   <p className='text-md me-1 uppercase'>
                     {ingredient.ingredient_name}
-                    {`, `}
+                    {index < ingredients.length - 1 && `, `}
                   </p>
                 </div>
               ))}

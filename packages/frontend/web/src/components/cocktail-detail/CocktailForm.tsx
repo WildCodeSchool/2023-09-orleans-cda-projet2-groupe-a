@@ -1,9 +1,25 @@
 import { Upload } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
-import type { CocktailProps, InputCocktailForm } from '@app/types';
+import type { Cocktail } from '@app/types';
 
-export default function CocktailForm({ cocktail }: CocktailProps) {
+type CocktailFormProps = {
+  readonly cocktail: Cocktail;
+};
+
+// Input de la page cocktail-detail
+type InputCocktailForm = {
+  anecdote?: string;
+  file?: string;
+  content?: string;
+};
+
+// Upload image
+export type File = {
+  originalname: 'string';
+  filename: 'string';
+};
+export default function CocktailForm({ cocktail }: CocktailFormProps) {
   const {
     register,
     handleSubmit,
