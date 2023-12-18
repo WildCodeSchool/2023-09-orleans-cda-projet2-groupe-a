@@ -120,7 +120,7 @@ user.get('/:id', async (req, res) => {
 
   try {
     const result = await getUserById(db, id);
-    res.json(result);
+    res.json(result[0]);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
   }

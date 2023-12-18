@@ -19,7 +19,7 @@ export default function ProfilePage() {
     });
     if (response.ok) {
       const data = await response.json();
-      setUser(data[0]);
+      setUser(data);
       setIsLoading(false);
     } else {
       console.error(`Request error: ${response.status}`);
@@ -38,10 +38,6 @@ export default function ProfilePage() {
       controller.abort();
     };
   }, [urlUser]);
-
-  if (user === undefined && !isLoading) {
-    return <Navigate to='/' />;
-  }
 
   if (isLoading) {
     return null;
