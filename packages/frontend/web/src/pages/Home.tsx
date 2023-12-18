@@ -7,6 +7,8 @@ import ProfilePart from '@/components/home/ProfilePart';
 import ShakeItPart from '@/components/home/ShakeItPart';
 import VirginPart from '@/components/home/VirginPart';
 
+import LegalNotice from './LegalModal';
+
 const squares = [
   {
     color: 'purple',
@@ -168,7 +170,7 @@ const squares = [
 
 export default function Home() {
   return (
-    <div className='overflow-x-hidden'>
+    <div className='relative overflow-x-hidden'>
       <form
         className='flex h-screen w-screen justify-center'
         onSubmit={undefined}
@@ -231,6 +233,9 @@ export default function Home() {
           ))}
         </div>
       </form>
+      <div className='z40 absolute top-0 bg-black bg-opacity-60 shadow-inner'>
+        <LegalNotice />
+      </div>
     </div>
   );
 }
