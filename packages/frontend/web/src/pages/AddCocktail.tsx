@@ -210,9 +210,7 @@ export default function AddCocktail() {
         lg: 0,
         md: 10,
       },
-      component: (
-        <GlassPart errors={errors} setValue={setValue} watch={watch} />
-      ),
+      component: <GlassPart errors={errors} setValue={setValue} />,
     },
     {
       color: 'green',

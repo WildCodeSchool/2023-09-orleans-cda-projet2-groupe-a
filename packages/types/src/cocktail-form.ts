@@ -45,7 +45,6 @@ export interface IngredientsPartProps {
 export interface GlassPartProps {
   errors: FieldErrors<CocktailForm>;
   setValue: UseFormSetValue<CocktailForm>;
-  watch: UseFormWatch<CocktailForm>;
 }
 
 export interface ToppingPartProps {

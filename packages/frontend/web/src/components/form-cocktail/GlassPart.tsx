@@ -1,10 +1,39 @@
 import { Shuffle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-import type { GlassPartProps } from '@app/types';
+import type { Glass, GlassPartProps } from '@app/types';
 
 const url = `${import.meta.env.VITE_API_URL}/glass`;
 
-export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
+export default function GlassPart({ errors, setValue }: GlassPartProps) {
+  const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
+
+  const fetchData = async (url: string, signal: AbortSignal) => {
+    const response = await fetch(url, {
+      signal,
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setValue('glass', data[0]);
+      setGlass(data[0]);
+    } else {
+      console.error(`Request error: ${response.status}`);
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchData(url, signal).catch((error) => {
+      console.error(error);
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
   const shuffleClick = async () => {
     try {
       const response = await fetch(url);
@@ -12,7 +41,8 @@ export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue('glass', data?.[0]);
+      setValue('glass', data[0]);
+      setGlass(data[0]);
     } catch (error) {
       console.error(error);
     }
@@ -34,10 +64,7 @@ export default function GlassPart({ errors, setValue, watch }: GlassPartProps) {
       ) : undefined}
 
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
-        <input
-          className='w-[200px]'
-          value={watch('glass.name') || 'click me'}
-        />
+        <p className='w-[200px]'>{glass?.name}</p>
         <button
           type='button'
           onClick={async () => {
