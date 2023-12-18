@@ -20,6 +20,24 @@ export default function Ingredient3({
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
 
+  const randomIngredient = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/ingredient/random/${watch(
+          'ingredient2.id',
+        )}`,
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setValue('ingredient3', data[0]);
+      setShow(5);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <fieldset className='relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[4%] sm:right-[-13%] sm:w-[300px]'>
@@ -51,7 +69,12 @@ export default function Ingredient3({
           {'Choose your blend or amend'}
         </p>
         <MoveRight size={40} />
-        <button type='button'>
+        <button
+          type='button'
+          onClick={async () => {
+            await randomIngredient();
+          }}
+        >
           <Skull size={45} />
         </button>
       </div>

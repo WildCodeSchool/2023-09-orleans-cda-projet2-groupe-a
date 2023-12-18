@@ -13,6 +13,8 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
+  console.log(data);
+
   return data;
 };
 

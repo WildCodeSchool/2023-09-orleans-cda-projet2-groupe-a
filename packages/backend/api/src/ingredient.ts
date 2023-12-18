@@ -55,4 +55,30 @@ ingredient.get('/:ingredientId', async (req, res) => {
   return res.json([...ingredientsByIngredient, ...ingredient]);
 });
 
+ingredient.get('/random/:ingredientId', async (req, res) => {
+  const ingredientId = req.params.ingredientId;
+
+  const ingredient = await db
+    .selectFrom('ingredient')
+    .select(['ingredient.id', 'ingredient.name'])
+    .where('ingredient.id', '!=', Number.parseInt(ingredientId))
+    .orderBy(sql`rand()`)
+    .limit(1)
+    .execute();
+
+  return res.json(ingredient);
+});
+
+ingredient.get('/search/:ingredientname', async (req, res) => {
+  const ingredientname = `%${req.params.ingredientname}%`;
+
+  const ingredient = await db
+    .selectFrom('ingredient')
+    .select(['ingredient.id', 'ingredient.name'])
+    .where('ingredient.name', 'like', ingredientname)
+    .execute();
+
+  return res.json(ingredient);
+});
+
 export { ingredient };
