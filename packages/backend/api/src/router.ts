@@ -6,9 +6,11 @@ import type { Flavour, SomeInterface } from '@app/types';
 
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
+import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { getToppingsByFlavour } from './services/topping-service';
+import { user } from './user';
 
 const router = express.Router();
 
@@ -53,6 +55,8 @@ router.get('/toppings/:mainFlavour', async (req, res) => {
 });
 
 router.use('/auth', authRouter);
+router.use('/user', user);
 router.use('/ingredient', ingredient);
+router.use('/glass', glass);
 
 export default router;
