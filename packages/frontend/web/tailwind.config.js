@@ -107,6 +107,12 @@ export default {
     "bg-[url('home/home-4.png')]",
     "bg-[url('home/home-5.png')]",
     "bg-[url('home/home-6.png')]",
+    'bg-card-blue',
+    'bg-card-light-green',
+    'bg-card-dark-green',
+    'bg-card-virgin-pink',
+    'bg-card-virgin-dark-pink',
+    'bg-card-virgin-salmon',
   ],
   theme: {
     fontFamily: {
@@ -142,6 +148,12 @@ export default {
         'card-pink': '#F5A2A2',
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
+        'card-blue': '#85ACDA',
+        'card-light-green': '#85DA89',
+        'card-dark-green': '#85DABF',
+        'card-virgin-pink': '#F575D1',
+        'card-virgin-dark-pink': '#F57575',
+        'card-virgin-salmon': '#F5A975',
       },
       rotate: {
         17: '17deg',

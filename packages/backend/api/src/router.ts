@@ -9,6 +9,7 @@ import { cocktailRouter } from './cocktail';
 import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
+import { user } from './user';
 
 const router = express.Router();
 
@@ -43,6 +44,7 @@ router.get('/alcohols/:level', async (req, res) => {
 });
 
 router.use('/auth', authRouter);
+router.use('/user', user);
 router.use('/ingredient', ingredient);
 router.use('/glass', glass);
 

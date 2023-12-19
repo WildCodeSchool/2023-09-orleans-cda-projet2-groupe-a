@@ -85,12 +85,26 @@
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: #f4f7f6;
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #c0bdbd;
     border-radius: 5px;
+  }
+
+  .scrollbar-bigger-rounded::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .scrollbar-bigger-rounded::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
+    border-radius: 35px;
+    border: 2px solid #000000;
+  }
+
+  .scrollbar-bigger-rounded::-webkit-scrollbar-track {
+    background-color: #f4f7f6;
   }
 
   .font-stroke {
@@ -115,6 +129,57 @@
       0 0 3px #0e0f0f,
       0 0 3px #0e0f0f,
       0 0 3px #0e0f0f;
+    -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+
+  /* Stroke for the font */
+  .font-stroke-title {
+    text-shadow:
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f,
+      0 0 4px #0e0f0f;
+    -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+
+  .font-stroke-small-text {
+    text-shadow:
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f,
+      0 0 2px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
   }
 
