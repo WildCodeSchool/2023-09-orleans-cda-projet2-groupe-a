@@ -14,8 +14,8 @@ export default function GlassPart({ errors, setValue }: GlassPartProps) {
     });
     if (response.ok) {
       const data = await response.json();
-      setValue('glass', data[0]);
-      setGlass(data[0]);
+      setValue('glass', data);
+      setGlass(data);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -41,8 +41,8 @@ export default function GlassPart({ errors, setValue }: GlassPartProps) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue('glass', data[0]);
-      setGlass(data[0]);
+      setValue('glass', data);
+      setGlass(data);
     } catch (error) {
       console.error(error);
     }

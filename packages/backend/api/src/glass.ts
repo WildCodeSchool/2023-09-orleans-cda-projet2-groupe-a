@@ -13,7 +13,7 @@ glass.get('/', async (req, res) => {
     .limit(1)
     .execute();
 
-  return res.json(glass);
+  return res.json(glass[0]);
 });
 
 export { glass };
