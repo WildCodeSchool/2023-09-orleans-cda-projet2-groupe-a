@@ -1,8 +1,7 @@
 import express from 'express';
-import { type Kysely, sql } from 'kysely';
+import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
-import type { Database } from '@app/types';
 
 const user = express.Router();
 
@@ -17,7 +16,7 @@ const user = express.Router();
 //    - The rating given in each comment
 //    - The name of the cocktail associated with each comment
 
-async function getUserById(db: Kysely<Database>, id: number) {
+async function getUserById(id: number) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
       WITH ranked_ingredients AS (
@@ -119,7 +118,7 @@ user.get('/:id', async (req, res) => {
   const id = Number.parseInt(req.params.id);
 
   try {
-    const result = await getUserById(db, id);
+    const result = await getUserById(id);
     res.json(result[0]);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
