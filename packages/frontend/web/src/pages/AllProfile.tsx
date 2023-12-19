@@ -68,7 +68,7 @@ export default function AllProfile() {
                                     key={index}
                                     className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat grayscale ${
                                       index <=
-                                      Math.floor(user.average_rating / 2)
+                                      Math.floor((user.average_rating ?? 0) / 2)
                                         ? 'grayscale-0 '
                                         : 'grayscale'
                                     }`}
