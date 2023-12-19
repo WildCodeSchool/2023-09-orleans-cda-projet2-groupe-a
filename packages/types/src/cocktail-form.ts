@@ -44,6 +44,7 @@ export interface IngredientsPartProps {
     value: string | { id: number; name: string },
   ) => void;
   setShow: (show: number) => void;
+  setIsModalShown: (isModalShown: boolean) => void;
 }
 
 export interface GlassPartProps {

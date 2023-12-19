@@ -76,6 +76,7 @@ ingredient.get('/search/:ingredientname', async (req, res) => {
     .selectFrom('ingredient')
     .select(['ingredient.id', 'ingredient.name'])
     .where('ingredient.name', 'like', ingredientname)
+    .orderBy('ingredient.name', 'asc')
     .execute();
 
   return res.json(ingredient);

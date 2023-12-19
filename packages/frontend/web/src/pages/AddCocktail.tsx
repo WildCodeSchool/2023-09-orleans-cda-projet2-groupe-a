@@ -11,6 +11,7 @@ import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
 import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
+import ModalSearch from '@/components/form-cocktail/ingredients/ModalSearch';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   console.log(data);
@@ -19,6 +20,8 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 };
 
 export default function AddCocktail() {
+  const [isModalShown, setIsModalShown] = useState(false);
+
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
 
@@ -217,6 +220,7 @@ export default function AddCocktail() {
           watch={watch}
           setValue={setValue}
           setShow={setShow}
+          setIsModalShown={setIsModalShown}
         />
       ),
     },
@@ -341,6 +345,11 @@ export default function AddCocktail() {
           </div>
         ))}
       </div>
+      {isModalShown ? (
+        <div className='relative'>
+          <ModalSearch setIsModalShown={setIsModalShown} setValue={setValue} />
+        </div>
+      ) : null}
     </form>
   );
 }

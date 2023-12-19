@@ -1,21 +1,19 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useState } from 'react';
 
 import type { IngredientsPartProps } from '@app/types';
 
 import Ingredient1 from './ingredients/Ingredient1';
 import Ingredient2 from './ingredients/Ingredient2';
 import Ingredient3 from './ingredients/Ingredient3';
-import ModalSearch from './ingredients/ModalSearch';
 
 export default function IngredientsPart({
   errors,
   watch,
   setValue,
   setShow,
+  setIsModalShown,
 }: IngredientsPartProps) {
-  const [isModalShown, setIsModalShown] = useState(false);
   return (
     <>
       <h1 className='relative bottom-[3%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
@@ -95,11 +93,6 @@ export default function IngredientsPart({
             <Ingredient3 watch={watch} setValue={setValue} setShow={setShow} />
           </motion.div>
         )}
-      {isModalShown ? (
-        <div className='relative'>
-          <ModalSearch setIsModalShown={setIsModalShown} />
-        </div>
-      ) : null}
     </>
   );
 }
