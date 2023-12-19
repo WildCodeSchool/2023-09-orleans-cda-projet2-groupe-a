@@ -1,14 +1,14 @@
 import { type FormEvent, useState } from 'react';
-// import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Register() {
   const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn } = useAuth();
 
   const [email, setEmail] = useState<string>('');
+  const [pseudo, setPseudo] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
@@ -16,36 +16,39 @@ export default function Register() {
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
 
-    // le fetch envoie une requête à la route /login et retourne une promesse qui est la réponse à la requête.
-    // Await suspend l'exécution du code à la résolution de la promesse.
-    // Param1 du fetch : adresse du serveur et route.
-    // Param2: un objet contenant
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-      method: 'POST',
-      credentials: 'include', // optionnel mais indispensable pour retrouver le cookie.
-      headers: {
-        'content-type': 'application/json', // L'entête content-type spécifie à Express le type de contenu de la requête HTTP. Aka du JSON.
-      },
-      body: JSON.stringify({
-        // body contient email et password. JSON.stringify convertit l'objet en chaîne JSON.
-        email,
-        password,
-      }),
-    });
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+        method: 'POST',
+        credentials: 'include', // optionnel mais indispensable pour retrouver le cookie.
+        headers: {
+          'content-type': 'application/json', // L'entête content-type spécifie à Express le type de contenu de la requête HTTP. Aka du JSON.
+        },
+        body: JSON.stringify({
+          // body contient email et password. JSON.stringify convertit l'objet en chaîne JSON.
+          email,
+          password,
+          pseudo,
+          birthdate,
+        }),
+      });
 
-    const data = (await res.json()) as {
-      isLoggedIn: boolean;
-    }; // la souris au-dessus de json ci-contre montre que c'est d'une promesse. D'où await devant.
+      const data = (await res.json()) as {
+        ok: boolean;
+      }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
+      //Hence, the mention "await" preceed res.json.
 
-    if (data.isLoggedIn) {
-      setIsLoggedIn(true);
-      navigate('/home'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
+      if (data.ok) {
+        // User registered, loggedIn and redirected to /.
+        setIsLoggedIn(true);
+        navigate('/'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
+      } else {
+        // User Registered but not logged in
+        setIsLoggedIn(false);
+      }
+    } catch {
+      console.error('There was an error registering.');
     }
   };
-
-  if (isLoggedIn) {
-    return <Navigate to='/' />;
-  }
 
   return (
     <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
@@ -54,12 +57,12 @@ export default function Register() {
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
         <div className='z-50 flex h-screen w-screen flex-col items-center justify-center'>
-          <h1 className='text-light font-stroke text-center  text-5xl font-bold'>
+          <h1 className='text-light font-stroke mt-10 text-center text-5xl font-bold'>
             {'Register'}
           </h1>
           <form
             onSubmit={handleClick}
-            className='z-50 m-4 flex flex-col items-center justify-center pt-[3.5rem]'
+            className='z-50 flex flex-col items-center justify-center pt-[3.5rem]'
           >
             <input
               className='2px border-dark m-1 gap-2 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
@@ -89,6 +92,15 @@ export default function Register() {
               }}
             />
             <input
+              className='2px border-dark m-1 gap-2 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
+              type='pseudo'
+              placeholder='Pseudo'
+              value={pseudo}
+              onChange={(event) => {
+                setPseudo(event.target.value);
+              }}
+            />
+            <input
               className='2px border-dark m-1 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
               type='birthdate'
               placeholder='Birthdate'
@@ -109,13 +121,23 @@ export default function Register() {
       </div>
       <div className='fixed top-1 z-40 flex h-1/5 flex-col items-start justify-center'>
         {email !== '' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
-          <div className='my-3 mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+          <div className='xxs:text-xs mb-3 mt-[70px] rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
             {'example@example.com'}
           </div>
         )}
+        {password !== '' && password.length <= 10 && (
+          <div className='xxs:text-xs my-1 mb-3 rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
+            {'Password must be at least 10 characters long'}
+          </div>
+        )}
         {confirmPassword !== '' && confirmPassword !== password && (
-          <div className='my-1 mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+          <div className='xxs:text-xs my-1 mb-3 rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
             {'Confirm Password must match Password'}
+          </div>
+        )}
+        {pseudo !== '' && pseudo.length < 5 && (
+          <div className='xxs:text-xs my-1 mb-3 rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
+            {'Pseudo must be at least 5 characters long'}
           </div>
         )}
         {birthdate !== '' &&
@@ -123,7 +145,7 @@ export default function Register() {
           !/^(19|20)\d{2}[./-\s](0[1-9]|1[0-2])[./-\s](0[1-9]|[12]\d|3[01])$/.test(
             birthdate,
           ) && (
-            <div className='mt-1 rounded border-2 border-red-600 bg-red-300 p-1'>
+            <div className='xxs:text-xs mt-1 rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
               {'Birthdate format must be YYYY-MM-DD'}
             </div>
           )}

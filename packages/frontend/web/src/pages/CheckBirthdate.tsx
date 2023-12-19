@@ -1,23 +1,25 @@
-import { type FormEvent, useEffect, useMemo, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { type FormEvent, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
+import { useAge } from '@/contexts/AgeProviderContext';
 import { useAuth } from '@/contexts/AuthContext';
+
+// These two consts below do not need and function. They don'h have to be into fuction CheckBirthdate.
+const now = new Date();
+const eighteenYearsAgo: Date = new Date(
+  now.getFullYear() - 18,
+  now.getMonth(),
+  now.getDate(),
+);
 
 export default function CheckBirthdate() {
   const [birthdate, setBirthdate] = useState<string>('');
   const [isImageShown, setIsImageShown] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const [isUnder18, setIsUnder18] = useState<boolean>(false);
   const [isModalShown, setIsModalShown] = useState(false);
 
-  const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-  // useMemo is going to memorize the eighteenYearsAgo value, as long as birthdate doesn't change.
-  const eighteenYearsAgo: Date = useMemo(() => {
-    const now = new Date();
-    return new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
-  }, []);
+  const { isUnder18, setIsUnder18 } = useAge();
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -26,12 +28,21 @@ export default function CheckBirthdate() {
       birthdate !== '' &&
       new Date(birthdate).getTime() >= eighteenYearsAgo.getTime()
     ) {
-      setIsImageShown(true);
+      // User is over 18.
+      setIsUnder18(false);
+      if (isLoggedIn) {
+        <Navigate to='/' />; // redirects to the / page.
+      } else {
+        // User is under 18.
+        setIsUnder18(true);
+        setIsImageShown(true);
+        <Navigate to='/virgin' />; // redirects to /virgin page.
+      }
     }
     return () => {
       abortController.abort();
     };
-  }, [birthdate, eighteenYearsAgo]);
+  }, [birthdate, isLoggedIn, Navigate, setIsUnder18]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
@@ -45,9 +56,7 @@ export default function CheckBirthdate() {
       setTimeout(() => {
         setIsModalShown(true);
       }, 3000);
-    }
-
-    if (new Date(birthdate).getTime() < eighteenYearsAgo.getTime()) {
+    } else if (new Date(birthdate).getTime() < eighteenYearsAgo.getTime()) {
       <Navigate to='/nokidsallowed' />;
     } else {
       <Navigate to='/register' />;
@@ -66,18 +75,14 @@ export default function CheckBirthdate() {
     });
 
     const data = (await res.json()) as {
-      isLoggedIn: boolean;
+      ok: boolean;
     };
-
-    if (data.isLoggedIn) {
+    console.log(data);
+    if (data.ok) {
       setIsLoggedIn(true);
-      navigate('/home'); // if the user is logged in, he's redirected to homepage.
+      <Navigate to='/' />; // if the user is logged in, he's redirected to homepage.
     }
   };
-
-  if (isLoggedIn) {
-    return <Navigate to='/' />;
-  }
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
@@ -107,7 +112,7 @@ export default function CheckBirthdate() {
               className='button border-dark mt-3 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-lg font-bold text-white hover:bg-blue-700 md:w-[320px] md:text-xl'
               type='submit'
             >
-              {'Register'}
+              {'Submit'}
             </button>
           </form>
         </div>

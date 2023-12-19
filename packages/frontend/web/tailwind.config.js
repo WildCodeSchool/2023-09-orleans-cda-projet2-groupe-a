@@ -131,6 +131,7 @@ export default {
         'light-yellow': '#FCE544',
         'light-blue': '#0AD2E4',
         'light-orange': '#F58643',
+        'wow-orange': '#F89B1D',
         'light-green': '#4FD1A8',
         'light-pink': '#EA2879',
         'light-beige': '#FFF7D8',

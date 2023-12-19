@@ -18,30 +18,35 @@ export default function Login() {
     // Fetch sends request to /login route and returns a promise that is the answer to that request.
     // Await suspends code execution as soon as the promise is resolved.
     // Param1 from fetch : server adress & route.
-    // Param2: Object ocntaining :
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-      method: 'POST',
-      credentials: 'include', // Optional but essential to find out cookie.
-      headers: {
-        'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
-      },
-      body: JSON.stringify({
-        // body contains email & password. JSON.stringify converts the objet into a JSON string.
-        email,
-        password,
-      }),
-    });
+    // Param2: Object containing : method, credentials, headers, body.
 
-    (await res.json()) as {
-      isLoggedIn: boolean;
-    }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        credentials: 'include', // Optional but essential to find out cookie.
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
+        },
+        body: JSON.stringify({
+          // body contains email & password. JSON.stringify converts the objet into a JSON string.
+          email,
+          password,
+        }),
+      });
 
-    if (isLoggedIn && isUnder18 == null) {
-      setIsLoggedIn(true);
-      navigate('/'); // If the user is logged in, he's redirected towards homepage.
-    } else if (isLoggedIn && isUnder18 != null) {
-      setIsLoggedIn(true);
-      navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+      const data = (await res.json()) as {
+        isLoggedIn: boolean;
+      }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
+
+      if (data.isLoggedIn) {
+        setIsLoggedIn(true);
+        // navigate('/'); // If the user is logged in, he's redirected towards homepage.
+      } else if (isLoggedIn && isUnder18 != null) {
+        setIsLoggedIn(true);
+        navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+      }
+    } catch {
+      console.error("Perdu, tu catches l'erreur.");
     }
   };
 

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 import AddCocktail from './pages/AddCocktail';
 import CheckBirthdate from './pages/CheckBirthdate';

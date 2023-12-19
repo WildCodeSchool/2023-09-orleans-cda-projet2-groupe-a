@@ -9,15 +9,15 @@ const validateRegister = [
     .isLength({ max: 254 })
     .toLowerCase()
     .isEmail(),
-  body('password').exists().trim().notEmpty().isLength({ min: 3, max: 255 }),
-  body('pseudo').exists().trim().notEmpty().isLength({ min: 3, max: 60 }),
+  body('password').exists().trim().notEmpty().isLength({ min: 10, max: 255 }),
+  body('pseudo').exists().trim().notEmpty().isLength({ min: 5, max: 60 }),
   body('birthdate')
     .exists()
     .trim()
     .notEmpty()
     .isISO8601({
-      strict: true,
-      strictSeparator: true,
+      strict: false,
+      strictSeparator: false,
     })
     .toDate(),
   (req: Request, res: Response, next: NextFunction) => {

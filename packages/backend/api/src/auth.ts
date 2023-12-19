@@ -33,13 +33,11 @@ authRouter.get('/check', async (req, res) => {
   }
 
   try {
-    // const check =
     await jose.jwtVerify(jwt, SECRET, {
       //options
       issuer: 'http://localhost',
       audience: 'http://localhost',
     });
-
     // On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
 
     return res.json({
@@ -94,7 +92,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('24h')
+        .setExpirationTime('2h')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
@@ -166,7 +164,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('24h')
+        .setExpirationTime('2h')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
