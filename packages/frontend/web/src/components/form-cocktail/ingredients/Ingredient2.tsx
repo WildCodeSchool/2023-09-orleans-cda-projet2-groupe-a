@@ -37,7 +37,7 @@ export default function Ingredient2({
 
   return (
     <>
-      <fieldset className='relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[4%] sm:right-[-13%] sm:w-[300px]'>
+      <fieldset className='relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[10%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
           : data?.map((ingredient) => (
@@ -61,7 +61,7 @@ export default function Ingredient2({
               </div>
             ))}
       </fieldset>
-      <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:top-[70%] lg:me-0 lg:gap-6'>
+      <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:right-[0%] lg:top-[70%] lg:me-0 lg:gap-6'>
         <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           {'Choose your blend or amend'}
         </p>

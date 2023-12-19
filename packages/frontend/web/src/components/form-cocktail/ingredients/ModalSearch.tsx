@@ -1,32 +1,20 @@
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import type { CocktailForm, Ingredient } from '@app/types';
-
-interface ModalSearchProps {
-  readonly setIsModalShown: (isModalShown: boolean) => void;
-  readonly setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
-}
-
-interface SearchIngredient {
-  readonly searchIngredient: string;
-}
-
-const onSubmit: SubmitHandler<SearchIngredient> = (data) => {
-  console.log(data);
-  return data;
-};
+import type {
+  Ingredient,
+  ModalSearchProps,
+  SearchIngredient,
+} from '@app/types';
 
 export default function ModalSearch({
   setIsModalShown,
   setValue,
+  watchIngredient,
+  setShow,
 }: ModalSearchProps) {
-  const { register, handleSubmit, watch } = useForm<SearchIngredient>();
+  const { register, watch } = useForm<SearchIngredient>();
   const [data, setData] = useState<Pick<Ingredient, 'name' | 'id'>[]>();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -55,23 +43,38 @@ export default function ModalSearch({
   }, [watch('searchIngredient')]);
 
   const chooseIngredient = (ingredient: Pick<Ingredient, 'name' | 'id'>) => {
-    setValue('ingredient2', ingredient);
+    if (
+      watchIngredient('ingredient1') === undefined &&
+      watchIngredient('ingredient2') === undefined &&
+      watchIngredient('ingredient3') === undefined
+    ) {
+      setValue('ingredient1', ingredient);
+    } else if (
+      watchIngredient('ingredient1') !== undefined &&
+      watchIngredient('ingredient2') === undefined &&
+      watchIngredient('ingredient3') === undefined
+    ) {
+      setValue('ingredient2', ingredient);
+    } else if (
+      watchIngredient('ingredient1') !== undefined &&
+      watchIngredient('ingredient2') !== undefined &&
+      watchIngredient('ingredient3') === undefined
+    ) {
+      setValue('ingredient3', ingredient);
+      setShow(5);
+      setIsModalShown(false);
+    }
   };
 
   return (
     <div className='fixed left-0 top-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-black bg-opacity-50 shadow-md'>
-      <div className='flex flex-col gap-3'>
+      <div className='flex h-[497px] w-[90%] max-w-[900px] flex-col gap-3 sm:mt-[20rem] sm:w-[75%]'>
         <div className='flex items-center'>
-          <div className='flex h-[75px] w-[900px] items-center border-[6px] border-black bg-white text-black'>
-            <form
-              className='flex items-center'
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <button type='submit'>
-                <Search size={40} />
-              </button>
+          <div className='flex h-[75px] w-[100%] max-w-[900px] items-center border-[6px] border-black bg-white text-black'>
+            <form className='flex h-[100%] w-[100%] items-center'>
+              <Search size={40} />
               <input
-                className='ml-2 h-[50px] w-[800px]'
+                className='ml-2 h-[100%] w-[100%] border-none outline-none'
                 {...register('searchIngredient', { required: true })}
               />
             </form>
@@ -86,25 +89,27 @@ export default function ModalSearch({
             <div className='items-center'>{'X'}</div>
           </button>
         </div>
-        {watch('searchIngredient') !== undefined &&
-        watch('searchIngredient').length === 0 ? null : (
-          <div className='flex max-h-[350px] min-h-[120px] w-[900px] overflow-y-scroll border-[6px] border-black bg-white text-black'>
-            <ul>
-              {isLoading
-                ? null
-                : data?.map((ingredient) => (
-                    <li
-                      key={ingredient.id}
-                      onClick={() => {
-                        chooseIngredient(ingredient);
-                      }}
-                    >
-                      {ingredient.name}
-                    </li>
-                  ))}
-            </ul>
-          </div>
-        )}
+        <div className='pr-[30px]'>
+          {watch('searchIngredient') !== undefined &&
+          watch('searchIngredient').length === 0 ? null : (
+            <div className='flex max-h-[350px] min-h-[120px] w-[100%] max-w-[900px] overflow-y-scroll border-[6px] border-black bg-white text-black'>
+              <ul>
+                {isLoading
+                  ? null
+                  : data?.map((ingredient) => (
+                      <li
+                        key={ingredient.id}
+                        onClick={() => {
+                          chooseIngredient(ingredient);
+                        }}
+                      >
+                        {ingredient.name}
+                      </li>
+                    ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

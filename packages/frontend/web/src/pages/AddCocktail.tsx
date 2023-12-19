@@ -14,8 +14,6 @@ import ToppingPart from '@/components/form-cocktail/ToppingPart';
 import ModalSearch from '@/components/form-cocktail/ingredients/ModalSearch';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
-  console.log(data);
-
   return data;
 };
 
@@ -361,7 +359,12 @@ export default function AddCocktail() {
       </form>
       {isModalShown ? (
         <div className='relative'>
-          <ModalSearch setIsModalShown={setIsModalShown} setValue={setValue} />
+          <ModalSearch
+            setIsModalShown={setIsModalShown}
+            setValue={setValue}
+            watchIngredient={watch}
+            setShow={setShow}
+          />
         </div>
       ) : null}
     </>

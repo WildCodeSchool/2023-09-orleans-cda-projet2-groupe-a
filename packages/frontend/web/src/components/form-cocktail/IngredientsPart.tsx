@@ -16,17 +16,19 @@ export default function IngredientsPart({
 }: IngredientsPartProps) {
   return (
     <>
-      <h1 className='relative bottom-[3%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
-        {'Choose your fuse'}
+      <div className='relative bottom-[3%] flex w-[250px] gap-3 sm:bottom-[10%]'>
+        <h1 className=' text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
+          {'Choose your fuse'}
+        </h1>
         <button
           type='button'
           onClick={() => {
             setIsModalShown(true);
           }}
         >
-          <Search />
+          <Search size={30} />
         </button>
-      </h1>
+      </div>
 
       {errors.ingredient1?.type === 'required' ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>

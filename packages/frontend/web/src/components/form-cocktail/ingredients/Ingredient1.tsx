@@ -37,7 +37,7 @@ export default function Ingredient1({
 
   return (
     <>
-      <fieldset className=' relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[4%] sm:right-[-13%] sm:w-[300px]'>
+      <fieldset className=' relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[10%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
           : data?.map((ingredient) => (
