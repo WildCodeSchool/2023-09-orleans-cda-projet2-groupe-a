@@ -172,13 +172,27 @@
       brightness(99%) contrast(85%);
   }
 
-  /* Brightness navbar */
-  .filter-hover:hover {
-    @apply drop-shadow(0 0 2em #646cffaa) filter;
+  .filter-purple {
+    filter: drop-shadow(0 0 3em #d864ffaa);
   }
 
-  .logo {
-    @apply will-change-filter transition-filter duration-300;
-    width: 400px;
+  .filter-yellow {
+    filter: drop-shadow(0 0 3em #f97a63);
+  }
+
+  .filter-blue {
+    filter: drop-shadow(0 0 3em #6480fff2);
+  }
+
+  .filter-orange {
+    filter: drop-shadow(0 0 3em #ff9627);
+  }
+
+  .filter-green {
+    filter: drop-shadow(0 0 3em #30eb33d7);
+  }
+
+  .filter-pink {
+    filter: drop-shadow(0 0 3em #f257ced3);
   }
 }
