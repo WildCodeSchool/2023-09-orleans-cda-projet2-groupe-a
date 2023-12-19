@@ -22,6 +22,8 @@ export default function ModalSearch({
     'searchIngredient',
   )}`;
 
+  const searchIngredient = watch('searchIngredient');
+
   const fetchData = async (url: RequestInfo, controller: AbortController) => {
     const res = await fetch(url, {
       signal: controller.signal,
@@ -40,7 +42,7 @@ export default function ModalSearch({
     return () => {
       controller.abort();
     };
-  }, [watch('searchIngredient')]);
+  }, [url, searchIngredient]);
 
   const chooseIngredient = (ingredient: Pick<Ingredient, 'name' | 'id'>) => {
     if (
