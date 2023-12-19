@@ -52,11 +52,11 @@ export default function AllProfile() {
                             </h1>
                           </div>
                           <div>
-                            <p className='mb-3 text-center sm:mb-0'>{`(${
-                              user.cocktail_count
-                            } cocktail${
-                              user.cocktail_count > 1 ? 's' : ''
-                            })`}</p>
+                            <p className='mb-3 text-center sm:mb-0'>
+                              {`(${user.cocktail_count} cocktail${
+                                user.cocktail_count > 1 ? 's' : ''
+                              })`}
+                            </p>
                             <div className='flex justify-center'>
                               {user.average_rating === null ? (
                                 <p className='text-sm font-extralight'>
