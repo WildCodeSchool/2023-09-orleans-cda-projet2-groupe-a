@@ -15,74 +15,45 @@ export default function ToppingPart({
   const [mainFlavourCount, setMainFlavourCount] = useState<number>(0);
 
   const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
-  const flavoursCount = {
-    fruity: 0,
-    spicy: 0,
-    herbaceous: 0,
-    floral: 0,
-    woody: 0,
-    bitter: 0,
-    sweet: 0,
-    salty: 0,
-    sour: 0,
-    neutral: 0,
-  };
-
-  for (const flavour of allFlavours) {
-    switch (flavour) {
-      case 'fruity': {
-        flavoursCount.fruity += 1;
-        break;
+  // eslint-disable-next-line unicorn/no-array-reduce
+  const flavoursCount = allFlavours.reduce(
+    (count, flavour) => {
+      if (flavour) {
+        count[flavour] = (count[flavour] || 0) + 1;
       }
-      case 'spicy': {
-        flavoursCount.spicy += 1;
-        break;
-      }
-      case 'herbaceous': {
-        flavoursCount.herbaceous += 1;
-        break;
-      }
-      case 'floral': {
-        flavoursCount.floral += 1;
-        break;
-      }
-      case 'woody': {
-        flavoursCount.woody += 1;
-        break;
-      }
-      case 'bitter': {
-        flavoursCount.bitter += 1;
-        break;
-      }
-      case 'sweet': {
-        flavoursCount.sweet += 1;
-        break;
-      }
-      case 'salty': {
-        flavoursCount.salty += 1;
-        break;
-      }
-      case 'sour': {
-        flavoursCount.sour += 1;
-        break;
-      }
-      case 'neutral': {
-        flavoursCount.neutral += 1;
-        break;
-      }
-    }
-  }
-
-  for (const [key, count] of Object.entries(flavoursCount)) {
-    if (count > mainFlavourCount) {
-      setMainFlavour(key);
-      setMainFlavourCount(count);
-    }
-  }
+      return count;
+    },
+    {
+      fruity: 0,
+      spicy: 0,
+      herbaceous: 0,
+      floral: 0,
+      woody: 0,
+      bitter: 0,
+      sweet: 0,
+      salty: 0,
+      sour: 0,
+      neutral: 0,
+    },
+  );
 
   useEffect(() => {
     if (selectedAlcohol && selectedIngredient) {
-      fetch(`${import.meta.env.VITE_API_URL}/topping/${mainFlavour}`)
+      const [maxFlavour, maxFlavourCount] = Object.entries(
+        flavoursCount,
+        // eslint-disable-next-line unicorn/no-array-reduce
+      ).reduce(
+        ([currentFlavour, currentCount], [flavour, count]) =>
+          count > currentCount
+            ? [flavour, count]
+            : [currentFlavour, currentCount],
+        ['', 0],
+      );
+
+      setMainFlavour(maxFlavour);
+      setMainFlavourCount(maxFlavourCount);
+
+      fetch(`${import.meta.env.VITE_API_URL}/topping/${maxFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
@@ -94,7 +65,7 @@ export default function ToppingPart({
           );
         });
     }
-  }, [mainFlavour, selectedAlcohol, selectedIngredient]);
+  }, [flavoursCount, selectedAlcohol, selectedIngredient]);
 
   return (
     <>
