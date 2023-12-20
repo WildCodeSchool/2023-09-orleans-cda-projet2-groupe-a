@@ -16,16 +16,16 @@
   .clip-path-polygon-purple {
     clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
   }
-  .clip-path-polygon-yellow {
+  .clip-path-polygon-blue {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 15% 100%);
   }
-  .clip-path-polygon-blue {
+  .clip-path-polygon-yellow {
     clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 0% 100%);
   }
-  .clip-path-polygon-orange {
+  .clip-path-polygon-green {
     clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
-  .clip-path-polygon-green {
+  .clip-path-polygon-orange {
     clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
   }
   .clip-path-polygon-pink {
@@ -56,11 +56,11 @@
     clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
   }
 
-  .clip-path-polygon-blue-md {
+  .clip-path-polygon-yellow-md {
     clip-path: polygon(0 0, 98% 0, 85% 100%, 0 100%);
   }
 
-  .clip-path-polygon-orange-md {
+  .clip-path-polygon-green-md {
     clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
   }
 
@@ -68,11 +68,11 @@
     clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
   }
 
-  .clip-path-polygon-yellow-md {
+  .clip-path-polygon-blue-md {
     clip-path: polygon(1% 0, 100% 0, 100% 100%, 19% 100%);
   }
 
-  .clip-path-polygon-green-md {
+  .clip-path-polygon-orange-md {
     clip-path: polygon(0 0, 90% 0%, 97% 100%, 0 100%);
   }
 
@@ -129,6 +129,30 @@
       0 0 3px #0e0f0f,
       0 0 3px #0e0f0f,
       0 0 3px #0e0f0f;
+    -webkit-text-stroke: 0.5px #0e0f0f;
+  }
+  .font-stroke-xl {
+    text-shadow:
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f,
+      0 0 5px #0e0f0f;
     -webkit-text-stroke: 0.5px #0e0f0f;
   }
 
@@ -211,5 +235,29 @@
   .filter-black-to-pink {
     filter: invert(22%) sepia(50%) saturate(6075%) hue-rotate(323deg)
       brightness(99%) contrast(85%);
+  }
+
+  .filter-purple {
+    filter: drop-shadow(0 0 3em #d864ffaa);
+  }
+
+  .filter-yellow {
+    filter: drop-shadow(0 0 3em #f97a63);
+  }
+
+  .filter-blue {
+    filter: drop-shadow(0 0 3em #6480fff2);
+  }
+
+  .filter-orange {
+    filter: drop-shadow(0 0 3em #ff9627);
+  }
+
+  .filter-green {
+    filter: drop-shadow(0 0 3em #30eb33d7);
+  }
+
+  .filter-pink {
+    filter: drop-shadow(0 0 3em #f257ced3);
   }
 }
