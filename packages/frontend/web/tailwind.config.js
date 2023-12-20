@@ -113,6 +113,7 @@ export default {
     'bg-card-virgin-pink',
     'bg-card-virgin-dark-pink',
     'bg-card-virgin-salmon',
+    'really-dark-blue',
   ],
   theme: {
     fontFamily: {
@@ -154,6 +155,7 @@ export default {
         'card-virgin-pink': '#F575D1',
         'card-virgin-dark-pink': '#F57575',
         'card-virgin-salmon': '#F5A975',
+        'really-dark-blue': '#035B67',
       },
       rotate: {
         17: '17deg',

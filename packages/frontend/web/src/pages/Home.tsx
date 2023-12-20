@@ -54,7 +54,7 @@ const squares = [
       lg: 15,
     },
     component: (
-      <Link to='/profile'>
+      <Link to='/profile/1'>
         <ProfilePart />
       </Link>
     ),
