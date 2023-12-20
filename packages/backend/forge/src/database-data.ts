@@ -18,11 +18,11 @@ await db.transaction().execute(async (trx) => {
   await sql`
     INSERT INTO user (email, password, pseudo, image, color, birthdate, created_at)
     VALUES
-    ('admin@example.com', 'adminpassword', 'admin', 'avatar-1.png', 'blue', '1990-01-01', NOW()),
-    ('user1@example.com', 'userpassword', 'user1', 'avatar-2.png', 'green', '1991-02-02', NOW()),
-    ('user2@example.com', 'userpassword', 'user2', 'avatar-3.png', 'orange', '1992-03-03', NOW()),
-    ('user3@example.com', 'userpassword', 'user3', 'avatar-4.png', 'pink', '1993-04-04', NOW()),
-    ('user4@example.com', 'userpassword', 'user4', 'avatar-5.png', 'purple', '1994-05-05', NOW());
+    ('admin@example.com', 'adminpassword', 'admin', 'avatar-1.webp', 'blue', '1990-01-01', NOW()),
+    ('user1@example.com', 'userpassword', 'user1', 'avatar-2.webp', 'green', '1991-02-02', NOW()),
+    ('user2@example.com', 'userpassword', 'user2', 'avatar-3.webp', 'orange', '1992-03-03', NOW()),
+    ('user3@example.com', 'userpassword', 'user3', 'avatar-4.webp', 'pink', '1993-04-04', NOW()),
+    ('user4@example.com', 'userpassword', 'user4', 'avatar-5.webp', 'purple', '1994-05-05', NOW());
   `.execute(trx);
 
   await sql`

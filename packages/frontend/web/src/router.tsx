@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import AddCocktail from './pages/AddCocktail';
-import AllProfile from './pages/AllProfile';
 import CocktailsDetails from './pages/CocktailsDetails';
+import Community from './pages/Community';
 import Home from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'community',
-    element: <AllProfile />,
+    element: <Community />,
   },
 ]);
 

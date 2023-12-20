@@ -11,8 +11,9 @@ interface UserProfile {
   average_rating: number | null;
 }
 
-export default function AllProfile() {
-  const url = `${import.meta.env.VITE_API_URL}/user`;
+const url = `${import.meta.env.VITE_API_URL}/user`;
+
+export default function Community() {
   const { data } = useFetch<UserProfile[]>(url);
 
   return (
@@ -43,7 +44,7 @@ export default function AllProfile() {
                         <img
                           src={`/avatar/${user.image}`}
                           alt='user image'
-                          className={`border-dark ml-1 h-[9rem] w-[8rem] rounded-full border-[4px] sm:mx-auto sm:mt-8 sm:h-[13rem] sm:w-[14rem] sm:border-[6px] bg-profil-picture-${user.color} object-cover`}
+                          className={`border-dark ml-1 h-[9rem] w-[8rem] rounded-full border-[4px] sm:mx-auto sm:mt-8 sm:h-[13rem] sm:w-[14rem] sm:border-[6px] bg-profile-picture-${user.color} object-cover`}
                         />
                         <div className='flex h-full w-full flex-col justify-evenly sm:block sm:h-auto'>
                           <div className='mx-4 mt-3 text-center'>
