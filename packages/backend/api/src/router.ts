@@ -13,8 +13,6 @@ import { user } from './user';
 
 const router = express.Router();
 
-router.use('/cocktail', cocktailRouter);
-
 router.get('/', async (_request, response) => {
   const result = await sql<{
     coucou: number;
@@ -47,5 +45,6 @@ router.use('/auth', authRouter);
 router.use('/user', user);
 router.use('/ingredient', ingredient);
 router.use('/glass', glass);
+router.use('/cocktail', cocktailRouter);
 
 export default router;
