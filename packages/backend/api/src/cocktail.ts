@@ -15,6 +15,7 @@ cocktailRouter.get('/', async (req, res) => {
   }
 });
 
+// Route get pour récupérer les cocktails avec l'ingrégrient qui se trouve dans la famille alcool
 cocktailRouter.get('/alcohol', async (req, res) => {
   try {
     const cocktailsWithAlcohol = await db
@@ -32,11 +33,11 @@ cocktailRouter.get('/alcohol', async (req, res) => {
         'ingredient.id',
       )
       .select([
-        'cocktail.id',
-        'cocktail.name',
-        'cocktail.image',
-        'cocktail.ratings_average',
-        'cocktail.created_at',
+        'cocktail.id as cocktail_id',
+        'cocktail.name as cocktail_name',
+        'cocktail.image as cocktail_image',
+        'cocktail.ratings_average as avg_rating',
+        'cocktail.created_at as cocktail_created',
       ])
       .where('ingredient.family', '=', 'alcohol')
       .orderBy('cocktail.name', 'asc')
