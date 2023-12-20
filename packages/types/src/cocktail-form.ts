@@ -68,4 +68,5 @@ export interface IngredientProps {
   ) => void;
   setShow: (show: number) => void;
   watchIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
+  ingredient: string;
 }

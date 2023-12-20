@@ -74,6 +74,7 @@ export default function IngredientsPart({
               setValue={setValue}
               setShow={setShow}
               watchIngredient={watch('alcohol')}
+              ingredient={'ingredient1'}
             />
           </motion.div>
         )}
@@ -90,6 +91,7 @@ export default function IngredientsPart({
               setValue={setValue}
               setShow={setShow}
               watchIngredient={watch('ingredient1')}
+              ingredient={'ingredient2'}
             />
           </motion.div>
         )}
@@ -105,6 +107,7 @@ export default function IngredientsPart({
               setValue={setValue}
               setShow={setShow}
               watchIngredient={watch('ingredient2')}
+              ingredient={'ingredient3'}
             />
           </motion.div>
         )}
