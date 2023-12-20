@@ -16,16 +16,16 @@
   .clip-path-polygon-purple {
     clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
   }
-  .clip-path-polygon-yellow {
+  .clip-path-polygon-blue {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 15% 100%);
   }
-  .clip-path-polygon-blue {
+  .clip-path-polygon-yellow {
     clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 0% 100%);
   }
-  .clip-path-polygon-orange {
+  .clip-path-polygon-green {
     clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
-  .clip-path-polygon-green {
+  .clip-path-polygon-orange {
     clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
   }
   .clip-path-polygon-pink {
@@ -56,11 +56,11 @@
     clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
   }
 
-  .clip-path-polygon-blue-md {
+  .clip-path-polygon-yellow-md {
     clip-path: polygon(0 0, 98% 0, 85% 100%, 0 100%);
   }
 
-  .clip-path-polygon-orange-md {
+  .clip-path-polygon-green-md {
     clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
   }
 
@@ -68,11 +68,11 @@
     clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
   }
 
-  .clip-path-polygon-yellow-md {
+  .clip-path-polygon-blue-md {
     clip-path: polygon(1% 0, 100% 0, 100% 100%, 19% 100%);
   }
 
-  .clip-path-polygon-green-md {
+  .clip-path-polygon-orange-md {
     clip-path: polygon(0 0, 90% 0%, 97% 100%, 0 100%);
   }
 

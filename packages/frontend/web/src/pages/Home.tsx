@@ -33,8 +33,8 @@ const squares = [
   {
     color: 'yellow',
     order: {
-      all: 4,
-      md: 4,
+      all: 2,
+      md: 2,
       lg: 3,
     },
     biasSide: {
@@ -43,13 +43,13 @@ const squares = [
       lg: ['right', 'left'],
     },
     width: {
-      all: 108,
-      md: 116,
+      all: 105,
+      md: 105,
       lg: 130,
     },
     right: {
-      all: 8,
-      md: 16,
+      all: 0,
+      md: 0,
       lg: 15,
     },
     component: (
@@ -61,8 +61,8 @@ const squares = [
   {
     color: 'blue',
     order: {
-      all: 2,
-      md: 2,
+      all: 4,
+      md: 4,
       lg: 5,
     },
     biasSide: {
@@ -71,13 +71,13 @@ const squares = [
       lg: ['left'],
     },
     width: {
-      all: 105,
-      md: 105,
+      all: 108,
+      md: 116,
       lg: 108,
     },
     right: {
-      all: 0,
-      md: 0,
+      all: 8,
+      md: 16,
       lg: 8,
     },
     component: (
@@ -89,8 +89,8 @@ const squares = [
   {
     color: 'orange',
     order: {
-      all: 5,
-      md: 5,
+      all: 3,
+      md: 3,
       lg: 2,
     },
     biasSide: {
@@ -99,15 +99,11 @@ const squares = [
       lg: ['right'],
     },
     width: {
-      all: 108,
-      md: 110,
+      all: 105,
+      md: 105,
       lg: 110,
     },
-    right: {
-      all: 8,
-      md: 10,
-      lg: 0,
-    },
+
     component: (
       <Link to='/shaker'>
         <ShakeItPart />
@@ -117,8 +113,8 @@ const squares = [
   {
     color: 'green',
     order: {
-      all: 3,
-      md: 3,
+      all: 5,
+      md: 5,
       lg: 4,
     },
     biasSide: {
@@ -127,9 +123,14 @@ const squares = [
       lg: ['right', 'left'],
     },
     width: {
-      all: 105,
-      md: 105,
+      all: 108,
+      md: 110,
       lg: 103,
+    },
+    right: {
+      all: 8,
+      md: 10,
+      lg: 0,
     },
     component: (
       <Link to='/virgin'>
@@ -207,7 +208,7 @@ export default function Home() {
                   className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg clip-path-polygon-${square.color} md:clip-path-polygon-${square.color}-md relative h-full w-full md:h-full`}
                 >
                   <div
-                    className={`filter-black-to-${square.color} hover:animate-spin-infinite flex h-full w-full items-center justify-center bg-[url('polygon-black.png')] bg-cover bg-center bg-no-repeat`}
+                    className={`filter-black-to-${square.color} flex h-full w-full items-center justify-center bg-[url('polygon-black.png')] bg-cover bg-center bg-no-repeat`}
                   />
                   {square.color === 'blue' ? (
                     <div
