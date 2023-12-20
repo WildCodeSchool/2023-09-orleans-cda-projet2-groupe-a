@@ -7,19 +7,19 @@ import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
 
-type ToppingsProps = {
+type Toppings = {
   topping_id: number;
   topping_name: string;
   topping_quantity: number;
 };
 
-type ToolsProps = {
+type Tools = {
   tool_id: number;
   tool_name: string;
   tool_image: string;
 };
 
-type IngredientsProps = {
+type Ingredients = {
   ingredient_id: number;
   ingredient_name: string;
   quantity: number;
@@ -32,11 +32,9 @@ type IngredientsProps = {
 export default function CocktailsDetails() {
   const { id } = useParams();
   const [cocktail, setCocktail] = useState<Cocktail | undefined>();
-  const [ingredients, setIngredients] = useState<
-    IngredientsProps[] | undefined
-  >();
-  const [toppings, setToppings] = useState<ToppingsProps[] | undefined>();
-  const [tools, setTools] = useState<ToolsProps[] | undefined>();
+  const [ingredients, setIngredients] = useState<Ingredients[] | undefined>();
+  const [toppings, setToppings] = useState<Toppings[] | undefined>();
+  const [tools, setTools] = useState<Tools[] | undefined>();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -47,9 +45,9 @@ export default function CocktailsDetails() {
     if (response.ok) {
       const data = await response.json();
       setCocktail(data.cocktail);
-      setIngredients(data.ingredients);
-      setToppings(data.toppings);
-      setTools(data.tools);
+      setIngredients(data.cocktail.ingredients);
+      setToppings(data.cocktail.toppings);
+      setTools(data.cocktail.tools);
       setIsLoading(false);
     } else {
       console.error(`Request error: ${response.status}`);

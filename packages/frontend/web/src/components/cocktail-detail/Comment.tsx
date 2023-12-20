@@ -4,17 +4,17 @@ import useOutsideClick from '@/hooks/use-outside-click';
 
 import AddComment from './AddComment';
 
-interface CommentProps {
+interface Comment {
   content: string;
   score: number;
   rating_id: number;
   comment_id: number;
 }
 
-interface CommentsProps {
-  readonly comments: CommentProps[] | undefined;
+interface CommentProps {
+  readonly comments: Comment[] | undefined;
 }
-export default function Comment({ comments }: CommentsProps) {
+export default function Comment({ comments }: CommentProps) {
   const { isOpen, setIsOpen, refEl } = useOutsideClick<HTMLDivElement>();
 
   return comments === undefined ? null : (

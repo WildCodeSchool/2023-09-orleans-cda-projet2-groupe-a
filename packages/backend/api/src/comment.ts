@@ -33,7 +33,7 @@ commentRouter.get('/:id', async (req, res) => {
       .where('cocktail_id', '=', Number.parseInt(id))
       .execute();
 
-    if (!Boolean(commentsByUserIdCocktailId)) {
+    if (commentsByUserIdCocktailId === null) {
       return res.status(404).send('Cocktail not found');
     }
 

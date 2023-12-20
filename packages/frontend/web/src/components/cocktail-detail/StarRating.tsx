@@ -1,15 +1,15 @@
-export interface CocktailCommentsProps {
-  readonly ratings: RatingsProps[] | undefined;
+export interface StarRatingProps {
+  readonly ratings: StarRating[] | undefined;
 }
 
-export type RatingsProps = {
+export type StarRating = {
   rating_id: number;
   score: number;
   user_id: number;
   cocktail_id: number;
 };
 
-export default function StarRating({ ratings }: CocktailCommentsProps) {
+export default function StarRating({ ratings }: StarRatingProps) {
   return (
     <div>
       {ratings?.map((rating) => (

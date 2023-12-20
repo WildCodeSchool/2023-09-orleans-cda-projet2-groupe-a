@@ -45,8 +45,7 @@ export default function CocktailComments() {
     const signal = controller.signal;
 
     fetchComments(
-      `
-        ${import.meta.env.VITE_API_URL}/comment/${id}`,
+      `${import.meta.env.VITE_API_URL}/comment/${id}`,
       signal,
     ).catch((error) => {
       console.error(error);
