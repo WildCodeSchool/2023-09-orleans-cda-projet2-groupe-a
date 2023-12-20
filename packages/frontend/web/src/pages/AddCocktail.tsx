@@ -9,9 +9,9 @@ import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
 import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
+import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
-import ModalSearch from '@/components/form-cocktail/ingredients/ModalSearch';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   return data;

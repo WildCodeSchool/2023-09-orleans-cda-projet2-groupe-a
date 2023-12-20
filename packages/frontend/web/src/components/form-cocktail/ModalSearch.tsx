@@ -1,12 +1,23 @@
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import type { UseFormWatch } from 'react-hook-form';
 
-import type {
-  Ingredient,
-  ModalSearchProps,
-  SearchIngredient,
-} from '@app/types';
+import type { CocktailForm, Ingredient } from '@app/types';
+
+interface ModalSearchProps {
+  readonly setIsModalShown: (isModalShown: boolean) => void;
+  readonly setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  readonly watchIngredient: UseFormWatch<CocktailForm>;
+  readonly setShow: (show: number) => void;
+}
+
+interface SearchIngredient {
+  searchIngredient: string;
+}
 
 export default function ModalSearch({
   setIsModalShown,

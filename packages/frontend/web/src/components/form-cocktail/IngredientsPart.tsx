@@ -3,9 +3,7 @@ import { Search } from 'lucide-react';
 
 import type { IngredientsPartProps } from '@app/types';
 
-import Ingredient1 from './ingredients/Ingredient1';
-import Ingredient2 from './ingredients/Ingredient2';
-import Ingredient3 from './ingredients/Ingredient3';
+import IngredientToChoose from './IngredientToChoose';
 
 export default function IngredientsPart({
   errors,
@@ -71,7 +69,12 @@ export default function IngredientsPart({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <Ingredient1 watch={watch} setValue={setValue} />
+            <IngredientToChoose
+              watch={watch}
+              setValue={setValue}
+              setShow={setShow}
+              watchIngredient={watch('alcohol')}
+            />
           </motion.div>
         )}
       {watch('ingredient1') !== undefined &&
@@ -82,7 +85,12 @@ export default function IngredientsPart({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <Ingredient2 watch={watch} setValue={setValue} />
+            <IngredientToChoose
+              watch={watch}
+              setValue={setValue}
+              setShow={setShow}
+              watchIngredient={watch('ingredient1')}
+            />
           </motion.div>
         )}
       {watch('ingredient1') !== undefined &&
@@ -92,7 +100,12 @@ export default function IngredientsPart({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <Ingredient3 watch={watch} setValue={setValue} setShow={setShow} />
+            <IngredientToChoose
+              watch={watch}
+              setValue={setValue}
+              setShow={setShow}
+              watchIngredient={watch('ingredient2')}
+            />
           </motion.div>
         )}
     </>

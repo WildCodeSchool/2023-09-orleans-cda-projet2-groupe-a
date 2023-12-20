@@ -4,32 +4,69 @@ import type { Ingredient, IngredientProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
-export default function Ingredient1({
+export default function IngredientToChoose({
   watch,
   setValue,
-}: Omit<IngredientProps, 'setShow'>) {
+  setShow,
+  watchIngredient,
+}: IngredientProps) {
   const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
-    setValue(`ingredient1`, value);
+    if (
+      watch('ingredient1') === undefined &&
+      watch('ingredient2') === undefined &&
+      watch('ingredient3') === undefined
+    ) {
+      setValue('ingredient1', value);
+    } else if (
+      watch('ingredient1') !== undefined &&
+      watch('ingredient2') === undefined &&
+      watch('ingredient3') === undefined
+    ) {
+      setValue('ingredient2', value);
+    } else if (
+      watch('ingredient1') !== undefined &&
+      watch('ingredient2') !== undefined &&
+      watch('ingredient3') === undefined
+    ) {
+      setValue('ingredient3', value);
+      setShow(5);
+    }
   };
-
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/${watch(
-    'alcohol.id',
-  )}`;
+  const url = `${import.meta.env.VITE_API_URL}/ingredient/${
+    watchIngredient?.id ?? 1
+  }`;
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
 
   const randomIngredient = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/ingredient/random/${watch(
-          'alcohol.id',
-        )}`,
+        `${import.meta.env.VITE_API_URL}/ingredient/random`,
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue('ingredient1', data[0]);
+      if (
+        watch('ingredient1') === undefined &&
+        watch('ingredient2') === undefined &&
+        watch('ingredient3') === undefined
+      ) {
+        setValue('ingredient1', data[0]);
+      } else if (
+        watch('ingredient1') !== undefined &&
+        watch('ingredient2') === undefined &&
+        watch('ingredient3') === undefined
+      ) {
+        setValue('ingredient2', data[0]);
+      } else if (
+        watch('ingredient1') !== undefined &&
+        watch('ingredient2') !== undefined &&
+        watch('ingredient3') === undefined
+      ) {
+        setValue('ingredient3', data[0]);
+        setShow(5);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -46,8 +83,8 @@ export default function Ingredient1({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={watch('ingredient1.name')}
-                  checked={watch('ingredient1.name') === ingredient.name}
+                  value={watch('ingredient3.name')}
+                  checked={watch('ingredient3.name') === ingredient.name}
                   onChange={() => {
                     handleIngredientChange(ingredient);
                   }}

@@ -67,18 +67,5 @@ export interface IngredientProps {
     value: string | { id: number; name: string },
   ) => void;
   setShow: (show: number) => void;
-}
-
-export interface ModalSearchProps {
-  setIsModalShown: (isModalShown: boolean) => void;
-  setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
-  watchIngredient: UseFormWatch<CocktailForm>;
-  setShow: (show: number) => void;
-}
-
-export interface SearchIngredient {
-  searchIngredient: string;
+  watchIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
 }

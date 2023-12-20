@@ -5,6 +5,17 @@ import { db } from '@app/backend-shared';
 
 const ingredient = express.Router();
 
+ingredient.get('/random', async (req, res) => {
+  const ingredient = await db
+    .selectFrom('ingredient')
+    .select(['ingredient.id', 'ingredient.name'])
+    .orderBy(sql`RAND()`)
+    .limit(1)
+    .execute();
+
+  return res.json(ingredient);
+});
+
 ingredient.get('/:ingredientId', async (req, res) => {
   const ingredientId = req.params.ingredientId;
 
@@ -53,20 +64,6 @@ ingredient.get('/:ingredientId', async (req, res) => {
     .execute();
 
   return res.json([...ingredientsByIngredient, ...ingredient]);
-});
-
-ingredient.get('/random/:ingredientId', async (req, res) => {
-  const ingredientId = req.params.ingredientId;
-
-  const ingredient = await db
-    .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name'])
-    .where('ingredient.id', '!=', Number.parseInt(ingredientId))
-    .orderBy(sql`rand()`)
-    .limit(1)
-    .execute();
-
-  return res.json(ingredient);
 });
 
 ingredient.get('/search/:ingredientname', async (req, res) => {
