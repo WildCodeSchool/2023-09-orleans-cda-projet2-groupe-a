@@ -4,6 +4,7 @@ import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
+import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,11 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '/details',
+    path: 'profile/:id',
+    element: <ProfilePage />,
+  },
+  {
+    path: '/details/:id',
     element: <CocktailsDetails />,
   },
   {

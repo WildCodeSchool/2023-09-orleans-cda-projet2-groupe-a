@@ -1,15 +1,22 @@
 import { MoveRight, Skull } from 'lucide-react';
 
-import type { IngredientsPartProps } from '@app/types';
+import type { Ingredient, IngredientsPartProps } from '@app/types';
 
-const ingredients = ['mint', 'salmon', 'ice', 'coriander', 'orange', 'lemon'];
+import useFetch from '@/hooks/use-fetch';
 
 export default function IngredientsPart({
   register,
   selectedIngredient,
   handleIngredientChange,
   errors,
+  watch,
 }: IngredientsPartProps) {
+  const url = `${import.meta.env.VITE_API_URL}/ingredient/${watch(
+    'alcohol.id',
+  )}`;
+
+  const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
+
   return (
     <>
       <h1 className='relative bottom-[3%] w-[250px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
@@ -33,31 +40,39 @@ export default function IngredientsPart({
       ) : undefined}
 
       <fieldset className='relative bottom-[2%] grid grid-flow-col grid-rows-3 gap-2 gap-x-4 sm:bottom-[4%]'>
-        {ingredients.map((ingredient) => (
-          <div key={ingredient} className='flex gap-3'>
-            <input
-              className='hover:cursor-pointer'
-              type='radio'
-              id={ingredient}
-              value={ingredient}
-              {...register('ingredient', {
-                required: true,
-                maxLength: { value: 255, message: "can't be longer than 255" },
-                validate: {
-                  isString: (value) =>
-                    typeof value === 'string' || 'Must be a string',
-                },
-              })}
-              checked={selectedIngredient === ingredient}
-              onChange={() => {
-                handleIngredientChange(ingredient);
-              }}
-            />
-            <label className='hover:cursor-pointer' htmlFor={ingredient}>
-              {ingredient}
-            </label>
-          </div>
-        ))}
+        {isLoading
+          ? undefined
+          : data?.map((ingredient) => (
+              <div key={ingredient.id} className='flex gap-3'>
+                <input
+                  className='hover:cursor-pointer'
+                  type='radio'
+                  id={ingredient.name}
+                  value={ingredient.name}
+                  {...register('ingredient', {
+                    required: true,
+                    maxLength: {
+                      value: 255,
+                      message: "can't be longer than 255",
+                    },
+                    validate: {
+                      isString: (value) =>
+                        typeof value === 'string' || 'Must be a string',
+                    },
+                  })}
+                  checked={selectedIngredient === ingredient.name}
+                  onChange={() => {
+                    handleIngredientChange(ingredient.name);
+                  }}
+                />
+                <label
+                  className='hover:cursor-pointer'
+                  htmlFor={ingredient.name}
+                >
+                  {ingredient.name}
+                </label>
+              </div>
+            ))}
       </fieldset>
       <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[24%] lg:me-0 lg:gap-6'>
         <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>

@@ -1,23 +1,24 @@
 import type {
   FieldErrors,
   UseFormRegister,
+  UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form';
 
-import type { Ingredient } from '.';
+import type { Glass, Ingredient } from '.';
 
 export type CocktailForm = {
   name?: string;
   topping?: string;
   ingredient?: string;
-  alcohol?: string;
+  alcohol?: Ingredient;
   level?: number;
-  glass?: string;
+  glass?: Pick<Glass, 'name' | 'id'>;
 };
 
 export interface AlcoholPartProps {
   alcohols: Ingredient[];
-  handleClickAlcohol: (alcohol: string) => void;
+  handleClickAlcohol: (alcohol: Ingredient) => void;
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
 }
@@ -38,11 +39,12 @@ export interface IngredientsPartProps {
   selectedIngredient: string;
   handleIngredientChange: (ingredient: string) => void;
   errors: FieldErrors<CocktailForm>;
+  watch: UseFormWatch<CocktailForm>;
 }
 
 export interface GlassPartProps {
-  register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
+  setValue: UseFormSetValue<CocktailForm>;
 }
 
 export interface ToppingPartProps {
