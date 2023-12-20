@@ -1,7 +1,7 @@
 export default function ShakeItPart() {
   return (
     <div className='relative'>
-      <h1 className='text-light font-stroke-navbar relative left-[0px] top-[170px] z-50 w-[200px] text-center text-xl uppercase sm:left-[-10px] sm:top-[220px] sm:w-[300px] sm:text-[1.8rem] md:left-[-10px] md:top-[220px] md:text-2xl md:text-[2rem] lg:left-[30px] lg:top-[250px] lg:text-[2.5rem] xl:left-[100px] xl:top-[300px] 2xl:left-[190px] 2xl:top-[400px]'>
+      <h1 className='text-light font-stroke-xl relative left-[0px] top-[170px] z-50 w-[200px] text-center text-xl uppercase sm:left-[-10px] sm:top-[220px] sm:w-[300px] sm:text-[1.8rem] md:left-[-10px] md:top-[220px] md:text-2xl md:text-[2rem] lg:left-[30px] lg:top-[250px] lg:text-[2.5rem] xl:left-[100px] xl:top-[300px] 2xl:left-[190px] 2xl:top-[400px]'>
         <span className='block sm:mb-2 md:mb-6'>{'shake'}</span>
         <span className='block'>{'it!'}</span>
       </h1>

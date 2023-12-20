@@ -1,7 +1,7 @@
 export default function VirginPart() {
   return (
     <div className='relative'>
-      <h1 className='text-light font-stroke-navbar md:rotate-17 relative left-[-10px] top-[150px] z-50 rotate-12 text-center text-xl uppercase sm:left-[-30px] sm:top-[180px] sm:text-[1.8rem] md:left-[-20px] md:top-[220px] md:text-[2rem] lg:left-[-30px] lg:top-[250px] lg:text-[2.5rem] xl:top-[300px] 2xl:top-[350px]'>
+      <h1 className='text-light font-stroke-xl md:rotate-17 relative left-[-10px] top-[150px] z-50 rotate-12 text-center text-xl uppercase sm:left-[-30px] sm:top-[180px] sm:text-[1.8rem] md:left-[-20px] md:top-[220px] md:text-[2rem] lg:left-[-30px] lg:top-[250px] lg:text-[2.5rem] xl:top-[300px] 2xl:top-[350px]'>
         {`virgin`}
       </h1>
       <img

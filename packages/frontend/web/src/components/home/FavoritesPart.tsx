@@ -1,7 +1,7 @@
 export default function FavoritesPart() {
   return (
     <div className='relative'>
-      <h1 className='text-light font-stroke-navbar -rotate-17 relative left-[15px] top-[130px] z-50 ml-16 w-[200px] text-lg uppercase sm:left-[35px] sm:top-[160px] sm:w-[300px] sm:text-2xl md:left-[10px] md:top-[170px] md:text-[2rem] lg:-left-[5px] lg:top-[180px] lg:text-[2.5rem] xl:-left-[10px] xl:top-[180px] 2xl:left-[60px] 2xl:top-[250px]'>
+      <h1 className='text-light font-stroke-xl -rotate-17 relative left-[15px] top-[130px] z-50 ml-16 w-[200px] text-lg uppercase sm:left-[35px] sm:top-[160px] sm:w-[300px] sm:text-2xl md:left-[10px] md:top-[170px] md:text-[2rem] lg:-left-[5px] lg:top-[180px] lg:text-[2.5rem] xl:-left-[10px] xl:top-[180px] 2xl:left-[60px] 2xl:top-[250px]'>
         {'favorites'}
       </h1>
       <img

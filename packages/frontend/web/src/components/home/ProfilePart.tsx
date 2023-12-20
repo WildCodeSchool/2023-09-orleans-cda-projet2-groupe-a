@@ -1,7 +1,7 @@
 export default function ProfilesPart() {
   return (
     <div className='relative'>
-      <h1 className='text-light font-stroke-navbar relative top-[220px] z-50 mb-16 w-[200px] text-center text-xl uppercase sm:left-[15px] sm:top-[260px] sm:w-[300px] sm:text-[1.8rem] md:left-[60px] md:top-[280px] md:text-[2rem] lg:left-[25px] lg:top-[250px] lg:text-[2.5rem] xl:left-[60px] xl:top-[300px] 2xl:left-[140px] 2xl:top-[370px]'>
+      <h1 className='text-light font-stroke-xl relative top-[220px] z-50 mb-16 w-[200px] text-center text-xl uppercase sm:left-[15px] sm:top-[260px] sm:w-[300px] sm:text-[1.8rem] md:left-[60px] md:top-[280px] md:text-[2rem] lg:left-[25px] lg:top-[250px] lg:text-[2.5rem] xl:left-[60px] xl:top-[300px] 2xl:left-[140px] 2xl:top-[370px]'>
         {'profile'}
       </h1>
       <img
