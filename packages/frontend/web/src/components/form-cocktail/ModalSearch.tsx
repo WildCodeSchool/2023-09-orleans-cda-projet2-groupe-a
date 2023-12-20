@@ -16,7 +16,7 @@ interface ModalSearchProps {
 }
 
 interface SearchIngredient {
-  searchIngredient: string;
+  readonly searchIngredient: string;
 }
 
 export default function ModalSearch({
