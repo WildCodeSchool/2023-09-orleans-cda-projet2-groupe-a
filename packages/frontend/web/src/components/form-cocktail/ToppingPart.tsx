@@ -12,7 +12,6 @@ export default function ToppingPart({
 }: ToppingPartProps) {
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
-  const [mainFlavourCount, setMainFlavourCount] = useState<number>(0);
 
   const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
   // eslint-disable-next-line unicorn/no-array-reduce
@@ -39,7 +38,7 @@ export default function ToppingPart({
 
   useEffect(() => {
     if (selectedAlcohol && selectedIngredient) {
-      const [maxFlavour, maxFlavourCount] = Object.entries(
+      const [maxFlavour] = Object.entries(
         flavoursCount,
         // eslint-disable-next-line unicorn/no-array-reduce
       ).reduce(
@@ -51,9 +50,8 @@ export default function ToppingPart({
       );
 
       setMainFlavour(maxFlavour);
-      setMainFlavourCount(maxFlavourCount);
 
-      fetch(`${import.meta.env.VITE_API_URL}/topping/${maxFlavour}`)
+      fetch(`${import.meta.env.VITE_API_URL}/topping/${mainFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
@@ -65,7 +63,7 @@ export default function ToppingPart({
           );
         });
     }
-  }, [flavoursCount, selectedAlcohol, selectedIngredient]);
+  }, [flavoursCount, mainFlavour, selectedAlcohol, selectedIngredient]);
 
   return (
     <>
