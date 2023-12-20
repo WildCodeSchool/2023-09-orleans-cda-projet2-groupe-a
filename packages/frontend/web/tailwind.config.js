@@ -182,6 +182,15 @@ export default {
         dark: '4px #000000',
       }),
     },
+    keyframes: {
+      spin: {
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(360deg)' },
+      },
+    },
+    animation: {
+      'spin-infinite': 'spin 5s linear infinite',
+    },
   },
   plugins: [
     function ({ addUtilities, theme }) {
