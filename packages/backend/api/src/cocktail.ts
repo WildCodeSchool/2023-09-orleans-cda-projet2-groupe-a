@@ -47,7 +47,7 @@ cocktailRouter.get('/:id', async (req, res) => {
               'action.verb as verb',
               'action.priority as priority',
             ])
-            .where('recipe.cocktail_id', '=', Number.parseInt(id)),
+            .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
         ).as('ingredients'),
 
         jsonArrayFrom(

@@ -7,19 +7,19 @@ import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
 
-type Toppings = {
+type Topping = {
   topping_id: number;
   topping_name: string;
   topping_quantity: number;
 };
 
-type Tools = {
+type Tool = {
   tool_id: number;
   tool_name: string;
   tool_image: string;
 };
 
-type Ingredients = {
+type Ingredient = {
   ingredient_id: number;
   ingredient_name: string;
   quantity: number;
@@ -32,9 +32,9 @@ type Ingredients = {
 export default function CocktailsDetails() {
   const { id } = useParams();
   const [cocktail, setCocktail] = useState<Cocktail | undefined>();
-  const [ingredients, setIngredients] = useState<Ingredients[] | undefined>();
-  const [toppings, setToppings] = useState<Toppings[] | undefined>();
-  const [tools, setTools] = useState<Tools[] | undefined>();
+  const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
+  const [toppings, setToppings] = useState<Topping[] | undefined>();
+  const [tools, setTools] = useState<Tool[] | undefined>();
 
   const [isLoading, setIsLoading] = useState(true);
 
