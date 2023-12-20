@@ -11,6 +11,8 @@ export default function ToppingPart({
   errors,
 }: ToppingPartProps) {
   const [toppings, setToppings] = useState<Topping[]>([]);
+  const [mainFlavour, setMainFlavour] = useState<string>('');
+  const [mainFlavourCount, setMainFlavourCount] = useState<number>(0);
 
   const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
   const flavoursCount = {
@@ -71,19 +73,16 @@ export default function ToppingPart({
     }
   }
 
-  let mainFlavour = '';
-  let mainFlavourCount = 0;
-
   for (const [key, count] of Object.entries(flavoursCount)) {
     if (count > mainFlavourCount) {
-      mainFlavour = key;
-      mainFlavourCount = count;
+      setMainFlavour(key);
+      setMainFlavourCount(count);
     }
   }
 
   useEffect(() => {
     if (selectedAlcohol && selectedIngredient) {
-      fetch(`${import.meta.env.VITE_API_URL}/toppings/${mainFlavour}`)
+      fetch(`${import.meta.env.VITE_API_URL}/topping/${mainFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
