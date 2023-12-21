@@ -154,11 +154,19 @@ export default {
       }),
       animation: {
         'fade-out': 'fade-out 2000ms ease-in forwards',
+        'color-pulse': 'color-pulse 2s linear infinite',
       },
       keyframes: {
         'fade-out': {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
+        },
+        'color-pulse': {
+          // Add this keyframe
+          '0%, 100%': { color: 'white' },
+          '25%': { color: 'yellow' },
+          '50%': { color: 'orange' },
+          '75%': { color: 'red' },
         },
       },
     },
