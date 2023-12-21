@@ -4,6 +4,7 @@ import LayoutLoggedIn from './components/Layout/LayoutLoggedIn';
 import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
+import Community from './pages/Community';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
       {
         // path: 'virgin', à prévoir
         //element: <Virgin />, à prévoir
+      },
+      {
+        path: '/cocktail-details/:id',
+        element: <CocktailsDetails />,
+      },
+      {
+        path: 'community',
+        element: <Community />,
       },
     ],
   },
