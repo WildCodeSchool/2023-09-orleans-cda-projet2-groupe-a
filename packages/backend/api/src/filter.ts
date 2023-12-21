@@ -15,7 +15,6 @@ filterRouter.get('/', async (req, res) => {
         jsonArrayFrom(
           eb
             .selectFrom('ingredient')
-
             .select([
               'ingredient.id as ingredient_id',
               'ingredient.name as ingredient_name',
@@ -28,7 +27,6 @@ filterRouter.get('/', async (req, res) => {
         jsonArrayFrom(
           eb
             .selectFrom('ingredient')
-
             .select([
               'ingredient.id as alcohol_id',
               'ingredient.name as alcohol_name',
@@ -37,14 +35,45 @@ filterRouter.get('/', async (req, res) => {
             .where('ingredient.family', '=', 'alcohol')
             .orderBy('ingredient.name', 'asc'),
         ).as('alcohols'),
-      ])
 
+        jsonArrayFrom(
+          eb
+            .selectFrom('cocktail')
+            .select(['final_flavour as cocktail_flavour'])
+            .distinct()
+            .orderBy('cocktail.final_flavour', 'asc'),
+        ).as('flavours'),
+
+        jsonArrayFrom(
+          eb
+            .selectFrom('cocktail')
+            .select('total_kcal as cocktail_kcal')
+            .distinct()
+            .orderBy('cocktail.total_kcal', 'asc'),
+        ).as('kcals'),
+
+        jsonArrayFrom(
+          eb
+            .selectFrom('cocktail')
+            .select(['total_degree as cocktail_degree'])
+            .distinct()
+
+            .orderBy('cocktail.total_degree', 'asc'),
+        ).as('degrees'),
+
+        jsonArrayFrom(
+          eb
+            .selectFrom('recipe')
+            .select(['total_complexity as cocktail_complexity'])
+            .distinct()
+            .orderBy('recipe.total_complexity', 'asc'),
+        ).as('complexities'),
+      ])
       .executeTakeFirst();
 
     if (!cocktail) {
       return res.status(404).send('Cocktail not found');
     }
-
     res.json({ cocktail });
   } catch (error) {
     console.error(error);

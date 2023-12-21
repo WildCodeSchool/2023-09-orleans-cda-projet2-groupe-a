@@ -1,16 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-type CardCocktail = {
-  id: number;
-  name: string;
-  avg_rating: number;
-  cocktail_image: string;
-  cocktail_created: Date;
-};
-
-interface CardCocktailsProps {
+interface CardCocktail {
   cocktail_id: number;
   cocktail_name: string;
   avg_rating: number;
@@ -20,19 +11,18 @@ interface CardCocktailsProps {
 }
 
 export default function CardCocktail() {
-  const [cocktails, setCocktails] = useState<
-    CardCocktailsProps[] | undefined
-  >();
-  const [isLoading, setIsLoading] = useState(true);
+  const [cocktails, setCocktails] = useState<CardCocktail[] | undefined>();
 
-  const fetchCocktails = async (url: string, signal: AbortSignal) => {
-    const response = await fetch(url, {
-      signal,
-    });
+  const fetchCocktails = async (signal: AbortSignal) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/cocktail/alcohol`,
+      {
+        signal,
+      },
+    );
     if (response.ok) {
       const data = await response.json();
       setCocktails(data.cocktailsWithAlcohol);
-      setIsLoading(false);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -42,10 +32,7 @@ export default function CardCocktail() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchCocktails(
-      `${import.meta.env.VITE_API_URL}/cocktail/alcohol`,
-      signal,
-    ).catch((error) => {
+    fetchCocktails(signal).catch((error) => {
       console.error(error);
     });
 
@@ -54,19 +41,9 @@ export default function CardCocktail() {
     };
   }, []);
 
-  if (cocktails === undefined && !isLoading) {
-    return <Navigate to='/' />;
-  }
-
-  if (isLoading) {
-    return null;
-  }
-  if (!cocktails) {
-    return <Navigate to='/' />;
-  }
   return (
     <div className='mb-10 mt-10 flex flex-wrap justify-center px-12'>
-      {cocktails.map((cocktail) => (
+      {cocktails?.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-8'>
           <Link to={`/details/${cocktail.cocktail_id}`}>
             <div
