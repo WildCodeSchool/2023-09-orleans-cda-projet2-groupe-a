@@ -1,12 +1,12 @@
-import { type FormEvent, useContext, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CurrentAgeContext } from '@/contexts/AgeContext';
+import { useAge } from '@/contexts/AgeProviderContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const isUnder18 = useContext(CurrentAgeContext);
+  const { obtainedBirthday } = useAge();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
@@ -41,7 +41,7 @@ export default function Login() {
       if (data.isLoggedIn) {
         setIsLoggedIn(true);
         // navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (isLoggedIn && isUnder18 != null) {
+      } else if (isLoggedIn && obtainedBirthday != null) {
         setIsLoggedIn(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }

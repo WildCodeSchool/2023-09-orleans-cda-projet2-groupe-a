@@ -1,11 +1,11 @@
 import { type FormEvent, useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAge } from '@/contexts/AgeProviderContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 // These two consts below do not need and function. They don'h have to be into fuction CheckBirthdate.
-const now = new Date();
+const now: Date = new Date();
 const eighteenYearsAgo: Date = new Date(
   now.getFullYear() - 18,
   now.getMonth(),
@@ -13,79 +13,88 @@ const eighteenYearsAgo: Date = new Date(
 );
 
 export default function CheckBirthdate() {
+  const navigate = useNavigate();
   const [birthdate, setBirthdate] = useState<string>('');
   const [isImageShown, setIsImageShown] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isModalShown, setIsModalShown] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { isUnder18, setIsUnder18 } = useAge();
+  const { obtainedBirthday, setObtainedBirthday } = useAge();
+
+  // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
 
   useEffect(() => {
-    const abortController = new AbortController();
+    // Adds class 'overflow-hidden' to the body when the component is mounted
+    document.body.classList.add('overflow-hidden');
+    return () => {
+      // removes class 'overflow-hidden' from the body when the component is unmounted
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // prevents refresh.
+    setIsSubmitted(true);
+    // setTimeout(() => {
+    //   setIsSubmitted(false);
+    // }, 7000);
+    // setObtainedBirthday(birthdate);
+    document.body.classList.remove('overflow-hidden');
 
     if (
       birthdate !== '' &&
-      new Date(birthdate).getTime() >= eighteenYearsAgo.getTime()
+      new Date(birthdate).getTime() <= eighteenYearsAgo.getTime()
     ) {
       // User is over 18.
-      setIsUnder18(false);
+      setObtainedBirthday(birthdate);
       if (isLoggedIn) {
-        <Navigate to='/' />; // redirects to the / page.
+        navigate('/'); // redirects to the / page.
       } else {
-        // User is under 18.
-        setIsUnder18(true);
-        setIsImageShown(true);
-        <Navigate to='/virgin' />; // redirects to /virgin page.
+        navigate('/register');
       }
+    } else if (
+      birthdate !== '' &&
+      new Date(birthdate).getTime() >= eighteenYearsAgo.getTime()
+    ) {
+      // User is under 18.
+      setObtainedBirthday(birthdate);
+      setIsImageShown(true);
+      setTimeout(() => {
+        setIsModalShown(true);
+      }, 3000);
+      //navigate('/virgin'); // redirects to /virgin page when this page exists.
     }
-    return () => {
-      abortController.abort();
-    };
-  }, [birthdate, isLoggedIn, Navigate, setIsUnder18]);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // prevents refresh.
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 2000);
-    setIsUnder18(true);
-
-    if (isUnder18) {
+    if (birthdate === '') {
       setTimeout(() => {
         setIsModalShown(true);
       }, 3000);
     } else if (new Date(birthdate).getTime() < eighteenYearsAgo.getTime()) {
-      <Navigate to='/nokidsallowed' />;
+      navigate('/virgin');
     } else {
-      <Navigate to='/register' />;
+      navigate('/register');
     }
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/checkbirthdate`, {
-      method: 'POST',
-      credentials: 'include', // optional but essentiel to find out the cookie.
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        // body contains birthdate. JSON.stringify converts object into a JSON string.
-        birthdate,
-      }),
-    });
-
-    const data = (await res.json()) as {
-      ok: boolean;
-    };
-    console.log(data);
-    if (data.ok) {
+    if (birthdate && isLoggedIn) {
       setIsLoggedIn(true);
-      <Navigate to='/' />; // if the user is logged in, he's redirected to homepage.
+      navigate('/'); // if the user is logged in, he's redirected to homepage.
+    } else {
+      return null;
     }
   };
 
+  // useEffect qui permet d'ajouter obtainedBirthday au localstorage
+  // pour y accéder de page en page une fois que l'user l'a renseignée.
+
+  useEffect(() => {
+    if (obtainedBirthday !== undefined) {
+      localStorage.setItem('obtainedBirthday', obtainedBirthday);
+    }
+  }, [obtainedBirthday]);
+
   return (
-    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
+    <div className='bg-pastel-blue flex h-screen items-center justify-center overflow-y-auto p-5'>
       <div
         className='absolute h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
@@ -104,7 +113,9 @@ export default function CheckBirthdate() {
               placeholder='Birthdate'
               value={birthdate}
               onChange={(event) => {
-                setBirthdate(event.target.value);
+                if (/^[\d\s/-]*$/.test(event.target.value)) {
+                  setBirthdate(event.target.value);
+                }
               }}
               maxLength={10}
             />
@@ -127,7 +138,10 @@ export default function CheckBirthdate() {
                 {'Birthdate format : YYYY MM DD'}
               </div>
             )}
-            {isUnder18 ? (
+            {obtainedBirthday != null &&
+            obtainedBirthday &&
+            new Date(obtainedBirthday).getTime() <
+              now.getTime() - eighteenYearsAgo.getTime() ? (
               <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
                 {'Sorry! You must be at least 18 years old'}
               </div>

@@ -2,8 +2,8 @@ import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
 type AgeProviderState = {
-  isUnder18: boolean; // typage du contenu du context.
-  setIsUnder18: (value: boolean) => void;
+  obtainedBirthday: string | undefined; // typage du contenu du context.
+  setObtainedBirthday: (value: string | undefined) => void;
 };
 
 export const AgeProviderContext = createContext<AgeProviderState | undefined>(
@@ -15,14 +15,16 @@ interface AgeProviderProps {
 }
 
 export const AgeProvider = ({ children }: AgeProviderProps) => {
-  const [isUnder18, setIsUnder18] = useState<boolean>(false);
+  const [obtainedBirthday, setObtainedBirthday] = useState<
+    string | undefined
+  >();
 
   const value = useMemo(
     () => ({
-      isUnder18: isUnder18,
-      setIsUnder18: setIsUnder18,
+      obtainedBirthday: obtainedBirthday,
+      setObtainedBirthday: setObtainedBirthday,
     }),
-    [isUnder18],
+    [obtainedBirthday],
   );
 
   return (

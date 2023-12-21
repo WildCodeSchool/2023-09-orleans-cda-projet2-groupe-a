@@ -32,7 +32,7 @@ export default function LegalNotice() {
           <a href='/virgin'>{'Legal Notice'}</a>
           {/* Todo : relier à la page /virgin ou cocktail random healthy */}
         </div>
-        <div className='xxs:rounded-3xl xxs:text-lg z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
+        <div className='xxs:rounded-3xl xxs:text-lg z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
           <h1 className='xxs:text-md p-0.3 mx-0.5 my-10 text-center font-bold sm:text-3xl'>
             {'Warning against excessive alcohol consumption'}
           </h1>

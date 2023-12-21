@@ -106,7 +106,9 @@ export default function Register() {
               placeholder='Birthdate'
               value={birthdate}
               onChange={(event) => {
-                setBirthdate(event.target.value);
+                if (/^[\d\s/-]*$/.test(event.target.value)) {
+                  setBirthdate(event.target.value);
+                }
               }}
               maxLength={10}
             />
