@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 export default function Navbar() {
   const [color, setColor] = useState<string>();
   const [hover, setHover] = useState<string>();
-  const [categorie, setCategorie] = useState('');
   const location = useLocation();
 
   useEffect(() => {
