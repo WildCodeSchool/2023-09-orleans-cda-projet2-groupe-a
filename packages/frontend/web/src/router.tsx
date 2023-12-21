@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <ProfilePage />,
   },
   {
-    path: '/details/:id',
+    path: '/cocktail-details/:id',
     element: <CocktailsDetails />,
   },
   {

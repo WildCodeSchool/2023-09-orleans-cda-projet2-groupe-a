@@ -1,14 +1,60 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useDisclosure } from '@app/frontend-shared';
 
 import Comment from './Comment';
 import StarRating from './StarRating';
 
+interface CocktailComments {
+  content: string;
+  comment_id: number;
+  user_id: number;
+  cocktail_id: number;
+  comment_user: string;
+  numberComment: number;
+  score: number;
+  rating_id: number;
+}
+
 export default function CocktailComments() {
+  const [comments, setComments] = useState<CocktailComments[]>();
+  const [ratings, setRatings] = useState<CocktailComments[]>();
+  const { id } = useParams();
+
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
     useDisclosure(false);
+
+  const fetchComments = async (url: string, signal: AbortSignal) => {
+    const response = await fetch(url, {
+      signal,
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setComments(data.commentsByUserIdCocktailId);
+      setRatings(data.ratings);
+    } else {
+      console.error(`Request error: ${response.status}`);
+    }
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetchComments(
+      `${import.meta.env.VITE_API_URL}/comment/${id}`,
+      signal,
+    ).catch((error) => {
+      console.error(error);
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [id]);
 
   return (
     <div>
@@ -33,7 +79,7 @@ export default function CocktailComments() {
           )}
           <h2 className='pe-2'>{`review`}</h2>
           <div className='my-auto flex'>
-            <StarRating starCount={5} />
+            <StarRating ratings={ratings} />
           </div>
         </div>
       </div>
@@ -44,9 +90,9 @@ export default function CocktailComments() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: '0rem' }}
             transition={{ duration: 1 }}
-            className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain uppercase sm:w-[90%]'
+            className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain sm:w-[90%] md:w-[90%]'
           >
-            <Comment numberComment={4} />
+            <Comment comments={comments} />
           </motion.div>
         ) : undefined}
       </AnimatePresence>
