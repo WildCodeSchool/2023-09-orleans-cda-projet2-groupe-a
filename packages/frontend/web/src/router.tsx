@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
+import Community from './pages/Community';
 import Home from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     element: <ProfilePage />,
   },
   {
-    path: '/details/:id',
+    path: '/cocktail-details/:id',
     element: <CocktailsDetails />,
   },
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: 'cocktails',
     element: <Cocktails />,
+  },
+  {
+    path: 'community',
+    element: <Community />,
   },
 ]);
 
