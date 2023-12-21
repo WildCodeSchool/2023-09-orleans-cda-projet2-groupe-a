@@ -114,12 +114,64 @@ async function getUserById(id: number) {
   });
 }
 
+async function getAllUsers() {
+  return db.transaction().execute(async (trx) => {
+    const result = await sql`
+      SELECT 
+        user.id, 
+        user.pseudo, 
+        user.image, 
+        user.color,
+        COUNT(cocktail.id) AS cocktail_count,
+        AVG(
+          CASE rating.score 
+          WHEN '0.5' THEN 0.5 
+          WHEN '1' THEN 1 
+          WHEN '1.5' THEN 1.5 
+          WHEN '2' THEN 2 
+          WHEN '2.5' THEN 2.5 
+          WHEN '3' THEN 3 
+          WHEN '3.5' THEN 3.5 
+          WHEN '4' THEN 4 
+          WHEN '4.5' THEN 4.5 
+          WHEN '5' THEN 5 
+          WHEN '5.5' THEN 5.5 
+          WHEN '6' THEN 6 
+          WHEN '6.5' THEN 6.5 
+          WHEN '7' THEN 7 
+          WHEN '7.5' THEN 7.5 
+          WHEN '8' THEN 8 
+          WHEN '8.5' THEN 8.5 
+          WHEN '9' THEN 9 
+          WHEN '9.5' THEN 9.5 
+          WHEN '10' THEN 10 
+          END
+        ) AS average_rating
+        FROM user 
+        LEFT JOIN cocktail ON user.id = cocktail.author
+        LEFT JOIN rating ON cocktail.id = rating.cocktail_id
+        GROUP BY user.id;
+    `.execute(trx);
+
+    return result.rows;
+  });
+}
+
 user.get('/:id', async (req, res) => {
   const id = Number.parseInt(req.params.id);
 
   try {
     const result = await getUserById(id);
     res.json(result[0]);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+user.get('/', async (req, res) => {
+  try {
+    const result = await getAllUsers();
+    res.json(result);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
   }
