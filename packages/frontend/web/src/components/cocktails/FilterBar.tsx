@@ -5,7 +5,7 @@ export default function FilterBar() {
     <div className='mt-12'>
       <p className='font-stroke text-light ps-[5rem] text-[1.2rem] uppercase'>{`filter by`}</p>
       <div className='mt-10 flex justify-center'>
-        <div className='border-dark bg-card-green absolute mx-auto w-[95vw] rounded-sm border-[3px] p-8 uppercase'>
+        <div className='border-dark bg-card-green mx-auto w-[95vw] rounded-sm border-[3px] p-8 uppercase'>
           <div className='grid h-full w-full grid-cols-7'>
             <div className='font-stroke text-light flex justify-center text-[1rem] uppercase'>
               {`alcohol`}

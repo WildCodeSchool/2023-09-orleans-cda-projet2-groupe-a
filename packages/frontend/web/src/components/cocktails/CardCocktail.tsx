@@ -65,7 +65,7 @@ export default function CardCocktail() {
     return <Navigate to='/' />;
   }
   return (
-    <div className='mb-10 mt-20 flex flex-wrap justify-center p-12'>
+    <div className='mb-10 mt-10 flex flex-wrap justify-center px-12'>
       {cocktails.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-8'>
           <Link to={`/details/${cocktail.cocktail_id}`}>
@@ -86,7 +86,7 @@ export default function CardCocktail() {
                     />
                     <div>
                       <div className='mx-4 mt-3 text-center'>
-                        <h1 className='font-stroke text-light text-md'>
+                        <h1 className='font-stroke text-light text-md mb-2'>
                           {cocktail.cocktail_name}
                         </h1>
                         {/* <p>{`(${cocktail.ingredient_name})`}</p> */}
