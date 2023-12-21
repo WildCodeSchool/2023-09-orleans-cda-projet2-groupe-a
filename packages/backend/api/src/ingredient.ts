@@ -13,7 +13,7 @@ ingredient.get('/random', async (req, res) => {
     .limit(1)
     .execute();
 
-  return res.json(ingredient);
+  return res.json(ingredient[0]);
 });
 
 ingredient.get('/:ingredientId', async (req, res) => {

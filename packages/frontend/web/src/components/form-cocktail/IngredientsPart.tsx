@@ -1,9 +1,18 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 
-import type { IngredientsPartProps } from '@app/types';
+import type {
+  CocktailForm,
+  Ingredient,
+  IngredientsPartProps,
+} from '@app/types';
 
 import IngredientToChoose from './IngredientToChoose';
+
+interface IngredientsArray {
+  watchIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
+  ingredient: keyof CocktailForm;
+}
 
 export default function IngredientsPart({
   errors,
@@ -12,6 +21,12 @@ export default function IngredientsPart({
   setShow,
   setIsModalShown,
 }: IngredientsPartProps) {
+  const ingredients: IngredientsArray[] = [
+    { watchIngredient: watch('alcohol'), ingredient: 'ingredient1' },
+    { watchIngredient: watch('ingredient1'), ingredient: 'ingredient2' },
+    { watchIngredient: watch('ingredient2'), ingredient: 'ingredient3' },
+  ];
+
   return (
     <>
       <div className='relative bottom-[3%] flex w-[250px] gap-3 sm:bottom-[10%]'>
@@ -61,56 +76,36 @@ export default function IngredientsPart({
         </span>
       ) : undefined}
 
-      {watch('ingredient1') === undefined &&
-        watch('ingredient2') === undefined &&
-        watch('ingredient3') === undefined && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <IngredientToChoose
-              watch={watch}
-              setValue={setValue}
-              setShow={setShow}
-              watchIngredient={watch('alcohol')}
-              ingredient={'ingredient1'}
-            />
-          </motion.div>
-        )}
-      {watch('ingredient1') !== undefined &&
-        watch('ingredient2') === undefined &&
-        watch('ingredient3') === undefined && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <IngredientToChoose
-              watch={watch}
-              setValue={setValue}
-              setShow={setShow}
-              watchIngredient={watch('ingredient1')}
-              ingredient={'ingredient2'}
-            />
-          </motion.div>
-        )}
-      {watch('ingredient1') !== undefined &&
-        watch('ingredient2') !== undefined && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <IngredientToChoose
-              watch={watch}
-              setValue={setValue}
-              setShow={setShow}
-              watchIngredient={watch('ingredient2')}
-              ingredient={'ingredient3'}
-            />
-          </motion.div>
-        )}
+      {ingredients.map((ingredient, index) => {
+        const previousIngredients = ingredients.slice(0, index);
+        const nextIngredients = ingredients.slice(index, -1);
+
+        const isAllPreviousIngredientsDefined = previousIngredients.every(
+          ({ ingredient }) => watch(ingredient) !== undefined,
+        );
+        const isThereNextIngredientsDefined = nextIngredients.every(
+          ({ ingredient }) => watch(ingredient) === undefined,
+        );
+
+        if (isAllPreviousIngredientsDefined && isThereNextIngredientsDefined) {
+          return (
+            <motion.div
+              key={ingredient.ingredient}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <IngredientToChoose
+                watch={watch}
+                setValue={setValue}
+                setShow={setShow}
+                watchIngredient={ingredient.watchIngredient}
+                ingredient={ingredient.ingredient}
+              />
+            </motion.div>
+          );
+        }
+      })}
     </>
   );
 }

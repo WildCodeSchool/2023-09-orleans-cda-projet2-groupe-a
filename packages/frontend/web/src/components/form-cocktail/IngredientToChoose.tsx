@@ -11,23 +11,15 @@ export default function IngredientToChoose({
   watchIngredient,
   ingredient,
 }: IngredientProps) {
-  const handleIngredientChange = (value: Pick<Ingredient, 'name' | 'id'>) => {
-    switch (ingredient) {
-      case 'ingredient1': {
-        7;
-        setValue('ingredient1', value);
-        break;
-      }
-      case 'ingredient2': {
-        setValue('ingredient2', value);
-        break;
-      }
-      case 'ingredient3': {
-        setValue('ingredient3', value);
-        break;
-      }
+  const handleIngredientChange = (
+    value: Pick<Ingredient, 'name' | 'id'>,
+  ): void => {
+    setValue(ingredient, value);
+    if (ingredient === 'ingredient3') {
+      setShow(5);
     }
   };
+
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
     watchIngredient?.id ?? 1
   }`;
@@ -43,21 +35,9 @@ export default function IngredientToChoose({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      switch (ingredient) {
-        case 'ingredient1': {
-          7;
-          setValue('ingredient1', data[0]);
-          break;
-        }
-        case 'ingredient2': {
-          setValue('ingredient2', data[0]);
-          break;
-        }
-        case 'ingredient3': {
-          setValue('ingredient3', data[0]);
-          setShow(5);
-          break;
-        }
+      setValue(ingredient, data);
+      if (ingredient === 'ingredient3') {
+        setShow(5);
       }
     } catch (error) {
       console.error(error);
