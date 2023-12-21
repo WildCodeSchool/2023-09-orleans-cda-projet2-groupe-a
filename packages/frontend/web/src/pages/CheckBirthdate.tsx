@@ -4,26 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import { useAge } from '@/contexts/AgeProviderContext';
 import { useAuth } from '@/contexts/AuthContext';
 
-// These two consts below do not need and function. They don'h have to be into fuction CheckBirthdate.
+// These two consts below do not need and function.
+//They don'h need to be inside function CheckBirthdate.
 const now: Date = new Date();
-const eighteenYearsAgo: Date = new Date(
-  now.getFullYear() - 18,
-  now.getMonth(),
-  now.getDate(),
-);
+const eighteenYearsAgo = new Date();
+eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
 
 export default function CheckBirthdate() {
   const navigate = useNavigate();
-  const [birthdate, setBirthdate] = useState<string>('');
   const [isImageShown, setIsImageShown] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isModalShown, setIsModalShown] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { obtainedBirthday, setObtainedBirthday } = useAge();
+  const { birthdate, setBirthdate } = useAge();
 
   // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
-
   useEffect(() => {
     // Adds class 'overflow-hidden' to the body when the component is mounted
     document.body.classList.add('overflow-hidden');
@@ -33,65 +29,54 @@ export default function CheckBirthdate() {
     };
   }, []);
 
+  // useEffect that stores birthdate in the localstorage
+  // so that browser can memorize it and user doesn't have to enter it again.
+  useEffect(() => {
+    if (birthdate != null && birthdate != '') {
+      localStorage.setItem('birthdate', birthdate);
+    }
+  }, [birthdate]);
+
+  // variable that stores by default the fact that user is under age.
+  let isUnderAge = false;
+  if (birthdate != null) {
+    isUnderAge = new Date(birthdate) >= eighteenYearsAgo;
+  }
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
     setIsSubmitted(true);
-    // setTimeout(() => {
-    //   setIsSubmitted(false);
-    // }, 7000);
-    // setObtainedBirthday(birthdate);
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 2000);
+    setBirthdate;
     document.body.classList.remove('overflow-hidden');
 
-    if (
-      birthdate !== '' &&
-      new Date(birthdate).getTime() <= eighteenYearsAgo.getTime()
-    ) {
-      // User is over 18.
-      setObtainedBirthday(birthdate);
-      if (isLoggedIn) {
-        navigate('/'); // redirects to the / page.
+    if (birthdate != undefined) {
+      const yearInMilliseconds = 365.25 * 24 * 60 * 60 * 1000;
+      const userAgeInMilliseconds =
+        now.getTime() - new Date(birthdate).getTime();
+      if (userAgeInMilliseconds > 18 * yearInMilliseconds) {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth',
+        });
       } else {
-        navigate('/register');
+        if (isUnderAge) {
+          window.history.pushState(null, '', '/');
+          document.body.classList.add('overflow-hidden');
+          setIsImageShown(true);
+          setTimeout(() => {
+            setIsModalShown(true);
+          }, 3000);
+        }
       }
-    } else if (
-      birthdate !== '' &&
-      new Date(birthdate).getTime() >= eighteenYearsAgo.getTime()
-    ) {
-      // User is under 18.
-      setObtainedBirthday(birthdate);
-      setIsImageShown(true);
-      setTimeout(() => {
-        setIsModalShown(true);
-      }, 3000);
-      //navigate('/virgin'); // redirects to /virgin page when this page exists.
-    }
-
-    if (birthdate === '') {
-      setTimeout(() => {
-        setIsModalShown(true);
-      }, 3000);
-    } else if (new Date(birthdate).getTime() < eighteenYearsAgo.getTime()) {
-      navigate('/virgin');
-    } else {
-      navigate('/register');
-    }
-
-    if (birthdate && isLoggedIn) {
-      setIsLoggedIn(true);
-      navigate('/'); // if the user is logged in, he's redirected to homepage.
-    } else {
-      return null;
+      if (isLoggedIn) {
+        setIsLoggedIn(true);
+        navigate('/'); // if the user is logged in, he's redirected to homepage.
+      }
     }
   };
-
-  // useEffect qui permet d'ajouter obtainedBirthday au localstorage
-  // pour y accéder de page en page une fois que l'user l'a renseignée.
-
-  useEffect(() => {
-    if (obtainedBirthday !== undefined) {
-      localStorage.setItem('obtainedBirthday', obtainedBirthday);
-    }
-  }, [obtainedBirthday]);
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center overflow-y-auto p-5'>
@@ -109,13 +94,13 @@ export default function CheckBirthdate() {
           >
             <input
               className='2px border-dark h-18 z-40 m-1 h-16 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-3xl'
-              type='birthdate'
+              type='date'
+              min='1900-01-01'
+              max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
               value={birthdate}
               onChange={(event) => {
-                if (/^[\d\s/-]*$/.test(event.target.value)) {
-                  setBirthdate(event.target.value);
-                }
+                setBirthdate(event.target.value);
               }}
               maxLength={10}
             />
@@ -129,24 +114,12 @@ export default function CheckBirthdate() {
         </div>
       </div>
       <div className='fixed top-1 z-40 flex h-1/5 flex-col items-center justify-center'>
-        {isSubmitted && birthdate !== '' ? (
-          <>
-            {!/^(19|20)\d{2}[./-\s](0[1-9]|1[0-2])[./-\s](0[1-9]|[12]\d|3[01])$/.test(
-              birthdate,
-            ) && (
-              <div className='fixed top-1 rounded border-2 border-red-600 bg-red-300 p-1'>
-                {'Birthdate format : YYYY MM DD'}
-              </div>
-            )}
-            {obtainedBirthday != null &&
-            obtainedBirthday &&
-            new Date(obtainedBirthday).getTime() <
-              now.getTime() - eighteenYearsAgo.getTime() ? (
-              <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
-                {'Sorry! You must be at least 18 years old'}
-              </div>
-            ) : null}
-          </>
+        {isSubmitted && birthdate !== '' && birthdate != null ? (
+          birthdate && isUnderAge ? (
+            <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
+              {"Remember! No Booze 'til you're 18!"}
+            </div>
+          ) : null
         ) : null}
       </div>
       <div className='z-50'>
@@ -165,7 +138,7 @@ export default function CheckBirthdate() {
       {isModalShown ? (
         <div className='flex-end font-stroke text-light flex items-center'>
           <div className='z-40 flex h-1/6 flex-col items-center gap-6 text-4xl'>
-            <div className='hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500  ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
+            <div className='animate-color-pulse hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500 ease-in-out  hover:rotate-1 hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
               <a href='/virgin'>{'Grab your Mocktail!'}</a>
             </div>
             <img

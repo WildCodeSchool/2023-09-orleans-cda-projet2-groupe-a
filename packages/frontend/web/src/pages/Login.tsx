@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { obtainedBirthday } = useAge();
+  const { birthdate } = useAge();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
@@ -41,7 +41,7 @@ export default function Login() {
       if (data.isLoggedIn) {
         setIsLoggedIn(true);
         // navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (isLoggedIn && obtainedBirthday != null) {
+      } else if (isLoggedIn && birthdate != null) {
         setIsLoggedIn(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Layout from './components/Layout/Layout';
+import LayoutLoggedIn from './components/Layout/LayoutLoggedIn';
+import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Home from './pages/Home';
@@ -10,7 +11,20 @@ import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: <LayoutLoggedOut />,
+    children: [
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+    ],
+  },
+  {
+    element: <LayoutLoggedIn />,
     children: [
       {
         path: '/',
@@ -19,14 +33,6 @@ const router = createBrowserRouter([
       {
         path: '/nokidsallowed', // TODO : attribuer cette page avec virgins filtrés ou autres.
         element: <NoKidsAllowed />, // Composant ébauché.
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
       },
       {
         path: '/details',

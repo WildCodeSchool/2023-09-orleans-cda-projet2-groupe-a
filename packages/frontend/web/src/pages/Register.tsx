@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export default function Register() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
+  const now: Date = new Date();
 
   const [email, setEmail] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');
@@ -102,13 +103,13 @@ export default function Register() {
             />
             <input
               className='2px border-dark m-1 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
-              type='birthdate'
+              type='date'
+              min='1900-01-01'
+              max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
               value={birthdate}
               onChange={(event) => {
-                if (/^[\d\s/-]*$/.test(event.target.value)) {
-                  setBirthdate(event.target.value);
-                }
+                setBirthdate(event.target.value);
               }}
               maxLength={10}
             />
@@ -142,15 +143,6 @@ export default function Register() {
             {'Pseudo must be at least 5 characters long'}
           </div>
         )}
-        {birthdate !== '' &&
-          !/^\d{4}-\d{2}-\d{2}$/.test(birthdate) &&
-          !/^(19|20)\d{2}[./-\s](0[1-9]|1[0-2])[./-\s](0[1-9]|[12]\d|3[01])$/.test(
-            birthdate,
-          ) && (
-            <div className='xxs:text-xs mt-1 rounded border-2 border-red-600 bg-red-300 p-1 sm:text-base'>
-              {'Birthdate format must be YYYY-MM-DD'}
-            </div>
-          )}
       </div>
     </div>
   );
