@@ -60,7 +60,7 @@ cocktailRouter.get('/:id', async (req, res) => {
               'tool.name as tool_name',
               'tool.image as tool_image',
             ])
-            .where('recipe.cocktail_id', '=', Number.parseInt(id)),
+            .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
         ).as('tools'),
 
         jsonArrayFrom(
@@ -72,7 +72,7 @@ cocktailRouter.get('/:id', async (req, res) => {
               'topping.name as topping_name',
               'cocktail_topping.quantity as topping_quantity',
             ])
-            .where('cocktail_topping.cocktail_id', '=', Number.parseInt(id)),
+            .whereRef('cocktail_topping.cocktail_id', '=', 'cocktail.id'),
         ).as('toppings'),
       ])
       .where('cocktail.id', '=', Number.parseInt(id))
