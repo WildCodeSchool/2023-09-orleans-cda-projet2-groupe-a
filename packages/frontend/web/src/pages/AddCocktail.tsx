@@ -28,7 +28,6 @@ export default function AddCocktail() {
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
-
   const handleIngredientChange = (ingredient: Ingredient | null) => {
     setSelectedIngredient(ingredient);
   };

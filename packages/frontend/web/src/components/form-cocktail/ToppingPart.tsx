@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { MoveRight, Skull } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { Topping, ToppingPartProps } from '@app/types';
 
@@ -12,36 +13,42 @@ export default function ToppingPart({
 }: ToppingPartProps) {
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
+  const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
+  const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
+    useState<boolean>(false);
+  const [isShowRandomTopping, setIsShowRandomTopping] =
+    useState<boolean>(false);
 
-  const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
-  // eslint-disable-next-line unicorn/no-array-reduce
-  const flavoursCount = allFlavours.reduce(
-    (count, flavour) => {
-      if (flavour) {
-        count[flavour] = (count[flavour] || 0) + 1;
-      }
-      return count;
-    },
-    {
-      fruity: 0,
-      spicy: 0,
-      herbaceous: 0,
-      floral: 0,
-      woody: 0,
-      bitter: 0,
-      sweet: 0,
-      salty: 0,
-      sour: 0,
-      neutral: 0,
-    },
-  );
+  const memorizedFlavoursCount = useMemo(() => {
+    const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
+
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return allFlavours.reduce(
+      (count, flavour) => {
+        if (flavour) {
+          count[flavour] = (count[flavour] || 0) + 1;
+        }
+        return count;
+      },
+      {
+        fruity: 0,
+        spicy: 0,
+        herbaceous: 0,
+        floral: 0,
+        woody: 0,
+        bitter: 0,
+        sweet: 0,
+        salty: 0,
+        sour: 0,
+        neutral: 0,
+      },
+    );
+  }, [selectedAlcohol?.flavour, selectedIngredient?.flavour]);
 
   useEffect(() => {
     if (selectedAlcohol && selectedIngredient) {
-      const [maxFlavour] = Object.entries(
-        flavoursCount,
-        // eslint-disable-next-line unicorn/no-array-reduce
-      ).reduce(
+      // eslint-disable-next-line unicorn/no-array-reduce
+      const [maxFlavour] = Object.entries(memorizedFlavoursCount).reduce(
         ([currentFlavour, currentCount], [flavour, count]) =>
           count > currentCount
             ? [flavour, count]
@@ -51,7 +58,7 @@ export default function ToppingPart({
 
       setMainFlavour(maxFlavour);
 
-      fetch(`${import.meta.env.VITE_API_URL}/topping/${mainFlavour}`)
+      fetch(`${import.meta.env.VITE_API_URL}/topping/${maxFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
@@ -63,11 +70,39 @@ export default function ToppingPart({
           );
         });
     }
-  }, [flavoursCount, mainFlavour, selectedAlcohol, selectedIngredient]);
+  }, [
+    memorizedFlavoursCount,
+    mainFlavour,
+    selectedAlcohol,
+    selectedIngredient,
+  ]);
+
+  const handleRandomToppingChoice = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/topping/random`,
+      );
+      const result = await response.json();
+      setRandomTopping(result[0]);
+      setIsRandomToppingChoosen((prev) => !prev);
+      handleToppingChange(result.name);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isRandomToppingChoosen && randomTopping) {
+      setIsShowRandomTopping(true);
+      handleToppingChange(randomTopping.name);
+    } else {
+      setIsShowRandomTopping(false);
+    }
+  }, [isRandomToppingChoosen, randomTopping, handleToppingChange]);
 
   return (
     <>
-      <h1 className='relative bottom-[7%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl'>
+      <h1 className='relative bottom-[5%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl'>
         {'Pick a topping'}
       </h1>
 
@@ -86,34 +121,50 @@ export default function ToppingPart({
           {errors.topping.message}
         </span>
       ) : undefined}
-
-      <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
-        {toppings.map((topping) => (
-          <div key={topping.id} className='flex gap-3'>
-            <input
-              className='hover:cursor-pointer'
-              type='radio'
-              id={topping.name}
-              value={topping.name}
-              {...register('topping', {
-                required: true,
-                maxLength: { value: 255, message: "can't be longer than 255" },
-                validate: {
-                  isString: (value) =>
-                    typeof value === 'string' || 'Must be a string',
-                },
-              })}
-              checked={selectedTopping === topping.name}
-              onChange={() => {
-                handleToppingChange(topping.name);
-              }}
-            />
-            <label className='hover:cursor-pointer' htmlFor={topping.name}>
-              {topping.name}
-            </label>
-          </div>
-        ))}
-      </fieldset>
+      {isShowRandomTopping && randomTopping ? (
+        <p>{randomTopping.name}</p>
+      ) : (
+        <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
+          {toppings.map((topping) => (
+            <div key={topping.id} className='flex gap-3'>
+              <input
+                className='hover:cursor-pointer'
+                type='radio'
+                id={topping.name}
+                value={topping.name}
+                {...register('topping', {
+                  required: true,
+                  maxLength: {
+                    value: 255,
+                    message: "can't be longer than 255",
+                  },
+                  validate: {
+                    isString: (value) =>
+                      typeof value === 'string' || 'Must be a string',
+                  },
+                })}
+                checked={selectedTopping === topping.name}
+                onChange={() => {
+                  handleToppingChange(topping.name);
+                }}
+              />
+              <label className='hover:cursor-pointer' htmlFor={topping.name}>
+                {topping.name}
+              </label>
+            </div>
+          ))}
+        </fieldset>
+      )}
+      <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[24%] lg:me-0 lg:mr-20 lg:gap-1'>
+        <p className='md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
+          <span className='block'>{'Or random...'}</span>
+          <span className='block'>{'At your peril !'}</span>
+        </p>
+        <MoveRight size={40} />
+        <button onClick={handleRandomToppingChoice} type='button'>
+          <Skull size={45} />
+        </button>
+      </div>
     </>
   );
 }

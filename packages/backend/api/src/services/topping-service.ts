@@ -1,14 +1,14 @@
-import { type Kysely, sql } from 'kysely';
+import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
-import type { Database, Flavour, Ingredient, Topping } from '@app/types';
+import type { Flavour, Topping } from '@app/types';
 
-async function getRandomToppings(db: Kysely<Database>): Promise<Ingredient[]> {
+async function getRandomTopping(): Promise<Topping[]> {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
-      SELECT * FROM topping ORDER BY RAND() LIMIT 4;
+      SELECT * FROM topping ORDER BY RAND() LIMIT 1;
     `.execute(trx);
-    return result.rows as Ingredient[];
+    return result.rows as Topping[];
   });
 }
 
@@ -21,4 +21,4 @@ async function getToppingsByFlavour(mainFlavour: Flavour): Promise<Topping[]> {
   });
 }
 
-export { getRandomToppings, getToppingsByFlavour };
+export { getRandomTopping, getToppingsByFlavour };

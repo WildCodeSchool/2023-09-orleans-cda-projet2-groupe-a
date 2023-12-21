@@ -2,9 +2,21 @@ import express from 'express';
 
 import type { Flavour } from '@app/types';
 
-import { getToppingsByFlavour } from './services/topping-service';
+import {
+  getRandomTopping,
+  getToppingsByFlavour,
+} from './services/topping-service';
 
 const topping = express.Router();
+
+topping.get('/random', async (req, res) => {
+  try {
+    const result = await getRandomTopping();
+    res.json(result);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 topping.get('/:mainFlavour', async (req, res) => {
   const mainFlavour: Flavour = req.params.mainFlavour as Flavour;
