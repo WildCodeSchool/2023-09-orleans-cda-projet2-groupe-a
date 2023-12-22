@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
 import Register from './pages/Register';
+import Virgin from './pages/Virgin';
 
 const router = createBrowserRouter([
   {
@@ -44,8 +45,8 @@ const router = createBrowserRouter([
         element: <AddCocktail />,
       },
       {
-        // path: 'virgin', à prévoir
-        //element: <Virgin />, à prévoir
+        path: 'virgin',
+        element: <Virgin />,
       },
       {
         path: '/cocktail-details/:id',

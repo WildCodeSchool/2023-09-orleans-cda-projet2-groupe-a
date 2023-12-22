@@ -170,6 +170,7 @@ export default {
         'card-virgin-light-blue': '#A2C3F5',
         'card-virgin-strong-pink': '#FB86DA',
         'card-virgin-strong-purple': '#E08AEC',
+        'card-virgin-orange': '#FF9900',
         'profile-picture-blue': '#07BCD5',
         'profile-picture-green': '#35B888',
         'profile-picture-orange': '#F2682F',

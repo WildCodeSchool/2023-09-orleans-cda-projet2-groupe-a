@@ -11,6 +11,7 @@ import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { user } from './user';
+import { virginRouter } from './virgin1';
 
 const router = express.Router();
 
@@ -46,6 +47,7 @@ router.use('/auth', authRouter);
 router.use('/user', user);
 router.use('/ingredient', ingredient);
 router.use('/cocktail', cocktailRouter);
+router.use('/virgin', virginRouter);
 router.use('/comment', commentRouter);
 router.use('/glass', glass);
 
