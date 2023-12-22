@@ -8,26 +8,58 @@ import {
   Users,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+type IconProps = {
+  className?: string;
+};
+
+type NavbarContent = {
+  name: string;
+  url: string;
+  lucid: React.ComponentType<IconProps>;
+};
+
+const navbarContent: NavbarContent[] = [
+  {
+    name: 'Cockatils',
+    url: '/cockatils',
+    lucid: Martini,
+  },
+  {
+    name: 'Shaker',
+    url: '/shaker',
+    lucid: Plus,
+  },
+  {
+    name: 'Profile',
+    url: '/profile/1', // à changer plus tard bien sûr
+    lucid: UserCircle2,
+  },
+  {
+    name: 'Favorite',
+    url: '/favorite',
+    lucid: Heart,
+  },
+  {
+    name: 'Community',
+    url: '/community',
+    lucid: Users,
+  },
+  {
+    name: 'Virgin',
+    url: '/virgin',
+    lucid: Milk,
+  },
+];
 
 export default function Navbar() {
-  const [color, setColor] = useState<string>();
-  const [hover, setHover] = useState<string>();
+  const [color, setColor] = useState<string>('#000000');
+  const [hover, setHover] = useState<string>('#000000');
   const location = useLocation();
 
   useEffect(() => {
     switch (location.pathname) {
-      case '/': {
-        setColor('#000000');
-        setHover('#000000');
-        break;
-      }
-      case '/shaker': {
-        setColor('#000000');
-        setHover('#000000');
-        break;
-      }
       case '/virgin': {
         setColor('#A4440A');
         setHover('#663416');
@@ -48,8 +80,11 @@ export default function Navbar() {
         setHover('#7D244E');
         break;
       }
+      default: {
+        setColor('#000000');
+        setHover('#000000');
+      }
     }
-
     const matchProfile = location.pathname.match(/^\/profile\/(\d+)$/);
     if (matchProfile) {
       setColor('#03454E');
@@ -65,7 +100,7 @@ export default function Navbar() {
 
   return (
     <div className='flex justify-center'>
-      <div className='ms:p-0 group fixed top-[95%] z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
+      <div className='ms:p-0 group fixed top-[95.5vh] z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
         <Link to='/'>
           <Home
             className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
@@ -76,78 +111,25 @@ export default function Navbar() {
             {'Home'}
           </p>
         </Link>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[100ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/cocktails'>
-            <Martini
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:sm:right-[25px]`}
+        {navbarContent.map((content) => {
+          return (
+            <div
+              key={content.name}
+              className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[100ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'
             >
-              {'Cocktails'}
-            </p>
-          </Link>
-        </div>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[200ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/shaker'>
-            <Plus
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute  max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:sm:right-[75px]`}
-            >
-              {'Shaker'}
-            </p>
-          </Link>
-        </div>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[300ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/profile/1'>
-            <UserCircle2
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute  max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:sm:right-[120px]`}
-            >
-              {'Profile'}
-            </p>
-          </Link>
-        </div>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[400ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/favorites'>
-            <Heart
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[150px]`}
-            >
-              {'Favorite'}
-            </p>
-          </Link>
-        </div>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[500ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/community'>
-            <Users
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[175px]`}
-            >
-              {'Community'}
-            </p>
-          </Link>
-        </div>
-        <div className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[600ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'>
-          <Link to='/virgin'>
-            <Milk
-              className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-            />
-            <p
-              className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[245px]`}
-            >
-              {'Virgin'}
-            </p>
-          </Link>
-        </div>
+              <Link to={content.url}>
+                <content.lucid
+                  className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                />
+                <p
+                  className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:sm:right-[25px]`}
+                >
+                  {content.name}
+                </p>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

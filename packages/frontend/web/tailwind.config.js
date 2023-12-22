@@ -123,7 +123,6 @@ export default {
     'bg-profile-picture-red',
     'bg-profile-picture-pink',
     'bg-profile-picture-purple',
-    'really-dark-blue',
     'text-[#03454E]',
     'text-[#000000]',
     'text-[#A4440A]',
