@@ -15,6 +15,7 @@ import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   console.log(data);
+
   return data;
 };
 
@@ -104,7 +105,7 @@ export default function AddCocktail() {
       });
     }
 
-    const ingredient1Value = watch('ingredient1');
+    /* const ingredient1Value = watch('ingredient1');
 
     if (ingredient1Value === undefined) {
       setError('ingredient1', { type: 'required', message: 'required' });
@@ -141,7 +142,7 @@ export default function AddCocktail() {
         type: 'validate',
         message: 'must be a number',
       });
-    }
+    } */
     const glassValue = watch('glass');
 
     if (glassValue === undefined) {

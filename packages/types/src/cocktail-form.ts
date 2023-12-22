@@ -10,9 +10,7 @@ import type { Glass, Ingredient } from '.';
 export type CocktailForm = {
   name?: string;
   topping?: string;
-  ingredient1?: Pick<Ingredient, 'id' | 'name'>;
-  ingredient2?: Pick<Ingredient, 'id' | 'name'>;
-  ingredient3?: Pick<Ingredient, 'id' | 'name'>;
+  ingredients?: Pick<Ingredient, 'id' | 'name'>[];
   alcohol?: Ingredient;
   level?: number;
   glass?: Pick<Glass, 'name' | 'id'>;
@@ -67,6 +65,6 @@ export interface IngredientProps {
     value: string | { id: number; name: string },
   ) => void;
   setShow: (show: number) => void;
-  watchIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  ingredient: keyof CocktailForm;
+  beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
+  actualingredient: string;
 }

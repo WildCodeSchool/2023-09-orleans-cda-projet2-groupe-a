@@ -1,17 +1,14 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 
-import type {
-  CocktailForm,
-  Ingredient,
-  IngredientsPartProps,
-} from '@app/types';
+import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import IngredientToChoose from './IngredientToChoose';
 
-interface IngredientsArray {
-  watchIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  ingredient: keyof CocktailForm;
+interface IngredientArray {
+  beforeIngredient: Pick<Ingredient, 'id' | 'name'> | undefined;
+  actualingredient: string;
+  if: boolean;
 }
 
 export default function IngredientsPart({
@@ -21,11 +18,32 @@ export default function IngredientsPart({
   setShow,
   setIsModalShown,
 }: IngredientsPartProps) {
-  const ingredients: IngredientsArray[] = [
-    { watchIngredient: watch('alcohol'), ingredient: 'ingredient1' },
-    { watchIngredient: watch('ingredient1'), ingredient: 'ingredient2' },
-    { watchIngredient: watch('ingredient2'), ingredient: 'ingredient3' },
+  const ingredientArray = watch('ingredients');
+  const ingredients: IngredientArray[] = [
+    {
+      beforeIngredient: watch('alcohol'),
+      actualingredient: 'ingredients[0]',
+      if: ingredientArray === undefined,
+    },
+    {
+      beforeIngredient: ingredientArray ? ingredientArray[0] : undefined,
+      actualingredient: 'ingredients[1]',
+      if:
+        ingredientArray !== undefined &&
+        ingredientArray[0] !== undefined &&
+        ingredientArray[1] === undefined &&
+        ingredientArray[2] === undefined,
+    },
+    {
+      beforeIngredient: ingredientArray ? ingredientArray[1] : undefined,
+      actualingredient: 'ingredients[2]',
+      if:
+        ingredientArray !== undefined &&
+        ingredientArray[0] !== undefined &&
+        ingredientArray[1] !== undefined,
+    },
   ];
+  console.log({ ingredientArray });
 
   return (
     <>
@@ -43,7 +61,7 @@ export default function IngredientsPart({
         </button>
       </div>
 
-      {errors.ingredient1?.type === 'required' ? (
+      {/*  {errors.ingredient1?.type === 'required' ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}
         </span>
@@ -74,23 +92,13 @@ export default function IngredientsPart({
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {errors.ingredient3.message}
         </span>
-      ) : undefined}
+      ) : undefined} */}
 
-      {ingredients.map((ingredient, index) => {
-        const previousIngredients = ingredients.slice(0, index);
-        const nextIngredients = ingredients.slice(index, -1);
-
-        const isAllPreviousIngredientsDefined = previousIngredients.every(
-          ({ ingredient }) => watch(ingredient) !== undefined,
-        );
-        const isThereNextIngredientsDefined = nextIngredients.every(
-          ({ ingredient }) => watch(ingredient) === undefined,
-        );
-
-        if (isAllPreviousIngredientsDefined && isThereNextIngredientsDefined) {
+      {ingredients.map((ingredient) => {
+        if (ingredient.if) {
           return (
             <motion.div
-              key={ingredient.ingredient}
+              key={ingredient.actualingredient}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -99,8 +107,8 @@ export default function IngredientsPart({
                 watch={watch}
                 setValue={setValue}
                 setShow={setShow}
-                watchIngredient={ingredient.watchIngredient}
-                ingredient={ingredient.ingredient}
+                beforeIngredient={ingredient.beforeIngredient}
+                actualingredient={ingredient.actualingredient}
               />
             </motion.div>
           );

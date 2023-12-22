@@ -11,9 +11,9 @@ ingredient.get('/random', async (req, res) => {
     .select(['ingredient.id', 'ingredient.name'])
     .orderBy(sql`RAND()`)
     .limit(1)
-    .execute();
+    .executeTakeFirst();
 
-  return res.json(ingredient[0]);
+  return res.json(ingredient);
 });
 
 ingredient.get('/:ingredientId', async (req, res) => {

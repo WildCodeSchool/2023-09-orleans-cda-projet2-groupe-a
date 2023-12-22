@@ -1,6 +1,6 @@
 import { MoveRight, Skull } from 'lucide-react';
 
-import type { Ingredient, IngredientProps } from '@app/types';
+import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
@@ -8,20 +8,20 @@ export default function IngredientToChoose({
   watch,
   setValue,
   setShow,
-  watchIngredient,
-  ingredient,
+  beforeIngredient,
+  actualingredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(ingredient, value);
-    if (ingredient === 'ingredient3') {
+    setValue(actualingredient as keyof CocktailForm, value);
+    if (actualingredient === 'ingredients[2]') {
       setShow(5);
     }
   };
 
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
-    watchIngredient?.id ?? 1
+    beforeIngredient?.id ?? 1
   }`;
 
   const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
@@ -35,14 +35,15 @@ export default function IngredientToChoose({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue(ingredient, data);
-      if (ingredient === 'ingredient3') {
+      setValue(actualingredient as keyof CocktailForm, data);
+      if (actualingredient === 'ingredients[2]') {
         setShow(5);
       }
     } catch (error) {
       console.error(error);
     }
   };
+  const ingredients = watch('ingredients');
 
   return (
     <>
@@ -55,8 +56,12 @@ export default function IngredientToChoose({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={watch('ingredient3.name')}
-                  checked={watch('ingredient3.name') === ingredient.name}
+                  value={ingredients ? ingredients[2]?.name : undefined}
+                  checked={
+                    ingredients
+                      ? ingredients[2]?.name === ingredient.name
+                      : false
+                  }
                   onChange={() => {
                     handleIngredientChange(ingredient);
                   }}

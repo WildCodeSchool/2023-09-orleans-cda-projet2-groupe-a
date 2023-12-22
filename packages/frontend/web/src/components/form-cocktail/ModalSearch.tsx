@@ -54,26 +54,27 @@ export default function ModalSearch({
       controller.abort();
     };
   }, [url, searchIngredient]);
+  const ingredients = watchIngredient('ingredients');
 
   const chooseIngredient = (ingredient: Pick<Ingredient, 'name' | 'id'>) => {
-    if (
-      watchIngredient('ingredient1') === undefined &&
-      watchIngredient('ingredient2') === undefined &&
-      watchIngredient('ingredient3') === undefined
-    ) {
-      setValue('ingredient1', ingredient);
+    if (ingredients === undefined) {
+      setValue('ingredients[0]' as keyof CocktailForm, ingredient);
+      setIsModalShown(false);
     } else if (
-      watchIngredient('ingredient1') !== undefined &&
-      watchIngredient('ingredient2') === undefined &&
-      watchIngredient('ingredient3') === undefined
+      ingredients !== undefined &&
+      ingredients[0] !== undefined &&
+      ingredients[1] === undefined &&
+      ingredients[2] === undefined
     ) {
-      setValue('ingredient2', ingredient);
+      setValue('ingredients[1]' as keyof CocktailForm, ingredient);
+      setIsModalShown(false);
     } else if (
-      watchIngredient('ingredient1') !== undefined &&
-      watchIngredient('ingredient2') !== undefined &&
-      watchIngredient('ingredient3') === undefined
+      ingredients !== undefined &&
+      ingredients[0] !== undefined &&
+      ingredients[1] !== undefined &&
+      ingredients[2] === undefined
     ) {
-      setValue('ingredient3', ingredient);
+      setValue('ingredients[2]' as keyof CocktailForm, ingredient);
       setShow(5);
       setIsModalShown(false);
     }
