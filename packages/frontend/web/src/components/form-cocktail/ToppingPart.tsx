@@ -23,9 +23,9 @@ export default function ToppingPart({
     const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
 
     // eslint-disable-next-line unicorn/no-array-reduce
-    return allFlavours.reduce(
+    return allFlavours.reduce<Record<string, number>>(
       (count, flavour) => {
-        if (flavour) {
+        if (flavour !== undefined) {
           count[flavour] = (count[flavour] || 0) + 1;
         }
         return count;
