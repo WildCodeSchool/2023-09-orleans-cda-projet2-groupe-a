@@ -22,8 +22,8 @@ type NavbarContent = {
 
 const navbarContent: NavbarContent[] = [
   {
-    name: 'Cockatils',
-    url: '/cockatils',
+    name: 'Cocktails',
+    url: '/cocktails',
     lucid: Martini,
   },
   {
@@ -100,7 +100,7 @@ export default function Navbar() {
 
   return (
     <div className='flex justify-center'>
-      <div className='ms:p-0 group fixed top-[95.5vh] z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
+      <div className='ms:p-0 group fixed bottom-0 z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
         <Link to='/'>
           <Home
             className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
@@ -111,18 +111,22 @@ export default function Navbar() {
             {'Home'}
           </p>
         </Link>
-        {navbarContent.map((content) => {
+        {navbarContent.map((content, index) => {
           return (
             <div
               key={content.name}
-              className='sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[100ms] sm:group-hover:max-h-full sm:group-hover:opacity-100'
+              className={`sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-[${
+                (index + 1) * 100
+              }ms] sm:group-hover:max-h-full sm:group-hover:opacity-100`}
             >
               <Link to={content.url}>
                 <content.lucid
                   className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
                 />
                 <p
-                  className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:sm:right-[25px]`}
+                  className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
+                    (index + 1) * 40
+                  }px]`}
                 >
                   {content.name}
                 </p>
