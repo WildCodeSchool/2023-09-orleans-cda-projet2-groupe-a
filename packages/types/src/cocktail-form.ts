@@ -44,6 +44,8 @@ export interface IngredientsPartProps {
   ) => void;
   setShow: (show: number) => void;
   setIsModalShown: (isModalShown: boolean) => void;
+  actualingredient: number;
+  setActualingredient: (actualingredient: number) => void;
 }
 
 export interface GlassPartProps {
@@ -66,5 +68,6 @@ export interface IngredientProps {
   ) => void;
   setShow: (show: number) => void;
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  actualingredient: string;
+  actualingredient: number;
+  setActualingredient: (actualingredient: number) => void;
 }

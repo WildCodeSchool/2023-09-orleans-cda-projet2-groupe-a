@@ -7,7 +7,6 @@ import IngredientToChoose from './IngredientToChoose';
 
 interface IngredientArray {
   beforeIngredient: Pick<Ingredient, 'id' | 'name'> | undefined;
-  actualingredient: string;
   if: boolean;
 }
 
@@ -17,17 +16,17 @@ export default function IngredientsPart({
   setValue,
   setShow,
   setIsModalShown,
+  actualingredient,
+  setActualingredient,
 }: IngredientsPartProps) {
   const ingredientArray = watch('ingredients');
   const ingredients: IngredientArray[] = [
     {
       beforeIngredient: watch('alcohol'),
-      actualingredient: 'ingredients[0]',
       if: ingredientArray === undefined,
     },
     {
       beforeIngredient: ingredientArray ? ingredientArray[0] : undefined,
-      actualingredient: 'ingredients[1]',
       if:
         ingredientArray !== undefined &&
         ingredientArray[0] !== undefined &&
@@ -36,14 +35,12 @@ export default function IngredientsPart({
     },
     {
       beforeIngredient: ingredientArray ? ingredientArray[1] : undefined,
-      actualingredient: 'ingredients[2]',
       if:
         ingredientArray !== undefined &&
         ingredientArray[0] !== undefined &&
         ingredientArray[1] !== undefined,
     },
   ];
-  console.log({ ingredientArray });
 
   return (
     <>
@@ -61,44 +58,22 @@ export default function IngredientsPart({
         </button>
       </div>
 
-      {/*  {errors.ingredient1?.type === 'required' ? (
+      {errors.ingredients?.type === 'required' ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.ingredient1?.type === 'validate' ? (
+      {errors.ingredients?.type === 'validate' ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredient1.message}
+          {errors.ingredients.message}
         </span>
       ) : undefined}
-
-      {errors.ingredient2?.type === 'required' ? (
-        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.ingredient2?.type === 'validate' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredient2.message}
-        </span>
-      ) : undefined}
-
-      {errors.ingredient3?.type === 'required' ? (
-        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.ingredient3?.type === 'validate' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredient3.message}
-        </span>
-      ) : undefined} */}
 
       {ingredients.map((ingredient) => {
         if (ingredient.if) {
           return (
             <motion.div
-              key={ingredient.actualingredient}
+              key={`ingredients[${actualingredient}]`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -108,7 +83,8 @@ export default function IngredientsPart({
                 setValue={setValue}
                 setShow={setShow}
                 beforeIngredient={ingredient.beforeIngredient}
-                actualingredient={ingredient.actualingredient}
+                actualingredient={actualingredient}
+                setActualingredient={setActualingredient}
               />
             </motion.div>
           );

@@ -14,13 +14,12 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
-  console.log(data);
-
   return data;
 };
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
+  const [actualingredient, setActualingredient] = useState(0);
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -105,44 +104,24 @@ export default function AddCocktail() {
       });
     }
 
-    /* const ingredient1Value = watch('ingredient1');
+    const ingredientsValue = watch('ingredients');
 
-    if (ingredient1Value === undefined) {
-      setError('ingredient1', { type: 'required', message: 'required' });
-    } else if (typeof ingredient1Value.id === 'number') {
-      clearErrors('ingredient1');
+    if (ingredientsValue === undefined) {
+      setError('ingredients', { type: 'required', message: 'required' });
+    } else if (
+      ingredientsValue.length === 3 &&
+      typeof ingredientsValue[0].id == 'number' &&
+      typeof ingredientsValue[1].id == 'number' &&
+      typeof ingredientsValue[2].id == 'number'
+    ) {
+      clearErrors('ingredients');
     } else {
-      setError('ingredient1', {
+      setError('ingredients', {
         type: 'validate',
-        message: 'must be a number',
+        message: 'plesase choose 3 ingredients',
       });
     }
 
-    const ingredient2Value = watch('ingredient2');
-
-    if (ingredient2Value === undefined) {
-      setError('ingredient2', { type: 'required', message: 'required' });
-    } else if (typeof ingredient2Value.id === 'number') {
-      clearErrors('ingredient2');
-    } else {
-      setError('ingredient2', {
-        type: 'validate',
-        message: 'must be a number',
-      });
-    }
-
-    const ingredient3Value = watch('ingredient3');
-
-    if (ingredient3Value === undefined) {
-      setError('ingredient3', { type: 'required', message: 'required' });
-    } else if (typeof ingredient3Value.id === 'number') {
-      clearErrors('ingredient3');
-    } else {
-      setError('ingredient3', {
-        type: 'validate',
-        message: 'must be a number',
-      });
-    } */
     const glassValue = watch('glass');
 
     if (glassValue === undefined) {
@@ -233,6 +212,8 @@ export default function AddCocktail() {
           setValue={setValue}
           setShow={setShow}
           setIsModalShown={setIsModalShown}
+          actualingredient={actualingredient}
+          setActualingredient={setActualingredient}
         />
       ),
     },
@@ -366,6 +347,8 @@ export default function AddCocktail() {
             setValue={setValue}
             watchIngredient={watch}
             setShow={setShow}
+            actualingredient={actualingredient}
+            setActualingredient={setActualingredient}
           />
         </div>
       ) : null}

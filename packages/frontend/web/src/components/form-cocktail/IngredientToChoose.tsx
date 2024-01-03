@@ -10,12 +10,14 @@ export default function IngredientToChoose({
   setShow,
   beforeIngredient,
   actualingredient,
+  setActualingredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(actualingredient as keyof CocktailForm, value);
-    if (actualingredient === 'ingredients[2]') {
+    setValue(`ingredients[${actualingredient}]` as keyof CocktailForm, value);
+    setActualingredient(actualingredient + 1);
+    if (`ingredients[${actualingredient}]` === 'ingredients[2]') {
       setShow(5);
     }
   };
@@ -35,17 +37,26 @@ export default function IngredientToChoose({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue(actualingredient as keyof CocktailForm, data);
-      if (actualingredient === 'ingredients[2]') {
+      setValue(`ingredients[${actualingredient}]` as keyof CocktailForm, data);
+      setActualingredient(actualingredient + 1);
+      if (`ingredients[${actualingredient}]` === 'ingredients[2]') {
         setShow(5);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
   const ingredients = watch('ingredients');
 
-  return (
+  return `ingredients[${actualingredient}]` === 'ingredients[3]' &&
+    ingredients !== undefined ? (
+    <ul className='relative bottom-[7%] right-[-7%] h-[136px] sm:bottom-[10%] sm:right-[-13%]'>
+      <li className='mb-2'>{ingredients[0].name}</li>
+      <li className='mb-2'>{ingredients[1].name}</li>
+      <li>{ingredients[2].name}</li>
+    </ul>
+  ) : (
     <>
       <fieldset className=' relative bottom-[7%] right-[-7%] grid w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[10%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading

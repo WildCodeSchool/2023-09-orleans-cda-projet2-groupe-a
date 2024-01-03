@@ -13,6 +13,8 @@ interface ModalSearchProps {
   ) => void;
   readonly watchIngredient: UseFormWatch<CocktailForm>;
   readonly setShow: (show: number) => void;
+  readonly actualingredient: number;
+  readonly setActualingredient: (actualingredient: number) => void;
 }
 
 interface SearchIngredient {
@@ -24,6 +26,8 @@ export default function ModalSearch({
   setValue,
   watchIngredient,
   setShow,
+  actualingredient,
+  setActualingredient,
 }: ModalSearchProps) {
   const { register, watch } = useForm<SearchIngredient>();
   const [data, setData] = useState<Pick<Ingredient, 'name' | 'id'>[]>();
@@ -59,6 +63,7 @@ export default function ModalSearch({
   const chooseIngredient = (ingredient: Pick<Ingredient, 'name' | 'id'>) => {
     if (ingredients === undefined) {
       setValue('ingredients[0]' as keyof CocktailForm, ingredient);
+      setActualingredient(actualingredient + 1);
       setIsModalShown(false);
     } else if (
       ingredients !== undefined &&
@@ -67,6 +72,7 @@ export default function ModalSearch({
       ingredients[2] === undefined
     ) {
       setValue('ingredients[1]' as keyof CocktailForm, ingredient);
+      setActualingredient(actualingredient + 1);
       setIsModalShown(false);
     } else if (
       ingredients !== undefined &&
@@ -75,6 +81,7 @@ export default function ModalSearch({
       ingredients[2] === undefined
     ) {
       setValue('ingredients[2]' as keyof CocktailForm, ingredient);
+      setActualingredient(actualingredient + 1);
       setShow(5);
       setIsModalShown(false);
     }
