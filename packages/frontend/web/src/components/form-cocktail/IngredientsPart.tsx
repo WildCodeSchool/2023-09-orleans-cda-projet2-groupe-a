@@ -7,7 +7,7 @@ import IngredientToChoose from './IngredientToChoose';
 
 interface IngredientArray {
   beforeIngredient: Pick<Ingredient, 'id' | 'name'> | undefined;
-  if: boolean;
+  condition: boolean;
 }
 
 export default function IngredientsPart({
@@ -23,22 +23,17 @@ export default function IngredientsPart({
   const ingredients: IngredientArray[] = [
     {
       beforeIngredient: watch('alcohol'),
-      if: ingredientArray === undefined,
+      condition: ingredientArray === undefined,
     },
     {
-      beforeIngredient: ingredientArray ? ingredientArray[0] : undefined,
-      if:
-        ingredientArray !== undefined &&
-        ingredientArray[0] !== undefined &&
-        ingredientArray[1] === undefined &&
-        ingredientArray[2] === undefined,
+      beforeIngredient: ingredientArray?.[0],
+      condition:
+        ingredientArray?.[0] !== undefined && ingredientArray[1] === undefined,
     },
     {
-      beforeIngredient: ingredientArray ? ingredientArray[1] : undefined,
-      if:
-        ingredientArray !== undefined &&
-        ingredientArray[0] !== undefined &&
-        ingredientArray[1] !== undefined,
+      beforeIngredient: ingredientArray?.[1],
+      condition:
+        ingredientArray?.[0] !== undefined && ingredientArray[1] !== undefined,
     },
   ];
 
@@ -70,7 +65,7 @@ export default function IngredientsPart({
       ) : undefined}
 
       {ingredients.map((ingredient) => {
-        if (ingredient.if) {
+        if (ingredient.condition) {
           return (
             <motion.div
               key={`ingredients[${actualingredient}]`}
