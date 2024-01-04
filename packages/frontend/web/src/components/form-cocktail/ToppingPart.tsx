@@ -1,7 +1,7 @@
 import { MoveRight, Skull } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import type { Topping, ToppingPartProps } from '@app/types';
+import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
   register,
@@ -19,11 +19,10 @@ export default function ToppingPart({
   const [isShowRandomTopping, setIsShowRandomTopping] =
     useState<boolean>(false);
 
-  const memorizedFlavoursCount = useMemo(() => {
+  const memoizedFlavoursCount = useMemo(() => {
     const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
-
     // eslint-disable-next-line unicorn/no-array-reduce
-    return allFlavours.reduce<Record<string, number>>(
+    return allFlavours.reduce<Record<Flavour, number>>(
       (count, flavour) => {
         if (flavour !== undefined) {
           count[flavour] = (count[flavour] || 0) + 1;
@@ -48,7 +47,7 @@ export default function ToppingPart({
   useEffect(() => {
     if (selectedAlcohol && selectedIngredient) {
       // eslint-disable-next-line unicorn/no-array-reduce
-      const [maxFlavour] = Object.entries(memorizedFlavoursCount).reduce(
+      const [maxFlavour] = Object.entries(memoizedFlavoursCount).reduce(
         ([currentFlavour, currentCount], [flavour, count]) =>
           count > currentCount
             ? [flavour, count]
@@ -70,12 +69,7 @@ export default function ToppingPart({
           );
         });
     }
-  }, [
-    memorizedFlavoursCount,
-    mainFlavour,
-    selectedAlcohol,
-    selectedIngredient,
-  ]);
+  }, [memoizedFlavoursCount, mainFlavour, selectedAlcohol, selectedIngredient]);
 
   const handleRandomToppingChoice = async () => {
     try {
@@ -90,15 +84,16 @@ export default function ToppingPart({
       console.error(error);
     }
   };
+  const shouldShowRandomTopping = isRandomToppingChoosen && randomTopping;
 
   useEffect(() => {
-    if (isRandomToppingChoosen && randomTopping) {
+    if (shouldShowRandomTopping) {
       setIsShowRandomTopping(true);
       handleToppingChange(randomTopping.name);
     } else {
       setIsShowRandomTopping(false);
     }
-  }, [isRandomToppingChoosen, randomTopping, handleToppingChange]);
+  }, [shouldShowRandomTopping, randomTopping, handleToppingChange]);
 
   return (
     <>
@@ -121,8 +116,8 @@ export default function ToppingPart({
           {errors.topping.message}
         </span>
       ) : undefined}
-      {isShowRandomTopping && randomTopping ? (
-        <p>{randomTopping.name}</p>
+      {isShowRandomTopping ? (
+        <p>{randomTopping?.name}</p>
       ) : (
         <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
           {toppings.map((topping) => (
