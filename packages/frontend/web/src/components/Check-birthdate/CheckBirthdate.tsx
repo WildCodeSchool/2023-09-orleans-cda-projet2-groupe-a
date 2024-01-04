@@ -34,14 +34,14 @@ export default function CheckBirthdate() {
   // useEffect that stores birthdate in the localstorage
   // so that browser can memorize it and user doesn't have to enter it again.
   useEffect(() => {
-    if (birthdate != null && birthdate != '') {
+    if (birthdate !== undefined && birthdate !== '') {
       localStorage.setItem('birthdate', birthdate);
     }
   }, [birthdate]);
 
   // variable that stores by default the fact that user is under age.
   // const isUnderAge = birthdate !== null ? new Date(birthdate) >= eighteenYearsAgo : false;
-  const isUnderAge = birthdate ? new Date(birthdate) >= minus18 : false;
+  const isUnderAge = birthdate && birthdate !== '' ? new Date(birthdate).getTime() >= minus18.getTime() : false;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
