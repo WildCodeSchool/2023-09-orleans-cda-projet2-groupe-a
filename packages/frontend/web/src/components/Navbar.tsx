@@ -7,17 +7,14 @@ import {
   UserCircle2,
   Users,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
-type IconProps = {
-  className?: string;
-};
 
 type NavbarContent = {
   name: string;
   url: string;
-  lucid: React.ComponentType<IconProps>;
+  lucid: LucideIcon;
 };
 
 const navbarContent: NavbarContent[] = [
