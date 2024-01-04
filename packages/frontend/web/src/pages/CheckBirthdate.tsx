@@ -5,16 +5,18 @@ import { useAge } from '@/contexts/AgeProviderContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 // These two consts below do not need and function.
-//They don'h need to be inside function CheckBirthdate.
+// They don't need to be inside function CheckBirthdate.
 const now: Date = new Date();
-const eighteenYearsAgo = new Date();
-eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+const yearInMilliseconds = 365.25 * 24 * 60 * 60 * 1000;
+const minus18: Date = new Date();
+minus18.setFullYear(minus18.getFullYear() - 18);
 
 export default function CheckBirthdate() {
   const navigate = useNavigate();
   const [isImageShown, setIsImageShown] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isModalShown, setIsModalShown] = useState(false);
+  const [wow, setWow] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { birthdate, setBirthdate } = useAge();
@@ -38,29 +40,30 @@ export default function CheckBirthdate() {
   }, [birthdate]);
 
   // variable that stores by default the fact that user is under age.
-  let isUnderAge = false;
-  if (birthdate != null) {
-    isUnderAge = new Date(birthdate) >= eighteenYearsAgo;
-  }
+  // const isUnderAge = birthdate !== null ? new Date(birthdate) >= eighteenYearsAgo : false;
+  const isUnderAge = birthdate ? new Date(birthdate) >= minus18 : false;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
     setIsSubmitted(true);
     setTimeout(() => {
       setIsSubmitted(false);
-    }, 2000);
-    setBirthdate;
+    }, 1500);
     document.body.classList.remove('overflow-hidden');
 
-    if (birthdate != undefined) {
-      const yearInMilliseconds = 365.25 * 24 * 60 * 60 * 1000;
+    if (birthdate !== undefined) {
       const userAgeInMilliseconds =
         now.getTime() - new Date(birthdate).getTime();
       if (userAgeInMilliseconds > 18 * yearInMilliseconds) {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: 'smooth',
-        });
+        setTimeout(() => {
+          setWow(true);
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: 'smooth',
+            });
+          }, 700);
+        }, 1200);
       } else {
         if (isUnderAge) {
           window.history.pushState(null, '', '/');
@@ -68,7 +71,7 @@ export default function CheckBirthdate() {
           setIsImageShown(true);
           setTimeout(() => {
             setIsModalShown(true);
-          }, 3000);
+          }, 2500);
         }
       }
       if (isLoggedIn) {
@@ -95,7 +98,7 @@ export default function CheckBirthdate() {
             <input
               className='2px border-dark h-18 z-40 m-1 h-16 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-3xl'
               type='date'
-              min='1900-01-01'
+              min='1920-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
               value={birthdate}
@@ -114,12 +117,27 @@ export default function CheckBirthdate() {
         </div>
       </div>
       <div className='fixed top-1 z-40 flex h-1/5 flex-col items-center justify-center'>
-        {isSubmitted && birthdate !== '' && birthdate != null ? (
+        {isSubmitted && birthdate !== '' && birthdate !== null ? (
           birthdate && isUnderAge ? (
             <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
               {"Remember! No Booze 'til you're 18!"}
             </div>
-          ) : null
+          ) : (
+            <div className='bg-light-orange fixed top-0 z-50 flex h-full w-full items-start justify-center overflow-y-auto p-5'>
+              <div
+                className='z-50 flex h-screen w-screen items-center justify-center overflow-y-auto bg-contain bg-no-repeat'
+                style={{
+                  backgroundImage: `url('/yes-you-can.svg')`,
+                  backgroundPosition: 'center',
+                }}
+              >
+                <div
+                  className='animation-scale-up-delayed animate-fade-out z-40 mt-[32rem] h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+                  style={{ backgroundImage: `url('/wow.svg')` }}
+                />
+              </div>
+            </div>
+          )
         ) : null}
       </div>
       <div className='z-50'>

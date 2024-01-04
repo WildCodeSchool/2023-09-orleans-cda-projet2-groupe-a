@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 
+const now: Date = new Date();
+
 export default function Register() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
-  const now: Date = new Date();
 
   const [email, setEmail] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');

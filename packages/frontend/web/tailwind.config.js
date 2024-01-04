@@ -185,10 +185,16 @@ export default {
         dark: '4px #000000',
       }),
       animation: {
-        'fade-out': 'fade-out 2000ms ease-in forwards',
+        'fade-out': 'fade-out 1500ms ease-in forwards',
+        'scale-up': 'scale-up 700ms linear forwards',
+        'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
         'color-pulse': 'color-pulse 2s linear infinite',
       },
       keyframes: {
+        'scale-up': {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
         'fade-out': {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
