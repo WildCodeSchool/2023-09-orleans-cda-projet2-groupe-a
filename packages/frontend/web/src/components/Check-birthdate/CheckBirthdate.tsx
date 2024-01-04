@@ -41,7 +41,10 @@ export default function CheckBirthdate() {
 
   // variable that stores by default the fact that user is under age.
   // const isUnderAge = birthdate !== null ? new Date(birthdate) >= eighteenYearsAgo : false;
-  const isUnderAge = birthdate && birthdate !== '' ? new Date(birthdate).getTime() >= minus18.getTime() : false;
+  const isUnderAge =
+    birthdate && birthdate !== ''
+      ? new Date(birthdate).getTime() >= minus18.getTime()
+      : false;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
