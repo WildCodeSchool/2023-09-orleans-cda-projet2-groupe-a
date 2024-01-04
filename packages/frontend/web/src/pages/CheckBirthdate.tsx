@@ -16,7 +16,7 @@ export default function CheckBirthdate() {
   const [isImageShown, setIsImageShown] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isModalShown, setIsModalShown] = useState(false);
-  const [wow, setWow] = useState(false);
+  const [isWow, setIsWow] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { birthdate, setBirthdate } = useAge();
@@ -56,7 +56,9 @@ export default function CheckBirthdate() {
         now.getTime() - new Date(birthdate).getTime();
       if (userAgeInMilliseconds > 18 * yearInMilliseconds) {
         setTimeout(() => {
-          setWow(true);
+          if (!isWow) {
+            setIsWow(true);
+          }
           setTimeout(() => {
             window.scrollTo({
               top: document.body.scrollHeight,
