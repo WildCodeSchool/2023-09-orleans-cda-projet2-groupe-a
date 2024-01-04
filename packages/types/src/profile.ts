@@ -16,6 +16,10 @@ export interface CocktailsProfile {
 
 export interface UserProfile {
   pseudo: string;
+  image: string;
+  color: string;
+  email: string;
+  password: string;
   comments: CommentsProfile[] | null;
   cocktails: CocktailsProfile[] | null;
 }

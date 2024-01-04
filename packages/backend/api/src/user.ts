@@ -75,6 +75,10 @@ async function getUserById(id: number) {
       ) 
       SELECT 
         user.pseudo, 
+        user.image,
+        user.color,
+        user.email,
+        user.password,
         (
           SELECT 
             JSON_ARRAYAGG(
