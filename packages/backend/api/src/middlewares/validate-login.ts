@@ -9,7 +9,7 @@ const validateLogin = [
     .isLength({ max: 254 })
     .toLowerCase()
     .isEmail(),
-  body('password').exists().trim().notEmpty().isLength({ min: 3, max: 255 }),
+  body('password').exists().trim().notEmpty().isLength({ min: 10, max: 255 }),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 

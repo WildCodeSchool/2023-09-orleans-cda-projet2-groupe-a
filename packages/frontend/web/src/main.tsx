@@ -2,15 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
+// import Layout from './components/Layout/Layout.tsx';
+import { AgeProvider } from './contexts/AgeContext.tsx';
+import { AuthProvider } from './contexts/AuthContext';
 import './globals.css';
+// import CheckBirthdate from './pages/CheckBirthdate';
 import router from './router.tsx';
 
 const rootElement = document.querySelector('#root');
 
+// Taken into account that CheckBirthdate can come before authentication,
+// AgeProvider will be placed around AuthProvider.
+// If Authentication came before, AgeProvider should be placed inside of AuthProvider.
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <AgeProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </AgeProvider>
     </React.StrictMode>,
   );
 }
