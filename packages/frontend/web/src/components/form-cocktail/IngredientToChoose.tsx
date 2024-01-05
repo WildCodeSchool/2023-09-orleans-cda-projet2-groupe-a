@@ -9,15 +9,15 @@ export default function IngredientToChoose({
   setValue,
   setShow,
   beforeIngredient,
-  actualingredient,
-  setActualingredient,
+  actualIngredient,
+  setActualIngredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(`ingredients[${actualingredient}]` as keyof CocktailForm, value);
-    setActualingredient(actualingredient + 1);
-    if (`ingredients[${actualingredient}]` === 'ingredients[2]') {
+    setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
+    setActualIngredient(actualIngredient + 1);
+    if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
       setShow(5);
     }
   };
@@ -37,9 +37,9 @@ export default function IngredientToChoose({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setValue(`ingredients[${actualingredient}]` as keyof CocktailForm, data);
-      setActualingredient(actualingredient + 1);
-      if (`ingredients[${actualingredient}]` === 'ingredients[2]') {
+      setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, data);
+      setActualIngredient(actualIngredient + 1);
+      if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
         setShow(5);
       }
     } catch (error) {
@@ -49,7 +49,7 @@ export default function IngredientToChoose({
 
   const ingredients = watch('ingredients');
 
-  return `ingredients[${actualingredient}]` === 'ingredients[3]' &&
+  return `ingredients[${actualIngredient}]` === 'ingredients[3]' &&
     ingredients !== undefined ? (
     <ul className='relative bottom-[7%] right-[-7%] h-[136px] sm:bottom-[10%] sm:right-[-13%]'>
       <li className='mb-2'>{ingredients[0].name}</li>

@@ -19,7 +19,7 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
-  const [actualingredient, setActualingredient] = useState(0);
+  const [actualIngredient, setActualIngredient] = useState(0);
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -110,15 +110,13 @@ export default function AddCocktail() {
       setError('ingredients', { type: 'required', message: 'required' });
     } else if (
       ingredientsValue.length === 3 &&
-      typeof ingredientsValue[0].id == 'number' &&
-      typeof ingredientsValue[1].id == 'number' &&
-      typeof ingredientsValue[2].id == 'number'
+      ingredientsValue.every((ingredient) => typeof ingredient.id === 'number')
     ) {
       clearErrors('ingredients');
     } else {
       setError('ingredients', {
         type: 'validate',
-        message: 'plesase choose 3 ingredients',
+        message: 'please choose 3 ingredients',
       });
     }
 
@@ -212,8 +210,8 @@ export default function AddCocktail() {
           setValue={setValue}
           setShow={setShow}
           setIsModalShown={setIsModalShown}
-          actualingredient={actualingredient}
-          setActualingredient={setActualingredient}
+          actualIngredient={actualIngredient}
+          setActualIngredient={setActualIngredient}
         />
       ),
     },
@@ -347,8 +345,8 @@ export default function AddCocktail() {
             setValue={setValue}
             watchIngredient={watch}
             setShow={setShow}
-            actualingredient={actualingredient}
-            setActualingredient={setActualingredient}
+            actualIngredient={actualIngredient}
+            setActualIngredient={setActualIngredient}
           />
         </div>
       ) : null}

@@ -16,8 +16,8 @@ export default function IngredientsPart({
   setValue,
   setShow,
   setIsModalShown,
-  actualingredient,
-  setActualingredient,
+  actualIngredient,
+  setActualIngredient,
 }: IngredientsPartProps) {
   const ingredientArray = watch('ingredients');
   const ingredients: IngredientArray[] = [
@@ -68,7 +68,7 @@ export default function IngredientsPart({
         if (ingredient.condition) {
           return (
             <motion.div
-              key={`ingredients[${actualingredient}]`}
+              key={`ingredients[${actualIngredient}]`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -78,8 +78,8 @@ export default function IngredientsPart({
                 setValue={setValue}
                 setShow={setShow}
                 beforeIngredient={ingredient.beforeIngredient}
-                actualingredient={actualingredient}
-                setActualingredient={setActualingredient}
+                actualIngredient={actualIngredient}
+                setActualIngredient={setActualIngredient}
               />
             </motion.div>
           );
