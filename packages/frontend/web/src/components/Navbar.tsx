@@ -14,39 +14,39 @@ import { Link, useLocation } from 'react-router-dom';
 type NavbarContent = {
   name: string;
   url: string;
-  lucid: LucideIcon;
+  icon: LucideIcon;
 };
 
 const navbarContent: NavbarContent[] = [
   {
     name: 'Cocktails',
     url: '/cocktails',
-    lucid: Martini,
+    icon: Martini,
   },
   {
     name: 'Shaker',
     url: '/shaker',
-    lucid: Plus,
+    icon: Plus,
   },
   {
     name: 'Profile',
     url: '/profile/1', // à changer plus tard bien sûr
-    lucid: UserCircle2,
+    icon: UserCircle2,
   },
   {
     name: 'Favorite',
     url: '/favorite',
-    lucid: Heart,
+    icon: Heart,
   },
   {
     name: 'Community',
     url: '/community',
-    lucid: Users,
+    icon: Users,
   },
   {
     name: 'Virgin',
     url: '/virgin',
-    lucid: Milk,
+    icon: Milk,
   },
 ];
 
@@ -117,7 +117,7 @@ export default function Navbar() {
               }ms] sm:group-hover:max-h-full sm:group-hover:opacity-100`}
             >
               <Link to={content.url}>
-                <content.lucid
+                <content.icon
                   className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
                 />
                 <p
