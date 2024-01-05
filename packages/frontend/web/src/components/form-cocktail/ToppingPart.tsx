@@ -116,8 +116,8 @@ export default function ToppingPart({
           {errors.topping.message}
         </span>
       ) : undefined}
-      {isShowRandomTopping ? (
-        <p>{randomTopping?.name}</p>
+      {shouldShowRandomTopping ? (
+        <p>{randomTopping.name}</p>
       ) : (
         <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
           {toppings.map((topping) => (
