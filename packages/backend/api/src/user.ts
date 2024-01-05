@@ -181,4 +181,28 @@ user.get('/', async (req, res) => {
   }
 });
 
+user.put('/:id', async (req, res) => {
+  const { pseudo, image, email, password, color } = req.body;
+  const id = Number.parseInt(req.params.id);
+
+  try {
+    await db
+      .updateTable('user')
+      .set({
+        pseudo: pseudo,
+        image: image,
+        email: email,
+        password: password,
+        color: color,
+      })
+      .where('id', '=', id)
+      .executeTakeFirst();
+
+    res.json({ ok: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 export { user };

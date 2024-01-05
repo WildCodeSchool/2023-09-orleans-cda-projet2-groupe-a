@@ -15,6 +15,7 @@ export interface UserTable {
   image?: string;
   birthdate: Date;
   created_at?: Date;
+  color?: string;
 }
 export interface IngredientTable {
   id: Generated<number>;

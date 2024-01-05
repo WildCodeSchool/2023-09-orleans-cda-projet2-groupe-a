@@ -49,8 +49,6 @@ export default function ProfilePage() {
     return <Navigate to='/' />;
   }
 
-  console.log(isOpen);
-
   return (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/profile-page/bg-profil-page.webp')] bg-cover ">
       <Header
@@ -79,7 +77,17 @@ export default function ProfilePage() {
         </div>
       </div>
       <CommentsSection comments={user.comments} />
-      {isOpen ? <ModalForm setIsOpen={setIsOpen} id={id} /> : null}
+      {isOpen ? (
+        <ModalForm
+          setIsOpen={setIsOpen}
+          id={id}
+          pseudo={user.pseudo}
+          image={user.image}
+          color={user.color}
+          email={user.email}
+          password={user.password}
+        />
+      ) : null}
     </div>
   );
 }
