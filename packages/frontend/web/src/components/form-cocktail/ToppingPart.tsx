@@ -16,8 +16,6 @@ export default function ToppingPart({
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
   const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
     useState<boolean>(false);
-  const [isShowRandomTopping, setIsShowRandomTopping] =
-    useState<boolean>(false);
 
   const memoizedFlavoursCount = useMemo(() => {
     const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
@@ -88,10 +86,7 @@ export default function ToppingPart({
 
   useEffect(() => {
     if (shouldShowRandomTopping) {
-      setIsShowRandomTopping(true);
       handleToppingChange(randomTopping.name);
-    } else {
-      setIsShowRandomTopping(false);
     }
   }, [shouldShowRandomTopping, randomTopping, handleToppingChange]);
 
