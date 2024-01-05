@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import CheckBirthdate from '../Check-birthdate/CheckBirthdate';
+import CheckBirthdate from '../CheckBirthdate';
 
 export default function LayoutLoggedIn() {
   return (

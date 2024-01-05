@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAge } from '@/contexts/AgeProviderContext';
+import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {

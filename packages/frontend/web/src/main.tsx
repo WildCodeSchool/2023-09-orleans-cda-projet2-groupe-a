@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
 // import Layout from './components/Layout/Layout.tsx';
-import { AgeProvider } from './contexts/AgeProviderContext';
+import { AgeProvider } from './contexts/AgeContext.tsx';
 import { AuthProvider } from './contexts/AuthContext';
 import './globals.css';
 // import CheckBirthdate from './pages/CheckBirthdate';
