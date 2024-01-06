@@ -43,9 +43,9 @@ export interface IngredientsPartProps {
 }
 
 export interface GlassPartProps {
+  handleGlassPartNextStepClick: () => void;
   errors: FieldErrors<CocktailForm>;
   setValue: UseFormSetValue<CocktailForm>;
-  handleGlassPartNextStepClick: () => void;
 }
 
 export interface ToppingPartProps {
