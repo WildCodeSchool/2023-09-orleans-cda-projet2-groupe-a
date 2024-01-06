@@ -216,21 +216,21 @@ export default function AddCocktail() {
     },
     square: {
       flex: 1,
-      height: Dimensions.get('window').height, // Assurez-vous que c'est la hauteur que vous voulez
+      height: Dimensions.get('window').height,
       width: Dimensions.get('window').width,
-      justifyContent: 'center', // Ceci centre verticalement le contenu de 'square'
+      justifyContent: 'center',
       alignItems: 'center',
     },
     backgroundImage: {
-      width: Dimensions.get('window').width, // Largeur de l'image à 100% de son conteneur
-      height: 400, // Hauteur fixe pour l'image, ajustez selon vos besoins
-      resizeMode: 'contain', // Garantit que l'image entière est visible et proportionnée
+      width: Dimensions.get('window').width,
+      height: 400,
+      resizeMode: 'contain',
     },
     imageContainer: {
-      height: '100%', // Prend toute la hauteur disponible
-      width: Dimensions.get('window').width, // Prend toute la largeur disponible
-      justifyContent: 'center', // Centre verticalement l'image
-      alignItems: 'center', // Centre horizontalement l'image
+      height: '100%',
+      width: Dimensions.get('window').width,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     componentContainer: {
       justifyContent: 'center',
