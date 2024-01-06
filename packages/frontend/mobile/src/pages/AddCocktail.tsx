@@ -180,9 +180,9 @@ export default function AddCocktail() {
       color: colors['dark-orange'],
       component: (
         <GlassPart
+          setValue={setValue}
           handleGlassPartNextStepClick={handleGlassPartNextStepClick}
           errors={errors}
-          setValue={setValue}
         />
       ),
     },

@@ -9,9 +9,9 @@ import colors from '../../../colors';
 const url = `${process.env.EXPO_PUBLIC_API_URL}/glass`;
 
 export default function GlassPart({
-  errors,
   setValue,
   handleGlassPartNextStepClick,
+  errors,
 }: GlassPartProps) {
   const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
 
