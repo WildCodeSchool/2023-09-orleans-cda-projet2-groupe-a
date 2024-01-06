@@ -82,16 +82,16 @@ export default function AddCocktail() {
         error,
       );
     }
-    scrollToPosition(1); // Défilement vers la section suivante (index 2)
+    scrollToPosition(1);
   };
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setValue('alcohol', alcohol, { shouldValidate: true });
-    scrollToPosition(2); // Défilement vers la section suivante (index 2)
+    scrollToPosition(2);
   };
 
   const handleGlassPartNextStepClick = () => {
-    scrollToPosition(4); // Défilement vers la section suivante (index 2)
+    scrollToPosition(4);
   };
 
   const handleErrorSubmit = () => {
