@@ -117,7 +117,7 @@ export default function GlassPart({
         <TouchableOpacity
           style={styles.arrow}
           onPress={() => {
-            handleGlassPartNextStepClick();
+            handleGlassPartNextStepClick(4);
           }}
         >
           <Ionicons

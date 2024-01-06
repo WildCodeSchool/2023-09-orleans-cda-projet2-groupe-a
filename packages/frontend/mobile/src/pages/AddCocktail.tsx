@@ -90,8 +90,8 @@ export default function AddCocktail() {
     scrollToPosition(2);
   };
 
-  const handleGlassPartNextStepClick = () => {
-    scrollToPosition(4);
+  const handleGlassPartNextStepClick = (section: number) => {
+    scrollToPosition(section);
   };
 
   const handleErrorSubmit = () => {
