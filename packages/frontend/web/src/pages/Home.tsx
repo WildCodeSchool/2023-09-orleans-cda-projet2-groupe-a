@@ -36,7 +36,6 @@ const squares = [
     color: 'yellow',
     order: {
       all: 2,
-      md: 2,
       lg: 3,
     },
     biasSide: {
@@ -64,7 +63,6 @@ const squares = [
     color: 'blue',
     order: {
       all: 4,
-      md: 4,
       lg: 5,
     },
     biasSide: {
@@ -92,7 +90,6 @@ const squares = [
     color: 'orange',
     order: {
       all: 3,
-      md: 3,
       lg: 2,
     },
     biasSide: {
@@ -116,7 +113,6 @@ const squares = [
     color: 'green',
     order: {
       all: 5,
-      md: 5,
       lg: 4,
     },
     biasSide: {
@@ -144,7 +140,6 @@ const squares = [
     color: 'pink',
     order: {
       all: '6',
-      md: '6',
       lg: '6',
     },
     biasSide: {
@@ -185,11 +180,11 @@ export default function Home() {
                 square.color
               } md:clip-path-polygon-${square.color}-md lg:clip-path-polygon-${
                 square.color
-              }-lg order-${square.order.all} md:order-${
-                square.order.md
-              } lg:order-${square.order.lg} h-full w-[${
-                square.width.all
-              }%] md:w-[${square.width.md}%] lg:w-[${square.width.lg}%] ${
+              }-lg order-${square.order.all} lg:order-${
+                square.order.lg
+              } h-full w-[${square.width.all}%] md:w-[${
+                square.width.md
+              }%] lg:w-[${square.width.lg}%] ${
                 square.right === undefined
                   ? ''
                   : `right-[${square.right.all}%] md:right-[${square.right.md}%] lg:right-[${square.right.lg}%]`

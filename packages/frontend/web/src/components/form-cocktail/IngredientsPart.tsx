@@ -15,7 +15,7 @@ export default function IngredientsPart({
     'alcohol.id',
   )}`;
 
-  const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
+  const { data, isLoading } = useFetch<Ingredient[]>(url);
 
   return (
     <>
@@ -60,9 +60,9 @@ export default function IngredientsPart({
                         typeof value === 'string' || 'Must be a string',
                     },
                   })}
-                  checked={selectedIngredient === ingredient.name}
+                  checked={selectedIngredient === ingredient}
                   onChange={() => {
-                    handleIngredientChange(ingredient.name);
+                    handleIngredientChange(ingredient);
                   }}
                 />
                 <label
