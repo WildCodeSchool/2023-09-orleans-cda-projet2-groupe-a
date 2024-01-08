@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import VirginPart from '@/components/home/CocktailsPart';
+import CocktailsPart from '@/components/home/CocktailsPart';
 import CommunityPart from '@/components/home/CommunityPart';
 import FavoritesPart from '@/components/home/FavoritesPart';
-import CocktailsPart from '@/components/home/ProfilePart';
-import ProfilePart from '@/components/home/ShakeItPart';
-import ShakeItPart from '@/components/home/VirginPart';
+import ProfilePart from '@/components/home/ProfilePart';
+import ShakeItPart from '@/components/home/ShakeItPart';
+import VirginPart from '@/components/home/VirginPart';
 
 import LegalNotice from './LegalModal';
 
@@ -36,7 +36,6 @@ const squares = [
     color: 'yellow',
     order: {
       all: 2,
-      md: 2,
       lg: 3,
     },
     biasSide: {
@@ -55,8 +54,8 @@ const squares = [
       lg: 15,
     },
     component: (
-      <Link to='/profile'>
-        <ProfilePart />
+      <Link to='/shaker'>
+        <ShakeItPart />
       </Link>
     ),
   },
@@ -64,7 +63,6 @@ const squares = [
     color: 'blue',
     order: {
       all: 4,
-      md: 4,
       lg: 5,
     },
     biasSide: {
@@ -83,8 +81,8 @@ const squares = [
       lg: 8,
     },
     component: (
-      <Link to='/cocktails'>
-        <CocktailsPart />
+      <Link to='/profile/1'>
+        <ProfilePart />
       </Link>
     ),
   },
@@ -92,7 +90,6 @@ const squares = [
     color: 'orange',
     order: {
       all: 3,
-      md: 3,
       lg: 2,
     },
     biasSide: {
@@ -107,8 +104,8 @@ const squares = [
     },
 
     component: (
-      <Link to='/shaker'>
-        <ShakeItPart />
+      <Link to='/virgin'>
+        <VirginPart />
       </Link>
     ),
   },
@@ -116,7 +113,6 @@ const squares = [
     color: 'green',
     order: {
       all: 5,
-      md: 5,
       lg: 4,
     },
     biasSide: {
@@ -135,8 +131,8 @@ const squares = [
       lg: 0,
     },
     component: (
-      <Link to='/virgin'>
-        <VirginPart />
+      <Link to='/cocktails'>
+        <CocktailsPart />
       </Link>
     ),
   },
@@ -144,7 +140,6 @@ const squares = [
     color: 'pink',
     order: {
       all: '6',
-      md: '6',
       lg: '6',
     },
     biasSide: {
@@ -185,11 +180,11 @@ export default function Home() {
                 square.color
               } md:clip-path-polygon-${square.color}-md lg:clip-path-polygon-${
                 square.color
-              }-lg order-${square.order.all} md:order-${
-                square.order.md
-              } lg:order-${square.order.lg} h-full w-[${
-                square.width.all
-              }%] md:w-[${square.width.md}%] lg:w-[${square.width.lg}%] ${
+              }-lg order-${square.order.all} lg:order-${
+                square.order.lg
+              } h-full w-[${square.width.all}%] md:w-[${
+                square.width.md
+              }%] lg:w-[${square.width.lg}%] ${
                 square.right === undefined
                   ? ''
                   : `right-[${square.right.all}%] md:right-[${square.right.md}%] lg:right-[${square.right.lg}%]`
