@@ -1,7 +1,10 @@
 import express from 'express';
+import type { Request, Response } from 'express';
 import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
+
+import validateUpdateUser from './middlewares/validate-update-user';
 
 const user = express.Router();
 
@@ -78,7 +81,6 @@ async function getUserById(id: number) {
         user.image,
         user.color,
         user.email,
-        user.password,
         (
           SELECT 
             JSON_ARRAYAGG(
@@ -181,18 +183,22 @@ user.get('/', async (req, res) => {
   }
 });
 
-user.put('/:id', async (req, res) => {
+user.put('/:id', validateUpdateUser, async (req: Request, res: Response) => {
   const { pseudo, image, email, password, color } = req.body;
   const id = Number.parseInt(req.params.id);
 
   try {
+    const hashedPassword = await Bun.password.hash(password, {
+      algorithm: 'bcrypt',
+      cost: 15,
+    });
     await db
       .updateTable('user')
       .set({
         pseudo: pseudo,
         image: image,
         email: email,
-        password: password,
+        password: hashedPassword,
         color: color,
       })
       .where('id', '=', id)

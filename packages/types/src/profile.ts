@@ -23,3 +23,11 @@ export interface UserProfile {
   comments: CommentsProfile[] | null;
   cocktails: CocktailsProfile[] | null;
 }
+
+export interface UserInfoForm {
+  pseudo: string;
+  email: string;
+  password: string;
+  color: string;
+  image: string;
+}

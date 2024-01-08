@@ -7,7 +7,7 @@ import Card from '@/components/profile-page/Card';
 import CommentsSection from '@/components/profile-page/CommentsSection';
 import { Header } from '@/components/profile-page/Header';
 
-import ModalForm from './ModalForm';
+import ModalForm from '../components/profile-page/modal/ModalForm';
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -56,7 +56,6 @@ export default function ProfilePage() {
         image={user.image}
         color={user.color}
         email={user.email}
-        password={user.password}
         setIsOpen={setIsOpen}
       />
       <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
@@ -85,7 +84,6 @@ export default function ProfilePage() {
           image={user.image}
           color={user.color}
           email={user.email}
-          password={user.password}
         />
       ) : null}
     </div>
