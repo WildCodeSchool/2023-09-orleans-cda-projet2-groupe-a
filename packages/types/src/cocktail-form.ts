@@ -10,7 +10,7 @@ import type { Glass, Ingredient } from '.';
 export type CocktailForm = {
   name?: string;
   topping?: string;
-  ingredient?: string;
+  ingredients?: Pick<Ingredient, 'id' | 'name' | 'flavour'>[];
   alcohol?: Ingredient;
   level?: number;
   glass?: Pick<Glass, 'name' | 'id'>;
@@ -54,10 +54,16 @@ export interface LevelPartProps {
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedIngredient: Ingredient | null;
-  handleIngredientChange: (ingredient: Ingredient | null) => void;
-  watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
+  watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
+  setIsModalShown: (isModalShown: boolean) => void;
+  actualIngredient: number;
+  setActualIngredient: (actualIngredient: number) => void;
 }
 
 export interface GlassPartProps {
@@ -68,8 +74,20 @@ export interface GlassPartProps {
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedTopping: string;
-  selectedIngredient: Ingredient | null;
   selectedAlcohol: Ingredient | null;
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
+  watch: UseFormWatch<CocktailForm>;
+}
+
+export interface IngredientProps {
+  watch: UseFormWatch<CocktailForm>;
+  setValue: (
+    name: keyof CocktailForm,
+    value: string | { id: number; name: string },
+  ) => void;
+  setShow: (show: number) => void;
+  beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
+  actualIngredient: number;
+  setActualIngredient: (actualIngredient: number) => void;
 }
