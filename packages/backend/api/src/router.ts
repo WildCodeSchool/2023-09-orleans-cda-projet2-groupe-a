@@ -10,6 +10,7 @@ import { commentRouter } from './comment';
 import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
+import { topping } from './topping';
 import { user } from './user';
 
 const router = express.Router();
@@ -48,5 +49,6 @@ router.use('/ingredient', ingredient);
 router.use('/cocktail', cocktailRouter);
 router.use('/comment', commentRouter);
 router.use('/glass', glass);
+router.use('/topping', topping);
 
 export default router;

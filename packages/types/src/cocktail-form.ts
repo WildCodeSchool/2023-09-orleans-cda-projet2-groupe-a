@@ -14,6 +14,24 @@ export type CocktailForm = {
   alcohol?: Ingredient;
   level?: number;
   glass?: Pick<Glass, 'name' | 'id'>;
+  flavours?: {
+    sweet: number;
+    spicy: number;
+    fruity: number;
+    neutral: number;
+    herbaceous: number;
+    bitter: number;
+    other: number;
+    salty: number;
+    mixed: number;
+    fresh: number;
+    acidulous: number;
+    floral: number;
+    sour: number;
+    earthy: number;
+    peppery: number;
+    umami: number;
+  };
 };
 
 export interface AlcoholPartProps {
@@ -36,10 +54,10 @@ export interface LevelPartProps {
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedIngredient: string;
-  handleIngredientChange: (ingredient: string) => void;
-  errors: FieldErrors<CocktailForm>;
+  selectedIngredient: Ingredient | null;
+  handleIngredientChange: (ingredient: Ingredient | null) => void;
   watch: UseFormWatch<CocktailForm>;
+  errors: FieldErrors<CocktailForm>;
 }
 
 export interface GlassPartProps {
@@ -50,6 +68,8 @@ export interface GlassPartProps {
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedTopping: string;
+  selectedIngredient: Ingredient | null;
+  selectedAlcohol: Ingredient | null;
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
 }
