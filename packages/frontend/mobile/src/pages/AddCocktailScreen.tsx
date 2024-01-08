@@ -25,7 +25,7 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   return data;
 };
 
-export default function AddCocktail() {
+export default function AddCocktailScreen() {
   const [level, setLevel] = useState<number>(0);
   const scrollViewReference = useRef<ScrollView>(null);
   const scrollToPosition = (positionIndex) => {
