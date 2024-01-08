@@ -23,8 +23,8 @@ topping.get('/:mainFlavour', async (req, res) => {
   try {
     const result = await getToppingsByFlavour(mainFlavour);
     res.json(result);
-  } catch (error) {
-    res.status(500).json(error);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

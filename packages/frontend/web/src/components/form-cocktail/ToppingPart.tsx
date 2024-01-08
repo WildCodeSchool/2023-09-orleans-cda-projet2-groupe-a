@@ -118,39 +118,34 @@ export default function ToppingPart({
         <p>{randomTopping.name}</p>
       ) : (
         <fieldset className='relative bottom-[4%] grid grid-flow-col grid-rows-2 gap-3 sm:bottom-[8%]'>
-          {toppings === undefined
-            ? null
-            : toppings.map((topping) => (
-                <div key={topping.id} className='flex gap-3'>
-                  <input
-                    className='hover:cursor-pointer'
-                    type='radio'
-                    id={topping.name}
-                    value={topping.name}
-                    {...register('topping', {
-                      required: true,
-                      maxLength: {
-                        value: 255,
-                        message: "can't be longer than 255",
-                      },
-                      validate: {
-                        isString: (value) =>
-                          typeof value === 'string' || 'Must be a string',
-                      },
-                    })}
-                    checked={selectedTopping === topping.name}
-                    onChange={() => {
-                      handleToppingChange(topping.name);
-                    }}
-                  />
-                  <label
-                    className='hover:cursor-pointer'
-                    htmlFor={topping.name}
-                  >
-                    {topping.name}
-                  </label>
-                </div>
-              ))}
+          {toppings.map((topping) => (
+            <div key={topping.id} className='flex gap-3'>
+              <input
+                className='hover:cursor-pointer'
+                type='radio'
+                id={topping.name}
+                value={topping.name}
+                {...register('topping', {
+                  required: true,
+                  maxLength: {
+                    value: 255,
+                    message: "can't be longer than 255",
+                  },
+                  validate: {
+                    isString: (value) =>
+                      typeof value === 'string' || 'Must be a string',
+                  },
+                })}
+                checked={selectedTopping === topping.name}
+                onChange={() => {
+                  handleToppingChange(topping.name);
+                }}
+              />
+              <label className='hover:cursor-pointer' htmlFor={topping.name}>
+                {topping.name}
+              </label>
+            </div>
+          ))}
         </fieldset>
       )}
       <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[24%] lg:me-0 lg:mr-20 lg:gap-1'>
