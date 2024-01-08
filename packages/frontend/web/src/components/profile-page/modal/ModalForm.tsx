@@ -45,6 +45,8 @@ export default function ModalForm({
     },
   });
   const onSubmit = async (data: UserInfoForm) => {
+    console.log({ data });
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/user/${id}`,
@@ -56,7 +58,7 @@ export default function ModalForm({
           body: JSON.stringify(data),
         },
       );
-      window.location.reload();
+      /*  window.location.reload(); */
     } catch (error) {
       console.error('Error:', error);
     }

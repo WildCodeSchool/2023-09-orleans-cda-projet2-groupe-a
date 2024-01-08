@@ -183,24 +183,36 @@ user.get('/', async (req, res) => {
   }
 });
 
+interface updates {
+  pseudo?: string;
+  image?: string;
+  email?: string;
+  password?: string;
+  color?: string;
+}
+
 user.put('/:id', validateUpdateUser, async (req: Request, res: Response) => {
   const { pseudo, image, email, password, color } = req.body;
   const id = Number.parseInt(req.params.id);
 
   try {
-    const hashedPassword = await Bun.password.hash(password, {
-      algorithm: 'bcrypt',
-      cost: 15,
-    });
+    const updates: updates = {};
+    if (pseudo !== undefined) updates.pseudo = pseudo;
+    if (image !== undefined) updates.image = image;
+    if (email !== undefined) updates.email = email;
+    if (color !== undefined) updates.color = color;
+
+    if (password) {
+      const hashedPassword = await Bun.password.hash(password, {
+        algorithm: 'bcrypt',
+        cost: 15,
+      });
+      updates.password = hashedPassword;
+    }
+
     await db
       .updateTable('user')
-      .set({
-        pseudo: pseudo,
-        image: image,
-        email: email,
-        password: hashedPassword,
-        color: color,
-      })
+      .set(updates)
       .where('id', '=', id)
       .executeTakeFirst();
 
