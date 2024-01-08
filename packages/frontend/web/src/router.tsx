@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import LayoutLoggedIn from './components/Layout/LayoutLoggedIn';
+import Layout from './components/Layout/Layout';
 import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
@@ -8,6 +8,7 @@ import Community from './pages/Community';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
+import ProfilePage from './pages/ProfilePage';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <LayoutLoggedIn />,
+    element: <Layout />,
     children: [
       {
         path: '/',
@@ -36,7 +37,11 @@ const router = createBrowserRouter([
         element: <NoKidsAllowed />, // Composant ébauché.
       },
       {
-        path: '/details',
+        path: 'profile/:id',
+        element: <ProfilePage />,
+      },
+      {
+        path: '/details/:id',
         element: <CocktailsDetails />,
       },
       {
