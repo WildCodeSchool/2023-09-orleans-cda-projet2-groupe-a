@@ -8,7 +8,7 @@ const ingredient = express.Router();
 ingredient.get('/random', async (req, res) => {
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name'])
+    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
     .orderBy(sql`RAND()`)
     .limit(1)
     .executeTakeFirst();
@@ -22,7 +22,7 @@ ingredient.get('/:ingredientId', async (req, res) => {
   // It get the 6 most popular ingredients base on one ingredient
   const ingredientsByIngredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name'])
+    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
     .innerJoin(
       'action_ingredient',
       'ingredient.id',
@@ -57,7 +57,7 @@ ingredient.get('/:ingredientId', async (req, res) => {
   // It complete my function with random ingredients, in cas there is not enough
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name'])
+    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
     .where('ingredient.id', '!=', Number.parseInt(ingredientId))
     .orderBy(sql`rand()`)
     .limit(6 - ingredientsByIngredient.length)
@@ -71,7 +71,7 @@ ingredient.get('/search/:ingredientname', async (req, res) => {
 
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name'])
+    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
     .where('ingredient.name', 'like', ingredientname)
     .orderBy('ingredient.name', 'asc')
     .execute();

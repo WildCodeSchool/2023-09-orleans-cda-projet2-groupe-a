@@ -24,6 +24,10 @@ export default function AddCocktail() {
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
 
+  const [selectedAlcohol, setSelectedAlcohol] = useState<Ingredient | null>(
+    null,
+  );
+
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
@@ -66,8 +70,8 @@ export default function AddCocktail() {
   };
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
-    setValue('alcohol', alcohol, { shouldValidate: true });
     setShow(3);
+    setSelectedAlcohol(alcohol);
   };
 
   const handleErrorSubmit = () => {
@@ -253,8 +257,10 @@ export default function AddCocktail() {
         <ToppingPart
           register={register}
           selectedTopping={selectedTopping}
+          selectedAlcohol={selectedAlcohol}
           handleToppingChange={handleToppingChange}
           errors={errors}
+          watch={watch}
         />
       ),
     },

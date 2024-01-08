@@ -26,7 +26,8 @@ export default function IngredientToChoose({
     beforeIngredient?.id ?? 1
   }`;
 
-  const { data, isLoading } = useFetch<Pick<Ingredient, 'name' | 'id'>[]>(url);
+  const { data, isLoading } =
+    useFetch<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>(url);
 
   const randomIngredient = async () => {
     try {

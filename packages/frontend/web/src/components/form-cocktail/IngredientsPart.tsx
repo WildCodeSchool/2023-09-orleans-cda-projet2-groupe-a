@@ -63,7 +63,6 @@ export default function IngredientsPart({
           {errors.ingredients.message}
         </span>
       ) : undefined}
-
       {ingredients.map((ingredient) => {
         if (ingredient.condition) {
           return (
