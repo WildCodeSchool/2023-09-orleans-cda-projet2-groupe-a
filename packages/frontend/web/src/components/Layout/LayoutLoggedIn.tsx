@@ -1,17 +1,10 @@
 import { Outlet } from 'react-router-dom';
 
-import CheckBirthdate from '../CheckBirthdate';
-
 export default function LayoutLoggedIn() {
-  return (
-    <>
-      <CheckBirthdate />
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
 
-// layout when user is Logged In. This is gonna concern only
+// layout when user is Logged In. This is going to concern only
 // register and login pages, because there's no need to ask
-// for birthdate since it's already stored in the database if user is logged in.
-// If user is not registerd, register form asks for his birthdate.
+// for birthdate since it's already stored in the database when user is logged in.
+// If user is not registered, register form asks for his birthdate.

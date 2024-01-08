@@ -1,12 +1,15 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import CheckBirthdate from '@/components/CheckBirthdate';
+import { LogOut } from '@/components/LogOut';
 import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { birthdate } = useAge();
+  const { isUnderAge } = useAge();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
@@ -37,12 +40,13 @@ export default function Login() {
       const data = (await res.json()) as {
         isLoggedIn: boolean;
       }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
+      console.log(data);
 
-      if (data.isLoggedIn) {
-        setIsLoggedIn(true);
-        // navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (isLoggedIn && birthdate != null) {
-        setIsLoggedIn(true);
+      if (data.isLoggedIn && !isUnderAge) {
+        // setIsLoggedIn(true);
+        navigate('/'); // If the user is logged in, he's redirected towards homepage.
+      } else if (isLoggedIn && isUnderAge) {
+        // setIsLoggedIn(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
     } catch {
@@ -82,12 +86,17 @@ export default function Login() {
                 setPassword(event.target.value);
               }}
             />
-            <button
-              className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[320px] md:text-xl'
-              type='submit'
-            >
-              {'Login'}
-            </button>
+            <div className='flex items-center justify-center gap-1.5'>
+              <button
+                className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[185px] md:text-xl'
+                type='submit'
+              >
+                {'Login'}
+              </button>
+              <LogOut />{' '}
+              {/* Composant utilitaire pour pouvoir se déconnecter durant le dev. 
+              C'est un composant utilisable ensuite partout. Il n'a pas vocation à rester sur le composant Login */}
+            </div>
           </form>
         </div>
       </div>

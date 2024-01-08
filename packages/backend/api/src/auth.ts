@@ -92,7 +92,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('2h')
+        .setExpirationTime('5m')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.

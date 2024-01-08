@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 type AgeProviderState = {
   birthdate: string | undefined; // typage du contenu du context.
   setBirthdate: (value: string | undefined) => void;
+  isUnderAge: undefined;
 };
 
 export const AgeProviderContext = createContext<AgeProviderState | undefined>(
@@ -21,6 +22,7 @@ export const AgeProvider = ({ children }: AgeProviderProps) => {
     () => ({
       birthdate: birthdate,
       setBirthdate: setBirthdate,
+      isUnderAge: undefined,
     }),
     [birthdate],
   );

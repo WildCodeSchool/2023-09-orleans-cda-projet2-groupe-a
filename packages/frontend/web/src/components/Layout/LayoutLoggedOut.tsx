@@ -1,7 +1,17 @@
 import { Outlet } from 'react-router-dom';
 
+import CheckBirthdate from '../CheckBirthdate';
+
 export default function LayoutLoggedOut() {
-  return <Outlet />;
+  const birthdate = localStorage.getItem('birthdate');
+
+  console.log(birthdate);
+  return (
+    <>
+      {birthdate === null && <CheckBirthdate />}
+      <Outlet />
+    </>
+  );
 }
 
 // layout when user is not Logged In. This is gonna concern every page

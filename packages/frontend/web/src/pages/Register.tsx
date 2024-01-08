@@ -1,11 +1,14 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 const now: Date = new Date();
 
 export default function Register() {
+  const { isUnderAge } = useAge();
+  const registeredBirthdate = localStorage.getItem('birthdate') || null;
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
 
@@ -39,18 +42,23 @@ export default function Register() {
       }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
       //Hence, the mention "await" preceed res.json.
 
-      if (data.ok) {
+      if (data.ok && !isUnderAge) {
         // User registered, loggedIn and redirected to /.
+        console.log(data.ok, 'je suis majeur');
         setIsLoggedIn(true);
         navigate('/'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
-      } else {
+      } else if (data.ok && isUnderAge) {
+        console.log(data.ok, 'coucou mineur');
         // User Registered but not logged in
-        setIsLoggedIn(false);
+        setIsLoggedIn(true);
+        navigate('/virgin');
       }
     } catch {
       console.error('There was an error registering.');
     }
   };
+
+  console.log(registeredBirthdate);
 
   return (
     <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
@@ -105,10 +113,13 @@ export default function Register() {
             <input
               className='2px border-dark m-1 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
               type='date'
+              // defaultValue={registeredBirthdate === null ? undefined : registeredBirthdate}
               min='1900-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
-              value={birthdate}
+              value={
+                registeredBirthdate === null ? undefined : registeredBirthdate
+              }
               onChange={(event) => {
                 setBirthdate(event.target.value);
               }}
