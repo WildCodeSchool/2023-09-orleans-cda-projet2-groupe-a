@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import VirginPart from '@/components/home/CocktailsPart';
+import CocktailsPart from '@/components/home/CocktailsPart';
 import CommunityPart from '@/components/home/CommunityPart';
 import FavoritesPart from '@/components/home/FavoritesPart';
-import CocktailsPart from '@/components/home/ProfilePart';
-import ProfilePart from '@/components/home/ShakeItPart';
-import ShakeItPart from '@/components/home/VirginPart';
+import ProfilePart from '@/components/home/ProfilePart';
+import ShakeItPart from '@/components/home/ShakeItPart';
+import VirginPart from '@/components/home/VirginPart';
 
 import LegalNotice from './LegalModal';
 
@@ -55,8 +55,8 @@ const squares = [
       lg: 15,
     },
     component: (
-      <Link to='/profile'>
-        <ProfilePart />
+      <Link to='/shaker'>
+        <ShakeItPart />
       </Link>
     ),
   },
@@ -107,8 +107,8 @@ const squares = [
     },
 
     component: (
-      <Link to='/shaker'>
-        <ShakeItPart />
+      <Link to='/profile'>
+        <ProfilePart />
       </Link>
     ),
   },
