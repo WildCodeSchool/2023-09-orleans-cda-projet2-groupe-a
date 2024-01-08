@@ -5,7 +5,7 @@ import { db } from '@app/backend-shared';
 
 const filterRouter = express.Router();
 
-// Route get pour récupérer les cocktails présents en BDD
+// Route get pour récupérer tous les paramétres de filtre de la barre filtrage
 filterRouter.get('/', async (req, res) => {
   try {
     const cocktail = await db
@@ -57,7 +57,6 @@ filterRouter.get('/', async (req, res) => {
             .selectFrom('cocktail')
             .select(['total_degree as cocktail_degree'])
             .distinct()
-
             .orderBy('cocktail.total_degree', 'asc'),
         ).as('degrees'),
 
@@ -79,6 +78,32 @@ filterRouter.get('/', async (req, res) => {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
+});
+
+filterRouter.get('/:search', async (req, res) => {
+  const search = `%${req.params.search}%`;
+  const searchBar = await db
+    .selectFrom('cocktail')
+    .select((eb) => [
+      jsonArrayFrom(
+        eb
+          .selectFrom('ingredient')
+          .select(['ingredient.id', 'ingredient.name'])
+          .where('ingredient.name', 'like', search)
+          .orderBy('ingredient.name', 'asc'),
+      ).as('findIngredient'),
+
+      jsonArrayFrom(
+        eb
+          .selectFrom('cocktail')
+          .select(['cocktail.id', 'cocktail.name'])
+          .where('cocktail.name', 'like', search)
+          .orderBy('cocktail.name', 'asc'),
+      ).as('findCocktail'),
+    ])
+    .executeTakeFirst();
+
+  return res.json({ searchBar });
 });
 
 export { filterRouter };

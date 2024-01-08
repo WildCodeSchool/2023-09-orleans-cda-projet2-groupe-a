@@ -16,10 +16,47 @@ cocktailRouter.get('/', async (req, res) => {
   }
 });
 
-// Route get pour récupérer les cocktails avec l'ingrégrient qui se trouve dans la famille alcool
-cocktailRouter.get('/alcohol', async (req, res) => {
+// Route get pour récupérer les cocktails avec l'ingrédient qui se trouve dans la famille alcool
+// cocktailRouter.get('/alcohol', async (req, res) => {
+//   try {
+//     const cocktailsWithAlcohol = await db
+//       .selectFrom('cocktail')
+//       .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+//       .innerJoin('action', 'recipe.action_id', 'action.id')
+//       .innerJoin(
+//         'action_ingredient',
+//         'action.id',
+//         'action_ingredient.action_id',
+//       )
+//       .innerJoin(
+//         'ingredient',
+//         'action_ingredient.ingredient_id',
+//         'ingredient.id',
+//       )
+//       .select([
+//         'cocktail.id as cocktail_id',
+//         'cocktail.name as cocktail_name',
+//         'cocktail.image as cocktail_image',
+//         'cocktail.ratings_average as avg_rating',
+//         'cocktail.created_at as cocktail_created',
+//       ])
+//       .where('ingredient.family', '=', 'alcohol')
+//       .orderBy('cocktail.name', 'asc')
+//       .groupBy('cocktail.id')
+//       .execute();
+
+//     res.json({ cocktailsWithAlcohol });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+
+cocktailRouter.get('/alcohol/:search', async (req, res) => {
+  const filteredIngredients = req.query.search;
+
   try {
-    const cocktailsWithAlcohol = await db
+    let query = db
       .selectFrom('cocktail')
       .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
       .innerJoin('action', 'recipe.action_id', 'action.id')
@@ -40,10 +77,20 @@ cocktailRouter.get('/alcohol', async (req, res) => {
         'cocktail.ratings_average as avg_rating',
         'cocktail.created_at as cocktail_created',
       ])
-      .where('ingredient.family', '=', 'alcohol')
-      .orderBy('cocktail.name', 'asc')
-      .groupBy('cocktail.id')
-      .execute();
+
+      .where('ingredient.family', '=', 'alcohol');
+
+    if (Array.isArray(filteredIngredients) && filteredIngredients.length > 0) {
+      query = query.where(
+        'ingredient.name',
+        'in',
+        filteredIngredients as string[],
+      );
+    }
+
+    query = query.orderBy('cocktail.name', 'asc').groupBy('cocktail.id');
+
+    const cocktailsWithAlcohol = await query.execute();
 
     res.json({ cocktailsWithAlcohol });
   } catch (error) {

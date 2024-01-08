@@ -10,7 +10,7 @@ export default function CardTitle() {
           <img
             src='/cocktail-img.png'
             alt='Absinthe glass'
-            className='absolute z-20 h-[13rem] sm:h-[13rem] sm:w-[12rem]'
+            className='absolute z-20 h-[13rem] sm:h-[13rem] sm:w-[11rem]'
           />
         </div>
       </div>

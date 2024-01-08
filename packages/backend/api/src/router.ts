@@ -49,7 +49,6 @@ router.use('/ingredient', ingredient);
 router.use('/cocktail', cocktailRouter);
 router.use('/comment', commentRouter);
 router.use('/glass', glass);
-router.use('/cocktail', cocktailRouter);
 router.use('/filter', filterRouter);
 
 export default router;

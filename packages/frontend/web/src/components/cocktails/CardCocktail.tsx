@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface CardCocktail {
@@ -9,43 +8,16 @@ interface CardCocktail {
   cocktail_created: Date;
   readonly cardCocktails: CardCocktail[] | undefined;
 }
+type CardCocktailProps = {
+  readonly cocktails: CardCocktail[] | undefined;
+};
 
-export default function CardCocktail() {
-  const [cocktails, setCocktails] = useState<CardCocktail[] | undefined>();
-
-  const fetchCocktails = async (signal: AbortSignal) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/cocktail/alcohol`,
-      {
-        signal,
-      },
-    );
-    if (response.ok) {
-      const data = await response.json();
-      setCocktails(data.cocktailsWithAlcohol);
-    } else {
-      console.error(`Request error: ${response.status}`);
-    }
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-
-    fetchCocktails(signal).catch((error) => {
-      console.error(error);
-    });
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
+export default function CardCocktail({ cocktails }: CardCocktailProps) {
   return (
-    <div className='mb-10 mt-10 flex flex-wrap justify-center px-12'>
+    <div className='mb-10 mt-[0.5rem] flex flex-wrap justify-center sm:justify-end'>
       {cocktails?.map((cocktail) => (
-        <div key={cocktail.cocktail_id} className='m-8'>
-          <Link to={`/details/${cocktail.cocktail_id}`}>
+        <div key={cocktail.cocktail_id} className='m-6'>
+          <Link to={`/cocktail-details/${cocktail.cocktail_id}`}>
             <div
               className={`border-dark ${'bg-card-blue'} mb-6 me-[28px] h-[336px] w-[288px] rounded-sm border-[3px]`}
             >
