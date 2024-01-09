@@ -11,33 +11,7 @@ import {
 
 import type { IngredientsPartProps } from '@app/types';
 
-function useFetch<Ingredient>(url: string): {
-  data: Ingredient[] | undefined;
-  isLoading: boolean;
-} {
-  const [data, setData] = useState<Ingredient[]>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = () => {
-      fetch(url)
-        .then((response) => response.json())
-        .then((result) => {
-          setData(result);
-        })
-        .catch((error) => {
-          console.error('Erreur de requête', error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    };
-
-    fetchData();
-  }, [url]);
-
-  return { data, isLoading };
-}
+import { useFetch } from '../../hooks/use-fetch';
 
 const styles = StyleSheet.create({
   title: {

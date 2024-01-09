@@ -8,6 +8,41 @@ import colors from '../../../colors';
 
 const url = `${process.env.EXPO_PUBLIC_API_URL}/glass`;
 
+const styles = StyleSheet.create({
+  title: {
+    color: colors.dark,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  subTitle: {
+    marginBottom: -100,
+    color: colors.dark,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+  },
+  li: {
+    color: colors.dark,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  shuffleButtonAndGlassName: {
+    alignItems: 'center',
+  },
+  subTitleAndArrow: {
+    marginTop: 350,
+    marginBottom: -220,
+    marginStart: 120,
+  },
+  arrow: {
+    position: 'absolute',
+    left: 110,
+    bottom: -41,
+  },
+});
 export default function GlassPart({
   setValue,
   handleGlassPartNextStepClick,
@@ -54,42 +89,6 @@ export default function GlassPart({
       console.error(error);
     }
   };
-
-  const styles = StyleSheet.create({
-    title: {
-      color: colors.dark,
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginTop: 10,
-    },
-    subTitle: {
-      marginBottom: -100,
-      color: colors.dark,
-      fontSize: 20,
-      fontWeight: 'bold',
-    },
-    errorText: {
-      color: 'red',
-    },
-    li: {
-      color: colors.dark,
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    shuffleButtonAndGlassName: {
-      alignItems: 'center',
-    },
-    subTitleAndArrow: {
-      marginTop: 350,
-      marginBottom: -220,
-      marginStart: 120,
-    },
-    arrow: {
-      position: 'absolute',
-      left: 110,
-      bottom: -41,
-    },
-  });
 
   return (
     <>

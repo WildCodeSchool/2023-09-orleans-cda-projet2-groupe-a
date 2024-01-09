@@ -1,4 +1,6 @@
 /* eslint-disable unicorn/prefer-module */
+
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { useRef, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -10,7 +12,6 @@ import {
   View,
 } from 'react-native';
 
-/* eslint-disable @typescript-eslint/no-require-imports */
 import type { CocktailForm, Ingredient } from '@app/types';
 
 import colors from '../../colors';
@@ -24,7 +25,35 @@ import ToppingPart from '../components/form-cocktail/ToppingPart';
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   return data;
 };
-
+const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+  },
+  square: {
+    flex: 1,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backgroundImage: {
+    width: Dimensions.get('window').width,
+    height: 400,
+    resizeMode: 'contain',
+  },
+  imageContainer: {
+    height: '100%',
+    width: Dimensions.get('window').width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  componentContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+});
 export default function AddCocktailScreen() {
   const [level, setLevel] = useState<number>(0);
   const scrollViewReference = useRef<ScrollView>(null);
@@ -208,36 +237,6 @@ export default function AddCocktailScreen() {
       ),
     },
   ];
-
-  const styles = StyleSheet.create({
-    scrollViewContent: {
-      flexGrow: 1,
-      justifyContent: 'flex-start',
-    },
-    square: {
-      flex: 1,
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    backgroundImage: {
-      width: Dimensions.get('window').width,
-      height: 400,
-      resizeMode: 'contain',
-    },
-    imageContainer: {
-      height: '100%',
-      width: Dimensions.get('window').width,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    componentContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1,
-    },
-  });
 
   const bubbleImages = [
     require('../../public/form-cocktail/bubble/bubble-1.png'),
