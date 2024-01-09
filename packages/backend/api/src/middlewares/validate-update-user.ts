@@ -2,18 +2,8 @@ import type { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 const validateUpdateUser = [
-  body('email')
-    .exists()
-    .trim()
-    .notEmpty()
-    .isLength({ max: 254 })
-    .toLowerCase()
-    .isEmail(),
   body('color')
-    .exists()
     .trim()
-    .notEmpty()
-    .isLength({ max: 255 })
     .custom((value) => {
       const validColors = [
         'red',
@@ -24,13 +14,31 @@ const validateUpdateUser = [
         'orange',
         'pink',
       ];
+      if (value === '') {
+        return true;
+      }
       if (!validColors.includes(value)) {
         throw new Error('Color must be one of the proposed choices');
       }
       return true;
     }),
-  body('image').exists().trim().notEmpty().isLength({ max: 254 }),
-  body('password').exists().trim().notEmpty().isLength({ min: 3, max: 255 }),
+  body('pseudo')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 3, max: 60 }),
+  body('image').trim().isLength({ max: 255 }),
+  body('actualPassword')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 3, max: 255 }),
+  body('newPassword')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 3, max: 255 }),
+  body('confirmNewPassword')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 3, max: 255 }),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 

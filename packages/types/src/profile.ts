@@ -27,7 +27,9 @@ export interface UserProfile {
 export interface UserInfoForm {
   pseudo: string;
   email: string;
-  password: string;
+  actualPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
   color: string;
   image: string;
 }

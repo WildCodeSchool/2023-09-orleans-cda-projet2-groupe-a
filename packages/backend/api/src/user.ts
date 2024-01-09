@@ -183,7 +183,7 @@ user.get('/', async (req, res) => {
   }
 });
 
-interface updates {
+interface Updates {
   pseudo?: string;
   image?: string;
   email?: string;
@@ -192,21 +192,54 @@ interface updates {
 }
 
 user.put('/:id', validateUpdateUser, async (req: Request, res: Response) => {
-  const { pseudo, image, email, password, color } = req.body;
+  const {
+    pseudo,
+    image,
+    color,
+    actualPassword,
+    newPassword,
+    confirmNewPassword,
+  } = req.body;
   const id = Number.parseInt(req.params.id);
 
   try {
-    const updates: updates = {};
-    if (pseudo !== undefined) updates.pseudo = pseudo;
-    if (image !== undefined) updates.image = image;
-    if (email !== undefined) updates.email = email;
-    if (color !== undefined) updates.color = color;
+    const updates: Updates = {};
+    if (pseudo) updates.pseudo = pseudo;
+    if (image) updates.image = image;
+    if (color) updates.color = color;
 
-    if (password) {
-      const hashedPassword = await Bun.password.hash(password, {
+    if (actualPassword) {
+      const user = await db
+        .selectFrom('user')
+        .select(['user.password'])
+        .where('user.id', '=', id)
+        .executeTakeFirst();
+
+      if (user === undefined) {
+        res.status(400).json('user not found');
+        return;
+      }
+
+      const isCorrectPassword = await Bun.password.verify(
+        actualPassword,
+        user.password,
+        'bcrypt',
+      );
+
+      if (!isCorrectPassword) {
+        res.status(400).json('wrong password');
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        res.status(400).json('passwords do not match');
+        return;
+      }
+      const hashedPassword = await Bun.password.hash(newPassword, {
         algorithm: 'bcrypt',
         cost: 15,
       });
+
       updates.password = hashedPassword;
     }
 

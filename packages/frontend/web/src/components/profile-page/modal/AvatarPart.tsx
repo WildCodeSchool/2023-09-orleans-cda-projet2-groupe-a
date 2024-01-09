@@ -1,15 +1,9 @@
-import type { UseFormRegister } from 'react-hook-form';
-
-import type { UserInfoForm } from '@app/types';
-
 interface ModalAvatarPartProps {
-  readonly register: UseFormRegister<UserInfoForm>;
   readonly handleImageChange: (image: string) => void;
   readonly selectedImage: string;
 }
 
 export default function AvatarPart({
-  register,
   handleImageChange,
   selectedImage,
 }: ModalAvatarPartProps) {
@@ -22,17 +16,6 @@ export default function AvatarPart({
             type='checkbox'
             id={`avatar-${index + 1}.webp`}
             value={`avatar-${index + 1}.webp`}
-            {...register('image', {
-              required: true,
-              maxLength: {
-                value: 255,
-                message: "can't be longer than 255",
-              },
-              validate: {
-                isString: (value: string) =>
-                  typeof value === 'string' || 'Must be a string',
-              },
-            })}
             checked={selectedImage === `avatar-${index + 1}.webp`}
             onChange={() => {
               handleImageChange(`avatar-${index + 1}.webp`);

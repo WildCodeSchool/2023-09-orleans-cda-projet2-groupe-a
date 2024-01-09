@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import type { UserInfoForm } from '@app/types';
 
 import AvatarPart from './AvatarPart';
+import ColorPart from './ColorPart';
 import FormPart from './FormPart';
 
 interface ModalFormProps {
@@ -41,24 +42,19 @@ export default function ModalForm({
     defaultValues: {
       pseudo: pseudo,
       email: email,
-      password: '*******',
     },
   });
-  const onSubmit = async (data: UserInfoForm) => {
-    console.log({ data });
 
+  const onSubmit = async (data: UserInfoForm) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/user/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+      await fetch(`${import.meta.env.VITE_API_URL}/user/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
-      /*  window.location.reload(); */
+        body: JSON.stringify(data),
+      });
+      window.location.reload();
     } catch (error) {
       console.error('Error:', error);
     }
@@ -77,7 +73,10 @@ export default function ModalForm({
   const handleErrorSubmit = () => {
     const imageValue = watch('image');
 
-    if (typeof imageValue === 'string' && imageValue.length <= 255) {
+    if (
+      imageValue === undefined ||
+      (typeof imageValue === 'string' && imageValue.length <= 255)
+    ) {
       clearErrors('image');
     } else {
       setError('image', {
@@ -87,7 +86,7 @@ export default function ModalForm({
     }
     const colorValue = watch('color');
 
-    if (colors.includes(colorValue)) {
+    if (colors.includes(colorValue) || colorValue === undefined) {
       clearErrors('color');
     } else {
       setError('color', {
@@ -135,7 +134,7 @@ export default function ModalForm({
 
                 <div
                   className={`${
-                    Object.keys(errors).length === 0 ? 'mt-14' : 'mt-0'
+                    Object.keys(errors).length === 0 ? 'mt-10' : 'mt-0'
                   } self-start px-4`}
                 >
                   {errors.color?.type === 'validate' ? (
@@ -143,34 +142,20 @@ export default function ModalForm({
                   ) : undefined}
                   <div className='mb-5 gap-14 sm:flex'>
                     <div className='border-dark col-span-1 mb-5 flex justify-evenly rounded-sm border-[5px] bg-white p-1 sm:mb-0 sm:w-[50px] sm:flex-col sm:items-center sm:justify-evenly sm:p-3'>
-                      {colors.map((color) => (
-                        <div
-                          key={color}
-                          className={`h-[25px] w-[25px] cursor-pointer rounded-full sm:h-[30px] sm:w-[30px] bg-profile-picture-${color} ${
-                            selectedColor === color
-                              ? 'border-dark border-[3px]'
-                              : null
-                          }`}
-                          onClick={() => {
-                            handleColorChange(color);
-                          }}
-                        />
-                      ))}
+                      <ColorPart
+                        colors={colors}
+                        handleColorChange={handleColorChange}
+                        selectedColor={selectedColor}
+                      />
                     </div>
 
                     <div className='col-span-7 flex flex-col items-center gap-2'>
-                      <div className='border-dark h-[362px] overflow-y-scroll rounded-sm border-[5px] bg-white p-4'>
+                      <div className='border-dark overflow-y-scroll rounded-sm border-[5px] bg-white p-4 sm:h-[300px] md:h-[250px] lg:h-[300px]'>
                         {errors.image?.type === 'validate' ? (
-                          <span className='text-sm'>
-                            {errors.image.message}
-                          </span>
-                        ) : undefined}
-                        {errors.image?.type === 'required' ? (
                           <span>{errors.image.message}</span>
                         ) : undefined}
                         <fieldset className='grid grid-cols-1 gap-5 overflow-x-hidden md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                           <AvatarPart
-                            register={register}
                             handleImageChange={handleImageChange}
                             selectedImage={selectedImage}
                           />
