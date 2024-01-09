@@ -97,7 +97,7 @@ export default function CocktailsDetails() {
                 cocktail.image.length > 0 &&
                 cocktail.image !== 'null' &&
                 cocktail.image !== 'undefined'
-                  ? `http://localhost:3333/${cocktail.image}`
+                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
                   : '/cocktail-placeholder.png'
               }
               alt='Cocktail picture'
