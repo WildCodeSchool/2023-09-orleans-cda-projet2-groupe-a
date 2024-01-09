@@ -10,13 +10,12 @@ virginRouter.get('/', async (req, res) => {
     const virginCocktails = await db
       .selectFrom('cocktail')
       .selectAll()
-      .where('total_degree', '=', 10)
+      .where('total_degree', '=', 0)
       .execute();
 
     res.json({ virginCocktails });
-    console.log(virginCocktails);
   } catch (error) {
-    console.error('coucou', error);
+    console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
