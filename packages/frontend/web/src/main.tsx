@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
-// import Layout from './components/Layout/Layout.tsx';
-import { AgeProvider } from './contexts/AgeContext.tsx';
 import { AuthProvider } from './contexts/AuthContext';
+// import Layout from './components/Layout/Layout.tsx';
+import { BirthProvider } from './contexts/BirthContext.tsx';
 import './globals.css';
 // import CheckBirthdate from './pages/CheckBirthdate';
 import router from './router.tsx';
@@ -17,11 +17,11 @@ const rootElement = document.querySelector('#root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <AgeProvider>
+      <BirthProvider>
         <AuthProvider>
           <RouterProvider router={router} />
         </AuthProvider>
-      </AgeProvider>
+      </BirthProvider>
     </React.StrictMode>,
   );
 }

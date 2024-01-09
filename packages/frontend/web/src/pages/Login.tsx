@@ -1,15 +1,13 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CheckBirthdate from '@/components/CheckBirthdate';
 import { LogOut } from '@/components/LogOut';
-import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { birthdate } = useAge();
-  const { isUnderAge } = useAge();
+  const { isUnderAge } = useBirth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');

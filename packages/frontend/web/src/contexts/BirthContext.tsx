@@ -1,21 +1,21 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
-type AgeProviderState = {
+type BirthProviderState = {
   birthdate: string | undefined; // typage du contenu du context.
   setBirthdate: (value: string | undefined) => void;
   isUnderAge: undefined;
 };
 
-export const AgeProviderContext = createContext<AgeProviderState | undefined>(
-  undefined,
-);
+export const BirthProviderContext = createContext<
+  BirthProviderState | undefined
+>(undefined);
 
-interface AgeProviderProps {
+interface BirthProviderProps {
   readonly children: ReactNode;
 }
 
-export const AgeProvider = ({ children }: AgeProviderProps) => {
+export const BirthProvider = ({ children }: BirthProviderProps) => {
   const [birthdate, setBirthdate] = useState<string | undefined>();
 
   const value = useMemo(
@@ -28,13 +28,13 @@ export const AgeProvider = ({ children }: AgeProviderProps) => {
   );
 
   return (
-    <AgeProviderContext.Provider value={value}>
+    <BirthProviderContext.Provider value={value}>
       {children}
-    </AgeProviderContext.Provider>
+    </BirthProviderContext.Provider>
   );
 };
-export const useAge = () => {
-  const context = useContext(AgeProviderContext);
+export const useBirth = () => {
+  const context = useContext(BirthProviderContext);
 
   if (!context) throw new Error('useAge must be used within a AgeProvider');
 

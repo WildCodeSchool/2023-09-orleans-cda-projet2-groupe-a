@@ -1,13 +1,15 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 const now: Date = new Date();
 
 export default function Register() {
-  const { isUnderAge } = useAge();
+  const { isUnderAge } = useBirth();
+  const minus18: Date = new Date();
+  minus18.setFullYear(minus18.getFullYear() - 18);
   const registeredBirthdate = localStorage.getItem('birthdate') || null;
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
@@ -17,9 +19,18 @@ export default function Register() {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
+  const [isWow, setIsWow] = useState(false);
+  const [isImageShown, setIsImageShown] = useState<boolean>(false);
+  const [isModalShown, setIsModalShown] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // pour empêcher le rafraîchissement de la page.
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 1500);
+    document.body.classList.remove('overflow-hidden');
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
@@ -42,13 +53,33 @@ export default function Register() {
       }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
       //Hence, the mention "await" preceed res.json.
 
+      const isUnderAge =
+        birthdate && birthdate !== ''
+          ? new Date(birthdate).getTime() >= minus18.getTime()
+          : true;
+
       if (data.ok && !isUnderAge) {
         // User registered, loggedIn and redirected to /.
-        console.log(data.ok, 'je suis majeur');
         setIsLoggedIn(true);
-        navigate('/'); // si l'utilisateur est connecté, on le redirige vers la page d'accueil.
+        setTimeout(() => {
+          if (!isWow) {
+            setIsWow(true);
+          }
+          setTimeout(() => {
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: 'smooth',
+            });
+          }, 700);
+        }, 1200);
+        navigate('/'); // If user is logged in, he's redirected towards homepage.
       } else if (data.ok && isUnderAge) {
-        console.log(data.ok, 'coucou mineur');
+        window.history.pushState(null, '', '/');
+        document.body.classList.add('overflow-hidden');
+        setIsImageShown(true);
+        setTimeout(() => {
+          setIsModalShown(true);
+        }, 2500);
         // User Registered but not logged in
         setIsLoggedIn(true);
         navigate('/virgin');
@@ -57,8 +88,6 @@ export default function Register() {
       console.error('There was an error registering.');
     }
   };
-
-  console.log(registeredBirthdate);
 
   return (
     <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
@@ -117,8 +146,10 @@ export default function Register() {
               min='1900-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
-              value={
-                registeredBirthdate === null ? undefined : registeredBirthdate
+              defaultValue={
+                registeredBirthdate === null || undefined
+                  ? ''
+                  : registeredBirthdate
               }
               onChange={(event) => {
                 setBirthdate(event.target.value);
@@ -156,6 +187,66 @@ export default function Register() {
           </div>
         )}
       </div>
+      <div className='fixed top-1 z-40 flex h-1/5 flex-col items-center justify-center'>
+        {isSubmitted && birthdate !== '' && birthdate !== null ? (
+          birthdate && isUnderAge ? (
+            <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
+              {"Remember! No Booze 'til you're 18!"}
+            </div>
+          ) : (
+            <div className='bg-light-orange fixed top-0 z-50 flex h-full w-full items-start justify-center overflow-y-auto p-5'>
+              <div
+                className='z-50 flex h-screen w-screen items-center justify-center overflow-y-auto bg-contain bg-no-repeat'
+                style={{
+                  backgroundImage: `url('/yes-you-can.svg')`,
+                  backgroundPosition: 'center',
+                }}
+              >
+                <div
+                  className='animation-scale-up-delayed animate-fade-out z-40 mt-[32rem] h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+                  style={{ backgroundImage: `url('/wow.svg')` }}
+                />
+              </div>
+            </div>
+          )
+        ) : null}
+      </div>
+      <div className='z-50'>
+        {isImageShown && isSubmitted && birthdate !== '' ? (
+          <div
+            className={`w-7/8 animate-fade-out ml-[5rem] flex h-screen items-center justify-center`}
+          >
+            <img
+              src='/ouch.svg'
+              alt='ouch! Not Eighteen.'
+              className='w-7/8 h-7/8 ml-[5rem]'
+            />
+          </div>
+        ) : null}
+      </div>
+      {isModalShown ? (
+        <div className='flex-end font-stroke text-light flex items-center'>
+          <div className='z-40 flex h-1/6 flex-col items-center gap-6 text-4xl'>
+            <div className='animate-color-pulse hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500 ease-in-out  hover:rotate-1 hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
+              <a href='/virgin'>{'Grab your Mocktail!'}</a>
+            </div>
+            <img
+              className='shadow-2x1 z-50 h-2/3 w-2/3 justify-center rounded-[90px] border-[6px] border-black object-center opacity-100 shadow-inner'
+              src='alcohol-free-cocktails.webp'
+              alt='redirection page for under18'
+            />
+            <button
+              type='button'
+              className='font-stroke text-light hover:text-dark-orange duration-250 flex h-[10px] w-[10px] justify-end transition-transform ease-in-out hover:scale-110'
+              onClick={() => {
+                setIsModalShown(false);
+              }}
+            >
+              <div>{'X'}</div>
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

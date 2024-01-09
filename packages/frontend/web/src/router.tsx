@@ -13,21 +13,21 @@ import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
-    element: <LayoutLoggedOut />,
-    children: [
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-    ],
-  },
-  {
     element: <Layout />,
     children: [
+      {
+        element: <LayoutLoggedOut />,
+        children: [
+          {
+            path: '/register',
+            element: <Register />,
+          },
+          {
+            path: '/login',
+            element: <Login />,
+          },
+        ],
+      },
       {
         path: '/',
         element: <Home />,
