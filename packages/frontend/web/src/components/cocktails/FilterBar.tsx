@@ -33,38 +33,36 @@ type Complexity = {
 };
 
 interface Filters {
-  ingredient: string[];
-  // alcohol: string[];
-  // flavour: string[];
-  // kcal: string[];
-  // complexity: string[];
-  // strength: string[];
+  alcohol: string[];
+  ingredients: string[];
+  flavour: string[];
+  kcal: string[];
+  complexity: string[];
+  degree: string[];
 }
 
 const initialFilters: Filters = {
-  ingredient: [],
-  // alcohol: [],
-  // flavour: [],
-  // kcal: [],
-  // complexity: [],
-  // strength: [],
+  alcohol: [],
+  ingredients: [],
+  flavour: [],
+  kcal: [],
+  complexity: [],
+  degree: [],
 };
 
 interface FilterBarProps {
   readonly onFilterChange: (newFilters: Filters) => void;
 }
-// type SelectedValue = string;
+
 type Menu = string;
 
 export default function FilterBar({ onFilterChange }: FilterBarProps) {
   const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
-  // const [alcohols, setAlcohols] = useState<Alcohol[] | undefined>();
-  // const [flavours, setFlavours] = useState<Flavour[] | undefined>();
-  // const [kcals, setKcals] = useState<Kcal[] | undefined>();
-  // const [degrees, setDegrees] = useState<Degree[] | undefined>();
-  // const [complexities, setComplexities] = useState<Complexity[] | undefined>();
-
-  // const [checkedValues, setCheckedValues] = useState<SelectedValue[]>([]);
+  const [alcohols, setAlcohols] = useState<Alcohol[] | undefined>();
+  const [flavours, setFlavours] = useState<Flavour[] | undefined>();
+  const [kcals, setKcals] = useState<Kcal[] | undefined>();
+  const [degrees, setDegrees] = useState<Degree[] | undefined>();
+  const [complexities, setComplexities] = useState<Complexity[] | undefined>();
 
   const [openMenus, setOpenMenus] = useState<Menu[]>([]);
 
@@ -79,11 +77,11 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
     if (response.ok) {
       const data = await response.json();
       setIngredients(data.cocktail.ingredients);
-      // setAlcohols(data.cocktail.alcohols);
-      // setFlavours(data.cocktail.flavours);
-      // setKcals(data.cocktail.kcals);
-      // setDegrees(data.cocktail.degrees);
-      // setComplexities(data.cocktail.complexities);
+      setAlcohols(data.cocktail.alcohols);
+      setFlavours(data.cocktail.flavours);
+      setKcals(data.cocktail.kcals);
+      setDegrees(data.cocktail.degrees);
+      setComplexities(data.cocktail.complexities);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -140,13 +138,13 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             <div className='border-dark bg-card-green mx-auto w-[18rem] rounded-sm border-[3px] p-4 uppercase sm:w-[15rem]'>
               <div className='grid-raws-7 grid h-full w-full grid-rows-1 gap-2'>
                 <div className='text-[1rem]'>
-                  {/* <label
+                  <label
                     onClick={() => {
                       handleToggleMenu('alcohol');
                     }}
                     className='font-stroke text-light flex h-[2rem] uppercase'
                   >
-                    {`alcohols`}
+                    {`alcohol`}
                     {isMenuOpen('alcohol') ? (
                       <Minus
                         color='#0E0F0F'
@@ -173,10 +171,12 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={alcohol.alcohol_name}
-                            checked={checkedValues.includes(
+                            checked={filters.alcohol.includes(
                               alcohol.alcohol_name,
                             )}
-                            onChange={handleCheckboxChange}
+                            onChange={(event) => {
+                              handleCheckboxChange('alcohol', event);
+                            }}
                             id={alcohol.alcohol_name}
                           />
                           <label
@@ -188,16 +188,16 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         </motion.div>
                       ))}
                     </div>
-                            )} */}
+                  )}
                 </div>
-                <div className='mt-3 text-[1rem]'>
+                <div className='text-[1rem]'>
                   <label
                     onClick={() => {
                       handleToggleMenu('ingredient');
                     }}
                     className='font-stroke text-light flex h-[2rem] uppercase'
                   >
-                    {`ingredients`}
+                    {`ingredient`}
 
                     {isMenuOpen('ingredient') ? (
                       <Minus
@@ -212,7 +212,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                     )}
                   </label>
                   {isMenuOpen('ingredient') && (
-                    <div className='mt-2'>
+                    <div className='mt-2 h-[17rem] overflow-y-scroll'>
                       {ingredients?.map((ingredient, index) => (
                         <motion.div
                           initial={{ opacity: 0 }}
@@ -225,11 +225,11 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={ingredient.ingredient_name}
-                            checked={filters.ingredient.includes(
+                            checked={filters.ingredients.includes(
                               ingredient.ingredient_name,
                             )}
                             onChange={(event) => {
-                              handleCheckboxChange('ingredient', event);
+                              handleCheckboxChange('ingredients', event);
                             }}
                             id={ingredient.ingredient_name}
                           />
@@ -245,7 +245,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                   )}
                 </div>
                 <div className='text-[1rem]'>
-                  {/* <label
+                  <label
                     onClick={() => {
                       handleToggleMenu('flavour');
                     }}
@@ -263,8 +263,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         className='ms-2 h-7 w-7 stroke-[3px]'
                       />
                     )}
-                  </label> */}
-                  {/* {isMenuOpen('flavour') && (
+                  </label>
+                  {isMenuOpen('flavour') && (
                     <div className='mt-2'>
                       {flavours?.map((flavour, index) => (
                         <motion.div
@@ -278,10 +278,12 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={flavour.cocktail_flavour}
-                            checked={checkedValues.includes(
+                            checked={filters.flavour.includes(
                               flavour.cocktail_flavour,
                             )}
-                            onChange={handleCheckboxChange}
+                            onChange={(event) => {
+                              handleCheckboxChange('flavour', event);
+                            }}
                             id={flavour.cocktail_flavour}
                           />
                           <label
@@ -316,8 +318,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         />
                       )}
                     </label>
-                  </div> */}
-                  {/* {isMenuOpen('kcal') && (
+                  </div>
+                  {isMenuOpen('kcal') && (
                     <div className='mt-2'>
                       {kcals?.map((kcal, index) => (
                         <motion.div
@@ -331,8 +333,10 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={kcal.cocktail_kcal}
-                            checked={checkedValues.includes(kcal.cocktail_kcal)}
-                            onChange={handleCheckboxChange}
+                            checked={filters.kcal.includes(kcal.cocktail_kcal)}
+                            onChange={(event) => {
+                              handleCheckboxChange('kcal', event);
+                            }}
                             id={kcal.cocktail_kcal}
                           />
                           <label
@@ -365,8 +369,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         className='ms-2 h-7 w-7 stroke-[3px]'
                       />
                     )}
-                  </label> */}
-                  {/* {isMenuOpen('complexity') && (
+                  </label>
+                  {isMenuOpen('complexity') && (
                     <div className='mt-2'>
                       {complexities?.map((complexity, index) => (
                         <motion.div
@@ -380,10 +384,12 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={complexity.cocktail_complexity}
-                            checked={checkedValues.includes(
+                            checked={filters.complexity.includes(
                               complexity.cocktail_complexity,
                             )}
-                            onChange={handleCheckboxChange}
+                            onChange={(event) => {
+                              handleCheckboxChange('complexity', event);
+                            }}
                             id={complexity.cocktail_complexity}
                           />
                           <label
@@ -396,8 +402,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                       ))}
                     </div>
                   )}
-                </div> */}
-                  {/* <div className='text-[1rem]'>
+                </div>
+                <div className='text-[1rem]'>
                   <label
                     onClick={() => {
                       handleToggleMenu('strength');
@@ -416,8 +422,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         className='ms-2 h-7 w-7 stroke-[3px]'
                       />
                     )}
-                  </label> */}
-                  {/* {isMenuOpen('strength') && (
+                  </label>
+                  {isMenuOpen('strength') && (
                     <div className='mt-2'>
                       {degrees?.map((degree, index) => (
                         <motion.div
@@ -431,10 +437,12 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                             className='accent-dark me-3'
                             type='checkbox'
                             value={degree.cocktail_degree}
-                            checked={checkedValues.includes(
+                            checked={filters.degree.includes(
                               degree.cocktail_degree,
                             )}
-                            onChange={handleCheckboxChange}
+                            onChange={(event) => {
+                              handleCheckboxChange('degree', event);
+                            }}
                             id={degree.cocktail_degree}
                           />
                           <label
@@ -446,7 +454,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                         </motion.div>
                       ))}
                     </div>
-                  )} */}
+                  )}
                 </div>
               </div>
             </div>

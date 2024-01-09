@@ -14,10 +14,10 @@ type CardCocktailProps = {
 
 export default function CardCocktail({ cocktails }: CardCocktailProps) {
   return (
-    <div className='mb-10 mt-[0.5rem] flex flex-wrap justify-center sm:justify-end'>
+    <div className='mb-2 mt-[0.5rem] flex flex-wrap content-start justify-center'>
       {cocktails?.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-6'>
-          <Link to={`/cocktail-details/${cocktail.cocktail_id}`}>
+          <Link to={`/details/${cocktail.cocktail_id}`}>
             <div
               className={`border-dark ${'bg-card-blue'} mb-6 me-[28px] h-[336px] w-[288px] rounded-sm border-[3px]`}
             >

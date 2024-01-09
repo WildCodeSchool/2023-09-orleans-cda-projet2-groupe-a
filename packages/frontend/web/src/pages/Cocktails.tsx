@@ -13,21 +13,21 @@ interface CocktailsProps {
   readonly cardCocktails: CocktailsProps[] | undefined;
 }
 interface Filters {
-  ingredient: string[];
-  // alcohol: string[];
-  // flavour: string[];
-  // kcal: string[];
-  // complexity: string[];
-  // strength: string[];
+  alcohol: string[];
+  ingredients: string[];
+  flavour: string[];
+  kcal: string[];
+  complexity: string[];
+  degree: string[];
 }
 
 const initialFilters: Filters = {
-  // alcohol: [],
-  ingredient: [],
-  // flavour: [],
-  // kcal: [],
-  // complexity: [],
-  // strength: [],
+  alcohol: [],
+  ingredients: [],
+  flavour: [],
+  kcal: [],
+  complexity: [],
+  degree: [],
 };
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<CocktailsProps[] | undefined>();
@@ -35,24 +35,23 @@ export default function Cocktails() {
 
   const fetchCocktails = async (signal: AbortSignal, filters: Filters) => {
     const queryParameters = new URLSearchParams();
-    (Object.keys(filters) as Array<keyof Filters>).map((filterKey) => {
-      filters[filterKey].map((filterValue: string) => {
-        queryParameters.append(filterKey, filterValue);
-      });
-    });
+
+    if (filters.ingredients !== undefined) {
+      for (const ingredients of filters.ingredients) {
+        queryParameters.append('ingredients', ingredients);
+      }
+    }
 
     const response = await fetch(
       `${
         import.meta.env.VITE_API_URL
-      }/cocktail/alcohol/search?${queryParameters.toString()}`,
-      {
-        signal,
-      },
+      }/cocktail/alcohol?${queryParameters.toString()}`,
+      { signal },
     );
+
     if (response.ok) {
       const data = await response.json();
-      setCocktails(data.cocktailsWithAlcohol);
-      console.log(data.cocktailsWithAlcohol);
+      setCocktails(data.cocktails);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -76,30 +75,10 @@ export default function Cocktails() {
     setIsFilterBarVisible((prevVisible) => !prevVisible);
   };
 
+  // Update the filters state with the new filters
   const handleFilterChange = (newFilters: Filters) => {
-    setFilters(newFilters); // Update the filters state with the new filters
+    setFilters(newFilters);
   };
-
-  // const elementReference = useRef(null);
-  // const [isFixed, setIsFixed] = useState(false);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     console.log('Entering useEffect');
-
-  //     const scrollPosition = window.scrollY;
-  //     console.log(scrollPosition);
-
-  //     const threshold = 50;
-  //     setIsFixed(scrollPosition >= threshold);
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
 
   return (
     <div
@@ -116,7 +95,7 @@ export default function Cocktails() {
       </button>
       <div className='sm:grid sm:grid-flow-col'>
         {isFilterBarVisible ? (
-          <div>
+          <div className='justify-self-start'>
             <FilterBar onFilterChange={handleFilterChange} />
           </div>
         ) : null}

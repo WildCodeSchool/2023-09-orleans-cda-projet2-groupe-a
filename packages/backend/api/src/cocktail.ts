@@ -1,4 +1,5 @@
 import express from 'express';
+import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
@@ -16,45 +17,8 @@ cocktailRouter.get('/', async (req, res) => {
   }
 });
 
-// Route get pour récupérer les cocktails avec l'ingrédient qui se trouve dans la famille alcool
-// cocktailRouter.get('/alcohol', async (req, res) => {
-//   try {
-//     const cocktailsWithAlcohol = await db
-//       .selectFrom('cocktail')
-//       .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
-//       .innerJoin('action', 'recipe.action_id', 'action.id')
-//       .innerJoin(
-//         'action_ingredient',
-//         'action.id',
-//         'action_ingredient.action_id',
-//       )
-//       .innerJoin(
-//         'ingredient',
-//         'action_ingredient.ingredient_id',
-//         'ingredient.id',
-//       )
-//       .select([
-//         'cocktail.id as cocktail_id',
-//         'cocktail.name as cocktail_name',
-//         'cocktail.image as cocktail_image',
-//         'cocktail.ratings_average as avg_rating',
-//         'cocktail.created_at as cocktail_created',
-//       ])
-//       .where('ingredient.family', '=', 'alcohol')
-//       .orderBy('cocktail.name', 'asc')
-//       .groupBy('cocktail.id')
-//       .execute();
-
-//     res.json({ cocktailsWithAlcohol });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
-cocktailRouter.get('/alcohol/:search', async (req, res) => {
-  const filteredIngredients = req.query.search;
-
+cocktailRouter.get('/alcohol', async (req, res) => {
+  const ingredients = req.query.ingredients;
   try {
     let query = db
       .selectFrom('cocktail')
@@ -77,22 +41,30 @@ cocktailRouter.get('/alcohol/:search', async (req, res) => {
         'cocktail.ratings_average as avg_rating',
         'cocktail.created_at as cocktail_created',
       ])
+      .groupBy('cocktail.id')
+      .orderBy('cocktail.name');
 
-      .where('ingredient.family', '=', 'alcohol');
+    if (ingredients) {
+      let ingredientList: string[];
 
-    if (Array.isArray(filteredIngredients) && filteredIngredients.length > 0) {
-      query = query.where(
-        'ingredient.name',
-        'in',
-        filteredIngredients as string[],
-      );
+      if (typeof ingredients === 'string') {
+        ingredientList = [ingredients];
+      } else if (Array.isArray(ingredients)) {
+        ingredientList = ingredients.filter(
+          (item): item is string => typeof item === 'string',
+        );
+      } else {
+        return res.status(400).send('Invalid ingredients parameter');
+      }
+
+      const countDistinctIngredients = sql<string>`COUNT(DISTINCT ingredient.name)`;
+
+      query = query
+        .having(countDistinctIngredients, '=', sql`${ingredientList.length}`)
+        .where('ingredient.name', 'in', ingredientList);
     }
-
-    query = query.orderBy('cocktail.name', 'asc').groupBy('cocktail.id');
-
-    const cocktailsWithAlcohol = await query.execute();
-
-    res.json({ cocktailsWithAlcohol });
+    const cocktailsWithAllIngredients = await query.execute();
+    res.json({ cocktails: cocktailsWithAllIngredients });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

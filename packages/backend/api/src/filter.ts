@@ -5,7 +5,7 @@ import { db } from '@app/backend-shared';
 
 const filterRouter = express.Router();
 
-// Route get pour récupérer tous les paramétres de filtre de la barre filtrage
+// Route get pour récupérer tous les paramètres de la barre filtre
 filterRouter.get('/', async (req, res) => {
   try {
     const cocktail = await db

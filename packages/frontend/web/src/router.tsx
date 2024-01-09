@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
@@ -9,28 +10,33 @@ import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: 'profile/:id',
-    element: <ProfilePage />,
-  },
-  {
-    path: '/cocktail-details/:id',
-    element: <CocktailsDetails />,
-  },
-  {
-    path: 'shaker',
-    element: <AddCocktail />,
-  },
-  {
-    path: 'cocktails',
-    element: <Cocktails />,
-  },
-  {
-    path: 'community',
-    element: <Community />,
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+      {
+        path: 'profile/:id',
+        element: <ProfilePage />,
+      },
+      {
+        path: '/details/:id',
+        element: <CocktailsDetails />,
+      },
+      {
+        path: 'shaker',
+        element: <AddCocktail />,
+      },
+      {
+        path: 'community',
+        element: <Community />,
+      },
+      {
+        path: 'cocktails',
+        element: <Cocktails />,
+      },
+    ],
   },
 ]);
 
