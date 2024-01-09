@@ -93,10 +93,17 @@ export default function CocktailsDetails() {
         <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <img
-              src='/cocktail-placeholder.png'
+              src={
+                cocktail.image.length > 0 &&
+                cocktail.image !== 'null' &&
+                cocktail.image !== 'undefined'
+                  ? `http://localhost:3333/${cocktail.image}`
+                  : '/cocktail-placeholder.png'
+              }
               alt='Cocktail picture'
               className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
             />
+
             <div className='flex flex-wrap justify-center px-5 pt-4'>
               {ingredients?.map((ingredient, index) => (
                 <div key={ingredient.ingredient_name}>

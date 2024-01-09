@@ -1,9 +1,45 @@
 import express from 'express';
+import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
 
+import multerConfig from './middlewares/multer-config';
+
 const cocktailRouter = express.Router();
+
+// Route post pour uploader un fichier
+cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
+  const cocktailId = req.params.id;
+  const anecdote = req.body.anecdote;
+  const cocktailPicName = req.file ? req.file.filename : null;
+
+  try {
+    if (cocktailPicName !== null && anecdote !== null && anecdote.length > 0) {
+      const result = await sql`
+        UPDATE cocktail
+        SET anecdote = ${anecdote}, image = ${cocktailPicName}
+        WHERE cocktail.id = ${cocktailId}
+      `.execute(db);
+    } else if (anecdote === null || anecdote.length === 0) {
+      const result = await sql`
+        UPDATE cocktail
+        SET image = ${cocktailPicName}
+        WHERE cocktail.id = ${cocktailId}
+      `.execute(db);
+    } else if (cocktailPicName === null && anecdote.length > 0) {
+      const result = await sql`
+        UPDATE cocktail
+        SET anecdote = ${anecdote}
+        WHERE cocktail.id = ${cocktailId}
+      `.execute(db);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+  res.send('Fichier uploadé avec succès!');
+});
 
 // Route get pour récupérer les cocktails présents en BDD
 cocktailRouter.get('/', async (req, res) => {
