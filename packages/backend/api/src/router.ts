@@ -11,7 +11,7 @@ import { glass } from './glass';
 import { ingredient } from './ingredient';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { user } from './user';
-import { virginRouter } from './virgin1';
+import { virginRouter } from './virgin';
 
 const router = express.Router();
 
