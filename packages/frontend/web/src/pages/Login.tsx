@@ -1,7 +1,6 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { LogOut } from '@/components/LogOut';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBirth } from '@/contexts/BirthContext';
 
@@ -38,13 +37,12 @@ export default function Login() {
       const data = (await res.json()) as {
         isLoggedIn: boolean;
       }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
-      console.log(data);
 
       if (data.isLoggedIn && !isUnderAge) {
-        // setIsLoggedIn(true);
+        setIsLoggedIn(true);
         navigate('/'); // If the user is logged in, he's redirected towards homepage.
       } else if (isLoggedIn && isUnderAge) {
-        // setIsLoggedIn(true);
+        setIsLoggedIn(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
     } catch {
@@ -91,9 +89,6 @@ export default function Login() {
               >
                 {'Login'}
               </button>
-              <LogOut />{' '}
-              {/* Composant utilitaire pour pouvoir se déconnecter durant le dev. 
-              C'est un composant utilisable ensuite partout. Il n'a pas vocation à rester sur le composant Login */}
             </div>
           </form>
         </div>

@@ -5,7 +5,6 @@ import CheckBirthdate from '../CheckBirthdate';
 export default function LayoutLoggedOut() {
   const birthdate = localStorage.getItem('birthdate');
 
-  console.log(birthdate);
   return (
     <>
       {birthdate === null && <CheckBirthdate />}
