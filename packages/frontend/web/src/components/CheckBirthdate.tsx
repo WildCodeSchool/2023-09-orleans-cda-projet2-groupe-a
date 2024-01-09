@@ -1,13 +1,12 @@
 import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 // These two consts below do not need and function.
 // They don't need to be inside function CheckBirthdate.
 const now: Date = new Date();
-const yearInMilliseconds = 365.25 * 24 * 60 * 60 * 1000;
 const minus18: Date = new Date();
 minus18.setFullYear(minus18.getFullYear() - 18);
 
@@ -19,7 +18,7 @@ export default function CheckBirthdate() {
   const [isWow, setIsWow] = useState(false);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { birthdate, setBirthdate } = useAge();
+  const { birthdate, setBirthdate } = useBirth();
 
   // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
   useEffect(() => {
@@ -44,9 +43,6 @@ export default function CheckBirthdate() {
     birthdate && birthdate !== ''
       ? new Date(birthdate).getTime() >= minus18.getTime()
       : true;
-  console.log(isUnderAge, 'isUnderAge');
-  console.log(minus18);
-  console.log({ birthdate });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
@@ -57,29 +53,27 @@ export default function CheckBirthdate() {
     document.body.classList.remove('overflow-hidden');
 
     if (birthdate !== undefined) {
-      const userAgeInMilliseconds =
-        now.getTime() - new Date(birthdate).getTime();
-      if (userAgeInMilliseconds > 18 * yearInMilliseconds) {
+      if (isUnderAge) {
+        window.history.pushState(null, '', '/');
+        document.body.classList.add('overflow-hidden');
+        setIsImageShown(true);
+        setTimeout(() => {
+          setIsModalShown(true);
+        }, 2500);
+        navigate('/');
+      } else {
         setTimeout(() => {
           if (!isWow) {
             setIsWow(true);
           }
           setTimeout(() => {
+            document.body.classList.add('overflow-hidden');
             window.scrollTo({
               top: document.body.scrollHeight,
               behavior: 'smooth',
             });
           }, 700);
         }, 1200);
-      } else {
-        if (isUnderAge) {
-          window.history.pushState(null, '', '/');
-          document.body.classList.add('overflow-hidden');
-          setIsImageShown(true);
-          setTimeout(() => {
-            setIsModalShown(true);
-          }, 2500);
-        }
       }
       if (isLoggedIn) {
         setIsLoggedIn(true);
