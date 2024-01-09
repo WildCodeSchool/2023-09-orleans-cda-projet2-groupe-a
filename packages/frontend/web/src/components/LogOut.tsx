@@ -7,7 +7,7 @@ type LogOutProps = {
   readonly className?: string;
 };
 
-export const LogOut: FC<LogOutProps> = () => {
+export const LogOut: FC<LogOutProps> = ({ className }) => {
   const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
@@ -34,11 +34,7 @@ export const LogOut: FC<LogOutProps> = () => {
   };
 
   return (
-    <button
-      type='button'
-      className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-gray-300 p-1 text-sm font-bold text-blue-500 hover:bg-red-500 hover:text-white md:w-[120px] md:text-xl'
-      onClick={handleLogout}
-    >
+    <button type='button' className={className} onClick={handleLogout}>
       {'Log out'}
     </button>
   );
