@@ -142,7 +142,6 @@ export default function Register() {
             <input
               className='2px border-dark m-1 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
               type='date'
-              // defaultValue={registeredBirthdate === null ? undefined : registeredBirthdate}
               min='1900-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'

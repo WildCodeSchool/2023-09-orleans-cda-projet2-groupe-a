@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
 import { AuthProvider } from './contexts/AuthContext';
-// import Layout from './components/Layout/Layout.tsx';
 import { BirthProvider } from './contexts/BirthContext.tsx';
 import './globals.css';
-// import CheckBirthdate from './pages/CheckBirthdate';
 import router from './router.tsx';
 
 const rootElement = document.querySelector('#root');
