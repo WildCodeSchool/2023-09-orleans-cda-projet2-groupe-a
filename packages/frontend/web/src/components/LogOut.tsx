@@ -7,7 +7,7 @@ type LogOutProps = {
   readonly className?: string;
 };
 
-export const LogOut: FC<LogOutProps> = ({ className }) => {
+export const LogOut: FC<LogOutProps> = () => {
   const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ export const LogOut: FC<LogOutProps> = ({ className }) => {
       );
 
       if (response.ok) {
-        // Si la déconnexion a réussi, mettez à jour l'état
+        // Si la déconnexion a réussi, mettre à jour l'état
         setIsLoggedIn(false);
         navigate('/');
       } else {
