@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'colors';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -51,20 +51,45 @@ const styles = StyleSheet.create({
 
 export default function IngredientsPart({
   register,
-  selectedIngredient,
+  selectedIngredients,
   handleIngredientChange,
   errors,
   watch,
 }: IngredientsPartProps) {
-  const url = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch(
+  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch(
     'alcohol.id',
   )}`;
+  const url2 =
+    selectedIngredients.length > 0
+      ? `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${selectedIngredients[0].id}`
+      : '';
 
-  const { data } = useFetch(url);
+  const url3 =
+    selectedIngredients.length > 1
+      ? `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${selectedIngredients[1].id}`
+      : '';
+
+  const { data: ingredientsList1, isLoading: isLoading1 } = useFetch(url1);
+  const { data: ingredientsList2, isLoading: isLoading2 } = useFetch(url2);
+  const { data: ingredientsList3, isLoading: isLoading3 } = useFetch(url3);
+
+  const [userStep, setUserStep] = useState(1);
+
+  const getIngredientsList = () => {
+    if (userStep === 2) {
+      return ingredientsList2;
+    } else if (userStep === 3) {
+      return ingredientsList3;
+    } else {
+      return ingredientsList1;
+    }
+  };
+
   const renderIngredientItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        handleIngredientChange(item.name);
+        handleIngredientChange(item);
+        setUserStep(userStep + 1);
       }}
     >
       <Text style={styles.li}>{item.name}</Text>
@@ -86,7 +111,7 @@ export default function IngredientsPart({
         ) : undefined}
 
         <FlatList
-          data={data}
+          data={getIngredientsList()}
           keyExtractor={(item: { id: number }) => item.id.toString()}
           renderItem={renderIngredientItem}
           numColumns={2}
@@ -98,7 +123,7 @@ export default function IngredientsPart({
         <Ionicons name='arrow-forward-outline' size={30} color='black' />
         <TouchableOpacity
           onPress={() => {
-            /* waiting for ingredient's PR validation to implement this*/
+            /* waiting for ingredient's PR validation to implement that*/
           }}
         >
           <Ionicons

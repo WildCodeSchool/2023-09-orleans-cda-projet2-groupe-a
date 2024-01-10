@@ -9,6 +9,10 @@ export function useFetch<Ingredient>(url: string): {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (url === '') {
+      setIsLoading(false);
+      return;
+    }
     const fetchData = () => {
       fetch(url)
         .then((response) => response.json())

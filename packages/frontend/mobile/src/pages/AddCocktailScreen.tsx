@@ -67,15 +67,23 @@ export default function AddCocktailScreen() {
     }, 500);
   };
 
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
+  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>(
+    [],
+  );
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  const handleIngredientChange = (value: string) => {
-    setSelectedIngredient(value);
-    scrollToPosition(3);
+  const handleIngredientChange = (ingredient: Ingredient) => {
+    setSelectedIngredients((prevSelectedIngredients) => {
+      const newSelectedIngredients = [...prevSelectedIngredients, ingredient];
+      if (newSelectedIngredients.length > 2) {
+        scrollToPosition(3);
+      }
+      return newSelectedIngredients;
+    });
   };
+
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
     scrollToPosition(5);
@@ -198,7 +206,7 @@ export default function AddCocktailScreen() {
       component: (
         <IngredientsPart
           register={register}
-          selectedIngredient={selectedIngredient}
+          selectedIngredients={selectedIngredients}
           handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
