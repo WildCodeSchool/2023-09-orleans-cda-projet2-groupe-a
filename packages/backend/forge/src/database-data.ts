@@ -146,7 +146,7 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
+    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity, anecdote)
     VALUES
     ('Almond Joy', 'almond.jpg', 145, 0, 1, '1.5', 1, 'sweet', '2024-01-09 15:19:51', 1),
     ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1),
@@ -232,16 +232,16 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO topping (name)
+    INSERT INTO topping (name, flavour)
     VALUES
-    ('Whipped Cream'),
-    ('Cherry'),
-    ('Lime Twist'),
-    ('Orange Zest'),
-    ('Mint Sprig'),
-    ('Cinnamon Stick'),
-    ('Nutmeg Dust'),
-    ('Ginger Slice');
+    ('Whipped Cream', 'sweet'),
+      ('Cherry', 'sweet'),
+      ('Lime Twist', 'sour'),
+      ('Orange Zest', 'fruity'),
+      ('Mint Sprig', 'herbaceous'),
+      ('Cinnamon Stick', 'spicy'),
+      ('Nutmeg Dust', 'spicy'),
+      ('Ginger Slice', 'spicy');
   `.execute(trx);
 
   await sql`

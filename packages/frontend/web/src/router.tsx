@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import LayoutLoggedIn from './components/Layout/LayoutLoggedIn';
-import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
+import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
@@ -13,44 +12,23 @@ import Virgin from './pages/Virgin';
 
 const router = createBrowserRouter([
   {
-    element: <LayoutLoggedOut />,
-    children: [
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-    ],
-  },
-  {
-    element: <LayoutLoggedIn />,
+    element: <Layout />,
     children: [
       {
         path: '/',
         element: <Home />,
       },
       {
-        path: '/nokidsallowed', // TODO : attribuer cette page avec virgins filtrés ou autres.
-        element: <NoKidsAllowed />, // Composant ébauché.
+        path: 'profile/:id',
+        element: <ProfilePage />,
       },
       {
-        path: '/details',
+        path: '/details/:id',
         element: <CocktailsDetails />,
       },
       {
         path: 'shaker',
         element: <AddCocktail />,
-      },
-      {
-        path: 'virgin',
-        element: <Virgin />,
-      },
-      {
-        path: '/cocktail-details/:id',
-        element: <CocktailsDetails />,
       },
       {
         path: 'community',

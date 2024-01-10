@@ -9,6 +9,7 @@ import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
 import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
+import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
@@ -17,18 +18,23 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 };
 
 export default function AddCocktail() {
-  const [level, setLevel] = useState<number>(0);
+  const [isModalShown, setIsModalShown] = useState(false);
+  const [actualIngredient, setActualIngredient] = useState(0);
 
-  const [selectedIngredient, setSelectedIngredient] = useState<string>('');
+  const [level, setLevel] = useState<number>(0);
+  const [show, setShow] = useState<number>(1);
+
+  const [selectedAlcohol, setSelectedAlcohol] = useState<Ingredient | null>(
+    null,
+  );
+
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  const handleIngredientChange = (value: string) => {
-    setSelectedIngredient(value);
-  };
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
+    setShow(6);
   };
 
   const {
@@ -53,6 +59,7 @@ export default function AddCocktail() {
       } else {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
+        setShow(2);
       }
     } catch (error) {
       console.error(
@@ -63,7 +70,8 @@ export default function AddCocktail() {
   };
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
-    setValue('alcohol', alcohol, { shouldValidate: true });
+    setShow(3);
+    setSelectedAlcohol(alcohol);
   };
 
   const handleErrorSubmit = () => {
@@ -97,6 +105,22 @@ export default function AddCocktail() {
       setError('level', {
         type: 'validate',
         message: 'must be a number between 1 and 3',
+      });
+    }
+
+    const ingredientsValue = watch('ingredients');
+
+    if (ingredientsValue === undefined) {
+      setError('ingredients', { type: 'required', message: 'required' });
+    } else if (
+      ingredientsValue.length === 3 &&
+      ingredientsValue.every((ingredient) => typeof ingredient.id === 'number')
+    ) {
+      clearErrors('ingredients');
+    } else {
+      setError('ingredients', {
+        type: 'validate',
+        message: 'please choose 3 ingredients',
       });
     }
 
@@ -185,10 +209,13 @@ export default function AddCocktail() {
       component: (
         <IngredientsPart
           register={register}
-          selectedIngredient={selectedIngredient}
-          handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
+          setValue={setValue}
+          setShow={setShow}
+          setIsModalShown={setIsModalShown}
+          actualIngredient={actualIngredient}
+          setActualIngredient={setActualIngredient}
         />
       ),
     },
@@ -230,8 +257,10 @@ export default function AddCocktail() {
         <ToppingPart
           register={register}
           selectedTopping={selectedTopping}
+          selectedAlcohol={selectedAlcohol}
           handleToppingChange={handleToppingChange}
           errors={errors}
+          watch={watch}
         />
       ),
     },
@@ -264,52 +293,69 @@ export default function AddCocktail() {
   ];
 
   return (
-    <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
-      <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
-        {squares.map((square, index) => (
-          <div
-            key={square.color}
-            className={`bg-dark relative lg:clip-path-polygon-${
-              square.color
-            }-lg md:clip-path-polygon-${square.color}-md lg:order-${
-              square.order.lg
-            } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
-              square.width.lg
-            }%] md:w-[${square.width.md}%] ${
-              square.right === undefined
-                ? ''
-                : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
-            }`}
-          >
+    <>
+      <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
+        <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
+          {squares.map((square, index) => (
             <div
-              className={`lg:clip-path-polygon-${
+              key={square.color}
+              className={`bg-dark relative lg:clip-path-polygon-${
                 square.color
-              }-lg md:clip-path-polygon-${
-                square.color
-              }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
-                square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
-              } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
-                square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
-              } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
+              }-lg md:clip-path-polygon-${square.color}-md lg:order-${
+                square.order.lg
+              } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
+                square.width.lg
+              }%] md:w-[${square.width.md}%] ${
+                square.right === undefined
+                  ? ''
+                  : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
+              }`}
             >
               <div
-                className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
+                className={`lg:clip-path-polygon-${
+                  square.color
+                }-lg md:clip-path-polygon-${
+                  square.color
+                }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
+                  square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
+                } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
+                  square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
+                } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
               >
                 <div
-                  className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
-                />
-                <div
-                  className={`absolute left-[3%] top-0 flex h-screen w-[95%] flex-col items-center justify-center sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
-                    index + 1
-                  }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
+                  className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
                 >
-                  {square.component}
+                  <div
+                    className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
+                  />
+                  <div
+                    className={`
+    ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
+    absolute left-[3%] 
+    top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
+      index + 1
+    }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
+                  >
+                    {square.component}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </form>
+          ))}
+        </div>
+      </form>
+      {isModalShown ? (
+        <div className='relative'>
+          <ModalSearch
+            setIsModalShown={setIsModalShown}
+            setValue={setValue}
+            watchIngredient={watch}
+            setShow={setShow}
+            actualIngredient={actualIngredient}
+            setActualIngredient={setActualIngredient}
+          />
+        </div>
+      ) : null}
+    </>
   );
 }
