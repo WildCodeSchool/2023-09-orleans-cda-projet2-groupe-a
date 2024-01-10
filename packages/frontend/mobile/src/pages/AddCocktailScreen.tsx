@@ -223,6 +223,8 @@ export default function AddCocktailScreen() {
           selectedTopping={selectedTopping}
           handleToppingChange={handleToppingChange}
           errors={errors}
+          selectedAlcohol={watch('alcohol') ?? null}
+          watch={watch}
         />
       ),
     },

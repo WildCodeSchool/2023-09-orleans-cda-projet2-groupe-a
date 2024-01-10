@@ -75,14 +75,14 @@ export default function IngredientsPart({
       <View>
         <Text style={styles.title}>{'CHOOSE YOUR FUSE'}</Text>
 
-        {errors.ingredient?.type === 'required' ? (
+        {errors.ingredients?.type === 'required' ? (
           <Text>{'This field is required'}</Text>
         ) : undefined}
-        {errors.ingredient?.type === 'maxLength' ? (
-          <Text>{errors.ingredient.message}</Text>
+        {errors.ingredients?.type === 'maxLength' ? (
+          <Text>{errors.ingredients.message}</Text>
         ) : undefined}
-        {errors.ingredient?.type === 'isString' ? (
-          <Text>{errors.ingredient.message}</Text>
+        {errors.ingredients?.type === 'isString' ? (
+          <Text>{errors.ingredients.message}</Text>
         ) : undefined}
 
         <FlatList

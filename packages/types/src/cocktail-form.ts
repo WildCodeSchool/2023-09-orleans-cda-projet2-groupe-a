@@ -56,14 +56,16 @@ export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
-  setValue: (
+  setValue?: (
     name: keyof CocktailForm,
     value: string | { id: number; name: string },
   ) => void;
-  setShow: (show: number) => void;
-  setIsModalShown: (isModalShown: boolean) => void;
-  actualIngredient: number;
-  setActualIngredient: (actualIngredient: number) => void;
+  setShow?: (show: number) => void;
+  setIsModalShown?: (isModalShown: boolean) => void;
+  actualIngredient?: number;
+  setActualIngredient?: (actualIngredient: number) => void;
+  selectedIngredient: string;
+  handleIngredientChange: (ingredient: string) => void;
 }
 
 export interface GlassPartProps {
