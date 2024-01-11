@@ -93,6 +93,6 @@ export interface IngredientProps {
   ) => void;
   setShow: (show: number) => void;
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  actualIngredient: number;
+  actualIngredient: number | undefined;
   setActualIngredient?: ((actualIngredient: number) => void) | undefined;
 }
