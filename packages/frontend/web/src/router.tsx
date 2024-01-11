@@ -18,10 +18,10 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
       },
-      // {
-      //   path: 'profile/:id',
-      //   element: <ProfilePage />,
-      // },
+      {
+        path: 'profile/:id',
+        element: <ProfilePage />,
+      },
       {
         path: '/details/:id',
         element: <CocktailsDetails />,
