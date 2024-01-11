@@ -65,6 +65,7 @@ export interface IngredientsPartProps {
   actualIngredient?: number;
   setActualIngredient?: (actualIngredient: number) => void;
   selectedIngredients: Ingredient[];
+  setSelectedIngredients: (selectedIngredients: Ingredient[]) => void;
   handleIngredientChange: (ingredient: Ingredient) => void;
 }
 
@@ -81,6 +82,7 @@ export interface ToppingPartProps {
   handleToppingChange: (topping: string) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
+  selectedIngredients: Ingredient[];
 }
 
 export interface IngredientProps {

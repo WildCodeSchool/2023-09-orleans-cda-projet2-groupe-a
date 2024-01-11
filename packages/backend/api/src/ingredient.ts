@@ -8,7 +8,7 @@ const ingredient = express.Router();
 ingredient.get('/random', async (req, res) => {
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
+    .selectAll()
     .orderBy(sql`RAND()`)
     .limit(1)
     .executeTakeFirst();

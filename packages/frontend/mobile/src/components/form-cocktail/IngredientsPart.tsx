@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginTop: 70,
   },
+  randomIngredientLi: {
+    color: colors.dark,
+    fontWeight: 'bold',
+    fontSize: 18,
+    padding: 10,
+    textAlign: 'center',
+  },
   li: {
     color: colors.dark,
     fontWeight: 'bold',
@@ -50,8 +57,8 @@ const styles = StyleSheet.create({
 });
 
 export default function IngredientsPart({
-  register,
   selectedIngredients,
+  setSelectedIngredients,
   handleIngredientChange,
   errors,
   watch,
@@ -69,9 +76,9 @@ export default function IngredientsPart({
       ? `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${selectedIngredients[1].id}`
       : '';
 
-  const { data: ingredientsList1, isLoading: isLoading1 } = useFetch(url1);
-  const { data: ingredientsList2, isLoading: isLoading2 } = useFetch(url2);
-  const { data: ingredientsList3, isLoading: isLoading3 } = useFetch(url3);
+  const { data: ingredientsList1 } = useFetch(url1);
+  const { data: ingredientsList2 } = useFetch(url2);
+  const { data: ingredientsList3 } = useFetch(url3);
 
   const [userStep, setUserStep] = useState(1);
 
@@ -82,6 +89,18 @@ export default function IngredientsPart({
       return ingredientsList3;
     } else {
       return ingredientsList1;
+    }
+  };
+
+  const handleRandomIngredientChoice = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/ingredient/random`,
+      );
+      const result = await response.json();
+      handleIngredientChange(result);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -98,7 +117,14 @@ export default function IngredientsPart({
   return (
     <View>
       <View>
-        <Text style={styles.title}>{'CHOOSE YOUR FUSE'}</Text>
+        <Text style={styles.title}>
+          {userStep === 1
+            ? 'CHOOSE YOUR 1st FUSE'
+            : // eslint-disable-next-line unicorn/no-nested-ternary
+              userStep === 2
+              ? 'CHOOSE YOUR 2nd FUSE'
+              : 'CHOOSE YOUR 3rd FUSE'}
+        </Text>
 
         {errors.ingredients?.type === 'required' ? (
           <Text>{'This field is required'}</Text>
@@ -109,7 +135,6 @@ export default function IngredientsPart({
         {errors.ingredients?.type === 'isString' ? (
           <Text>{errors.ingredients.message}</Text>
         ) : undefined}
-
         <FlatList
           data={getIngredientsList()}
           keyExtractor={(item: { id: number }) => item.id.toString()}
@@ -122,8 +147,9 @@ export default function IngredientsPart({
         <Text style={styles.subTitle}>{'Choose your blend or amend'}</Text>
         <Ionicons name='arrow-forward-outline' size={30} color='black' />
         <TouchableOpacity
-          onPress={() => {
-            /* waiting for ingredient's PR validation to implement that*/
+          onPress={async () => {
+            await handleRandomIngredientChoice();
+            setUserStep(userStep + 1);
           }}
         >
           <Ionicons

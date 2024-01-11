@@ -11,7 +11,7 @@ const topping = express.Router();
 
 topping.get('/random', async (req, res) => {
   try {
-    const result = await getRandomTopping();
+    const result = await getRandomTopping(1);
     res.json(result);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });

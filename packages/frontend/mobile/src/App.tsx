@@ -4,20 +4,20 @@ import * as React from 'react';
 
 import AddCocktailScreen from './pages/AddCocktailScreen';
 
-const Stack = createNativeStackNavigator();
+const stack = createNativeStackNavigator();
 
-const App = () => {
+const app = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
+      <stack.Navigator>
+        <stack.Screen
           name='Add a cocktail'
           component={AddCocktailScreen}
           options={{ headerShown: false }}
         />
-      </Stack.Navigator>
+      </stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default App;
+export default app;

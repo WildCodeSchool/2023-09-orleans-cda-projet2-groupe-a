@@ -80,6 +80,7 @@ export default function AddCocktailScreen() {
       if (newSelectedIngredients.length > 2) {
         scrollToPosition(3);
       }
+
       return newSelectedIngredients;
     });
   };
@@ -207,6 +208,7 @@ export default function AddCocktailScreen() {
         <IngredientsPart
           register={register}
           selectedIngredients={selectedIngredients}
+          setSelectedIngredients={setSelectedIngredients}
           handleIngredientChange={handleIngredientChange}
           errors={errors}
           watch={watch}
@@ -232,6 +234,7 @@ export default function AddCocktailScreen() {
           handleToppingChange={handleToppingChange}
           errors={errors}
           selectedAlcohol={watch('alcohol') ?? null}
+          selectedIngredients={selectedIngredients}
           watch={watch}
         />
       ),

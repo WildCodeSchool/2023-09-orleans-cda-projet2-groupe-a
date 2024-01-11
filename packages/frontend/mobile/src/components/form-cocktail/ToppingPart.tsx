@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useEffect, useMemo, useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -7,34 +8,44 @@ import {
   View,
 } from 'react-native';
 
-import type { ToppingPartProps } from '@app/types';
+import type { Topping, ToppingPartProps } from '@app/types';
 
 import colors from '../../../colors';
 
-/* i'm waiting for "topping-suggestion" PR validation to change this : */
-const toppings = ['shrimps', 'lemon', 'mint'];
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginBottom: -150,
+  },
+  toppingsListContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
   title: {
     color: colors.dark,
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
-    marginStart: 60,
     marginTop: 100,
   },
   li: {
     color: colors.dark,
     fontWeight: 'bold',
     fontSize: 18,
-    marginHorizontal: 30,
     padding: 10,
+  },
+  randomToppingLi: {
+    color: colors.dark,
+    fontWeight: 'bold',
+    fontSize: 18,
+    padding: 10,
+    textAlign: 'center',
   },
   errorText: {
     color: 'red',
   },
   skullArrowAndSubTitle: {
     flexDirection: 'row',
-    marginTop: 60,
-    marginStart: -20,
   },
   subTitle: {
     fontSize: 20,
@@ -42,33 +53,112 @@ const styles = StyleSheet.create({
     marginEnd: 5,
   },
   arrow: {
-    marginEnd: 5,
+    marginRight: 25,
   },
   skull: {
     position: 'absolute',
-    right: -40,
+    right: -25,
     top: -10,
+    marginEnd: 5,
   },
 });
 export default function ToppingPart({
-  register,
-  selectedTopping,
   handleToppingChange,
   errors,
+  selectedAlcohol,
+  selectedIngredients,
 }: ToppingPartProps) {
+  const [toppings, setToppings] = useState<Topping[]>([]);
+  const [mainFlavour, setMainFlavour] = useState<string>('');
+  const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
+  const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
+    useState<boolean>(false);
+
+  const allFlavours = useMemo(
+    () => [
+      selectedAlcohol?.flavour,
+      ...selectedIngredients.map((ingredient) => ingredient.flavour),
+    ],
+    [selectedAlcohol, selectedIngredients],
+  );
+
+  const flavoursCount = useMemo(() => {
+    const initialFlavoursCount = {
+      fruity: 0,
+      spicy: 0,
+      herbaceous: 0,
+      floral: 0,
+      woody: 0,
+      bitter: 0,
+      sweet: 0,
+      salty: 0,
+      sour: 0,
+      neutral: 0,
+    };
+
+    for (const flavour of allFlavours) {
+      if (flavour) {
+        initialFlavoursCount[flavour]++;
+      }
+    }
+
+    return initialFlavoursCount;
+  }, [allFlavours]);
+
+  useEffect(() => {
+    if (selectedAlcohol && selectedIngredients.length === 3) {
+      let maxFlavour = '';
+      let maxCount = 0;
+      for (const [flavour, count] of Object.entries(flavoursCount)) {
+        if (count > maxCount) {
+          maxFlavour = flavour;
+          maxCount = count;
+        }
+      }
+
+      setMainFlavour(maxFlavour);
+
+      if (maxFlavour) {
+        fetch(`${process.env.EXPO_PUBLIC_API_URL}/topping/${maxFlavour}`)
+          .then((response) => response.json())
+          .then((toppings) => {
+            setToppings(toppings);
+          })
+          .catch((error) => {
+            console.error('Error fetching toppings from the backend:', error);
+          });
+      }
+    }
+  }, [selectedAlcohol, selectedIngredients, flavoursCount]);
+
+  const handleRandomToppingChoice = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/topping/random`,
+      );
+      const result = await response.json();
+      setRandomTopping(result[0]);
+      setIsRandomToppingChoosen((prev) => !prev);
+      handleToppingChange(result.name);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const shouldShowRandomTopping = isRandomToppingChoosen && randomTopping;
+
   const renderToppingItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
         handleToppingChange(item);
       }}
     >
-      <Text style={styles.li}>{item}</Text>
+      <Text style={styles.li}>{item.name}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.toppingsListContainer}>
         <Text style={styles.title}>{'PICK A TOPPING'}</Text>
 
         {errors.topping?.type === 'required' ? (
@@ -80,21 +170,24 @@ export default function ToppingPart({
         {errors.topping?.type === 'isString' ? (
           <Text>{errors.topping.message}</Text>
         ) : undefined}
-
-        <FlatList
-          data={toppings}
-          renderItem={renderToppingItem}
-          numColumns={2}
-          key={'_'}
-        />
+        {shouldShowRandomTopping ? (
+          <Text style={styles.randomToppingLi}>{randomTopping.name}</Text>
+        ) : (
+          <FlatList
+            data={toppings}
+            renderItem={renderToppingItem}
+            numColumns={2}
+            key={'_'}
+          />
+        )}
       </View>
       <View style={styles.skullArrowAndSubTitle}>
         <Text style={styles.subTitle}>{'OR RANDOM, AT YOUR PERIL!'}</Text>
         <Ionicons name='arrow-forward-outline' style={styles.arrow} size={30} />
         <TouchableOpacity
           style={styles.skull}
-          onPress={() => {
-            /* i'm waiting for "topping-suggestion" PR validation to implement this */
+          onPress={async () => {
+            await handleRandomToppingChoice();
           }}
         >
           <Ionicons name='skull-outline' size={48} color={colors.dark} />
