@@ -30,7 +30,7 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
   });
 
   const onSubmit = async (formData: InputCocktailForm) => {
-    const { anecdote, file } = formData;
+    const { anecdote } = formData;
 
     const formDataToSend = new FormData();
     formDataToSend.append('anecdote', anecdote || '');
