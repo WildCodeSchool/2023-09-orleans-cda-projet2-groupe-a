@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
-import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
@@ -16,17 +15,12 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        element: <LayoutLoggedOut />,
-        children: [
-          {
-            path: '/register',
-            element: <Register />,
-          },
-          {
-            path: '/login',
-            element: <Login />,
-          },
-        ],
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
       },
       {
         path: '/',
@@ -48,10 +42,10 @@ const router = createBrowserRouter([
         path: 'shaker',
         element: <AddCocktail />,
       },
-      {
-        // path: 'virgin', à prévoir
-        //element: <Virgin />, à prévoir
-      },
+      // {
+      // path: 'virgin', à prévoir
+      // element: <Virgin />, à prévoir
+      // },
       {
         path: '/cocktail-details/:id',
         element: <CocktailsDetails />,

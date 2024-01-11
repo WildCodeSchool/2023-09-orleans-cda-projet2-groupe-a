@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
+import { AnimationsProvider } from './contexts/AnimationsContext.tsx';
 import { AuthProvider } from './contexts/AuthContext';
 import { BirthProvider } from './contexts/BirthContext.tsx';
 import './globals.css';
@@ -15,11 +16,13 @@ const rootElement = document.querySelector('#root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <BirthProvider>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
-      </BirthProvider>
+      <AnimationsProvider>
+        <BirthProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </BirthProvider>
+      </AnimationsProvider>
     </React.StrictMode>,
   );
 }
