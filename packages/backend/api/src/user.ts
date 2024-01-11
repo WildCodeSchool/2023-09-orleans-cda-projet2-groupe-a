@@ -186,7 +186,6 @@ user.get('/', async (req, res) => {
 interface Updates {
   pseudo?: string;
   image?: string;
-  email?: string;
   password?: string;
   color?: string;
 }
@@ -220,6 +219,11 @@ user.put('/:id', validateUpdateUser, async (req: Request, res: Response) => {
         return;
       }
 
+      if (newPassword !== confirmNewPassword) {
+        res.status(400).json('passwords do not match');
+        return;
+      }
+
       const isCorrectPassword = await Bun.password.verify(
         actualPassword,
         user.password,
@@ -231,10 +235,6 @@ user.put('/:id', validateUpdateUser, async (req: Request, res: Response) => {
         return;
       }
 
-      if (newPassword !== confirmNewPassword) {
-        res.status(400).json('passwords do not match');
-        return;
-      }
       const hashedPassword = await Bun.password.hash(newPassword, {
         algorithm: 'bcrypt',
         cost: 15,
