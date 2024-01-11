@@ -63,7 +63,7 @@ export default function IngredientsPart({
   errors,
   watch,
 }: IngredientsPartProps) {
-  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch(
+  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch?.(
     'alcohol.id',
   )}`;
   const url2 =
@@ -98,7 +98,9 @@ export default function IngredientsPart({
         `${process.env.EXPO_PUBLIC_API_URL}/ingredient/random`,
       );
       const result = await response.json();
-      handleIngredientChange(result);
+      if (handleIngredientChange) {
+        handleIngredientChange(result);
+      }
     } catch (error) {
       console.error(error);
     }
