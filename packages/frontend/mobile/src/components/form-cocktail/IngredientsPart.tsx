@@ -80,15 +80,15 @@ export default function IngredientsPart({
   const { data: ingredientsList2 } = useFetch(url2);
   const { data: ingredientsList3 } = useFetch(url3);
 
-  const [userStep, setUserStep] = useState(1);
+  const [userStep, setUserStep] = useState<number>(1);
 
   const getIngredientsList = () => {
-    if (userStep === 2) {
+    if (userStep === 2 && ingredientsList2) {
       return ingredientsList2;
-    } else if (userStep === 3) {
+    } else if (userStep === 3 && ingredientsList3) {
       return ingredientsList3;
     } else {
-      return ingredientsList1;
+      return ingredientsList1 || [];
     }
   };
 
@@ -107,8 +107,10 @@ export default function IngredientsPart({
   const renderIngredientItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => {
-        handleIngredientChange(item);
-        setUserStep(userStep + 1);
+        if (handleIngredientChange) {
+          handleIngredientChange(item);
+          setUserStep(userStep + 1);
+        }
       }}
     >
       <Text style={styles.li}>{item.name}</Text>
@@ -148,8 +150,10 @@ export default function IngredientsPart({
         <Ionicons name='arrow-forward-outline' size={30} color='black' />
         <TouchableOpacity
           onPress={async () => {
-            await handleRandomIngredientChoice();
-            setUserStep(userStep + 1);
+            if (handleRandomIngredientChoice) {
+              await handleRandomIngredientChoice();
+              setUserStep(userStep + 1);
+            }
           }}
         >
           <Ionicons
