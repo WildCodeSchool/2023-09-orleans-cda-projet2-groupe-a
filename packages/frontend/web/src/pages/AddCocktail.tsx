@@ -19,7 +19,7 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
-  const [actualIngredient, setActualIngredient] = useState(0);
+  const [actualIngredient, setActualIngredient] = useState<number>(0);
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -261,6 +261,7 @@ export default function AddCocktail() {
           handleToppingChange={handleToppingChange}
           errors={errors}
           watch={watch}
+          selectedIngredients={[]}
         />
       ),
     },

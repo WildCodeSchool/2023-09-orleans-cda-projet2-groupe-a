@@ -62,11 +62,11 @@ export interface IngredientsPartProps {
   ) => void;
   setShow?: (show: number) => void;
   setIsModalShown?: (isModalShown: boolean) => void;
-  actualIngredient?: number | undefined;
-  setActualIngredient?: (actualIngredient: number | undefined) => void;
-  selectedIngredients: Ingredient[];
-  setSelectedIngredients: (selectedIngredients: Ingredient[]) => void;
-  handleIngredientChange: (ingredient: Ingredient) => void;
+  actualIngredient: number | undefined;
+  setActualIngredient: (actualIngredient: number) => void;
+  selectedIngredients?: Ingredient[];
+  setSelectedIngredients?: (selectedIngredients: Ingredient[]) => void;
+  handleIngredientChange?: (ingredient: Ingredient) => void;
 }
 
 export interface GlassPartProps {
@@ -94,5 +94,5 @@ export interface IngredientProps {
   setShow: (show: number) => void;
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
   actualIngredient: number | undefined;
-  setActualIngredient?: ((actualIngredient: number) => void) | undefined;
+  setActualIngredient: (actualIngredient: number) => void;
 }

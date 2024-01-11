@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
 });
 
 export default function IngredientsPart({
-  selectedIngredients,
+  selectedIngredients = [],
   setSelectedIngredients,
   handleIngredientChange,
   errors,
   watch,
 }: IngredientsPartProps) {
-  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch?.(
+  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch(
     'alcohol.id',
   )}`;
   const url2 =
@@ -152,10 +152,8 @@ export default function IngredientsPart({
         <Ionicons name='arrow-forward-outline' size={30} color='black' />
         <TouchableOpacity
           onPress={async () => {
-            if (handleRandomIngredientChoice) {
-              await handleRandomIngredientChoice();
-              setUserStep(userStep + 1);
-            }
+            await handleRandomIngredientChoice();
+            setUserStep(userStep + 1);
           }}
         >
           <Ionicons
