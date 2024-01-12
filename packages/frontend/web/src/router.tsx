@@ -19,8 +19,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'profile/:id',
-        element: <ProfilePage />,
+        // path: 'profile/:id',
+        // element: <ProfilePage />,
       },
       {
         path: '/details/:id',
@@ -33,6 +33,18 @@ const router = createBrowserRouter([
       {
         path: 'community',
         element: <Community />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'virgin',
+        element: <Virgin />,
       },
     ],
   },
