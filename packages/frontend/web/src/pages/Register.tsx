@@ -46,15 +46,15 @@ export default function Register() {
         }),
       });
 
-      const data = (await res.json()) as {
-        ok: boolean;
-      }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
-      //Hence, the mention "await" preceed res.json.
-
       const isUnderAge =
         birthdate && birthdate !== ''
           ? new Date(birthdate).getTime() >= minus18.getTime()
           : true;
+
+      const data = (await res.json()) as {
+        ok: boolean;
+      }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
+      //Hence, the mention "await" preceed res.json.
 
       if (data.ok && !isUnderAge) {
         // User registered, loggedIn and redirected to /.
@@ -73,6 +73,7 @@ export default function Register() {
         navigate('/'); // If user is logged in, he's redirected towards homepage.
       } else if (data.ok && isUnderAge) {
         document.body.classList.add('overflow-hidden');
+        setIsWow(false);
         setIsImageShown(true);
         setTimeout(() => {
           setIsModalShown(true);
