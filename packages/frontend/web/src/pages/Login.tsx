@@ -2,15 +2,21 @@ import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { useBirth } from '@/contexts/BirthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { isUnderAge } = useBirth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const birthdate: string = '';
+  const minus18: Date = new Date();
+  minus18.setFullYear(minus18.getFullYear() - 18);
+
+  const isUnderAge =
+    birthdate && birthdate !== ''
+      ? new Date(birthdate).getTime() >= minus18.getTime()
+      : true;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.

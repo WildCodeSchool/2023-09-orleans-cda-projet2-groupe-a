@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 type BirthProviderState = {
   birthdate: string | undefined; // typage du contenu du context.
   setBirthdate: (value: string | undefined) => void;
-  isUnderAge: undefined;
 };
 
 export const BirthProviderContext = createContext<
@@ -22,7 +21,6 @@ export const BirthProvider = ({ children }: BirthProviderProps) => {
     () => ({
       birthdate: birthdate,
       setBirthdate: setBirthdate,
-      isUnderAge: undefined,
     }),
     [birthdate],
   );
