@@ -33,6 +33,7 @@ export default function FormPart({ register, errors }: FormPartPros) {
       errors: [
         errors.actualPassword?.type === 'maxLength',
         errors.actualPassword?.type === 'minLength',
+        errors.actualPassword?.type === 'validate',
       ],
       errorsMessage: errors.actualPassword?.message,
     },
@@ -43,6 +44,7 @@ export default function FormPart({ register, errors }: FormPartPros) {
       errors: [
         errors.newPassword?.type === 'maxLength',
         errors.newPassword?.type === 'minLength',
+        errors.newPassword?.type === 'validate',
       ],
       errorsMessage: errors.newPassword?.message,
     },

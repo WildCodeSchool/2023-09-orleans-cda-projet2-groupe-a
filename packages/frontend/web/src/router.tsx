@@ -4,6 +4,7 @@ import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
+import ConnectProfilePage from './pages/ConnectProfilePage';
 import Home from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: 'profile/:id',
         element: <ProfilePage />,
+      },
+      {
+        path: 'profile',
+        element: <ConnectProfilePage />,
       },
       {
         path: '/details/:id',

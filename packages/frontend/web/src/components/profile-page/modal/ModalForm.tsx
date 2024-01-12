@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import type { UserInfoForm } from '@app/types';
 
@@ -10,7 +11,6 @@ import FormPart from './FormPart';
 
 interface ModalFormProps {
   readonly setIsOpen: (value: boolean) => void;
-  readonly id: string | undefined;
   readonly pseudo: string;
   readonly email: string;
   readonly image: string;
@@ -21,7 +21,6 @@ const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
 
 export default function ModalForm({
   setIsOpen,
-  id,
   pseudo,
   email,
   color,
@@ -29,6 +28,7 @@ export default function ModalForm({
 }: ModalFormProps) {
   const [selectedColor, setSelectedColor] = useState<string>(color);
   const [selectedImage, setSelectedImage] = useState<string>(image);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -47,14 +47,35 @@ export default function ModalForm({
 
   const onSubmit = async (data: UserInfoForm) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/user/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/update`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
-      window.location.reload();
+      );
+      const responseData = await response.json();
+      if (responseData === 'not connected') {
+        navigate('/login');
+      }
+      if (responseData === 'wrong password') {
+        setError('actualPassword', {
+          type: 'validate',
+          message: 'not the right password',
+        });
+      }
+      if (responseData === 'password do not match') {
+        setError('newPassword', {
+          type: 'validate',
+          message: 'new password must match',
+        });
+      }
+      if (responseData === 'true') {
+        window.location.reload();
+      }
     } catch (error) {
       console.error('Error:', error);
     }
