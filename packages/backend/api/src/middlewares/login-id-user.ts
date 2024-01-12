@@ -3,7 +3,7 @@ import * as jose from 'jose';
 
 declare module 'express-serve-static-core' {
   interface Request {
-    userId?: number; // Ajoutez la propriété `userId` comme nombre optionnel
+    userId?: number;
   }
 }
 

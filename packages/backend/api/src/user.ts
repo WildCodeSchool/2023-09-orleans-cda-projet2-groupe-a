@@ -9,7 +9,7 @@ import validateUpdateUser from './middlewares/validate-update-user';
 
 declare module 'express-serve-static-core' {
   interface Request {
-    userId?: number; // Ajoutez la propriété `userId` comme nombre optionnel
+    userId?: number;
   }
 }
 
