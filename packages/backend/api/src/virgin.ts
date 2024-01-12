@@ -21,6 +21,4 @@ virginRouter.get('/virgin', async (req, res) => {
   }
 });
 
-
-
 export { virginRouter };

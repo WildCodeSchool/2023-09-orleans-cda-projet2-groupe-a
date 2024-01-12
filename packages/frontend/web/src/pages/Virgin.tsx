@@ -1,5 +1,6 @@
+import { useState } from 'react';
+
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
-import{ useState } from 'react';
 
 type Cocktail = {
   cocktail: Cocktail;
@@ -11,19 +12,14 @@ type Cocktail = {
 export default function VirginCocktails() {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
 
-
   // fetch ici le virgin.ts
 
-  // const fetchVirgin async function 
-  
+  // const fetchVirgin async function
+
   // (params: type) {
-    
 
   // }
   // const response await fetch Virgin('/virgin');
-
-  
-
 
   return (
     <div
@@ -40,7 +36,7 @@ export default function VirginCocktails() {
             backgroundImage: `url('/feeding-bottle-cocktails-2.svg')`,
           }}
         />
-        <div className="flex-1 items-start">
+        <div className='flex-1 items-start'>
           <CocktailCard />
         </div>
         {/* <div className="justify-items">
