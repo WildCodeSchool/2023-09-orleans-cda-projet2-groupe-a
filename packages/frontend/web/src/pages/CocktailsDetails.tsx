@@ -94,9 +94,7 @@ export default function CocktailsDetails() {
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <img
               src={
-                cocktail.image.length > 0 &&
-                cocktail.image !== 'null' &&
-                cocktail.image !== 'undefined'
+                cocktail.image
                   ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
                   : '/cocktail-placeholder.png'
               }

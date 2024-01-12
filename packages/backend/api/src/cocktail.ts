@@ -11,29 +11,26 @@ const cocktailRouter = express.Router();
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
   const cocktailId = req.params.id;
-  const anecdote = req.body.anecdote;
+  const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
   const cocktailPicName = req.file ? req.file.filename : null;
-
+  const fieldsToUpdate = [];
+  if (anecdote !== null) {
+    fieldsToUpdate.push({ name: 'anecdote', value: anecdote });
+  }
+  if (cocktailPicName !== null) {
+    fieldsToUpdate.push({ name: 'image', value: cocktailPicName });
+  }
+  const fieldsToUpdateString = fieldsToUpdate
+    .map((field) => {
+      return `${field.name} = ${field.value}`;
+    })
+    .join(', ');
   try {
-    if (cocktailPicName !== null && anecdote !== null && anecdote.length > 0) {
-      const result = await sql`
-        UPDATE cocktail
-        SET anecdote = ${anecdote}, image = ${cocktailPicName}
-        WHERE cocktail.id = ${cocktailId}
-      `.execute(db);
-    } else if (anecdote === null || anecdote.length === 0) {
-      const result = await sql`
-        UPDATE cocktail
-        SET image = ${cocktailPicName}
-        WHERE cocktail.id = ${cocktailId}
-      `.execute(db);
-    } else if (cocktailPicName === null && anecdote.length > 0) {
-      const result = await sql`
-        UPDATE cocktail
-        SET anecdote = ${anecdote}
-        WHERE cocktail.id = ${cocktailId}
-      `.execute(db);
-    }
+    const result = await sql`
+      UPDATE cocktail
+      SET anecdote = ${anecdote}, image = ${cocktailPicName}
+      WHERE cocktail.id = ${cocktailId}
+    `.execute(db);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
