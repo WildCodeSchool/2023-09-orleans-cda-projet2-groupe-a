@@ -9,14 +9,6 @@ export default function Login() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const birthdate: string = '';
-  const minus18: Date = new Date();
-  minus18.setFullYear(minus18.getFullYear() - 18);
-
-  const isUnderAge =
-    birthdate && birthdate !== ''
-      ? new Date(birthdate).getTime() >= minus18.getTime()
-      : true;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
@@ -42,12 +34,13 @@ export default function Login() {
 
       const data = (await res.json()) as {
         isLoggedIn: boolean;
+        isUnderAge: boolean;
       }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
 
-      if (data.isLoggedIn && !isUnderAge) {
+      if (data.isLoggedIn && !data.isUnderAge) {
         setIsLoggedIn(true);
         navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (isLoggedIn && isUnderAge) {
+      } else if (isLoggedIn && data.isUnderAge) {
         setIsLoggedIn(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
