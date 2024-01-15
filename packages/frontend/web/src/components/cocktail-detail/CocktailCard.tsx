@@ -1,6 +1,14 @@
 // import StarRating from './StarRating';
+import type { VirginCocktail } from '@/pages/Virgin';
+
+type CocktailCardProps = {
+  readonly virginCocktail: VirginCocktail;
+  readonly name: string;
+};
 
 export default function CocktailCard() {
+  // Suite git checkout sur la putain de branche auth-frontend, bien penser à remettre les props là : CocktailCard({virginCocktail, name }: CocktailCardProps)
+  // et reprendre le travail sur ces props (import/export, relation Virgin.ts/virgin.tsx)
   return (
     <div className='relative -top-8'>
       <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />

@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 
-type Cocktail = {
-  cocktail: Cocktail;
+export type VirginCocktail = {
+  virginCocktail: VirginCocktail;
   name: string;
   description: string;
   // Ajoutez ici d'autres propriétés si nécessaire
 };
 
 export default function VirginCocktails() {
-  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
+  const [virginCocktails, setVirginCocktails] = useState<VirginCocktail[]>([]);
 
   useEffect(() => {
     const fetchCocktails = async (): Promise<void> => {
@@ -22,7 +22,7 @@ export default function VirginCocktails() {
           );
         }
         const data = await response.json();
-        setCocktails(data);
+        setVirginCocktails(data);
         console.log(data.virginCocktails);
       } catch (error) {
         console.error('Failed to retrieve any coktail:', error);
@@ -53,11 +53,12 @@ export default function VirginCocktails() {
           <CocktailCard />
         </div> */}
         <div className='justify-items'>
-          {Array.isArray(cocktails) &&
-            cocktails.map((cocktail) => (
+          {Array.isArray(virginCocktails) &&
+            virginCocktails.map((virginCocktail) => (
               <CocktailCard
-                key={cocktail.name}
-                // cocktail={cocktail}
+                key={virginCocktail.name}
+                // virginCocktail={virginCocktail}
+                // name={virginCocktail.name}
               />
             ))}
         </div>
