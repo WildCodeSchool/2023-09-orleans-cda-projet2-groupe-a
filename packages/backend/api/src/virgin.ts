@@ -5,7 +5,7 @@ import { db } from '@app/backend-shared';
 const virginRouter = express.Router();
 
 // Route get to retrieve virgin cocktails where total_degree equals 0
-virginRouter.get('/virgin', async (req, res) => {
+virginRouter.get('/', async (req, res) => {
   try {
     const virginCocktails = await db
       .selectFrom('cocktail')
@@ -15,6 +15,7 @@ virginRouter.get('/virgin', async (req, res) => {
       .execute();
 
     res.json({ virginCocktails });
+    console.log({ virginCocktails });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
