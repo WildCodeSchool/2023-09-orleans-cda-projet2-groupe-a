@@ -9,9 +9,10 @@ import { ConnectHeader } from '@/components/profile-page/ConnectHeader';
 
 import ModalForm from '../components/profile-page/modal/ModalForm';
 
+const urlUser = `${import.meta.env.VITE_API_URL}/user/connected`;
+
 export default function ConnectProfilePage() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const urlUser = `${import.meta.env.VITE_API_URL}/user/connect`;
   const [user, setUser] = useState<UserProfile>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -20,11 +21,13 @@ export default function ConnectProfilePage() {
     const response = await fetch(urlUser, {
       signal,
     });
+    console.log(response);
+
     if (response.ok) {
       const data = await response.json();
-      if (data === 'not connected') {
+      /*  if (data.result === 'not connected') {
         navigate('/register');
-      }
+      } */
       setUser(data);
       setIsLoading(false);
     } else {
