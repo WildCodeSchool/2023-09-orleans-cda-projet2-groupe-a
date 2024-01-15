@@ -1,6 +1,7 @@
 import express from 'express';
 import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
+import { log } from 'node:console';
 
 import { db } from '@app/backend-shared';
 
@@ -10,7 +11,7 @@ const cocktailRouter = express.Router();
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
-  const cocktailId = req.params.id;
+  const cocktailId = Number.parseInt(req.params.id);
   const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
   const cocktailPicName = req.file ? req.file.filename : null;
   const fieldsToUpdate = [];
@@ -22,14 +23,19 @@ cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
   }
   const fieldsToUpdateString = fieldsToUpdate
     .map((field) => {
-      return `${field.name} = ${field.value}`;
+      return `${field.name} = '${field.value}'`;
     })
     .join(', ');
+  const query =
+    'UPDATE cocktail SET ' +
+    fieldsToUpdateString +
+    ' WHERE cocktail.id = ' +
+    cocktailId +
+    ';';
+  log(query);
   try {
     const result = await sql`
-      UPDATE cocktail
-      SET anecdote = ${anecdote}, image = ${cocktailPicName}
-      WHERE cocktail.id = ${cocktailId}
+      ${query}
     `.execute(db);
   } catch (error) {
     console.error(error);
