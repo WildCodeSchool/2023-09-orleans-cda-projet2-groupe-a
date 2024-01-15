@@ -29,7 +29,7 @@ authRouter.get('/check', async (req, res) => {
     return res.json({
       ok: true,
       isLoggedIn: false,
-      isUnderAge: false,
+      isUnderAge: undefined,
     });
   }
 
@@ -44,7 +44,7 @@ authRouter.get('/check', async (req, res) => {
     return res.json({
       ok: true,
       isLoggedIn: true,
-      isUnderAge: false,
+      isUnderAge: undefined,
     });
   } catch (error) {
     //si l'erreur est le jwt expiré, on renvoie une erreur dédiée.
@@ -52,7 +52,7 @@ authRouter.get('/check', async (req, res) => {
       return res.json({
         ok: true,
         isLoggedIn: false,
-        isUnderAge: false,
+        isUnderAge: undefined,
       });
     }
     //si l'erreur n'est pas le jwt expiré, on renvoie une erreur par défaut.
@@ -95,7 +95,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('5m')
+        .setExpirationTime('10m')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
@@ -137,7 +137,7 @@ authRouter.post(
         return res.json({
           ok: true,
           isLoggedIn: false,
-          isUnderAge: false,
+          isUnderAge: undefined,
         });
       }
 
@@ -151,7 +151,7 @@ authRouter.post(
         return res.json({
           ok: true,
           isLoggedIn: false,
-          isUnderAge: false,
+          isUnderAge: undefined,
         });
       }
 
@@ -169,7 +169,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('2h')
+        .setExpirationTime('10m')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
@@ -186,7 +186,7 @@ authRouter.post(
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
-        isUnderAge: false,
+        isUnderAge: undefined,
       });
     } catch (error) {
       return res.json({
