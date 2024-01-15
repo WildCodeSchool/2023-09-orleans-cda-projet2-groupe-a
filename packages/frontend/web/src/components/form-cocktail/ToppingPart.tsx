@@ -19,9 +19,14 @@ export default function ToppingPart({
 
   const ingredients = watch('ingredients');
   const selectedIngredient = ingredients ? ingredients[2] : undefined;
+  const allFlavours = [
+    ingredients?.[0]?.flavour,
+    ingredients?.[1]?.flavour,
+    ingredients?.[2]?.flavour,
+    selectedAlcohol?.flavour,
+  ];
 
   const memoizedFlavoursCount = useMemo(() => {
-    const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];
     // eslint-disable-next-line unicorn/no-array-reduce
     return allFlavours.reduce<Record<Flavour, number>>(
       (count, flavour) => {
@@ -75,7 +80,7 @@ export default function ToppingPart({
   const handleRandomToppingChoice = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/topping/random`,
+        `${import.meta.env.VITE_API_URL}/topping/random/1`,
       );
       const result = await response.json();
       setRandomTopping(result[0]);
