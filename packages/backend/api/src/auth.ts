@@ -29,6 +29,7 @@ authRouter.get('/check', async (req, res) => {
     return res.json({
       ok: true,
       isLoggedIn: false,
+      isUnderAge: false,
     });
   }
 
@@ -43,6 +44,7 @@ authRouter.get('/check', async (req, res) => {
     return res.json({
       ok: true,
       isLoggedIn: true,
+      isUnderAge: false,
     });
   } catch (error) {
     //si l'erreur est le jwt expiré, on renvoie une erreur dédiée.
@@ -50,6 +52,7 @@ authRouter.get('/check', async (req, res) => {
       return res.json({
         ok: true,
         isLoggedIn: false,
+        isUnderAge: false,
       });
     }
     //si l'erreur n'est pas le jwt expiré, on renvoie une erreur par défaut.
@@ -134,6 +137,7 @@ authRouter.post(
         return res.json({
           ok: true,
           isLoggedIn: false,
+          isUnderAge: false,
         });
       }
 
@@ -147,6 +151,7 @@ authRouter.post(
         return res.json({
           ok: true,
           isLoggedIn: false,
+          isUnderAge: false,
         });
       }
 
@@ -181,6 +186,7 @@ authRouter.post(
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
+        isUnderAge: false,
       });
     } catch (error) {
       return res.json({
