@@ -3,10 +3,10 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { Flavour, Topping } from '@app/types';
 
-async function getRandomTopping(count: number): Promise<Topping[]> {
+async function getRandomTopping(limit: number): Promise<Topping[]> {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
-      SELECT * FROM topping ORDER BY RAND() LIMIT ${count};
+      SELECT * FROM topping ORDER BY RAND() LIMIT ${limit};
     `.execute(trx);
     return result.rows as Topping[];
   });
