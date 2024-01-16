@@ -18,12 +18,7 @@ type InputSearchBar = {
   searchTerm?: string;
 };
 export default function SearchBar({ onsubmit }: SearchProps) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<InputSearchBar>({
+  const { register, handleSubmit, watch } = useForm<InputSearchBar>({
     defaultValues: {
       searchTerm: '',
     },
