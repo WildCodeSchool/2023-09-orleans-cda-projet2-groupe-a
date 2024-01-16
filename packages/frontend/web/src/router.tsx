@@ -4,9 +4,9 @@ import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
-import ConnectProfilePage from './pages/ConnectProfilePage';
 import Home from './pages/Home';
-import ProfilePage from './pages/ProfilePage';
+import ConnectProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/PublicProfilePage';
 
 const router = createBrowserRouter([
   {

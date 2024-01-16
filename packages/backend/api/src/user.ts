@@ -170,7 +170,7 @@ async function getAllUsers() {
   });
 }
 
-user.get('/connected', loginIdUser, async (req, res) => {
+user.get('/profile', loginIdUser, async (req, res) => {
   const id = req.userId;
   const shouldEmail = true;
   if (id == null) {

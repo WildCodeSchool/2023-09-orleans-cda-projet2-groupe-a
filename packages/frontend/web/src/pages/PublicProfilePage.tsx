@@ -1,33 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import type { UserProfile } from '@app/types';
 
 import Card from '@/components/profile-page/Card';
 import CommentsSection from '@/components/profile-page/CommentsSection';
-import { ConnectHeader } from '@/components/profile-page/ConnectHeader';
+import { PublicHeader } from '@/components/profile-page/PublicHeader';
 
-import ModalForm from '../components/profile-page/modal/ModalForm';
-
-const urlUser = `${import.meta.env.VITE_API_URL}/user/connected`;
-
-export default function ConnectProfilePage() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [user, setUser] = useState<UserProfile>();
+export default function PublicProfilePage() {
+  const { id } = useParams();
+  const urlUser = `${import.meta.env.VITE_API_URL}/user/${id}`;
+  const [user, setUser] = useState<Omit<UserProfile, 'email'>>();
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   const fetchUser = async (urlUser: string, signal: AbortSignal) => {
     const response = await fetch(urlUser, {
       signal,
     });
-    console.log(response);
-
     if (response.ok) {
       const data = await response.json();
-      /*  if (data.result === 'not connected') {
-        navigate('/register');
-      } */
       setUser(data);
       setIsLoading(false);
     } else {
@@ -57,14 +48,12 @@ export default function ConnectProfilePage() {
 
   return (
     <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/profile-page/bg-profil-page.webp')] bg-cover ">
-      <ConnectHeader
+      <PublicHeader
         pseudo={user.pseudo}
         image={user.image}
         color={user.color}
-        email={user.email}
-        setIsOpen={setIsOpen}
       />
-      <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
+      <div className='relative top-[-200px] flex w-screen flex-col items-center sm:top-[-400px] md:top-[-200px] lg:top-[-100px]'>
         <h1 className='font-stroke-small-text text-light mb-10 mt-5 text-xl font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:w-[160px] lg:top-[22%] lg:w-[250px] lg:text-2xl '>
           {'your recipes'}
         </h1>
@@ -82,15 +71,6 @@ export default function ConnectProfilePage() {
         </div>
       </div>
       <CommentsSection comments={user.comments} />
-      {isOpen ? (
-        <ModalForm
-          setIsOpen={setIsOpen}
-          pseudo={user.pseudo}
-          image={user.image}
-          color={user.color}
-          email={user.email}
-        />
-      ) : null}
     </div>
   );
 }
