@@ -5,8 +5,8 @@ import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
 import Home from './pages/Home';
-import ConnectProfilePage from './pages/ProfilePage';
-import ProfilePage from './pages/PublicProfilePage';
+import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -18,11 +18,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile/:id',
-        element: <ProfilePage />,
+        element: <PublicProfilePage />,
       },
       {
         path: 'profile',
-        element: <ConnectProfilePage />,
+        element: <ProfilePage />,
       },
       {
         path: '/details/:id',

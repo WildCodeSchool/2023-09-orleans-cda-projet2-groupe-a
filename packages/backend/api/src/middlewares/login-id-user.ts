@@ -15,13 +15,8 @@ const loginIdUser = async function (
   next: NextFunction,
 ) {
   const jwt: string | undefined = req.signedCookies.token;
-  console.log(req.signedCookies);
-  console.log(req);
-
-  console.log('jwt', jwt);
 
   const SECRET = new TextEncoder().encode(JWT_SECRET);
-  console.log(SECRET);
 
   if (jwt === undefined) {
     return res.json({ result: 'not connected' });
