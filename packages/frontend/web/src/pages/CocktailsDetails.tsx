@@ -111,9 +111,9 @@ export default function CocktailsDetails() {
           <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
           <div className='border-dark bg-pastel-brown absolute -top-6 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         </div>
-        <div className='sm:x-[80] pt-16 sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col sm:overflow-y-scroll'>
+        <div className='sm:x-[80] sm:scrollbar-bigger-rounded pt-16 sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col  sm:overflow-y-scroll'>
           <CocktailForm cocktail={cocktail} />
-          <div className='border-dark bg-pastel-green m-auto my-20 h-[16rem] w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
+          <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
             <div className='flex-row px-5 pb-5 leading-10'>
               {tools?.map((tool) => (
@@ -126,7 +126,7 @@ export default function CocktailsDetails() {
               ))}
             </div>
           </div>
-          <div className='border-dark bg-pastel-pink m-auto mt-20 h-[23rem] w-[80%] rounded-sm border-[3px]'>
+          <div className='border-dark bg-pastel-pink m-auto mt-20 w-[80%] rounded-sm border-[3px]'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`ingredients`}</h3>
             <div className='flex-row px-5 pb-5 leading-10'>
               {ingredients?.map((ingredient) => (
@@ -150,7 +150,7 @@ export default function CocktailsDetails() {
               </div>
             </div>
           </div>
-          <div className='border-dark bg-pastel-beige m-auto my-20 h-[21rem] w-[80%] rounded-sm border-[3px]'>
+          <div className='border-dark bg-pastel-beige m-auto my-20 w-[80%] rounded-sm border-[3px]'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`steps`}</h3>
             {ingredients?.map((ingredient, index) => (
               <ul key={ingredient.ingredient_name}>

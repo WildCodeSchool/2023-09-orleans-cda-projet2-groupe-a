@@ -3,42 +3,78 @@ import { useEffect, useState } from 'react';
 import CardCocktail from '@/components/cocktails/CardCocktail';
 import CardTitle from '@/components/cocktails/CardTitle';
 import FilterBar from '@/components/cocktails/FilterBar';
+import SearchBar from '@/components/cocktails/SearchBar';
 
-interface CocktailsProps {
+interface Cocktails {
   cocktail_id: number;
   cocktail_name: string;
   avg_rating: number;
   cocktail_image: string;
   cocktail_created: Date;
-  readonly cardCocktails: CocktailsProps[] | undefined;
+  readonly cardCocktails: Cocktails[] | undefined;
 }
 interface Filters {
-  alcohol: string[];
+  alcohols: string[];
   ingredients: string[];
-  flavour: string[];
-  kcal: string[];
-  complexity: string[];
-  degree: string[];
+  flavours: string[];
+  kcals: string[];
+  complexities: string[];
+  degrees: string[];
 }
 
 const initialFilters: Filters = {
-  alcohol: [],
+  alcohols: [],
   ingredients: [],
-  flavour: [],
-  kcal: [],
-  complexity: [],
-  degree: [],
+  flavours: [],
+  kcals: [],
+  complexities: [],
+  degrees: [],
 };
-export default function Cocktails() {
-  const [cocktails, setCocktails] = useState<CocktailsProps[] | undefined>();
-  const [filters, setFilters] = useState<Filters>(initialFilters);
 
-  const fetchCocktails = async (signal: AbortSignal, filters: Filters) => {
+type InputSearchBar = {
+  searchTerm?: string;
+};
+
+export default function Cocktails() {
+  const [cocktails, setCocktails] = useState<Cocktails[] | undefined>();
+  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);
+  const categories = [
+    'alcohols',
+    'ingredients',
+    'flavours',
+    'kcals',
+    'complexities',
+    'degrees',
+  ];
+
+  const fetchCocktails = async (
+    signal: AbortSignal,
+    filters: Filters,
+    searchTerm?: string,
+  ) => {
     const queryParameters = new URLSearchParams();
 
-    if (filters.ingredients !== undefined) {
-      for (const ingredients of filters.ingredients) {
-        queryParameters.append('ingredients', ingredients);
+    if (searchTerm) {
+      queryParameters.append('searchTerm', searchTerm);
+    }
+
+    const alcoholValues = filters.alcohols;
+    if (alcoholValues.length > 0) {
+      for (const value of alcoholValues) {
+        queryParameters.append('ingredients', value);
+      }
+    }
+
+    for (const category of categories) {
+      if (category === 'alcohols') continue;
+
+      const values = filters[category as keyof Filters];
+
+      if (values.length > 0) {
+        for (const value of values) {
+          queryParameters.append(category, value);
+        }
       }
     }
 
@@ -57,6 +93,25 @@ export default function Cocktails() {
     }
   };
 
+  const toggleFilterBarVisibility = () => {
+    setIsFilterBarVisible((prevVisible) => !prevVisible);
+  };
+
+  const controller = new AbortController();
+  const onsubmit = async (data: InputSearchBar) => {
+    try {
+      await fetchCocktails(
+        controller.signal,
+        filters,
+        data.searchTerm as string,
+      ).catch((error) => {
+        console.error(error);
+      });
+    } catch (error) {
+      console.error(`Request error: ${error as string}`);
+    }
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -64,21 +119,10 @@ export default function Cocktails() {
     fetchCocktails(signal, filters).catch((error) => {
       console.error(error);
     });
-
     return () => {
       controller.abort();
     };
   }, [filters]);
-
-  const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);
-  const toggleFilterBarVisibility = () => {
-    setIsFilterBarVisible((prevVisible) => !prevVisible);
-  };
-
-  // Update the filters state with the new filters
-  const handleFilterChange = (newFilters: Filters) => {
-    setFilters(newFilters);
-  };
 
   return (
     <div
@@ -86,20 +130,27 @@ export default function Cocktails() {
       style={{ backgroundImage: `url('bg-cocktails.png')` }}
     >
       <CardTitle />
-      <button
-        type='button'
-        onClick={toggleFilterBarVisibility}
-        className='font-stroke text-light ms-10 mt-6 cursor-pointer text-[1.2rem] uppercase'
-      >
-        {`filter by`}
-      </button>
-      <div className='sm:grid sm:grid-flow-col'>
-        {isFilterBarVisible ? (
-          <div className='justify-self-start'>
-            <FilterBar onFilterChange={handleFilterChange} />
-          </div>
-        ) : null}
-        <CardCocktail cocktails={cocktails} />
+      <div className='sm:grid sm:grid-cols-4'>
+        <div className='col-span-1'>
+          <button
+            type='button'
+            onClick={toggleFilterBarVisibility}
+            className='font-stroke text-light ms-10 mt-6 cursor-pointer text-[1.2rem] uppercase'
+          >
+            {`filter by`}
+          </button>
+          {isFilterBarVisible ? (
+            <div>
+              <SearchBar setCocktails={setCocktails} onsubmit={onsubmit} />
+              <div className=''>
+                <FilterBar filters={filters} setFilters={setFilters} />
+              </div>
+            </div>
+          ) : null}
+        </div>
+        <div className='col-span-3 mt-24'>
+          <CardCocktail cocktails={cocktails} />
+        </div>
       </div>
     </div>
   );

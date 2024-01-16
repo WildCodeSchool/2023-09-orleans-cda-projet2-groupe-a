@@ -86,10 +86,10 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
         </form>
       </div>
       <div
-        className={`border-dark bg-pastel-beige } m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px]`}
+        className={`border-dark bg-pastel-beige } m-auto mb-20 w-[80%] rounded-sm border-[3px]`}
       >
         <h3 className='m-4 mt-8 text-center uppercase'>{`discover me !!!`}</h3>
-        <p className='ms-5 p-5'>{cocktail.anecdote}</p>
+        <p className='mb-5 ms-5 p-5'>{cocktail.anecdote}</p>
       </div>
     </div>
   );

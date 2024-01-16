@@ -6,16 +6,19 @@ import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 export default function ToppingPart({
   register,
   selectedTopping,
-  selectedIngredient,
   selectedAlcohol,
   handleToppingChange,
   errors,
+  watch,
 }: ToppingPartProps) {
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
   const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
     useState<boolean>(false);
+
+  const ingredients = watch('ingredients');
+  const selectedIngredient = ingredients ? ingredients[2] : undefined;
 
   const memoizedFlavoursCount = useMemo(() => {
     const allFlavours = [selectedAlcohol?.flavour, selectedIngredient?.flavour];

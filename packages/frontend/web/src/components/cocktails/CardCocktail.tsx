@@ -14,20 +14,14 @@ type CardCocktailProps = {
 
 export default function CardCocktail({ cocktails }: CardCocktailProps) {
   return (
-    <div className='mb-2 mt-[0.5rem] flex flex-wrap content-start justify-center'>
+    <div className='mb-2 mt-[0.5rem] flex flex-wrap justify-center sm:justify-normal'>
       {cocktails?.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-6'>
           <Link to={`/details/${cocktail.cocktail_id}`}>
-            <div
-              className={`border-dark ${'bg-card-blue'} mb-6 me-[28px] h-[336px] w-[288px] rounded-sm border-[3px]`}
-            >
+            <div className='border-dark bg-card-blue b-6 me-[28px] h-[336px] w-[288px] rounded-sm border-[3px]'>
               <div className='relative'>
-                <div
-                  className={`border-dark ${'bg-card-light-green'} absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px]`}
-                >
-                  <div
-                    className={`border-dark ${'bg-card-dark-green'} relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]`}
-                  >
+                <div className='border-dark bg-card-light-green absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px]'>
+                  <div className='border-dark bg-card-dark-green relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]'>
                     <img
                       src={`${'/placeholder-cocktail.webp'}`}
                       alt='Cocktail picture'
@@ -38,7 +32,6 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
                         <h1 className='font-stroke text-light text-md mb-2'>
                           {cocktail.cocktail_name}
                         </h1>
-                        {/* <p>{`(${cocktail.ingredient_name})`}</p> */}
                       </div>
                       <div className='flex justify-center'>
                         {cocktail.avg_rating === 0 ? (
