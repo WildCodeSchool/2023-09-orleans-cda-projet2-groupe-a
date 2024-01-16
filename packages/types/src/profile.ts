@@ -20,3 +20,8 @@ export interface UserProfile {
   comments: CommentsProfile[] | null;
   cocktails: CocktailsProfile[] | null;
 }
+
+export interface UpdateData {
+  anecdote?: string | undefined;
+  image?: string | undefined;
+}

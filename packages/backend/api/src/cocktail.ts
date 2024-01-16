@@ -1,9 +1,8 @@
 import express from 'express';
-import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
-import { log } from 'node:console';
 
 import { db } from '@app/backend-shared';
+import type { UpdateData } from '@app/types';
 
 import multerConfig from './middlewares/multer-config';
 
@@ -14,34 +13,26 @@ cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
   const cocktailId = Number.parseInt(req.params.id);
   const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
   const cocktailPicName = req.file ? req.file.filename : null;
-  const fieldsToUpdate = [];
+  const updateData: UpdateData = {};
+
   if (anecdote !== null) {
-    fieldsToUpdate.push({ name: 'anecdote', value: anecdote });
+    updateData.anecdote = anecdote;
   }
   if (cocktailPicName !== null) {
-    fieldsToUpdate.push({ name: 'image', value: cocktailPicName });
+    updateData.image = cocktailPicName;
   }
-  const fieldsToUpdateString = fieldsToUpdate
-    .map((field) => {
-      return `${field.name} = '${field.value}'`;
-    })
-    .join(', ');
-  const query =
-    'UPDATE cocktail SET ' +
-    fieldsToUpdateString +
-    ' WHERE cocktail.id = ' +
-    cocktailId +
-    ';';
-  log(query);
+
   try {
-    const result = await sql`
-      ${query}
-    `.execute(db);
+    const result = await db
+      .updateTable('cocktail')
+      .set(updateData)
+      .where('id', '=', cocktailId)
+      .execute();
+    res.send('Fichier uploadé avec succès!');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
-  res.send('Fichier uploadé avec succès!');
 });
 
 // Route get pour récupérer les cocktails présents en BDD
