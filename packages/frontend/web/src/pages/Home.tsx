@@ -43,7 +43,7 @@ export default function Home() {
         gap: '1rem',
       }}
     >
-      <h1 className='bg-red-900 text-3xl font-bold underline'>
+      <h1 className='font-title text-3xl font-bold underline'>
         {'Hello world!'}
       </h1>
 
