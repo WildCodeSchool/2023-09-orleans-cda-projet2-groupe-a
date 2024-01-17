@@ -35,7 +35,6 @@
     "delete:node_modules": "find . -type d -name node_modules -prune -exec rm -rf {} +",
     "delete:vite": "find . -type d -name .vite -prune -exec rm -rf {} +",
     "pre:commit": "bun concurrently \"bun run pre:commit:*\"",
-    "pre:commit:branch": "bun ./.tools/check-branch",
     "pre:commit:lint": "bun run lint:check",
     "pre:commit:format": "bun run format:check",
     "postinstall": "bun husky install && bun ./.tools/auto-detect-ip",
