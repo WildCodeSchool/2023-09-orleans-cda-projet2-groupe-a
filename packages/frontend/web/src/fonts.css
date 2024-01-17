@@ -1,0 +1,9 @@
+@font-face {
+  font-family: 'Nolan';
+  src: url('../public/fonts/Nolan-extrabold.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../public/fonts/Roboto-Regular.ttf');
+}
