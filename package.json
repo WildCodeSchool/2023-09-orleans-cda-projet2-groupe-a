@@ -35,7 +35,6 @@
     "delete:node_modules": "find . -type d -name node_modules -prune -exec rm -rf {} +",
     "delete:vite": "find . -type d -name .vite -prune -exec rm -rf {} +",
     "pre:commit": "bun concurrently \"bun run pre:commit:*\"",
-    "pre:commit:branch": "bun ./.tools/check-branch",
     "pre:commit:lint": "bun run lint:check",
     "pre:commit:format": "bun run format:check",
     "postinstall": "bun husky install && bun ./.tools/auto-detect-ip",
@@ -46,6 +45,7 @@
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
+    "autoprefixer": "^10.4.16",
     "bun-types": "latest",
     "concurrently": "^8.2.2",
     "eslint": "^8.54.0",
@@ -55,8 +55,13 @@
     "eslint-plugin-unicorn": "^49.0.0",
     "eslint-plugin-workspaces": "^0.10.0",
     "husky": "^8.0.3",
+    "postcss": "^8.4.33",
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "framer-motion": "^10.18.0"
   }
 }

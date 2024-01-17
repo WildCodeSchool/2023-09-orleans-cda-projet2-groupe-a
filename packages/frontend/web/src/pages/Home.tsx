@@ -43,7 +43,9 @@ export default function Home() {
         gap: '1rem',
       }}
     >
-      <span>{'Coucou'}</span>
+      <h1 className='bg-red-900 text-3xl font-bold underline'>
+        {'Hello world!'}
+      </h1>
 
       <span>{`${someData.someProperty}`}</span>
 
