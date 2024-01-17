@@ -32,18 +32,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100vw',
-        gap: '1rem',
-      }}
-    >
-      <h1 className='font-title text-3xl font-bold underline'>
+    <div>
+      <h1 className='text-primary font-title text-3xl font-bold underline'>
         {'Hello world!'}
       </h1>
 
