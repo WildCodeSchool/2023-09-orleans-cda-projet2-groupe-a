@@ -1,74 +1,17 @@
-import { useEffect, useState } from 'react';
-
-import { useDisclosure } from '@app/frontend-shared';
-import type { SomeInterface, User } from '@app/types';
-
 export default function Home() {
-  const [someData, setSomeData] = useState<SomeInterface>({
-    someProperty: 'someValue',
-  });
-  const { isOpen: isDetailsOpen, onToggle: onDetailsToggle } =
-    useDisclosure(false);
-
-  const user: Partial<User> = {};
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    (async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/some-route`,
-        {
-          signal: abortController.signal,
-        },
-      );
-      const data = await response.json();
-      setSomeData(data);
-    })();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100vw',
-        gap: '1rem',
-      }}
-    >
-      <h1 className='bg-red-900 text-3xl font-bold underline'>
-        {'Hello world!'}
-      </h1>
-
-      <span>{`${someData.someProperty}`}</span>
-
-      <button
-        type='button'
-        onClick={() => {
-          onDetailsToggle();
-        }}
-      >
-        {'Click me'}
-      </button>
-
-      {isDetailsOpen ? (
-        <pre>
-          {JSON.stringify(
-            {
-              user,
-            },
-            undefined,
-            2,
-          )}
-        </pre>
-      ) : undefined}
+    <div className='flex items-center justify-center'>
+      <div className='mt-28 h-[80vh] w-[80vw] overflow-hidden bg-transparent shadow-lg'>
+        <div className='flex'>
+          <div className='h-[80vh] w-[50%]'>
+            <img
+              className='m-auto mt-24 h-[450px] w-[450px]'
+              src='/Logo2.svg'
+            ></img>
+          </div>
+          <div className='h-[80vh] w-[50%] bg-black' />
+        </div>
+      </div>
     </div>
   );
 }
