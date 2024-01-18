@@ -1,6 +1,7 @@
 import ReactPlayer from 'react-player';
 import { Outlet } from 'react-router-dom';
 
+import Logo from '@/components/Logo';
 import { useAuth } from '@/contexts/AuthContext';
 
 import Loading from '../components/Loading';
@@ -36,10 +37,13 @@ export default function Home() {
         <div className='mt-24 h-[70vh] w-[95vw] shadow-lg lg:w-[80vw]'>
           <div className='flex'>
             <div className='bg-primary/30 h-[80vh] w-1/2 px-10 backdrop-blur-md'>
-              <img
+              <div className=' mt-32 h-[450px] w-[450px]'>
+                <Logo />
+              </div>
+              {/* <img
                 className='m-auto mt-32 h-[450px] w-[450px]'
                 src='/Logo2.svg'
-              />
+              /> */}
             </div>
             <div className='bg-secondary text-primary h-[80vh] w-[50%]'>
               <Outlet />
