@@ -18,7 +18,7 @@ export default function Menu() {
               key='user'
               initial={{ opacity: 0, x: -90 }}
               animate={{ opacity: 1, x: -90 }}
-              exit={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 1, x: 0, transition: { delay: 0.4 } }}
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full border shadow-lg backdrop-blur-md '
             >
@@ -33,7 +33,7 @@ export default function Menu() {
                 y: 70,
                 transition: { delay: 0.2 },
               }}
-              exit={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 1, x: 0, y: 0, transition: { delay: 0.2 } }}
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full  shadow-lg backdrop-blur-md'
             >
