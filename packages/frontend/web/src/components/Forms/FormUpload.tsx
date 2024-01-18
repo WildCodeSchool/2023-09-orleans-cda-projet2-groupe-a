@@ -2,7 +2,7 @@
 import { Upload } from 'lucide-react';
 import { useState } from 'react';
 
-export default function UploadForm() {
+export default function FormUpload() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
