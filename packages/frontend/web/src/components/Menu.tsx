@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { LogOut, ShoppingCart, UserRound } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,9 @@ export default function Menu() {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full border shadow-lg backdrop-blur-md '
             >
-              <UserRound className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              <Link to='/profil'>
+                <UserRound className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              </Link>
             </motion.div>
             <motion.div
               key='logout'

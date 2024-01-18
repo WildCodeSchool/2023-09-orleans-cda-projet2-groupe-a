@@ -5,6 +5,7 @@ import Registration from './components/auth/Registration';
 import FinalDiagnostic from './pages/FinalDiagnostic';
 import Home from './pages/Home';
 import Inscription from './pages/Inscription';
+import Profil from './pages/Profil';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/final-diagnostic',
     element: <FinalDiagnostic />,
+  },
+  {
+    path: '/profil',
+    element: <Profil />,
   },
 ]);
 
