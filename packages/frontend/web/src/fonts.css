@@ -1,9 +1,14 @@
 @font-face {
-  font-family: 'Nolan';
-  src: url('../public/fonts/Nolan-extrabold.ttf');
+  font-family: 'Campton-extra-bold';
+  src: url('../public/fonts/Campton-bold.otf');
 }
 
 @font-face {
-  font-family: 'Roboto';
-  src: url('../public/fonts/Roboto-Regular.ttf');
+  font-family: 'Campton-regular';
+  src: url('../public/fonts/Campton-Book.otf');
+}
+
+@font-face {
+  font-family: 'Campton-bold';
+  src: url('../public/fonts/Campton-Medium.otf');
 }
