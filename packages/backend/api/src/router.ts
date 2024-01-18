@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/require-await */
 import express from 'express';
-import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
+import authRouter from './auth/auth';
 import multerConfig from './middlewares/multer-config';
 
 const router = express.Router();
+router.use('/auth', authRouter);
 
 // Route post pour uploader un fichier
 router.post('/upload', multerConfig, async (req, res) => {
