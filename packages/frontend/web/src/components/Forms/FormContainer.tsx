@@ -4,7 +4,7 @@ interface Container extends React.HTMLAttributes<HTMLDivElement> {}
 
 interface Category {
   id: number;
-  name: string
+  name: string;
 }
 export default function FormContainer({ children, page }: Container) {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,19 +30,19 @@ export default function FormContainer({ children, page }: Container) {
 
   return (
     <div className='text-secondary relative flex h-full text-sm lg:text-base'>
-      <div className='flex w-[30%] flex-col justify-around border-r border-secondary'>
+      <div className='border-secondary flex w-[30%] flex-col justify-around border-r'>
         {categories.map((category, index) => (
           <div
             key={category.id}
-            className={`text-primary flex grow items-center justify-start px-3 ${index === page ? 'bg-primary text-secondary' :'bg-secondary text-primary'}`}
+            className={`text-primary flex grow items-center justify-start px-3 ${index === page ? 'bg-primary text-secondary' : 'bg-secondary text-primary'}`}
           >
             <h2>{category.name}</h2>
           </div>
         ))}
       </div>
-      <div className='flex grow flex-col justify-between px-5 py-5'> 
+      <div className='flex grow flex-col justify-between px-5 py-5'>
         {children}
-      </div> 
+      </div>
     </div>
   );
 }

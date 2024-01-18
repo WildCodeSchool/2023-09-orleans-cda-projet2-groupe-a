@@ -1,11 +1,24 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
 
 export default function Diagnostic() {
   const [isSquare, setIsSquare] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const contentClass = isSquare ? 'rotate-180' : '';
+
+  useEffect(() => {
+    if (isSquare) {
+      const timeoutId = setTimeout(() => {
+        setShowForm(true);
+      }, 500);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [isSquare]);
   return (
     <div
       style={{ backgroundImage: `url('/bg.png')` }}
@@ -42,8 +55,8 @@ export default function Diagnostic() {
             ease: 'easeInOut',
             borderRadius: { delay: 0.5 },
             delayChildren: 0.5,
-            width: { duration: 1, delay: 0.5 },
-            height: { duration: 1, delay: 0.5 },
+            width: { duration: 0.5, delay: 0.5 },
+            height: { duration: 0.5, delay: 0.5 },
           }}
         >
           {!isSquare && (
@@ -55,9 +68,13 @@ export default function Diagnostic() {
               />
             </div>
           )}
+          {/* {isSquare ? <Outlet /> : undefined} */}
+          {isSquare ? (
+            <div className={`absolute ${contentClass}`}>
+              <Outlet />
+            </div>
+          ) : undefined}
         </motion.div>
-
-        <Outlet />
       </div>
     </div>
   );
