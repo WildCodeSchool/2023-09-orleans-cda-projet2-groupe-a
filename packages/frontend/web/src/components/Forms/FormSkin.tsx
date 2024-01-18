@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import FormContainer from './FormContainer';
+import { useFormContext } from 'react-hook-form';
 
 interface Criter {
   id: number;
@@ -13,7 +14,14 @@ interface Category {
 }
 
 export default function FormSkin() {
+  const {register, watch, setValue} = useFormContext()
   const [item, setItem] = useState<Category>();
+
+  const selectItem = watch('skin')
+
+  const handleClick = () => {
+    setValue('skin', selectItem)
+  }
 
   useEffect(() => {
     const controller = new AbortController();
@@ -34,28 +42,32 @@ export default function FormSkin() {
   console.log(item);
 
   return (
-    <FormContainer>
-      <h1 className='text-primary font-title mb-4 text-2xl lg:text-3xl'>
-        {item?.category_name}
-      </h1>
-      <div className='mt-10 flex flex-col gap-3'>
-        {item?.criters.map((criter: Criter) => (
-          <div className='flex items-center justify-center' key={criter.id}>
-            <label
-              htmlFor={String(criter.id)}
-              className='border-primary hover:bg-primary hover:text-light-hard flex w-full cursor-pointer items-center justify-center rounded-lg border py-3 text-xl'
-            >
-              {criter.criteria_name}
-            </label>
-            <input
-              className=''
-              type='radio'
-              id={String(criter.id)}
-              name={item.category_name}
-            />
-          </div>
-        ))}
+      <div>
+        <h1 className='text-secondary font-base mt-5 text-2xl lg:text-3xl'>
+          {item?.category_name}
+        </h1>
+        <div className='flex flex-col justify-center gap-8 pt-20'>
+          {item?.criters.map((criter: Criter) => (
+            <div className='flex items-center justify-center' key={criter.id}>
+              <label
+              onClick={handleClick}
+                htmlFor={String(criter.id)}
+                className={`border-gold hover:bg-secondary hover:text-primary flex w-[70%] cursor-pointer items-center justify-center border py-3 text-xl tracking-widest ${selectItem === criter.criteria_name ? 'bg-secondary text-primary' : ''}`}
+              >
+                {criter.criteria_name}
+              </label>
+              <input
+                className='opacity-0'
+                type='radio'
+                id={String(criter.id)}
+                /* name={item.category_name} */
+                {...register('skin')}
+                value={criter.criteria_name}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </FormContainer>
+
   );
 }
