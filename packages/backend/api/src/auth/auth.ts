@@ -7,7 +7,7 @@ import type { AuthBody } from '@app/types';
 import { hashPassword } from '@/middlewares/auth-handlers';
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const FRONTEND_URL = 'http://localhost';
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // Throw an error if the JWT_SECRET environment variable is not defined
 if (JWT_SECRET === undefined) {
