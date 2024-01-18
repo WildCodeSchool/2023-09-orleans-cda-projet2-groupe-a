@@ -1,24 +1,26 @@
-export interface Product {
-  id: number;
+import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
+
+export interface ProductTable {
+  id: Generated<number>;
   name: string;
   brand: string;
   category: string;
   image: string | null;
 }
 
-export interface Criteria {
-  id: number;
+export interface CriteriaTable {
+  id: Generated<number>;
   name: string;
 }
 
-export interface CriteriaValue {
-  id: number;
+export interface CriteriaValueTable {
+  id: Generated<number>;
   criteria_id: number;
   value: string;
 }
 
-export interface Consumer {
-  id: number;
+export interface ConsumerTable {
+  id: Generated<number>;
   email: string;
   password: string;
   firstname: string;
@@ -29,8 +31,8 @@ export interface Consumer {
   created_at: Date;
 }
 
-export interface Command {
-  id: number;
+export interface CommandTable {
+  id: Generated<number>;
   created_at: Date;
   consumer_id: number;
   totalAmount: number;
@@ -38,8 +40,8 @@ export interface Command {
   status: 'pending' | 'completed' | 'cancelled';
 }
 
-export interface CommandLine {
-  id: number;
+export interface CommandLineTable {
+  id: Generated<number>;
   command_id: number;
   product_id: number;
   quantity: number;
@@ -47,22 +49,50 @@ export interface CommandLine {
   total_price: number;
 }
 
-export interface ConsumerValue {
+export interface ConsumerValueTable {
   consumer_id: number;
   criteria_value_id: number;
 }
 
-export interface ProductValue {
+export interface ProductValueTable {
   product_id: number;
   criteria_value_id: number;
 }
 export interface Database {
-  product: Product;
-  criteria: Criteria;
-  criteria_value: CriteriaValue;
-  consumer: Consumer;
-  command: Command;
-  command_line: CommandLine;
-  consumer_value: ConsumerValue;
-  product_value: ProductValue;
+  product: ProductTable;
+  criteria: CriteriaTable;
+  criteria_value: CriteriaValueTable;
+  consumer: ConsumerTable;
+  command: CommandTable;
+  command_line: CommandLineTable;
+  consumer_value: ConsumerValueTable;
+  product_value: ProductValueTable;
 }
+
+export type Product = Selectable<ProductTable>;
+export type NewProduct = Insertable<ProductTable>;
+export type ProductUpdate = Updateable<ProductTable>;
+
+export type Criteria = Selectable<CriteriaTable>;
+export type NewCriteria = Insertable<CriteriaTable>;
+export type CriteriaUpdate = Updateable<CriteriaTable>;
+
+export type CriteriaValue = Selectable<CriteriaValueTable>;
+export type NewCriteriaValue = Insertable<CriteriaValueTable>;
+export type CriteriaValueUpdate = Updateable<CriteriaValueTable>;
+
+export type Consumer = Selectable<ConsumerTable>;
+export type NewConsumer = Insertable<ConsumerTable>;
+export type ConsumerUpdate = Updateable<ConsumerTable>;
+
+export type Command = Selectable<CommandTable>;
+export type NewCommand = Insertable<CommandTable>;
+export type CommandUpdate = Updateable<CommandTable>;
+
+export type CommandLine = Selectable<CommandLineTable>;
+export type NewCommandLine = Insertable<CommandLineTable>;
+export type CommandLineUpdate = Updateable<CommandLineTable>;
+
+export type ProductValue = Selectable<ProductValueTable>;
+export type NewProductValue = Insertable<ProductValueTable>;
+export type ProductValueUpdate = Updateable<ProductValueTable>;
