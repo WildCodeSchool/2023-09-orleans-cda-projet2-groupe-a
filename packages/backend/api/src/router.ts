@@ -4,10 +4,12 @@ import express from 'express';
 import { db } from '@app/backend-shared';
 
 import authRouter from './auth/auth';
+import { criteriaRouter } from './criteria/criteria-crud';
 import multerConfig from './middlewares/multer-config';
 
 const router = express.Router();
 router.use('/auth', authRouter);
+router.use('/criteria', criteriaRouter);
 
 // Route post pour uploader un fichier
 router.post('/upload', multerConfig, async (req, res) => {
