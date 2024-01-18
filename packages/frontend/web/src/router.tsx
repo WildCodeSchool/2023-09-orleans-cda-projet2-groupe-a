@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import AuthLayout from './components/AuthLayout';
 import Registration from './components/auth/Registration';
+import Card from './pages/Card';
 import FinalDiagnostic from './pages/FinalDiagnostic';
 import Home from './pages/Home';
 import Inscription from './pages/Inscription';
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/final-diagnostic',
     element: <FinalDiagnostic />,
+  },
+  {
+    path: '/card',
+    element: <Card />,
   },
 ]);
 

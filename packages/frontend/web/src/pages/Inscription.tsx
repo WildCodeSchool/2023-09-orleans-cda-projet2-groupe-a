@@ -5,10 +5,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import Button from '@/components/Button';
 import FormContainer from '@/components/Forms/FormContainer';
 import FormProblemsSkin from '@/components/Forms/FormProblemsSkin';
+import FormRoutine from '@/components/Forms/FormRoutine';
 import FormSensibility from '@/components/Forms/FormSensibility';
 import FormSkin from '@/components/Forms/FormSkin';
 import FormTypeSkin from '@/components/Forms/FormTypeSkin';
-import FormRoutine from '@/components/Forms/FormRoutine';
 
 const PAGES = [
   { currentPage: 0, component: <FormSkin /> },
@@ -16,7 +16,6 @@ const PAGES = [
   { currentPage: 2, component: <FormProblemsSkin /> },
   { currentPage: 3, component: <FormSensibility /> },
   { currentPage: 4, component: <FormRoutine /> },
-
 ];
 export default function Inscription() {
   const methods = useForm();
@@ -30,7 +29,8 @@ export default function Inscription() {
       setPage((curr) => curr + 1);
     } else {
       try {
-        //
+        // Suppose you have an async function named `asyncOperation`
+        await asyncOperation();
       } catch (error) {
         throw new Error(`${String(error)}`);
       }

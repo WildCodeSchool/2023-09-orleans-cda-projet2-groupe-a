@@ -1,15 +1,37 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { LogOut, ShoppingCart, UserRound } from 'lucide-react';
-import { useState } from 'react';
+import { LogOut, ShoppingBag, UserRound } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function Menu() {
+interface CardFinalDiagnosticProps {
+  readonly bool: boolean;
+  readonly setBool: (value: boolean) => void;
+}
+
+export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const productsString = localStorage.getItem('selectedProducts');
+  const [products, setProducts] = useState([]);
+  /*   if (productsString) {
+    setProducts(JSON.parse(productsString));
+  } */
+  console.log(products);
+
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    setBool(!bool);
+    if (productsString) {
+      setProducts(JSON.parse(productsString));
+    }
+  }, [productsString, bool]);
+  console.log(bool);
 
   const handleLogout = async () => {
     try {
@@ -59,7 +81,16 @@ export default function Menu() {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full  shadow-lg backdrop-blur-md'
             >
-              <ShoppingCart className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              <Link to={'/final-diagnostic'}>
+                <div
+                  className={`${products.length === 0 ? 'hidden' : ''} text-primary relative left-[30px] h-[17px] w-[17px] rounded-full bg-red-600 text-center text-xs tracking-tighter`}
+                >
+                  {products.length}
+                </div>
+                <ShoppingBag
+                  className={`hover:scale-11 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 ${products === null ? '' : 'fill-black text-white'}`}
+                />
+              </Link>
             </motion.div>
 
             <motion.div
