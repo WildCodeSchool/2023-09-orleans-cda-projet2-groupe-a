@@ -2,7 +2,9 @@ import express from 'express';
 import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
-import type { SomeInterface } from '@app/types';
+
+//import type { SomeInterface } from '@app/types';
+import { productRouter } from './product';
 
 const router = express.Router();
 
@@ -16,12 +18,14 @@ router.get('/', async (_request, response) => {
   return response.send(`Hello World! ${row.coucou}`);
 });
 
-router.get('/some-route', (_request, response) => {
-  const value: SomeInterface = {
-    someProperty: 'someValueFromApi',
-  };
+// router.get('/some-route', (_request, response) => {
+//   const value: SomeInterface = {
+//     someProperty: 'someValueFromApi',
+//   };
 
-  return response.json(value);
-});
+//   return response.json(value);
+// });
+
+router.use('/product', productRouter);
 
 export default router;
