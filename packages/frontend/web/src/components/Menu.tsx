@@ -2,11 +2,33 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LogOut, ShoppingCart, UserRound } from 'lucide-react';
 import { useState } from 'react';
 
+import { useAuth } from '@/contexts/AuthContext';
+
 export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {
+          method: 'POST',
+          credentials: 'include',
+        },
+      );
+      if (response.ok) {
+        console.log('Déconnexion réussie');
+        setIsLoggedIn(false);
+      } else {
+        console.error('Échec de la déconnexion');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion', error);
+    }
   };
 
   return (
@@ -48,7 +70,10 @@ export default function Menu() {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full shadow-lg backdrop-blur-md'
             >
-              <LogOut className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              <LogOut
+                onClick={handleLogout}
+                className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110'
+              />
             </motion.div>
           </>
         ) : undefined}
