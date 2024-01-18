@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
 
 export default function Diagnostic() {
+  const [bool, setBool] = useState(false);
   return (
     <div
       style={{ backgroundImage: `url('/bg.png')` }}
@@ -12,7 +14,7 @@ export default function Diagnostic() {
         <div className='w-40'>
           <img src='/logo.png' />
         </div>
-        <Menu />
+        <Menu bool={bool} setBool={setBool} />
       </div>
       <div className='flex grow items-center justify-center'>
         <div className='bg-background flex h-[80%] w-[80vw] shadow-md'>

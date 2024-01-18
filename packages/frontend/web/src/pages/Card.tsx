@@ -1,37 +1,23 @@
-import Menu from '../components/Menu';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const products = [
-  {
-    image: '/placeholder-product.png',
-    name: 'Crème Yves Delux',
-    marque: "l'Oréal PARIS",
-    category: 'crème pour les mains',
-    price: '14,99',
-  },
-  {
-    image: '/placeholder-product.png',
-    name: 'Crème Yves Delux',
-    marque: "l'Oréal PARIS",
-    category: 'crème pour les mains',
-    price: '14,99',
-  },
-  {
-    image: '/placeholder-product.png',
-    name: 'Crème Yves Delux',
-    marque: "l'Oréal PARIS",
-    category: 'crème pour les mains',
-    price: '14,99',
-  },
-  {
-    image: '/placeholder-product.png',
-    name: 'Crème Yves Delux',
-    marque: "l'Oréal PARIS",
-    category: 'crème pour les mains',
-    price: '14,99',
-  },
-];
+import Menu from '../components/Menu';
+import ImageWithFallback from './ImageWithfallBack';
 
 export default function Card() {
+  const [bool, setBool] = useState(false);
+  const productsString = localStorage.getItem('selectedProducts');
+  let products = [];
+  if (productsString) {
+    products = JSON.parse(productsString);
+  }
+  const navigate = useNavigate();
+  if (products === null) {
+    navigate('/');
+  }
+
+  let totalPrice = 0;
+
   return (
     <div
       style={{ backgroundImage: `url('/bg.png')` }}
@@ -43,7 +29,7 @@ export default function Card() {
         </div>
       </div>
       <div>
-        <Menu />
+        <Menu bool={bool} setBool={setBool} />
       </div>
       <div>
         <div className='flex flex-col-reverse gap-5 lg:flex-row'>
@@ -53,6 +39,9 @@ export default function Card() {
             </h1>
             <div className='m-2 flex flex-col gap-5'>
               {products.map((product, index) => {
+                totalPrice = Number(
+                  (totalPrice + Number.parseFloat(product.price)).toFixed(2),
+                );
                 return (
                   <div key={index}>
                     <div
@@ -63,9 +52,9 @@ export default function Card() {
                       } gap-2 py-10 md:gap-10`}
                     >
                       <div>
-                        <img
-                          className='h-[100px] w-[100px] object-cover '
+                        <ImageWithFallback
                           src={product.image}
+                          name={product.name}
                         />
                       </div>
                       <div>
@@ -74,7 +63,7 @@ export default function Card() {
                         </h2>
                         <h3 className='text-base font-normal'>
                           {'Marque : '}{' '}
-                          <span className='uppercase'>{product.marque}</span>
+                          <span className='uppercase'>{product.brand}</span>
                         </h3>
                         <h3 className='text-base font-normal'>
                           {'Catégorie : '}{' '}
@@ -93,12 +82,12 @@ export default function Card() {
               <div className='border-divider mb-5 border-b-2'>
                 <h3 className='mb-3 capitalize'>{'sous-total'}</h3>
                 <h4 className='mb-3 text-sm font-[550] normal-case'>
-                  {"nombre d'article: 4"}
+                  {`nombre d'article: ${products.length}`}
                 </h4>
               </div>
               <div className='flex justify-end'>
                 <h1 className='mb-3 text-4xl font-[1500] text-red-600'>
-                  {'59,40€'}
+                  {`${totalPrice}€`}
                 </h1>
               </div>
             </div>
