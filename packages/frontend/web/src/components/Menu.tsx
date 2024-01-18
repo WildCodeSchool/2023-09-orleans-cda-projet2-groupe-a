@@ -3,6 +3,8 @@ import { LogOut, ShoppingBag, UserRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useAuth } from '@/contexts/AuthContext';
+
 interface CardFinalDiagnosticProps {
   readonly bool: boolean;
   readonly setBool: (value: boolean) => void;
@@ -17,6 +19,8 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
   } */
   console.log(products);
 
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -28,6 +32,26 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
     }
   }, [productsString, bool]);
   console.log(bool);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {
+          method: 'POST',
+          credentials: 'include',
+        },
+      );
+      if (response.ok) {
+        console.log('Déconnexion réussie');
+        setIsLoggedIn(false);
+      } else {
+        console.error('Échec de la déconnexion');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion', error);
+    }
+  };
 
   return (
     <div className={`nav ${isOpen ? 'menu-open' : ''}`}>
@@ -77,7 +101,10 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full shadow-lg backdrop-blur-md'
             >
-              <LogOut className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              <LogOut
+                onClick={handleLogout}
+                className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110'
+              />
             </motion.div>
           </>
         ) : undefined}

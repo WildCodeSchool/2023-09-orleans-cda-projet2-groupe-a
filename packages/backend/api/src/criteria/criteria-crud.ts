@@ -5,6 +5,17 @@ import { db } from '@app/backend-shared';
 
 const criteriaRouter = express.Router();
 
+criteriaRouter.get('/categories', async (req, res) => {
+  try {
+    const categories = await db.selectFrom('criteria').selectAll().execute();
+    return res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({
+      error: `An error occurred while retrieving data ${String(error)}`,
+    });
+  }
+});
+
 criteriaRouter.get('/', async (req, res) => {
   try {
     const criteriaCategory = await db
