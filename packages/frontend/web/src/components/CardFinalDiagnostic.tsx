@@ -27,6 +27,7 @@ export default function CardFinalDiagnostic() {
     if (response.ok) {
       const data = await response.json();
       setProducts(data.products);
+      console.log(data.products);
       setIsLoading(false);
     } else {
       console.error(`Request error: ${response.status}`);
@@ -69,6 +70,7 @@ export default function CardFinalDiagnostic() {
           JSON.stringify(updatedSelectedProducts),
         );
         setSelectedItems(updatedSelectedProducts);
+        console.log(`Produit ajouté : ${productId}`);
       }
     },
     [products],
