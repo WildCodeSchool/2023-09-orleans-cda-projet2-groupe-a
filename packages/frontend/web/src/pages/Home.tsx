@@ -48,7 +48,7 @@ export default function Home() {
                       className='mt-1 w-[18rem] border-b-2 bg-transparent outline-none xl:w-[25rem]'
                     />
                   </div>
-                  <div className='flex justify-end'>
+                  <div className='lg:ms-3 xl:ms-60'>
                     <button
                       type='button'
                       className='bg-primary text-secondary h-[2.5rem] w-[10rem] text-xs font-extrabold uppercase tracking-widest shadow-md'
