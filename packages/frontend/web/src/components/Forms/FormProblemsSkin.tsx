@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import FormContainer from './FormContainer';
-
 interface Criter {
   id: number;
   criteria_name: string;
@@ -13,7 +11,7 @@ interface Category {
   criters: Criter[];
 }
 
-export default function FormSkin() {
+export default function FormProblemsSkin() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
@@ -31,7 +29,7 @@ export default function FormSkin() {
       });
 
       const data = await response.json();
-      setItem(data[0]);
+      setItem(data[2]);
     })();
 
     return () => {
