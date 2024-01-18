@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     element: <FinalDiagnostic />,
   },
   {
+    path: '/diagnostic',
+    element: <Diagnostic />,
+  },
+  {
     path: '/card',
     element: <Card />,
   },
