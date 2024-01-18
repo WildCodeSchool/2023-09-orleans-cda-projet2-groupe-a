@@ -1,10 +1,8 @@
+import type { Request as ExpressRequest } from 'express';
+
 export * from './database';
+export * from './auth';
 
-export type User = {
-  name: string;
-  email: string;
-};
-
-export interface SomeInterface {
-  someProperty: string;
+export interface Request extends ExpressRequest {
+  userId?: number;
 }

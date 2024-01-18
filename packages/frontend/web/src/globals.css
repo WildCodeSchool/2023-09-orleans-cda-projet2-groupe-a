@@ -1,6 +1,4 @@
-body {
-  height: 100dvh;
-  width: 100dvw;
-  margin: 0;
-  padding: 0;
-}
+@import './fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

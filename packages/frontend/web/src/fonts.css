@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'Campton-extra-bold';
+  src: url('../public/fonts/Campton-bold.otf');
+}
+
+@font-face {
+  font-family: 'Campton-regular';
+  src: url('../public/fonts/Campton-Book.otf');
+}
+
+@font-face {
+  font-family: 'Campton-bold';
+  src: url('../public/fonts/Campton-Medium.otf');
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@app/forge",
+  "type": "module",
+  "dependencies": {
+    "@app/backend-shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@app/types": "workspace:*",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

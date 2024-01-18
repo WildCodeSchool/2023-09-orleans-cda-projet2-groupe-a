@@ -1,72 +1,52 @@
-import { useEffect, useState } from 'react';
+import ReactPlayer from 'react-player';
+import { Outlet } from 'react-router-dom';
 
-import { useDisclosure } from '@app/frontend-shared';
-import type { SomeInterface, User } from '@app/types';
+import { useAuth } from '@/contexts/AuthContext';
+
+import Loading from '../components/Loading';
 
 export default function Home() {
-  const [someData, setSomeData] = useState<SomeInterface>({
-    someProperty: 'someValue',
-  });
-  const { isOpen: isDetailsOpen, onToggle: onDetailsToggle } =
-    useDisclosure(false);
+  const { isLoggedIn, isLoading } = useAuth();
+  const videoUrl = '/home-video.mp4';
 
-  const user: Partial<User> = {};
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    (async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/some-route`,
-        {
-          signal: abortController.signal,
-        },
-      );
-      const data = await response.json();
-      setSomeData(data);
-    })();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  if (isLoggedIn) {
+    return (
+      <main className='relative h-screen w-screen overflow-hidden'>
+        <Outlet />
+      </main>
+    );
+  }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100vw',
-        gap: '1rem',
-      }}
-    >
-      <span>{'Coucou'}</span>
-
-      <span>{`${someData.someProperty}`}</span>
-
-      <button
-        type='button'
-        onClick={() => {
-          onDetailsToggle();
-        }}
-      >
-        {'Click me'}
-      </button>
-
-      {isDetailsOpen ? (
-        <pre>
-          {JSON.stringify(
-            {
-              user,
-            },
-            undefined,
-            2,
-          )}
-        </pre>
-      ) : undefined}
-    </div>
+    <main className='relative h-screen w-screen overflow-hidden bg-black'>
+      <ReactPlayer
+        url={videoUrl}
+        width='100%'
+        height='100%'
+        playing
+        muted
+        loop
+        pip
+      />
+      <div className='absolute left-[20px] top-[1px] z-10 flex items-center justify-center lg:left-[120px] xl:left-[150px]'>
+        <div className='mt-24 h-[70vh] w-[95vw] shadow-lg lg:w-[80vw]'>
+          <div className='flex'>
+            <div className='bg-primary/30 h-[80vh] w-1/2 px-10 backdrop-blur-md'>
+              <img
+                className='m-auto mt-32 h-[450px] w-[450px]'
+                src='/Logo2.svg'
+              />
+            </div>
+            <div className='bg-secondary text-primary h-[80vh] w-[50%]'>
+              <Outlet />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
