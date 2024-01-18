@@ -30,7 +30,7 @@ authRouter.post('/registration', hashPassword, async (req, res) => {
     const data = {
       firstname,
       lastname,
-      birthdate,
+      birthdate: new Date(birthdate),
       gender,
       country,
       email,
@@ -167,8 +167,8 @@ authRouter.post('/login', async (req, res) => {
         alg: 'HS256',
       })
       .setIssuedAt()
-      .setIssuer(FRONTEND_URL)
-      .setAudience(FRONTEND_URL)
+      .setIssuer(String(FRONTEND_URL))
+      .setAudience(String(FRONTEND_URL))
       .setExpirationTime('2h')
       .sign(secret);
 

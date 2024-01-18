@@ -2,84 +2,81 @@ import { z } from 'zod';
 
 export const authSchema = z
   .object({
-    name: z
+    firstname: z
       .string({
-        required_error: 'ⓘ Name is required.',
-        invalid_type_error: 'ⓘ Name must be a string.',
+        required_error: 'ⓘ Le prénom est requis.',
+        invalid_type_error: 'ⓘ Le prénom doit être une chaîne de caractères.',
       })
       .trim()
-      .min(3, { message: 'ⓘ Name must be more than 3 characters.' })
-      .max(255, { message: 'ⓘ Name must be less than 255 characters.' }),
-    birthdate: z.date({ required_error: 'ⓘ Birthdate is required.' }).refine(
-      (date) => {
-        // Calculate user age for registration, user must be >= 18 years old
-        const age = new Date().getFullYear() - date.getFullYear();
-
-        return age >= 18;
-      },
-      { message: 'ⓘ You must be 18 years old to register.' },
-    ),
-    gender: z.enum(['male', 'female', 'non-binary']),
-    biography: z.optional(
-      z.string().trim().max(1000, {
-        message: 'ⓘ Biography must be less than 1000 characters.',
+      .min(3, { message: 'ⓘ Le prénom est requis.' })
+      .max(255, {
+        message: 'ⓘ Le prénom doit comporter moins de 255 caractères.',
       }),
-    ),
-    account_github: z.optional(
-      z
-        .string()
-        .trim()
-        .url({ message: 'ⓘ Your account Github must be a url valid.' })
-        .max(255, {
-          message: 'ⓘ Your account Github must be less than 255 characters.',
-        }),
-    ),
-    role: z.enum(['user', 'admin']),
+    lastname: z
+      .string({
+        required_error: 'ⓘ Le nom est requis.',
+        invalid_type_error: 'ⓘ Le nom doit être une chaîne de caractères.',
+      })
+      .trim()
+      .min(3, { message: 'ⓘ Le nom est requis.' })
+      .max(255, {
+        message: 'ⓘ Le nom doit comporter moins de 255 caractères.',
+      }),
+    country: z
+      .string({
+        required_error: 'ⓘ Le pays est requis.',
+        invalid_type_error: 'ⓘ Le pays doit être une chaîne de caractères.',
+      })
+      .trim()
+      .min(3, { message: 'ⓘ Le pays est requis.' })
+      .max(255, {
+        message: 'ⓘ Le pays doit comporter moins de 255 caractères.',
+      }),
+    birthdate: z.preprocess((val) => new Date(String(val)), z.date()),
+    gender: z.enum(['male', 'femele', 'other']),
     email: z
       .string({
-        required_error: 'ⓘ Email is required.',
-        invalid_type_error: 'ⓘ Email must be a string.',
+        required_error: "ⓘ L'email est requis.",
+        invalid_type_error: "ⓘ L'email doit être une chaîne de caractères.",
       })
       .trim()
-      .email({ message: 'ⓘ Email must be a valid email.' })
-      .max(255, { message: 'ⓘ Email must be less than 255 characters.' }),
+      .email({ message: "ⓘ L'email doit être un email valide." })
+      .max(255, {
+        message: "ⓘ L'email doit comporter moins de 255 caractères.",
+      }),
     password: z
       .string({
-        required_error: 'ⓘ Password is required.',
-        invalid_type_error: 'ⓘ Password must be a string.',
+        required_error: 'ⓘ Le mot de passe est requis.',
+        invalid_type_error:
+          'ⓘ Le mot de passe doit être une chaîne de caractères.',
       })
       .trim()
-      .min(8, { message: 'ⓘ Password must be more than 8 characters.' })
-      .max(255, { message: 'ⓘ Password must be less than 255 characters.' }),
-    email_verified_at: z.date({
-      required_error: 'ⓘ Email verified at is required.',
-    }),
-    activation_code: z
-      .string({
-        required_error: 'ⓘ Activation code is required.',
-        invalid_type_error: 'ⓘ Activation code must be a string.',
+      .min(8, {
+        message: 'ⓘ Le mot de passe doit comporter plus de 8 caractères.',
       })
-      .trim()
-      .min(6, { message: 'ⓘ Activation code must be more than 6 characters.' })
-      .max(6, {
-        message: 'ⓘ Activation code must be less than 255 characters.',
+      .max(255, {
+        message: 'ⓘ Le mot de passe doit comporter moins de 255 caractères.',
       }),
-    activate_at: z.date({ required_error: 'ⓘ Activate at is required.' }),
-    city_id: z
-      .number({
-        required_error: 'ⓘ City id is required.',
-        invalid_type_error: 'ⓘ City id must be a number.',
-      })
-      .positive({ message: 'ⓘ City id must be a positive number.' }),
+    activate_at: z.date({
+      required_error: "ⓘ La date d'activation est requise.",
+    }),
   })
   .strict()
   .strip();
 
-export const loginSchema = authSchema.pick({ email: true, password: true });
+export const loginSchema = authSchema.pick({
+  email: true,
+  password: true,
+});
 
 export type AuthBody = z.infer<typeof loginSchema>;
 
 export const registrationSchema = authSchema.pick({
+  firstname: true,
+  lastname: true,
+  birthdate: true,
+  gender: true,
+  country: true,
   email: true,
   password: true,
 });
