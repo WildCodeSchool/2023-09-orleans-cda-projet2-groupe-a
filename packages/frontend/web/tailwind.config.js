@@ -12,8 +12,9 @@ export default {
         gold: '#F1B56F',
       },
       fontFamily: {
-        title: ['Nolan'],
-        base: ['Roboto'],
+        title: ['Campton-extra-bold'],
+        base: ['Campton-regular'],
+        subtitle: ['Campton-bold'],
       },
       animation: {
         float1: 'float 3.5s ease-in infinite',
