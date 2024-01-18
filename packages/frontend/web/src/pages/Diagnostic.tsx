@@ -19,6 +19,7 @@ export default function Diagnostic() {
       };
     }
   }, [isSquare]);
+  const [bool, setBool] = useState(false);
   return (
     <div
       style={{ backgroundImage: `url('/bg.png')` }}
@@ -28,7 +29,7 @@ export default function Diagnostic() {
         <div className='w-40'>
           <img src='/logo.png' />
         </div>
-        <Menu />
+        <Menu bool={bool} setBool={setBool} />
       </div>
       <div className='flex grow items-center justify-center'>
         <motion.div

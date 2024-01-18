@@ -30,7 +30,8 @@ export default function Inscription() {
       setPage((curr) => curr + 1);
     } else {
       try {
-        //
+        // Suppose you have an async function named `asyncOperation`
+        await asyncOperation();
       } catch (error) {
         throw new Error(`${String(error)}`);
       }
