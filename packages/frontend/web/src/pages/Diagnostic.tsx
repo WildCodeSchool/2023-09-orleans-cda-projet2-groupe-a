@@ -17,9 +17,9 @@ export default function Diagnostic() {
       <div className='flex grow items-center justify-center'>
         <div className='bg-background flex h-[80%] w-[80vw] shadow-md'>
           <Outlet />
-          <div className='flex h-full w-full items-center justify-center'>
+          {/*  <div className='flex h-full w-full items-center justify-center'>
             <img className=' mb-40 h-[450px] w-[450px]' src='/diagnostic.svg' />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
