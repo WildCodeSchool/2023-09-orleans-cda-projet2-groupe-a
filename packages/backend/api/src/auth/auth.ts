@@ -1,4 +1,6 @@
-import express from 'express';
+/* eslint-disable @typescript-eslint/require-await */
+import type { Request, Response } from 'express';
+import express, { Router } from 'express';
 import * as jose from 'jose';
 
 import { db } from '@app/backend-shared';
@@ -8,6 +10,7 @@ import { hashPassword } from '@/middlewares/auth-handlers';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Throw an error if the JWT_SECRET environment variable is not defined
 if (JWT_SECRET === undefined) {
@@ -30,7 +33,7 @@ authRouter.post('/registration', hashPassword, async (req, res) => {
     const data = {
       firstname,
       lastname,
-      birthdate,
+      birthdate: new Date(birthdate),
       gender,
       country,
       email,
@@ -167,8 +170,8 @@ authRouter.post('/login', async (req, res) => {
         alg: 'HS256',
       })
       .setIssuedAt()
-      .setIssuer(FRONTEND_URL)
-      .setAudience(FRONTEND_URL)
+      .setIssuer(String(FRONTEND_URL))
+      .setAudience(String(FRONTEND_URL))
       .setExpirationTime('2h')
       .sign(secret);
 
@@ -191,6 +194,16 @@ authRouter.post('/login', async (req, res) => {
       error,
     });
   }
+});
+
+authRouter.post('/logout', async (req: Request, res: Response) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    secure: IS_PRODUCTION,
+    sameSite: 'lax',
+    expires: new Date(0),
+  });
+  res.status(200).send('Déconnecté avec succès');
 });
 
 export default authRouter;
