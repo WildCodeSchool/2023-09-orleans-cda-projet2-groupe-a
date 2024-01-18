@@ -32,23 +32,23 @@ export default function Home() {
                   <div className='mb-10'>
                     <label>{`Email`}</label>
 
-                    <img className='mt-3' src='/user.svg' />
+                    <img className='mt-2' src='/user.svg' />
                     <input
                       type='text'
                       id='text'
-                      className='w-[18rem] border-b-2 bg-transparent outline-none xl:w-[25rem]'
+                      className='mt-1 w-[18rem] border-b-2 bg-transparent outline-none xl:w-[25rem]'
                     />
                   </div>
                   <div className='mb-10'>
                     <label>{`Mot de passe`}</label>
-                    <img className='mt-3' src='/lock.svg' />
+                    <img className='mt-2' src='/lock.svg' />
                     <input
                       type='text'
                       id='text'
-                      className='w-[18rem] border-b-2 bg-transparent outline-none xl:w-[25rem]'
+                      className='mt-1 w-[18rem] border-b-2 bg-transparent outline-none xl:w-[25rem]'
                     />
                   </div>
-                  <div className='flex justify-end'>
+                  <div className='lg:ms-3 xl:ms-60'>
                     <button
                       type='button'
                       className='bg-primary text-secondary h-[2.5rem] w-[10rem] text-xs font-extrabold uppercase tracking-widest shadow-md'
