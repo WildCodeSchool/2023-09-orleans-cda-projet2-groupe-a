@@ -1,5 +1,6 @@
+import Diagnostic from '@/pages/Diagnostic';
+
 import { useAuth } from '../contexts/AuthContext';
-import HomeDiagnostic from './HomeDiagnostic';
 import Login from './auth/Login';
 
 export default function AuthLayout() {
@@ -7,7 +8,7 @@ export default function AuthLayout() {
 
   // If the user is logged in, display the cards
   if (isLoggedIn) {
-    return <HomeDiagnostic />;
+    return <Diagnostic />;
   }
 
   return <Login />;
