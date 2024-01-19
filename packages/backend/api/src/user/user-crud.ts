@@ -9,12 +9,10 @@ const userRouter = express.Router();
 interface Request extends ExpressRequest {
   userId?: number;
 }
-
 userRouter.put('/:userId', getUserId, async (req: Request, res) => {
   try {
     const userId = req.userId as number;
     const { firstname, lastname, birthdate, gender, country } = req.body;
-
     await db
       .updateTable('consumer')
       .set({
@@ -27,18 +25,10 @@ userRouter.put('/:userId', getUserId, async (req: Request, res) => {
       .where('id', '=', userId)
       .execute();
     res.json({ success: true });
-
     console.log(userId);
   } catch (error) {
     console.log(error);
     res.json({ success: false });
   }
 });
-
-  } catch {
-    res.json({ success: false });
-  }
-});
-
-
 export default userRouter;
