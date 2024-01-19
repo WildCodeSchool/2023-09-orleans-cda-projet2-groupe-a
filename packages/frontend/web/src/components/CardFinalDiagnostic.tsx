@@ -13,7 +13,15 @@ type RouteParameters = {
   id: string;
 };
 
-export default function CardFinalDiagnostic() {
+interface CardFinalDiagnosticProps {
+  readonly bool: boolean;
+  readonly setBool: (value: boolean) => void;
+}
+
+export default function CardFinalDiagnostic({
+  bool,
+  setBool,
+}: CardFinalDiagnosticProps) {
   const { id } = useParams<RouteParameters>();
   const [products, setProducts] = useState<Product[] | undefined>();
   const [isLoading, setIsLoading] = useState(true);
@@ -70,10 +78,11 @@ export default function CardFinalDiagnostic() {
           JSON.stringify(updatedSelectedProducts),
         );
         setSelectedItems(updatedSelectedProducts);
+        setBool(!bool);
         console.log(`Produit ajouté : ${productId}`);
       }
     },
-    [products],
+    [products, bool, setBool],
   );
 
   return (
