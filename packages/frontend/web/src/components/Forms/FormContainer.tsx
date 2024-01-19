@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
-interface Container extends React.HTMLAttributes<HTMLDivElement> {}
+interface Container extends React.HTMLAttributes<HTMLDivElement> {
+  readonly page: number;
+}
 
 interface Category {
   id: number;

@@ -1,6 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import {
+  FieldValue,
+  FieldValues,
+  FormProvider,
+  useForm,
+} from 'react-hook-form';
 
 import Button from '@/components/Button';
 import FormContainer from '@/components/Forms/FormContainer';
@@ -23,14 +28,13 @@ export default function Inscription() {
   const { handleSubmit, getValues } = methods;
   const [page, setPage] = useState(0);
 
-  const formSubmit = async () => {
+  const formSubmit = async (data: FieldValues) => {
     console.log(getValues());
 
     if (page < 10) {
       setPage((curr) => curr + 1);
     } else {
       try {
-        // Suppose you have an async function named `asyncOperation`
         await asyncOperation();
       } catch (error) {
         throw new Error(`${String(error)}`);

@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 @layer utilities {
-.neonText {
+.neonTextShadow {
     color: #fff;
     text-shadow:
         0 0 7px #fff,

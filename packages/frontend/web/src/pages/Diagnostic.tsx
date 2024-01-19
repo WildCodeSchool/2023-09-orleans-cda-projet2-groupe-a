@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
+import Inscription from './Inscription';
 
 export default function Diagnostic() {
   const [isSquare, setIsSquare] = useState(false);
@@ -43,7 +43,7 @@ export default function Diagnostic() {
             scale: isSquare ? 1.2 : 1,
             rotate: isSquare ? 180 : 0,
             width: isSquare ? '60vw' : '32vw',
-            height: isSquare ? '70%' : '32vw',
+            height: isSquare ? '60%' : '32vw',
           }}
           whileTap={{
             scale: 1.1,
@@ -71,8 +71,8 @@ export default function Diagnostic() {
           )}
           {/* {isSquare ? <Outlet /> : undefined} */}
           {isSquare ? (
-            <div className={`absolute ${contentClass}`}>
-              <Outlet />
+            <div className={`h-full w-full ${contentClass}`}>
+              <Inscription />
             </div>
           ) : undefined}
         </motion.div>
