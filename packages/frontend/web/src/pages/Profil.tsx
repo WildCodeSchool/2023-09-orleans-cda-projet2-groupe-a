@@ -12,10 +12,6 @@ export default function Profil() {
       <div>
         <Menu bool={bool} setBool={setBool} />
       </div>
-      <div className='bg-primary flex w-3/4 flex-row gap-6'>
-        <div className='flex justify-center p-4'>
-          <img src='/Logo2.svg' alt='logo' className='w-full' />
-        </div>
         <div className='bg-primary flex w-3/4 flex-row gap-6'>
           <div className='flex justify-center p-4'>
             <img src='/Logo2.svg' alt='logo' className='w-full' />
@@ -66,6 +62,5 @@ export default function Profil() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
