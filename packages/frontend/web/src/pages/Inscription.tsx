@@ -17,12 +17,13 @@ const PAGES = [
   { currentPage: 3, component: <FormSensibility /> },
   { currentPage: 4, component: <FormRoutine /> },
 ];
+
 export default function Inscription() {
   const methods = useForm();
   const { handleSubmit, getValues } = methods;
   const [page, setPage] = useState(0);
 
-  const formSubmit = async (data) => {
+  const formSubmit = async () => {
     console.log(getValues());
 
     if (page < 10) {

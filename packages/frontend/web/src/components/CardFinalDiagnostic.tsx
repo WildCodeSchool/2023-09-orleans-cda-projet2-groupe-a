@@ -82,7 +82,7 @@ export default function CardFinalDiagnostic({
         console.log(`Produit ajouté : ${productId}`);
       }
     },
-    [products],
+    [products, bool, setBool],
   );
 
   return (

@@ -14,9 +14,7 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
   const [isOpen, setIsOpen] = useState(false);
   const productsString = localStorage.getItem('selectedProducts');
   const [products, setProducts] = useState([]);
-  /*   if (productsString) {
-    setProducts(JSON.parse(productsString));
-  } */
+
   console.log(products);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -27,10 +25,10 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
 
   useEffect(() => {
     setBool(!bool);
-    if (productsString) {
-      setProducts(JSON.parse(productsString));
+    if (Boolean(productsString)) {
+      setProducts(JSON.parse(productsString as string));
     }
-  }, [productsString, bool]);
+  }, [productsString, setBool]);
   console.log(bool);
 
   const handleLogout = async () => {
@@ -66,7 +64,9 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full border shadow-lg backdrop-blur-md '
             >
-              <UserRound className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              <Link to='/profil'>
+                <UserRound className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg transition-transform duration-300 hover:scale-110' />
+              </Link>
             </motion.div>
             <motion.div
               key='logout'
