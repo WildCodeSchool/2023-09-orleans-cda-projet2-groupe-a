@@ -11,7 +11,7 @@ interface Category {
   criters: Criter[];
 }
 
-export default function FormSensibility() {
+export default function FormAllerg() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
@@ -29,7 +29,7 @@ export default function FormSensibility() {
       });
 
       const data = await response.json();
-      setItem(data[3]);
+      setItem(data[10]);
     })();
 
     return () => {

@@ -1,14 +1,20 @@
-import Menu from '@/components/Menu';
 import { useState } from 'react';
+
+import Menu from '@/components/Menu';
+
 export default function Profil() {
-    const [bool, setBool] = useState(false);
+  const [bool, setBool] = useState(false);
   return (
     <div
-        style={{ backgroundImage: `url('/bg.png')` }}
-        className='flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-cover bg-no-repeat'
+      style={{ backgroundImage: `url('/bg.png')` }}
+      className='flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-cover bg-no-repeat'
     >
-        <div>
-          <Menu bool={bool} setBool={setBool}  />
+      <div>
+        <Menu bool={bool} setBool={setBool} />
+      </div>
+      <div className='bg-primary flex w-3/4 flex-row gap-6'>
+        <div className='flex justify-center p-4'>
+          <img src='/Logo2.svg' alt='logo' className='w-full' />
         </div>
         <div className='bg-primary flex w-3/4 flex-row gap-6'>
           <div className='flex justify-center p-4'>
@@ -59,6 +65,7 @@ export default function Profil() {
             </form>
           </div>
         </div>
+      </div>
     </div>
   );
 }

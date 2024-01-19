@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import FormContainer from './FormContainer';
-
 interface Criter {
   id: number;
   criteria_name: string;
@@ -13,14 +11,14 @@ interface Category {
   criters: Criter[];
 }
 
-export default function FormSkin() {
+export default function FormSensibility() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
-  const selectItem = watch('skin');
+  const selectItem = watch('criteria_value_id');
 
   const handleClick = () => {
-    setValue('skin', selectItem);
+    setValue('criteria_value_id', selectItem);
   };
 
   useEffect(() => {
@@ -31,15 +29,13 @@ export default function FormSkin() {
       });
 
       const data = await response.json();
-      setItem(data[0]);
+      setItem(data[5]);
     })();
 
     return () => {
       controller.abort();
     };
   }, []);
-
-  console.log(item);
 
   return (
     <div>
@@ -52,7 +48,7 @@ export default function FormSkin() {
             <label
               onClick={handleClick}
               htmlFor={String(criter.id)}
-              className={`border-gold hover:bg-secondary hover:text-primary flex w-[70%] cursor-pointer items-center justify-center border py-3 text-xl tracking-widest ${selectItem === criter.criteria_name ? 'bg-secondary text-primary' : ''}`}
+              className={`border-gold hover:bg-secondary hover:text-primary flex w-[70%] cursor-pointer items-center justify-center border py-3 text-xl tracking-widest ${selectItem === String(criter.id) ? 'bg-secondary text-primary' : ''}`}
             >
               {criter.criteria_name}
             </label>
@@ -61,8 +57,8 @@ export default function FormSkin() {
               type='radio'
               id={String(criter.id)}
               /* name={item.category_name} */
-              {...register('skin')}
-              value={criter.criteria_name}
+              {...register('criteria_value_id')}
+              value={criter.id}
             />
           </div>
         ))}
