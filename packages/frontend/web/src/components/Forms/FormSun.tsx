@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import FormContainer from './FormContainer';
-
 interface Criter {
   id: number;
   criteria_name: string;
@@ -13,7 +11,7 @@ interface Category {
   criters: Criter[];
 }
 
-export default function FormSkin() {
+export default function FormSensibility() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
@@ -31,15 +29,13 @@ export default function FormSkin() {
       });
 
       const data = await response.json();
-      setItem(data[0]);
+      setItem(data[5]);
     })();
 
     return () => {
       controller.abort();
     };
   }, []);
-
-  console.log(item);
 
   return (
     <div>
@@ -61,8 +57,8 @@ export default function FormSkin() {
               type='radio'
               id={String(criter.id)}
               /* name={item.category_name} */
-              {...register('skin')}
-              value={criter.criteria_name}
+              {...register('criteria_value_id')}
+              value={criter.id}
             />
           </div>
         ))}

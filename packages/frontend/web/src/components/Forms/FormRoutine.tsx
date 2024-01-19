@@ -37,8 +37,6 @@ export default function FormRoutine() {
     };
   }, []);
 
-  console.log(item);
-
   return (
     <div>
       <h1 className='text-secondary font-base mt-5 text-2xl lg:text-3xl'>
@@ -59,8 +57,8 @@ export default function FormRoutine() {
               type='radio'
               id={String(criter.id)}
               /* name={item.category_name} */
-              {...register('skin')}
-              value={criter.criteria_name}
+              {...register('criteria_value_id')}
+              value={criter.id}
             />
           </div>
         ))}

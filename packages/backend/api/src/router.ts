@@ -7,7 +7,7 @@ import { criteriaRouter } from './criteria/criteria-crud';
 import multerConfig from './middlewares/multer-config';
 //import type { SomeInterface } from '@app/types';
 import { productRouter } from './product';
-import  userRouter  from './user/user-crud';
+import userRouter from './user/user-crud';
 
 const router = express.Router();
 router.use('/auth', authRouter);
