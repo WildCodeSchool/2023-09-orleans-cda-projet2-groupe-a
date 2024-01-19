@@ -27,10 +27,18 @@ userRouter.put('/:userId', getUserId, async (req: Request, res) => {
       .where('id', '=', userId)
       .execute();
     res.json({ success: true });
+
     console.log(userId);
   } catch (error) {
     console.log(error);
     res.json({ success: false });
   }
 });
+
+  } catch {
+    res.json({ success: false });
+  }
+});
+
+
 export default userRouter;

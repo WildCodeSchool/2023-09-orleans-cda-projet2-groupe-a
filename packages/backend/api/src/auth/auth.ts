@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/require-await */
 import type { Request, Response } from 'express';
-import express, { Router } from 'express';
+import express from 'express';
 import * as jose from 'jose';
 
 import { db } from '@app/backend-shared';
@@ -10,7 +10,6 @@ import { hashPassword } from '@/middlewares/auth-handlers';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Throw an error if the JWT_SECRET environment variable is not defined
 if (JWT_SECRET === undefined) {
