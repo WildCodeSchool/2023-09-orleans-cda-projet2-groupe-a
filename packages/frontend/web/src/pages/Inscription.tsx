@@ -41,20 +41,20 @@ export default function Inscription() {
   const [page, setPage] = useState(0);
 
   const formSubmit = async (data: FieldValues) => {
-    if (page < 13) {
+    console.log(getValues());
+
+    try {
       setPage((curr) => curr + 1);
-    } else {
-      try {
-        await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-      } catch (error) {
-        throw new Error(`${String(error)}`);
-      }
+
+      await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      throw new Error(`${String(error)}`);
     }
   };
 
