@@ -31,7 +31,7 @@ export default function FormContainer({ children, page }: Container) {
   }, []);
 
   return (
-    <div className='text-secondary relative flex h-full text-sm lg:text-base'>
+    <div className='text-secondary bg-background relative mx-auto flex h-full min-h-[70vh] w-[80%] text-sm lg:text-base'>
       <div className='border-secondary flex w-[30%] flex-col justify-around border-r'>
         {categories.map((category, index) => (
           <div

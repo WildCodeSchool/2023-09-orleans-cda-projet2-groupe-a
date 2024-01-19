@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
+import Inscription from './Inscription';
 
 export default function Diagnostic() {
   const [isSquare, setIsSquare] = useState(false);
@@ -27,55 +28,14 @@ export default function Diagnostic() {
     >
       <div className='p-10'>
         <div className='w-40'>
-          <img src='/logo.png' />
+          <Link to='/'>
+            <img src='/logo.png' />
+          </Link>
         </div>
         <Menu bool={bool} setBool={setBool} />
       </div>
       <div className='flex grow items-center justify-center'>
-        <motion.div
-          className='bg-primary/30 flex h-[32vw] w-[32vw] items-center justify-center shadow-lg backdrop-blur-md'
-          initial={{
-            borderRadius: '50%',
-            scale: 1,
-          }}
-          animate={{
-            borderRadius: isSquare ? '0%' : '50%',
-            scale: isSquare ? 1.2 : 1,
-            rotate: isSquare ? 180 : 0,
-            width: isSquare ? '60vw' : '32vw',
-            height: isSquare ? '70%' : '32vw',
-          }}
-          whileTap={{
-            scale: 1.1,
-          }}
-          onClick={() => {
-            setIsSquare(true);
-          }}
-          transition={{
-            duration: 0.5,
-            ease: 'easeInOut',
-            borderRadius: { delay: 0.5 },
-            delayChildren: 0.5,
-            width: { duration: 0.5, delay: 0.5 },
-            height: { duration: 0.5, delay: 0.5 },
-          }}
-        >
-          {!isSquare && (
-            <div className='flex h-full w-full items-center justify-center'>
-              <img
-                className='max-h-full max-w-full'
-                src='/diagnostic.svg'
-                alt='Diagnostic Logo'
-              />
-            </div>
-          )}
-          {/* {isSquare ? <Outlet /> : undefined} */}
-          {isSquare ? (
-            <div className={`absolute ${contentClass}`}>
-              <Outlet />
-            </div>
-          ) : undefined}
-        </motion.div>
+        <Outlet />
       </div>
     </div>
   );

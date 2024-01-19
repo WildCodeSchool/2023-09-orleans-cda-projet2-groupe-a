@@ -9,7 +9,7 @@ export default function AuthLayout() {
 
   // If the user is logged in, display the cards
   if (isLoggedIn) {
-    return <Inscription />;
+    return <Diagnostic />;
   }
 
   return <Login />;

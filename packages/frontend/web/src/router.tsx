@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import AuthLayout from './components/AuthLayout';
+import DiagToggle from './components/DiagToogle';
 import Registration from './components/auth/Registration';
 import Card from './pages/Card';
 import FinalDiagnostic from './pages/FinalDiagnostic';
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
         path: '/',
         element: <AuthLayout />,
         children: [
+          {
+            path: '',
+            element: <DiagToggle />,
+          },
           {
             path: '/diagnostic',
             element: <Inscription />,

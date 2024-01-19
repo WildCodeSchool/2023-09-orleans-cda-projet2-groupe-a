@@ -14,9 +14,7 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
   const [isOpen, setIsOpen] = useState(false);
   const productsString = localStorage.getItem('selectedProducts');
   const [products, setProducts] = useState([]);
-  /*   if (productsString) {
-    setProducts(JSON.parse(productsString));
-  } */
+
   console.log(products);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -27,10 +25,11 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
 
   useEffect(() => {
     setBool(!bool);
-    if (productsString) {
-      setProducts(JSON.parse(productsString));
+    if (Boolean(productsString)) {
+      setProducts(JSON.parse(productsString as string));
     }
-  }, [productsString]);
+  }, [productsString, setBool]);
+
   console.log(bool);
 
   const handleLogout = async () => {
@@ -83,7 +82,7 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full  shadow-lg backdrop-blur-md'
             >
-              <Link to={'/final-diagnostic'}>
+              <Link to={'/card'}>
                 <div
                   className={`${products.length === 0 ? 'hidden' : ''} text-primary relative left-[30px] h-[17px] w-[17px] rounded-full bg-red-600 text-center text-xs tracking-tighter`}
                 >

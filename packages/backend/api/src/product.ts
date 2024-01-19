@@ -160,8 +160,7 @@ productRouter.get('/', async (req, res) => {
   try {
     const products = await db.selectFrom('product').selectAll().execute();
     res.json({ products });
-  } catch (error) {
-    console.error(error);
+  } catch {
     res.status(500).send('Internal Server Error');
   }
 });
@@ -177,8 +176,7 @@ productRouter.get('/:id', async (req, res) => {
       .execute();
 
     res.json({ products });
-  } catch (error) {
-    console.error(error);
+  } catch {
     res.status(500).send('Internal Server Error');
   }
 });
