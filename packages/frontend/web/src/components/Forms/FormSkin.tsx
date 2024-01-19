@@ -18,7 +18,7 @@ export default function FormSkin() {
   const selectItem = watch('criteria_value_id');
 
   const handleClick = () => {
-    setValue('skin', selectItem);
+    setValue('criteria_value_id', selectItem);
   };
 
   useEffect(() => {

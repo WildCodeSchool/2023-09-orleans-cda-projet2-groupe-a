@@ -43,7 +43,7 @@ export default function Diagnostic() {
             scale: isSquare ? 1.2 : 1,
             rotate: isSquare ? 180 : 0,
             width: isSquare ? '60vw' : '32vw',
-            height: isSquare ? '60%' : '32vw',
+            height: isSquare ? '70%' : '32vw',
           }}
           whileTap={{
             scale: 1.1,
