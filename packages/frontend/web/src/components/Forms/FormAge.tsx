@@ -11,7 +11,7 @@ interface Category {
   criters: Criter[];
 }
 
-export default function FormProblemsSkin() {
+export default function FormAge() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
@@ -29,7 +29,7 @@ export default function FormProblemsSkin() {
       });
 
       const data = await response.json();
-      setItem(data[2]);
+      setItem(data[8]);
     })();
 
     return () => {

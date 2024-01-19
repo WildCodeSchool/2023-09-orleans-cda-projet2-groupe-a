@@ -7,10 +7,12 @@ import { criteriaRouter } from './criteria/criteria-crud';
 import multerConfig from './middlewares/multer-config';
 //import type { SomeInterface } from '@app/types';
 import { productRouter } from './product';
-import  userRouter  from './user/user-crud';
+import { register } from './register';
+import userRouter from './user/user-crud';
 
 const router = express.Router();
 router.use('/auth', authRouter);
+router.use('/register', register);
 router.use('/criteria', criteriaRouter);
 router.use('/users', userRouter);
 // router.get('/', async (_request, response) => {
