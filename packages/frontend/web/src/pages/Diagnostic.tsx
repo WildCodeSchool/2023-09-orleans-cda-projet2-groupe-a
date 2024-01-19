@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
 import Inscription from './Inscription';
@@ -27,7 +28,9 @@ export default function Diagnostic() {
     >
       <div className='p-10'>
         <div className='w-40'>
-          <img src='/logo.png' />
+          <Link to='/'>
+            <img src='/logo.png' />
+          </Link>
         </div>
         <Menu bool={bool} setBool={setBool} />
       </div>
