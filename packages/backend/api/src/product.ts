@@ -2,6 +2,14 @@ import express from 'express';
 
 import { db } from '@app/backend-shared';
 
+import loginIdUser from './middlewares/login-id-user';
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    userId?: number;
+  }
+}
+
 const productRouter = express.Router();
 
 productRouter.get('/vieux', (req, res) => {
@@ -166,6 +174,25 @@ productRouter.get('/:id', async (req, res) => {
       .selectFrom('product')
       .selectAll()
       .where('product.id', '=', Number.parseInt(id))
+      .execute();
+
+    res.json({ products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+productRouter.get('/email', async (req, res) => {
+  try {
+    const products = await db
+      .selectFrom('consumer')
+      .selectAll()
+      .where('consumer.email', 'in', [
+        'gertrude@gmail.com',
+        'carol@gmail.com',
+        'laura@gmail.com',
+      ])
       .execute();
 
     res.json({ products });
