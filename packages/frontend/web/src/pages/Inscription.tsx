@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { type FieldValues, FormProvider, useForm } from 'react-hook-form';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import Button from '@/components/Button';
 import FormActivity from '@/components/Forms/FormActivity';
@@ -39,22 +40,17 @@ export default function Inscription() {
   const methods = useForm();
   const { handleSubmit, getValues } = methods;
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
 
-  const formSubmit = async (data: FieldValues) => {
+  const formSubmit = () => {
     console.log(getValues());
 
-    try {
+    if (page < 13) {
       setPage((curr) => curr + 1);
-
-      await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-    } catch (error) {
-      throw new Error(`${String(error)}`);
+    } else {
+      page === 13;
+      navigate('/final-diagnostic');
+      console.log('yo');
     }
   };
 

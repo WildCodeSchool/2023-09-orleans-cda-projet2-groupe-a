@@ -83,7 +83,7 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
               whileHover={{ scale: 1.2 }}
               className='bg-primary/30 absolute right-[2rem] top-[2rem] h-[50px] w-[50px] cursor-pointer rounded-full  shadow-lg backdrop-blur-md'
             >
-              <Link to={'/final-diagnostic'}>
+              <Link to={'/card'}>
                 <div
                   className={`${products.length === 0 ? 'hidden' : ''} text-primary relative left-[30px] h-[17px] w-[17px] rounded-full bg-red-600 text-center text-xs tracking-tighter`}
                 >

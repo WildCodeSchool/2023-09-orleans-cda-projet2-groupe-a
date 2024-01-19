@@ -36,6 +36,7 @@ export default function FormAnim() {
       controller.abort();
     };
   }, []);
+  console.log(item);
 
   return (
     <div>
