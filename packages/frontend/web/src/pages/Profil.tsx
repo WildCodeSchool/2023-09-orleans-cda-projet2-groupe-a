@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+
+import Logo from '@/components/Logo';
+
 import Menu from '@/components/Menu';
 
 export default function Profil() {
@@ -12,6 +15,12 @@ export default function Profil() {
       <div>
         <Menu bool={bool} setBool={setBool} />
       </div>
+
+      <div className='bg-primary/30 flex w-3/4 flex-row gap-6 backdrop-blur-md'>
+        <div className='flex justify-center p-4'>
+          <Logo />
+          {/* <img src='/Logo2.svg' alt='logo' className='w-full' /> */}
+        </div>
         <div className='bg-primary flex w-3/4 flex-row gap-6'>
           <div className='flex justify-center p-4'>
             <img src='/Logo2.svg' alt='logo' className='w-full' />
@@ -62,5 +71,6 @@ export default function Profil() {
           </div>
         </div>
       </div>
+    </div>
   );
 }
