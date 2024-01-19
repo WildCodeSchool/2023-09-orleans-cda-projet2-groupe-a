@@ -68,7 +68,7 @@ export default function Profil() {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
+        </div>
   );
 }
