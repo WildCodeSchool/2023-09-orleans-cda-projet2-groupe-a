@@ -40,8 +40,6 @@ export default function Inscription() {
   const [page, setPage] = useState(0);
 
   const formSubmit = async (data: FieldValues) => {
-    console.log(getValues());
-
     if (page < 13) {
       setPage((curr) => curr + 1);
     } else {
