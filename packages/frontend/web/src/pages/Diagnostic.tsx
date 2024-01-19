@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
+import Inscription from './Inscription';
 
 export default function Diagnostic() {
   const [isSquare, setIsSquare] = useState(false);
@@ -71,8 +72,8 @@ export default function Diagnostic() {
           )}
           {/* {isSquare ? <Outlet /> : undefined} */}
           {isSquare ? (
-            <div className={`absolute ${contentClass}`}>
-              <Outlet />
+            <div className={`h-full w-full ${contentClass}`}>
+              <Inscription />
             </div>
           ) : undefined}
         </motion.div>

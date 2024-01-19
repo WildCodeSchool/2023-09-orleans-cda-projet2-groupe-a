@@ -15,10 +15,10 @@ export default function FormAnim() {
   const { register, watch, setValue } = useFormContext();
   const [item, setItem] = useState<Category>();
 
-  const selectItem = watch('skin');
+  const selectItem = watch('criteria_value_id');
 
   const handleClick = () => {
-    setValue('skin', selectItem);
+    setValue('criteria_value_id', selectItem);
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function FormAnim() {
             <label
               onClick={handleClick}
               htmlFor={String(criter.id)}
-              className={`border-gold hover:bg-secondary hover:text-primary flex w-[70%] cursor-pointer items-center justify-center border py-3 text-xl tracking-widest ${selectItem === criter.criteria_name ? 'bg-secondary text-primary' : ''}`}
+              className={`border-gold hover:bg-secondary hover:text-primary flex w-[70%] cursor-pointer items-center justify-center border py-3 text-xl tracking-widest ${selectItem === String(criter.id) ? 'bg-secondary text-primary' : ''}`}
             >
               {criter.criteria_name}
             </label>
