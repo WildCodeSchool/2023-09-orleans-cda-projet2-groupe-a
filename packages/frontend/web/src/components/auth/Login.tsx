@@ -48,11 +48,8 @@ export default function Login() {
           isLoggedIn: boolean;
         };
 
-        console.log(resData);
-
         // If the user is logged in, redirect to the home page
         if (resData.isLoggedIn) {
-          console.log('logged in');
           setIsLoggedIn(true);
           navigate('/');
         }

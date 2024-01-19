@@ -42,7 +42,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
         password VARCHAR(255) NOT NULL,
         firstname VARCHAR(255) NOT NULL,
         lastname VARCHAR(255) NOT NULL,
-        birthdate DATE NOT NULL,
+        birthdate DATETIME NOT NULL,
         gender ENUM('male', 'female', 'other') NOT NULL,
         country VARCHAR(255) NOT NULL,
         created_at DATETIME NOT NULL
