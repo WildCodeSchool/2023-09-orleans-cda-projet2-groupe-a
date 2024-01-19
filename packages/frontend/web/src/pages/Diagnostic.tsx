@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 import Menu from '../components/Menu';
 import Inscription from './Inscription';

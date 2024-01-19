@@ -14,9 +14,7 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
   const [isOpen, setIsOpen] = useState(false);
   const productsString = localStorage.getItem('selectedProducts');
   const [products, setProducts] = useState([]);
-  /*   if (productsString) {
-    setProducts(JSON.parse(productsString));
-  } */
+
   console.log(products);
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -27,10 +25,11 @@ export default function Menu({ bool, setBool }: CardFinalDiagnosticProps) {
 
   useEffect(() => {
     setBool(!bool);
-    if (productsString) {
-      setProducts(JSON.parse(productsString));
+    if (Boolean(productsString)) {
+      setProducts(JSON.parse(productsString as string));
     }
-  }, [productsString]);
+  }, [productsString, setBool]);
+
   console.log(bool);
 
   const handleLogout = async () => {

@@ -9,12 +9,10 @@ const userRouter = express.Router();
 interface Request extends ExpressRequest {
   userId?: number;
 }
-
 userRouter.put('/:userId', getUserId, async (req: Request, res) => {
   try {
     const userId = req.userId as number;
     const { firstname, lastname, birthdate, gender, country } = req.body;
-
     await db
       .updateTable('consumer')
       .set({

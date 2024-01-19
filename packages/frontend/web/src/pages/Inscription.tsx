@@ -35,7 +35,6 @@ const PAGES = [
   { currentPage: 12, component: <FormExpo /> },
   { currentPage: 13, component: <FormObjo /> },
 ];
-
 export default function Inscription() {
   const methods = useForm();
   const { handleSubmit, getValues } = methods;
@@ -53,9 +52,7 @@ export default function Inscription() {
       console.log('yo');
     }
   };
-
   console.log(page);
-
   return (
     <FormProvider {...methods}>
       <form className='w-full' onSubmit={handleSubmit(formSubmit)}>
