@@ -3,17 +3,21 @@ import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type { ActionTable } from '@app/types';
+import type { ActionTable, Flavour } from '@app/types';
+
+// import loginIdUser from './middlewares/login-id-user';
 
 const cocktailRouter = express.Router();
 
-interface ToolsCount {
-  'COUNT(*)': number;
-}
-
+// cocktailRouter.post('/add', loginIdUser, async (req, res) => {
 cocktailRouter.post('/add', async (req, res) => {
   const { name, glass, ingredients, alcohol, topping } = req.body;
+  const userId = 1;
+  /* const userId = req.userId; */
 
+  /*  if (userId === undefined) {
+    return res.json({ result: 'not connected' });
+  } */
   const probability = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5,
@@ -60,41 +64,19 @@ cocktailRouter.post('/add', async (req, res) => {
 
   try {
     const shaker = await db.transaction().execute(async (trx) => {
-      const ingredientsCount =
-        await sql`SELECT COUNT(*) FROM ingredient`.execute(trx);
-      const ingredientsTotal = (ingredientsCount.rows[0] as ToolsCount)[
-        'COUNT(*)'
-      ];
+      const moreIngredientArray = await db
+        .selectFrom('ingredient')
+        .selectAll()
+        .where('ingredient.id', 'not in', [
+          ingredients[0],
+          ingredients[1],
+          ingredients[2],
+        ])
+        .orderBy(sql`rand()`)
+        .limit(probability[howMuchMoreIngredients])
+        .execute();
 
-      const moreIngredientsPromises = Array.from(
-        { length: probability[howMuchMoreIngredients] },
-        async (_, index: number) => {
-          const randomId = Math.floor(Math.random() * ingredientsTotal);
-          const ingredients = await trx
-            .selectFrom('ingredient')
-            .selectAll()
-            .where('id', '=', randomId)
-            .limit(1)
-            .execute();
-
-          return ingredients[0];
-        },
-      );
-
-      const moreIngredients = await Promise.all(moreIngredientsPromises);
-      const allIngredients = [...ingredients, alcohol, ...moreIngredients];
-
-      /*       const totalKcal = allIngredients.reduce((acc, ingredient) => {
-        return ingredient.kcal + acc;
-      }, 0);
-      console.log(totalKcal);
-      console.log(typeof totalKcal); */
-
-      /*    const flavor :string[] = allIngredients.map((ingredient) :string => {
-       return ingredient.flavour} ); */
-
-      /*    const finalFlavour = flavor.reduce
-      console.log(flavor);  */
+      const allIngredients = [...ingredients, alcohol, ...moreIngredientArray];
 
       let totalQuantity = 0;
       let totalkcal = 0;
@@ -104,23 +86,49 @@ cocktailRouter.post('/add', async (req, res) => {
       const kcal: number[] = [];
       const complexity: number[] = [];
       const duration: number[] = [];
+      const flavors: Flavour[] = [];
 
-      const cocktailInfo = Array.from(
-        { length: allIngredients.length },
-        (_, index: number) => {
-          const numberQuantity = Math.floor(Math.random() * 100);
-          const numberComplexity = Math.floor(Math.random() * 10);
-          const numberDuration = Math.floor(Math.random() * 10);
-          totalQuantity = totalQuantity + numberQuantity;
-          totalComplexity = totalComplexity + numberComplexity;
-          totalDuration = totalDuration + allIngredients[index].kcal;
-          totalkcal = totalkcal + numberDuration;
-          quantity.push(numberQuantity);
-          complexity.push(numberComplexity);
-          duration.push(numberDuration);
-          kcal.push(allIngredients[index].kcal);
-        },
-      );
+      for (const allIngredient of allIngredients) {
+        const numberQuantity = Math.floor(Math.random() * 10 + 1);
+        const numberComplexity = Math.floor(Math.random() * 10 + 1);
+        const numberDuration = Math.floor(Math.random() * 10 + 1);
+        totalQuantity = totalQuantity + numberQuantity;
+        totalComplexity = totalComplexity + numberComplexity;
+        totalDuration = totalDuration + allIngredient.kcal;
+        totalkcal = totalkcal + numberDuration;
+        quantity.push(numberQuantity);
+        complexity.push(numberComplexity);
+        duration.push(numberDuration);
+        kcal.push(allIngredient.kcal);
+        flavors.push(allIngredient.flavour);
+      }
+
+      const counts: { [key in Flavour]: number } = {
+        fruity: 0,
+        spicy: 0,
+        herbaceous: 0,
+        floral: 0,
+        woody: 0,
+        bitter: 0,
+        sweet: 0,
+        salty: 0,
+        sour: 0,
+        neutral: 0,
+      };
+      let maxCount = 0;
+      let maxItems: Flavour[] = [];
+
+      flavors.map((flavor) => {
+        counts[flavor] = (counts[flavor] || 0) + 1;
+        if (counts[flavor] > maxCount) {
+          maxCount = counts[flavor];
+          maxItems = [flavor];
+        } else if (counts[flavor] === maxCount) {
+          maxItems.push(flavor);
+        }
+      });
+      const finalFlavour: Flavour =
+        maxItems[Math.floor(Math.random() * maxItems.length)];
 
       const cocktail = await trx
         .insertInto('cocktail')
@@ -130,31 +138,42 @@ cocktailRouter.post('/add', async (req, res) => {
           total_degree: 23,
           total_kcal: totalkcal,
           created_at: createdAt,
-          author: 1,
-          final_flavour: 'fruity',
+          author: userId,
+          final_flavour: finalFlavour,
           total_quantity: totalQuantity,
         })
         .executeTakeFirstOrThrow();
 
       const cocktailId = cocktail.insertId;
-      console.log(cocktailId);
-      console.log(Number(cocktailId));
 
       if (cocktailId === undefined) {
         return res.status(404).send('Cocktail not found');
       }
 
-      for (const [index, ingredient] of allIngredients.entries()) {
-        const tools = await sql`SELECT COUNT(*) FROM tool`.execute(trx);
-        const toolCount = (tools.rows[0] as ToolsCount)['COUNT(*)'];
+      let index = 0;
+      for (const ingredient of allIngredients) {
+        const randomVerb = verb[Math.floor(Math.random() * verb.length)];
 
-        const randomIndex = Math.floor(Math.random() * verb.length);
+        const tools = await sql`
+          SELECT tool_id, COUNT(*) as frequency
+          FROM action
+          WHERE verb = ${randomVerb}
+          GROUP BY tool_id
+          ORDER BY frequency DESC
+          LIMIT 1
+        `.execute(trx);
+
+        const toolId =
+          tools.rows.length > 0
+            ? (tools.rows[0] as { tool_id: number }).tool_id
+            : Math.random() * 10;
+
         const action = await trx
           .insertInto('action')
           .values({
-            verb: verb[randomIndex],
+            verb: randomVerb,
             priority: Math.floor(Math.random() * 10),
-            tool_id: Math.floor(Math.random() * toolCount),
+            tool_id: toolId,
             duration: duration[index],
             complexity: complexity[index],
             is_mandatory: [true, false][Math.floor(Math.random() * 2)],
@@ -186,6 +205,8 @@ cocktailRouter.post('/add', async (req, res) => {
             step: 1,
           })
           .executeTakeFirstOrThrow();
+
+        index++;
       }
 
       await trx
@@ -199,10 +220,10 @@ cocktailRouter.post('/add', async (req, res) => {
 
       return cocktailId;
     });
-    res.status(200).json({ cocktailId: shaker });
+    res.status(200).json({ cocktailId: Number(shaker) });
   } catch (error) {
     console.error(error);
-    res.status(500).send('oui Server Error');
+    res.status(500).send('Internal Server Error');
   }
 });
 
