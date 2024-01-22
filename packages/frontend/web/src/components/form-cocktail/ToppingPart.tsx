@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
-  register,
   selectedTopping,
   selectedAlcohol,
   handleToppingChange,
