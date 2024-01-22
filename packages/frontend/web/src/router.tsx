@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
+import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
 import Favorite from './pages/Favorite';
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'favorites',
         element: <Favorite />,
+      },
+      {
+        path: 'cocktails',
+        element: <Cocktails />,
       },
     ],
   },

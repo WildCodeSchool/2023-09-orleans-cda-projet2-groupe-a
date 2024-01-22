@@ -130,6 +130,7 @@ const squares = [
       md: 10,
       lg: 0,
     },
+
     component: (
       <Link to='/cocktails'>
         <CocktailsPart />

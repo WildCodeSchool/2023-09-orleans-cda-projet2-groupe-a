@@ -13,13 +13,19 @@ interface Comment {
 
 interface CommentProps {
   readonly comments: Comment[] | undefined;
+  readonly isReload: boolean;
+  readonly setIsReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function Comment({ comments }: CommentProps) {
+export default function Comment({
+  comments,
+  isReload,
+  setIsReload,
+}: CommentProps) {
   const { isOpen, setIsOpen, refEl } = useOutsideClick<HTMLDivElement>();
 
   return comments === undefined ? null : (
     <div className='flex w-full justify-center'>
-      <div className='flex w-full flex-wrap justify-around lg:justify-normal'>
+      <div className='my-4 flex w-full flex-wrap justify-around'>
         {comments.map((comment) => (
           <div
             key={comment.comment_id}
@@ -55,7 +61,14 @@ export default function Comment({ comments }: CommentProps) {
               className='stroke-3 m-auto h-20 w-20 cursor-pointer'
             />
           </button>
-          {isOpen ? <AddComment setIsOpen={setIsOpen} refEl={refEl} /> : null}
+          {isOpen ? (
+            <AddComment
+              setIsOpen={setIsOpen}
+              refEl={refEl}
+              setIsReload={setIsReload}
+              isReload={isReload}
+            />
+          ) : null}
         </div>
       </div>
     </div>
