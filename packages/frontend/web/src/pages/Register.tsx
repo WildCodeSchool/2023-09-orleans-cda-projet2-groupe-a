@@ -181,9 +181,7 @@ export default function Register() {
         )}
       </div>
       {isUnderAge !== undefined && (
-        <CheckBirthdateAnimations
-          isUnderAge={isUnderAge}
-        />
+        <CheckBirthdateAnimations isUnderAge={isUnderAge} />
       )}
     </div>
   );

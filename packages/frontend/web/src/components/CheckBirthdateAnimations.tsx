@@ -15,7 +15,6 @@ export default function CheckBirthdateAnimations({
   const minus18: Date = new Date();
   minus18.setFullYear(minus18.getFullYear() - 18);
 
-
   return (
     <>
       <div className='fixed top-1 z-40 flex h-1/5 flex-col items-center justify-center'>

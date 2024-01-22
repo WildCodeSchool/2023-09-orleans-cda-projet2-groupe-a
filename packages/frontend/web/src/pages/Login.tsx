@@ -2,8 +2,8 @@ import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
-import { useAnimations } from '@/contexts/AnimationsContext';
 import GreetsLogin from '@/components/GreetsLogin';
+import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBirth } from '@/contexts/BirthContext';
 
@@ -16,8 +16,7 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUnderAge, setIsUnderAge] = useState<boolean>();
-  const { setIsImageShown, setIsModalShown, isWow, setIsWow } =
-    useAnimations();
+  const { setIsImageShown, setIsModalShown, isWow, setIsWow } = useAnimations();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
@@ -55,7 +54,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error(
-        "Error occured while logging in. Please try again later.",
+        'Error occured while logging in. Please try again later.',
         error,
       );
     }
@@ -101,9 +100,7 @@ export default function Login() {
             {'Login'}
           </h1>
           {isUnderAge !== undefined && (
-            <CheckBirthdateAnimations
-              isUnderAge={isUnderAge}
-            />
+            <CheckBirthdateAnimations isUnderAge={isUnderAge} />
           )}
           <form
             onSubmit={handleSubmit}
