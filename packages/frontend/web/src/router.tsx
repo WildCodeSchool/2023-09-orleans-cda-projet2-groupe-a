@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
 import AddCocktail from './pages/AddCocktail';
+import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
 import Home from './pages/Home';
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: 'community',
         element: <Community />,
+      },
+      {
+        path: 'cocktails',
+        element: <Cocktails />,
       },
     ],
   },
