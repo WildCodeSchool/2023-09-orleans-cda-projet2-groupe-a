@@ -7,10 +7,8 @@ import { db } from '@app/backend-shared';
 import loginIdUser from './middlewares/login-id-user';
 import validateUpdateUser from './middlewares/validate-update-user';
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    userId?: number;
-  }
+interface RequestWithUser extends Request {
+  userId?: number;
 }
 
 const user = express.Router();
@@ -170,7 +168,7 @@ async function getAllUsers() {
   });
 }
 
-user.get('/profile', loginIdUser, async (req, res) => {
+user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
   const id = req.userId;
   const shouldEmail = true;
   if (id == null) {
@@ -219,7 +217,7 @@ user.put(
   '/update',
   loginIdUser,
   validateUpdateUser,
-  async (req: Request, res: Response) => {
+  async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
 
     if (userId == null) {
