@@ -1,9 +1,8 @@
-import { type FormEvent, useEffect } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
 import { useAnimations } from '@/contexts/AnimationsContext';
-import { useAuth } from '@/contexts/AuthContext';
 import { useBirth } from '@/contexts/BirthContext';
 
 // These two consts below do not need and function.
@@ -17,8 +16,8 @@ export default function CheckBirthdate() {
   const { setIsImageShown, setIsSubmitted, setIsModalShown, isWow, setIsWow } =
     useAnimations();
 
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { birthdate, setBirthdate } = useBirth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function CheckBirthdate() {
   }, []);
 
   // useEffect that stores birthdate in the localstorage
-  // so that browser can memorize it and user doesn't have to enter it again.
+  // so that browser memorize it and user doesn't have to enter it again.
   useEffect(() => {
     if (birthdate !== undefined && birthdate !== '') {
       localStorage.setItem('birthdate', birthdate);
@@ -52,34 +51,40 @@ export default function CheckBirthdate() {
     }, 1500);
     document.body.classList.remove('overflow-hidden');
 
-    if (birthdate !== undefined) {
-      if (isUnderAge) {
-        document.body.classList.add('overflow-hidden');
-        setIsImageShown(true);
+    if (birthdate === undefined) {
+      throw new Error('Birthdate is undefined');
+    }
+
+    if (birthdate && isUnderAge) {
+      document.body.classList.add('overflow-hidden');
+      setIsImageShown(true);
+      setTimeout(() => {
+        setIsModalShown(true);
+        setIsModalOpen;
+      }, 2500);
+      if (isModalOpen) {
         setTimeout(() => {
-          setIsModalShown(true);
-        }, 2500);
-        navigate('/');
-      } else {
+          setIsModalOpen(false);
+          navigate('/register');
+        }, 1000);
+      }
+    } else {
+      setTimeout(() => {
+        if (!isWow) {
+          setIsWow(true);
+        }
         setTimeout(() => {
-          if (!isWow) {
-            setIsWow(true);
-          }
-          setTimeout(() => {
-            document.body.classList.add('overflow-hidden');
-            window.scrollTo({
-              top: document.body.scrollHeight,
-              behavior: 'smooth',
-            });
-          }, 700);
-        }, 1200);
-      }
-      if (isLoggedIn) {
-        setIsLoggedIn(true);
-        navigate('/'); // if the user is logged in, he's redirected to homepage.
-      }
+          document.body.classList.add('overflow-hidden');
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+          });
+        }, 700);
+      }, 1200);
     }
   };
+  console.log(birthdate);
+  console.log('coucou', isUnderAge);
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center overflow-y-auto p-5'>
@@ -101,7 +106,7 @@ export default function CheckBirthdate() {
               min='1920-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
-              value={birthdate}
+              defaultValue={birthdate}
               onChange={(event) => {
                 setBirthdate(event.target.value);
               }}
@@ -116,7 +121,9 @@ export default function CheckBirthdate() {
           </form>
         </div>
       </div>
-      <CheckBirthdateAnimations />
+      <CheckBirthdateAnimations
+        isUnderAge={isUnderAge}
+      />
     </div>
   );
 }

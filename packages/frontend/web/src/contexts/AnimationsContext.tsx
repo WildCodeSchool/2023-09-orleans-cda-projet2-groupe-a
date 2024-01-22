@@ -34,6 +34,7 @@ export function AnimationsProvider({ children }: AnimationsProviderProps) {
   const [isImageShown, setIsImageShown] = useState(false);
   const [isUnderAge, setIsUnderAge] = useState(false);
   const [isModalShown, setIsModalShown] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isWow, setIsWow] = useState(false);
 
   const value = useMemo(

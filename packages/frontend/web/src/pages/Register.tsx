@@ -5,14 +5,13 @@ import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 
+import GreetsLogin from '../components/GreetsLogin';
+
 const now: Date = new Date();
 
 export default function Register() {
-  const minus18: Date = new Date();
-  minus18.setFullYear(minus18.getFullYear() - 18);
-  const registeredBirthdate = localStorage.getItem('birthdate') || null;
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const [email, setEmail] = useState<string>('');
   const [pseudo, setPseudo] = useState<string>('');
@@ -21,6 +20,7 @@ export default function Register() {
   const [birthdate, setBirthdate] = useState<string>('');
   const { setIsImageShown, setIsSubmitted, setIsModalShown, isWow, setIsWow } =
     useAnimations();
+  const [isUnderAge, setIsUnderAge] = useState<boolean>();
 
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
@@ -46,22 +46,19 @@ export default function Register() {
         }),
       });
 
-      const isUnderAge =
-        birthdate && birthdate !== ''
-          ? new Date(birthdate).getTime() >= minus18.getTime()
-          : true;
-
       const data = (await res.json()) as {
         ok: boolean;
+        isLoggedIn: boolean;
+        isUnderAge: boolean;
       }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
       //Hence, the mention "await" preceed res.json.
 
-      if (data.ok && !isUnderAge) {
-        // User registered, loggedIn and redirected to /.
+      if (data.ok) {
+        setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
         setTimeout(() => {
           if (!isWow) {
-            setIsWow(true);
+            setIsWow;
           }
           setTimeout(() => {
             window.scrollTo({
@@ -70,8 +67,8 @@ export default function Register() {
             });
           }, 700);
         }, 1200);
-        navigate('/'); // If user is logged in, he's redirected towards homepage.
-      } else if (data.ok && isUnderAge) {
+        navigate('/'); // If user is registered, he's automatically logged in and redirected towards homepage, regarding he's underage or not.
+      } else {
         document.body.classList.add('overflow-hidden');
         setIsWow(false);
         setIsImageShown(true);
@@ -80,20 +77,23 @@ export default function Register() {
         }, 2500);
         // User Registered but not logged in
         setIsLoggedIn(true);
-        navigate('/virgin');
+        setTimeout(() => {
+          navigate('/virgin');
+        }, 6000);
       }
     } catch {
-      console.error('There was an error registering.');
+      console.error('An error occured while registering.');
     }
   };
 
   return (
     <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
       <div
-        className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
-        <div className='z-50 flex h-screen w-screen flex-col items-center justify-center'>
+        <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
+          {isLoggedIn ? <GreetsLogin /> : null}
           <h1 className='text-light font-stroke mt-10 text-center text-5xl font-bold'>
             {'Register'}
           </h1>
@@ -143,11 +143,7 @@ export default function Register() {
               min='1900-01-01'
               max={now.toISOString().split('T')[0]} // returns today's date, formatted to YYYY-MM-DD.
               placeholder='Birthdate'
-              defaultValue={
-                registeredBirthdate === null || undefined
-                  ? ''
-                  : registeredBirthdate
-              }
+              defaultValue={''}
               onChange={(event) => {
                 setBirthdate(event.target.value);
               }}
@@ -184,7 +180,11 @@ export default function Register() {
           </div>
         )}
       </div>
-      <CheckBirthdateAnimations />
+      {isUnderAge !== undefined && (
+        <CheckBirthdateAnimations
+          isUnderAge={isUnderAge}
+        />
+      )}
     </div>
   );
 }

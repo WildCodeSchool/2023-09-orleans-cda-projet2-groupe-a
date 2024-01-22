@@ -1,14 +1,23 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+import { useAnimations } from '@/contexts/AnimationsContext';
+import GreetsLogin from '@/components/GreetsLogin';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { birthdate } = useBirth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUnderAge, setIsUnderAge] = useState<boolean>();
+  const { setIsImageShown, setIsModalShown, isWow, setIsWow } =
+    useAnimations();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
@@ -39,13 +48,44 @@ export default function Login() {
 
       if (data.isLoggedIn && !data.isUnderAge) {
         setIsLoggedIn(true);
-        navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (isLoggedIn && data.isUnderAge) {
+        // navigate('/'); // If the user is logged in, he's redirected towards homepage.
+      } else if (data.isUnderAge) {
         setIsLoggedIn(true);
-        navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+        // navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
-    } catch {
-      console.error("Perdu, tu catches l'erreur.");
+    } catch (error) {
+      console.error(
+        "Error occured while logging in. Please try again later.",
+        error,
+      );
+    }
+
+    if (birthdate && isUnderAge && isLoggedIn) {
+      document.body.classList.add('overflow-hidden');
+      setIsImageShown(true);
+      setTimeout(() => {
+        setIsModalShown(true);
+        setIsModalOpen;
+      }, 2500);
+      if (isModalOpen) {
+        setTimeout(() => {
+          setIsModalOpen(false);
+          navigate('/register');
+        }, 1000);
+      }
+    } else {
+      setTimeout(() => {
+        if (!isWow) {
+          setIsWow(true);
+        }
+        setTimeout(() => {
+          document.body.classList.add('overflow-hidden');
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+          });
+        }, 700);
+      }, 1200);
     }
   };
 
@@ -56,9 +96,15 @@ export default function Login() {
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
         <div className='flex h-screen w-screen flex-col items-center justify-center'>
+          {isLoggedIn ? <GreetsLogin /> : null}
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
           </h1>
+          {isUnderAge !== undefined && (
+            <CheckBirthdateAnimations
+              isUnderAge={isUnderAge}
+            />
+          )}
           <form
             onSubmit={handleSubmit}
             className='z-50 m-10 flex flex-col items-center gap-2'

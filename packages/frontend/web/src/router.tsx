@@ -12,16 +12,16 @@ import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
     element: <Layout />,
     children: [
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
       {
         path: '/',
         element: <Home />,
