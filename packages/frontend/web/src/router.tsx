@@ -4,6 +4,7 @@ import Layout from './Layout';
 import AddCocktail from './pages/AddCocktail';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
+import Favorite from './pages/Favorite';
 import Home from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'community',
         element: <Community />,
+      },
+      {
+        path: 'favorites',
+        element: <Favorite />,
       },
     ],
   },

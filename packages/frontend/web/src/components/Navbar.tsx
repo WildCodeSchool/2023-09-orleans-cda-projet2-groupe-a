@@ -35,7 +35,7 @@ const navbarContent: NavbarContent[] = [
   },
   {
     name: 'Favorite',
-    url: '/favorite',
+    url: '/favorites',
     icon: Heart,
   },
   {

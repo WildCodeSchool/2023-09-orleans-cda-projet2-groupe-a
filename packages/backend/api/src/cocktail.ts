@@ -4,6 +4,7 @@ import { jsonArrayFrom } from 'kysely/helpers/mysql';
 import { db } from '@app/backend-shared';
 import type { UpdateData } from '@app/types';
 
+import loginIdUser from './middlewares/login-id-user';
 import multerConfig from './middlewares/multer-config';
 
 const cocktailRouter = express.Router();
@@ -107,6 +108,85 @@ cocktailRouter.get('/:id', async (req, res) => {
       ])
       .where('cocktail.id', '=', Number.parseInt(id))
       .executeTakeFirst();
+
+    if (!cocktail) {
+      return res.status(404).send('Cocktail not found');
+    }
+
+    res.json({ cocktail });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+cocktailRouter.post('/favoriteAdd', loginIdUser, async (req, res) => {
+  const userId = req.userId;
+  const { cocktailId } = req.body;
+
+  if (userId === undefined) {
+    return res.json({ result: 'not connected' });
+  }
+  console.log(userId, cocktailId);
+
+  try {
+    await db.transaction().execute(async (trx) => {
+      const isInFavorite = await trx
+        .selectFrom('favorite')
+        .selectAll()
+        .where('cocktail_id', '=', Number.parseInt(cocktailId))
+        .where('user_id', '=', Number(userId))
+        .executeTakeFirst();
+
+      console.log(isInFavorite);
+
+      if (isInFavorite === undefined) {
+        console.log('in if');
+
+        await trx
+          .insertInto('favorite')
+          .values({
+            cocktail_id: Number.parseInt(cocktailId),
+            user_id: Number(userId),
+          })
+          .executeTakeFirst();
+      } else {
+        console.log('in else');
+
+        await trx
+          .deleteFrom('favorite')
+          .where('cocktail_id', '=', Number.parseInt(cocktailId))
+          .where('user_id', '=', Number(userId))
+          .executeTakeFirst();
+      }
+    });
+    res.json({ ok: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+cocktailRouter.get('/favorite', loginIdUser, async (req, res) => {
+  const userId = req.userId;
+  try {
+    const cocktail = await db
+      .selectFrom('favorite')
+      .selectAll()
+      .select((eb) => [
+        jsonArrayFrom(
+          eb
+            .selectFrom('cocktail')
+            .innerJoin('favorite', 'favorite.cocktail_id', 'cocktail.id')
+            .innerJoin('favorite', 'favorite.user_id', 'user.id')
+            .select([
+              'cocktail.id as cocktail_id',
+              'cocktail.name as cocktail_name',
+            ])
+            .where('favorite.user_id', '=', Number(userId)),
+        ).as('cocktails'),
+      ])
+      .execute();
 
     if (!cocktail) {
       return res.status(404).send('Cocktail not found');
