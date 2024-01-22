@@ -10,14 +10,14 @@ interface Cocktails {
   readonly cardCocktails: Cocktails[] | undefined;
 }
 
-interface SearchProps {
+interface SearchBarProps {
   readonly setCocktails: (cocktails: Cocktails[] | undefined) => void;
-  readonly onsubmit: (data: InputSearchBar) => void;
+  readonly onSubmit: (data: InputSearchBar) => void;
 }
 type InputSearchBar = {
   searchTerm?: string;
 };
-export default function SearchBar({ onsubmit }: SearchProps) {
+export default function SearchBar({ onSubmit }: SearchBarProps) {
   const { register, handleSubmit, watch } = useForm<InputSearchBar>({
     defaultValues: {
       searchTerm: '',
@@ -33,7 +33,7 @@ export default function SearchBar({ onsubmit }: SearchProps) {
         />
 
         <form
-          onSubmit={handleSubmit(onsubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className='bg-card-green border-dark flex h-[2.5rem] w-[2rem] rounded-sm border-[3px] opacity-0 transition-all duration-500 ease-in-out focus:outline-none group-hover:w-[15rem] group-hover:opacity-100 '
         >
           <input

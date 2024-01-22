@@ -98,7 +98,7 @@ export default function Cocktails() {
   };
 
   const controller = new AbortController();
-  const onsubmit = async (data: InputSearchBar) => {
+  const onSubmit = async (data: InputSearchBar) => {
     try {
       await fetchCocktails(
         controller.signal,
@@ -141,14 +141,14 @@ export default function Cocktails() {
           </button>
           {isFilterBarVisible ? (
             <div>
-              <SearchBar setCocktails={setCocktails} onsubmit={onsubmit} />
-              <div className=''>
+              <SearchBar setCocktails={setCocktails} onSubmit={onSubmit} />
+              <div>
                 <FilterBar filters={filters} setFilters={setFilters} />
               </div>
             </div>
           ) : null}
         </div>
-        <div className='col-span-3 mt-24'>
+        <div className='col-span-3 my-24'>
           <CardCocktail cocktails={cocktails} />
         </div>
       </div>

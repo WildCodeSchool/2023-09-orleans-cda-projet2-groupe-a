@@ -46,8 +46,6 @@ interface FilterBarProps {
   readonly setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }
 
-type Menu = string;
-
 export default function FilterBar({ filters, setFilters }: FilterBarProps) {
   const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
   const [alcohols, setAlcohols] = useState<Alcohol[] | undefined>();
@@ -56,8 +54,8 @@ export default function FilterBar({ filters, setFilters }: FilterBarProps) {
   const [degrees, setDegrees] = useState<Degree[] | undefined>();
   const [complexities, setComplexities] = useState<Complexity[] | undefined>();
 
-  const [openMenus, setOpenMenus] = useState<Menu[]>([]);
-  const isMenuOpen = (menu: Menu): boolean => openMenus.includes(menu);
+  const [openMenus, setOpenMenus] = useState<string[]>([]);
+  const isMenuOpen = (menu: string): boolean => openMenus.includes(menu);
 
   type FilterCategory = {
     name: keyof Filters;
@@ -127,7 +125,7 @@ export default function FilterBar({ filters, setFilters }: FilterBarProps) {
     });
   };
 
-  const handleToggleMenu = (menu: Menu) => {
+  const handleToggleMenu = (menu: string) => {
     setOpenMenus((prevOpenMenus) =>
       prevOpenMenus.includes(menu)
         ? prevOpenMenus.filter((item) => item !== menu)

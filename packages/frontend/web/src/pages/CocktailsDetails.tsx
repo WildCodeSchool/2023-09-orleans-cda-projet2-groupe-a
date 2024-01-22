@@ -27,8 +27,6 @@ type Ingredient = {
   priority: number;
 };
 
-// import StarRating from '@/components/cocktail-detail/StarRating';
-
 export default function CocktailsDetails() {
   const { id } = useParams();
   const [cocktail, setCocktail] = useState<Cocktail | undefined>();
@@ -93,7 +91,11 @@ export default function CocktailsDetails() {
         <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <img
-              src='/cocktail-placeholder.png'
+              src={
+                cocktail.image
+                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
+                  : '/cocktail-placeholder.png'
+              }
               alt='Cocktail picture'
               className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
             />

@@ -4,8 +4,38 @@ import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
 import type { Flavour } from '@app/types';
+import type { UpdateData } from '@app/types';
+
+import multerConfig from './middlewares/multer-config';
 
 const cocktailRouter = express.Router();
+
+// Route post pour uploader un fichier
+cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
+  const cocktailId = Number.parseInt(req.params.id);
+  const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
+  const cocktailPicName = req.file ? req.file.filename : null;
+  const updateData: UpdateData = {};
+
+  if (anecdote !== null) {
+    updateData.anecdote = anecdote;
+  }
+  if (cocktailPicName !== null) {
+    updateData.image = cocktailPicName;
+  }
+
+  try {
+    const result = await db
+      .updateTable('cocktail')
+      .set(updateData)
+      .where('id', '=', cocktailId)
+      .execute();
+    res.send('Fichier uploadé avec succès!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // Route get pour récupérer les cocktails présents en BDD
 cocktailRouter.get('/', async (req, res) => {
