@@ -104,7 +104,7 @@
   }
 
   .scrollbar-bigger-rounded::-webkit-scrollbar-track {
-    background-color: #f4f7f6;
+    background-color: transparent;
   }
 
   .font-stroke {

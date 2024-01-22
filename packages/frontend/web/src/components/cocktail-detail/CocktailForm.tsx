@@ -60,7 +60,7 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
                 setAnecdote(event.target.value);
               }}
             />
-            <div className='flex ps-10'>
+            <div className='flex'>
               <label htmlFor='cocktailPic' className='sr-only'>
                 {'Upload Image'}
               </label>
@@ -77,7 +77,7 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
                 htmlFor='cocktailPic'
                 className='flex cursor-pointer items-center'
               >
-                <Upload />
+                <Upload className='mt-4 stroke-[3px]' />
               </label>
             </div>
             <button
@@ -101,10 +101,10 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
         </form>
       </div>
       <div
-        className={`border-dark bg-pastel-beige m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px]`}
+        className={`border-dark bg-pastel-beige m-auto mb-20 w-[80%] rounded-sm border-[3px]`}
       >
         <h3 className='m-4 mt-8 text-center uppercase'>{`discover me !!!`}</h3>
-        <p className='ms-5 p-5'>{cocktail.anecdote}</p>
+        <p className='mb-5 ms-5 p-5'>{cocktail.anecdote}</p>
       </div>
     </div>
   );
