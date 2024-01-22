@@ -14,17 +14,15 @@ import validateCocktailAdd from './middlewares/validate-cocktail-add';
 
 const cocktailRouter = express.Router();
 
-declare module 'express-serve-static-core' {
-  interface Request {
-    userId?: number;
-  }
+interface RequestWithUser extends Request {
+  userId?: number;
 }
 
-// cocktailRouter.post('/add', loginIdUser, validateCocktailAdd, async (req: Request, res: Response) => {
+// cocktailRouter.post('/add', loginIdUser, validateCocktailAdd, async (req: RequestWithUser, res: Response) => {
 cocktailRouter.post(
   '/add',
   validateCocktailAdd,
-  async (req: Request, res: Response) => {
+  async (req: RequestWithUser, res: Response) => {
     const { name, glass, ingredients, alcohol, topping } = req.body;
     const userId = 1;
     /* const userId = req.userId; */
