@@ -47,10 +47,11 @@ export default function Login() {
 
       if (data.isLoggedIn && !data.isUnderAge) {
         setIsLoggedIn(true);
-        // navigate('/'); // If the user is logged in, he's redirected towards homepage.
+        navigate('/'); // If the user is logged in, he's redirected towards homepage.
       } else if (data.isUnderAge) {
         setIsLoggedIn(true);
-        // navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+        setIsUnderAge(true);
+        navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
     } catch (error) {
       console.error(

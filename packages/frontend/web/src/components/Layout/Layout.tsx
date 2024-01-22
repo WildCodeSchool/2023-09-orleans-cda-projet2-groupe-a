@@ -13,7 +13,6 @@ export default function Layout() {
   useEffect(() => {
     setBirthdate(localStorage.getItem('birthdate'));
   }, []);
-  console.log('salut', isLoggedIn);
 
   return (
     <>
