@@ -1,4 +1,5 @@
 import express from 'express';
+import type { Request, Response } from 'express';
 import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
@@ -9,7 +10,65 @@ import type { UpdateData } from '@app/types';
 import loginIdUser from './middlewares/login-id-user';
 import multerConfig from './middlewares/multer-config';
 
+interface RequestWithUser extends Request {
+  userId?: number;
+}
+
 const cocktailRouter = express.Router();
+
+cocktailRouter.get(
+  '/favorites',
+  loginIdUser,
+  async (req: RequestWithUser, res: Response) => {
+    const userId = req.userId;
+    console.log(userId);
+
+    try {
+      const cocktail = await db
+        .selectFrom('favorite')
+        .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
+        .select((eb) => [
+          'cocktail.id as cocktail_id',
+          'cocktail.name as cocktail_name',
+          'cocktail.image as cocktail_image',
+          'cocktail.ratings_average as avg_rating',
+          jsonArrayFrom(
+            eb
+              .selectFrom('cocktail')
+              .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+              .innerJoin('action', 'recipe.action_id', 'action.id')
+              .innerJoin(
+                'action_ingredient',
+                'action.id',
+                'action_ingredient.action_id',
+              )
+              .innerJoin(
+                'ingredient',
+                'action_ingredient.ingredient_id',
+                'ingredient.id',
+              )
+              .select([
+                'ingredient.id as ingredient_id',
+                'ingredient.name as ingredient_name',
+                'ingredient.family',
+              ])
+              .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
+          ).as('ingredients'),
+        ])
+        .where('favorite.user_id', '=', Number(userId))
+        .execute();
+
+      if (!cocktail) {
+        return res.status(404).send('Cocktail not found');
+      }
+
+      res.json({ cocktail });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
+);
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
@@ -234,84 +293,56 @@ cocktailRouter.get('/:id', async (req, res) => {
   }
 });
 
-cocktailRouter.post('/favoriteAdd', loginIdUser, async (req, res) => {
-  const userId = req.userId;
-  const { cocktailId } = req.body;
+cocktailRouter.post(
+  '/favoriteAdd',
+  loginIdUser,
+  async (req: RequestWithUser, res: Response) => {
+    const userId = req.userId;
+    const { cocktailId } = req.body;
 
-  if (userId === undefined) {
-    return res.json({ result: 'not connected' });
-  }
-  console.log(userId, cocktailId);
+    if (userId === undefined) {
+      return res.json({ result: 'not connected' });
+    }
+    console.log(userId, cocktailId);
 
-  try {
-    await db.transaction().execute(async (trx) => {
-      const isInFavorite = await trx
-        .selectFrom('favorite')
-        .selectAll()
-        .where('cocktail_id', '=', Number.parseInt(cocktailId))
-        .where('user_id', '=', Number(userId))
-        .executeTakeFirst();
-
-      console.log(isInFavorite);
-
-      if (isInFavorite === undefined) {
-        console.log('in if');
-
-        await trx
-          .insertInto('favorite')
-          .values({
-            cocktail_id: Number.parseInt(cocktailId),
-            user_id: Number(userId),
-          })
-          .executeTakeFirst();
-      } else {
-        console.log('in else');
-
-        await trx
-          .deleteFrom('favorite')
+    try {
+      await db.transaction().execute(async (trx) => {
+        const isInFavorite = await trx
+          .selectFrom('favorite')
+          .selectAll()
           .where('cocktail_id', '=', Number.parseInt(cocktailId))
           .where('user_id', '=', Number(userId))
           .executeTakeFirst();
-      }
-    });
-    res.json({ ok: true });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
-cocktailRouter.get('/favorite', loginIdUser, async (req, res) => {
-  const userId = req.userId;
-  try {
-    const cocktail = await db
-      .selectFrom('favorite')
-      .selectAll()
-      .select((eb) => [
-        jsonArrayFrom(
-          eb
-            .selectFrom('cocktail')
-            .innerJoin('favorite', 'favorite.cocktail_id', 'cocktail.id')
-            .innerJoin('favorite', 'favorite.user_id', 'user.id')
-            .select([
-              'cocktail.id as cocktail_id',
-              'cocktail.name as cocktail_name',
-            ])
-            .where('favorite.user_id', '=', Number(userId)),
-        ).as('cocktails'),
-      ])
-      .execute();
+        console.log(isInFavorite);
 
-    if (!cocktail) {
-      return res.status(404).send('Cocktail not found');
+        if (isInFavorite === undefined) {
+          console.log('in if');
+
+          await trx
+            .insertInto('favorite')
+            .values({
+              cocktail_id: Number.parseInt(cocktailId),
+              user_id: Number(userId),
+            })
+            .executeTakeFirst();
+        } else {
+          console.log('in else');
+
+          await trx
+            .deleteFrom('favorite')
+            .where('cocktail_id', '=', Number.parseInt(cocktailId))
+            .where('user_id', '=', Number(userId))
+            .executeTakeFirst();
+        }
+      });
+      res.json({ ok: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
     }
-
-    res.json({ cocktail });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+  },
+);
 
 // Mettre à jour le champs anecdote grâce au formulaire
 cocktailRouter.post('/:id', async (req, res) => {
