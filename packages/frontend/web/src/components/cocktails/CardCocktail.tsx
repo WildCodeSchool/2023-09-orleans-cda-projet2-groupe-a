@@ -42,7 +42,7 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
                           [1, 2, 3, 4, 5].map((index) => (
                             <div
                               key={index}
-                              className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat grayscale ${
+                              className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat ${
                                 index <= Math.floor(cocktail.avg_rating / 2)
                                   ? 'grayscale-0 '
                                   : 'grayscale'
