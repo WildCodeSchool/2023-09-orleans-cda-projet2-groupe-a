@@ -24,7 +24,7 @@ const user = express.Router();
 //    - The rating given in each comment
 //    - The name of the cocktail associated with each comment
 
-async function getUser(id: number, shouldEmail: boolean) {
+async function getUser(id: number, shouldSelectEmail: boolean) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
       WITH ranked_ingredients AS (
@@ -85,7 +85,7 @@ async function getUser(id: number, shouldEmail: boolean) {
         user.pseudo, 
         user.image,
         user.color
-        ${shouldEmail ? ', user.email' : ''},
+        ${shouldSelectEmail ? ', user.email' : ''},
         (
           SELECT 
             JSON_ARRAYAGG(
@@ -170,14 +170,14 @@ async function getAllUsers() {
 
 user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
   const id = req.userId;
-  const shouldEmail = true;
+  const shouldSelectEmail = true;
   if (id == null) {
-    res.json({ result: 'not connected' });
+    res.json({ ok: false, message: 'not connected' });
     return;
   }
 
   try {
-    const result = await getUser(id, shouldEmail);
+    const result = await getUser(id, shouldSelectEmail);
     res.json(result[0]);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -186,10 +186,10 @@ user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
 
 user.get('/:id', async (req, res) => {
   const id = Number.parseInt(req.params.id);
-  const shouldEmail = false;
+  const shouldSelectEmail = false;
 
   try {
-    const result = await getUser(id, shouldEmail);
+    const result = await getUser(id, shouldSelectEmail);
 
     res.json(result[0]);
   } catch {
@@ -221,7 +221,7 @@ user.put(
     const userId = req.userId;
 
     if (userId == null) {
-      return res.json({ result: 'not connected' });
+      return res.json({ ok: false, message: 'not connected' });
     }
 
     const {
@@ -247,11 +247,11 @@ user.put(
           .executeTakeFirst();
 
         if (user === undefined) {
-          return res.json({ result: 'user not found' });
+          return res.json({ ok: false, message: 'user not found' });
         }
 
         if (newPassword !== confirmNewPassword) {
-          return res.json({ result: 'password do not match' });
+          return res.json({ ok: false, message: 'password do not match' });
         }
 
         const isCorrectPassword = await Bun.password.verify(
@@ -261,7 +261,7 @@ user.put(
         );
 
         if (!isCorrectPassword) {
-          return res.json({ result: 'wrong password' });
+          return res.json({ ok: false, message: 'wrong password' });
         }
 
         const hashedPassword = await Bun.password.hash(newPassword, {
@@ -278,7 +278,7 @@ user.put(
         .where('user.id', '=', userId)
         .executeTakeFirst();
 
-      res.json({ result: 'true' });
+      res.json({ ok: 'true' });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
