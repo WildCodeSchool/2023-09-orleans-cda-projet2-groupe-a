@@ -1,5 +1,5 @@
 import express from 'express';
-import type { Request, Response } from 'express';
+import type { Request } from 'express';
 import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
@@ -7,68 +7,15 @@ import { db } from '@app/backend-shared';
 import type { Flavour } from '@app/types';
 import type { UpdateData } from '@app/types';
 
-import loginIdUser from './middlewares/login-id-user';
+import isLoginOrNot from './middlewares/is-login-or-not';
 import multerConfig from './middlewares/multer-config';
-
-interface RequestWithUser extends Request {
-  userId?: number;
-}
 
 const cocktailRouter = express.Router();
 
-cocktailRouter.get(
-  '/favorites',
-  loginIdUser,
-  async (req: RequestWithUser, res: Response) => {
-    const userId = req.userId;
-    console.log(userId);
-
-    try {
-      const cocktail = await db
-        .selectFrom('favorite')
-        .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
-        .select((eb) => [
-          'cocktail.id as cocktail_id',
-          'cocktail.name as cocktail_name',
-          'cocktail.image as cocktail_image',
-          'cocktail.ratings_average as avg_rating',
-          jsonArrayFrom(
-            eb
-              .selectFrom('cocktail')
-              .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
-              .innerJoin('action', 'recipe.action_id', 'action.id')
-              .innerJoin(
-                'action_ingredient',
-                'action.id',
-                'action_ingredient.action_id',
-              )
-              .innerJoin(
-                'ingredient',
-                'action_ingredient.ingredient_id',
-                'ingredient.id',
-              )
-              .select([
-                'ingredient.id as ingredient_id',
-                'ingredient.name as ingredient_name',
-                'ingredient.family',
-              ])
-              .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
-          ).as('ingredients'),
-        ])
-        .where('favorite.user_id', '=', Number(userId))
-        .execute();
-
-      if (!cocktail) {
-        return res.status(404).send('Cocktail not found');
-      }
-
-      res.json({ cocktail });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  },
-);
+interface RequestWithUser extends Request {
+  userId?: number;
+  login?: boolean;
+}
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
@@ -108,117 +55,133 @@ cocktailRouter.get('/', async (req, res) => {
   }
 });
 
-cocktailRouter.get('/alcohol', async (req, res) => {
-  const ingredients = req.query.ingredients;
-  const flavours = req.query.flavours;
-  const kcals = req.query.kcals;
-  const complexities = req.query.complexities;
-  const degrees = req.query.degrees;
-  const searchTerm = req.query.searchTerm;
+cocktailRouter.get(
+  '/alcohol',
+  isLoginOrNot,
+  async (req: RequestWithUser, res) => {
+    const ingredients = req.query.ingredients;
+    const flavours = req.query.flavours;
+    const kcals = req.query.kcals;
+    const complexities = req.query.complexities;
+    const degrees = req.query.degrees;
+    const searchTerm = req.query.searchTerm;
 
-  try {
-    let query = db
-      .selectFrom('cocktail')
-      .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
-      .innerJoin('action', 'recipe.action_id', 'action.id')
-      .innerJoin(
-        'action_ingredient',
-        'action.id',
-        'action_ingredient.action_id',
-      )
-      .innerJoin(
-        'ingredient',
-        'action_ingredient.ingredient_id',
-        'ingredient.id',
-      )
-      .select([
-        'cocktail.id as cocktail_id',
-        'cocktail.name as cocktail_name',
-        'cocktail.image as cocktail_image',
-        'cocktail.ratings_average as avg_rating',
-        'cocktail.created_at as cocktail_created',
-        'cocktail.final_flavour as cocktail_flavour',
-        'cocktail.total_kcal as cocktail_kcal',
-      ])
-      .groupBy('cocktail.id')
-      .orderBy('cocktail.name');
+    const userId = req.userId;
+    const login = req.login;
 
-    if (searchTerm !== undefined) {
-      query = query.where((eb) =>
-        eb.or([
-          eb('ingredient.name', 'like', `%${String(searchTerm)}%`),
-          eb('cocktail.name', 'like', `%${String(searchTerm)}%`),
-        ]),
-      );
+    const selectClause = [
+      'cocktail.id as cocktail_id',
+      'cocktail.name as cocktail_name',
+      'cocktail.image as cocktail_image',
+      'cocktail.ratings_average as avg_rating',
+      'cocktail.created_at as cocktail_created',
+      'cocktail.final_flavour as cocktail_flavour',
+      'cocktail.total_kcal as cocktail_kcal',
+    ];
+
+    const string: string = sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
+
+    if (login) {
+      selectClause.push(string);
     }
 
-    if (ingredients !== undefined) {
-      const ingredientList: string[] = Array.isArray(ingredients)
-        ? ingredients.map(String)
-        : [String(ingredients)];
+    try {
+      let query = db
+        .selectFrom('cocktail')
+        .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+        .innerJoin('action', 'recipe.action_id', 'action.id')
+        .innerJoin(
+          'action_ingredient',
+          'action.id',
+          'action_ingredient.action_id',
+        )
+        .innerJoin(
+          'ingredient',
+          'action_ingredient.ingredient_id',
+          'ingredient.id',
+        )
+        .leftJoin('favorite', 'favorite.cocktail_id', 'cocktail.id')
+        .select(selectClause)
+        .groupBy('cocktail.id')
+        .orderBy('cocktail.name');
 
-      const countDistinctIngredients = sql<string>`COUNT(DISTINCT ingredient.name)`;
+      if (searchTerm !== undefined) {
+        query = query.where((eb) =>
+          eb.or([
+            eb('ingredient.name', 'like', `%${String(searchTerm)}%`),
+            eb('cocktail.name', 'like', `%${String(searchTerm)}%`),
+          ]),
+        );
+      }
 
-      query = query
-        .having(countDistinctIngredients, '=', sql`${ingredientList.length}`)
-        .where('ingredient.name', 'in', ingredientList);
+      if (ingredients !== undefined) {
+        const ingredientList: string[] = Array.isArray(ingredients)
+          ? ingredients.map(String)
+          : [String(ingredients)];
+
+        const countDistinctIngredients = sql<string>`COUNT(DISTINCT ingredient.name)`;
+
+        query = query
+          .having(countDistinctIngredients, '=', sql`${ingredientList.length}`)
+          .where('ingredient.name', 'in', ingredientList);
+      }
+
+      if (flavours !== undefined) {
+        const flavourList: Flavour[] = (
+          Array.isArray(flavours) ? flavours.map(String) : [String(flavours)]
+        ) as Flavour[];
+
+        const countDistinctFlavours = sql<string>`COUNT(DISTINCT cocktail.final_flavour)`;
+
+        query = query
+          .having(countDistinctFlavours, '=', sql`${flavourList.length}`)
+          .where('cocktail.final_flavour', 'in', flavourList);
+      }
+
+      if (kcals !== undefined) {
+        const kcalList: number[] = Array.isArray(kcals)
+          ? kcals.map(Number)
+          : [Number(kcals)];
+
+        const countDistinctKcals = sql<string>`COUNT(DISTINCT cocktail.total_kcal)`;
+
+        query = query
+          .having(countDistinctKcals, '=', sql`${kcalList.length}`)
+          .where('cocktail.total_kcal', 'in', kcalList);
+      }
+
+      if (complexities !== undefined) {
+        const complexityList: number[] = Array.isArray(complexities)
+          ? complexities.map(Number)
+          : [Number(complexities)];
+
+        const countDistinctComplexity = sql<string>`COUNT(DISTINCT recipe.total_complexity)`;
+
+        query = query
+          .having(countDistinctComplexity, '=', sql`${complexityList.length}`)
+          .where('recipe.total_complexity', 'in', complexityList);
+      }
+
+      if (degrees !== undefined) {
+        const degreeList: number[] = Array.isArray(degrees)
+          ? degrees.map(Number)
+          : [Number(degrees)];
+
+        const countDistinctDegree = sql<string>`COUNT(DISTINCT cocktail.total_degree)`;
+
+        query = query
+          .having(countDistinctDegree, '=', sql`${degreeList.length}`)
+          .where('cocktail.total_degree', 'in', degreeList);
+      }
+
+      const cocktailsFilter = await query.execute();
+      res.json({ cocktails: cocktailsFilter });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
     }
-
-    if (flavours !== undefined) {
-      const flavourList: Flavour[] = (
-        Array.isArray(flavours) ? flavours.map(String) : [String(flavours)]
-      ) as Flavour[];
-
-      const countDistinctFlavours = sql<string>`COUNT(DISTINCT cocktail.final_flavour)`;
-
-      query = query
-        .having(countDistinctFlavours, '=', sql`${flavourList.length}`)
-        .where('cocktail.final_flavour', 'in', flavourList);
-    }
-
-    if (kcals !== undefined) {
-      const kcalList: number[] = Array.isArray(kcals)
-        ? kcals.map(Number)
-        : [Number(kcals)];
-
-      const countDistinctKcals = sql<string>`COUNT(DISTINCT cocktail.total_kcal)`;
-
-      query = query
-        .having(countDistinctKcals, '=', sql`${kcalList.length}`)
-        .where('cocktail.total_kcal', 'in', kcalList);
-    }
-
-    if (complexities !== undefined) {
-      const complexityList: number[] = Array.isArray(complexities)
-        ? complexities.map(Number)
-        : [Number(complexities)];
-
-      const countDistinctComplexity = sql<string>`COUNT(DISTINCT recipe.total_complexity)`;
-
-      query = query
-        .having(countDistinctComplexity, '=', sql`${complexityList.length}`)
-        .where('recipe.total_complexity', 'in', complexityList);
-    }
-
-    if (degrees !== undefined) {
-      const degreeList: number[] = Array.isArray(degrees)
-        ? degrees.map(Number)
-        : [Number(degrees)];
-
-      const countDistinctDegree = sql<string>`COUNT(DISTINCT cocktail.total_degree)`;
-
-      query = query
-        .having(countDistinctDegree, '=', sql`${degreeList.length}`)
-        .where('cocktail.total_degree', 'in', degreeList);
-    }
-
-    const cocktailsFilter = await query.execute();
-    res.json({ cocktails: cocktailsFilter });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+  },
+);
 
 // Route get pour récupérer les cocktails par id présents en BDD
 cocktailRouter.get('/:id', async (req, res) => {
@@ -292,57 +255,6 @@ cocktailRouter.get('/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-cocktailRouter.post(
-  '/favoriteAdd',
-  loginIdUser,
-  async (req: RequestWithUser, res: Response) => {
-    const userId = req.userId;
-    const { cocktailId } = req.body;
-
-    if (userId === undefined) {
-      return res.json({ result: 'not connected' });
-    }
-    console.log(userId, cocktailId);
-
-    try {
-      await db.transaction().execute(async (trx) => {
-        const isInFavorite = await trx
-          .selectFrom('favorite')
-          .selectAll()
-          .where('cocktail_id', '=', Number.parseInt(cocktailId))
-          .where('user_id', '=', Number(userId))
-          .executeTakeFirst();
-
-        console.log(isInFavorite);
-
-        if (isInFavorite === undefined) {
-          console.log('in if');
-
-          await trx
-            .insertInto('favorite')
-            .values({
-              cocktail_id: Number.parseInt(cocktailId),
-              user_id: Number(userId),
-            })
-            .executeTakeFirst();
-        } else {
-          console.log('in else');
-
-          await trx
-            .deleteFrom('favorite')
-            .where('cocktail_id', '=', Number.parseInt(cocktailId))
-            .where('user_id', '=', Number(userId))
-            .executeTakeFirst();
-        }
-      });
-      res.json({ ok: true });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Internal Server Error');
-    }
-  },
-);
 
 // Mettre à jour le champs anecdote grâce au formulaire
 cocktailRouter.post('/:id', async (req, res) => {

@@ -7,6 +7,7 @@ import type { SomeInterface } from '@app/types';
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
 import { commentRouter } from './comment';
+import { favoriteRouter } from './favorite';
 import { filterRouter } from './filter';
 import { glass } from './glass';
 import { ingredient } from './ingredient';
@@ -52,5 +53,6 @@ router.use('/comment', commentRouter);
 router.use('/glass', glass);
 router.use('/filter', filterRouter);
 router.use('/topping', topping);
+router.use('/favorite', favoriteRouter);
 
 export default router;
