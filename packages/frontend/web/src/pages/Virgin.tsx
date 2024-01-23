@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 
 export type VirginCocktail = {
+  id: number;
   virginCocktail: VirginCocktail;
   name: string;
   description: string;
-  // Ajoutez ici d'autres propriétés si nécessaire
 };
 
 export default function VirginCocktails() {
@@ -22,8 +22,7 @@ export default function VirginCocktails() {
           );
         }
         const data = await response.json();
-        setVirginCocktails(data);
-        console.log(data.virginCocktails);
+        setVirginCocktails(data.virginCocktails);
       } catch (error) {
         console.error('Failed to retrieve any coktail:', error);
       }
@@ -49,18 +48,19 @@ export default function VirginCocktails() {
             backgroundImage: `url('/feeding-bottle-cocktails-2.svg')`,
           }}
         />
-        {/* <div className='flex-1 items-start'>
-          <CocktailCard />
-        </div> */}
-        <div className='justify-items'>
-          {Array.isArray(virginCocktails) &&
-            virginCocktails.map((virginCocktail) => (
-              <CocktailCard
-                key={virginCocktail.name}
-                // virginCocktail={virginCocktail}
-                // name={virginCocktail.name}
-              />
-            ))}
+        <div className='mt-[250px] h-screen w-screen justify-items-center'>
+          <div className='grid h-full w-full grid-cols-5 gap-[350px]'>
+            {virginCocktails.length > 0 &&
+              virginCocktails.map((cocktail, index) => (
+                <CocktailCard
+                  key={index}
+                  id={cocktail.id}
+                  name={cocktail.name}
+                  description={cocktail.description}
+                  virginCocktail={cocktail}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </div>
