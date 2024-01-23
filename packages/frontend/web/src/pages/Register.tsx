@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+// import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -20,7 +20,7 @@ export default function Register() {
   const [birthdate, setBirthdate] = useState<string>('');
   const { setIsImageShown, setIsSubmitted, setIsModalShown, isWow, setIsWow } =
     useAnimations();
-  const [isUnderAge, setIsUnderAge] = useState<boolean>();
+  // const [isUnderAge, setIsUnderAge] = useState<boolean>();
 
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
@@ -49,12 +49,12 @@ export default function Register() {
       const data = (await res.json()) as {
         ok: boolean;
         isLoggedIn: boolean;
-        isUnderAge: boolean;
+        // isUnderAge: boolean;
       }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
       //Hence, the mention "await" preceed res.json.
 
       if (data.ok) {
-        setIsUnderAge(data.isUnderAge);
+        // setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
         setTimeout(() => {
           if (!isWow) {
@@ -180,9 +180,9 @@ export default function Register() {
           </div>
         )}
       </div>
-      {isUnderAge !== undefined && (
+      {/* {isUnderAge !== undefined && (
         <CheckBirthdateAnimations isUnderAge={isUnderAge} />
-      )}
+      )} */}
     </div>
   );
 }

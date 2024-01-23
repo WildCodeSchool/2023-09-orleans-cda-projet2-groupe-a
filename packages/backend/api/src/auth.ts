@@ -236,17 +236,18 @@ authRouter.post(
       // Param1 qu'on appelle arbitrairement 'token'. Param2, le jwt.
       // Puis options sous forme d'un objet qui définissent le niveau de sécurité du cookie.
 
-      res.cookie('token', jwt, {
-        httpOnly: true, //signifie au client que le cookie est inaccessible.
-        sameSite: 'strict', //Permet au cookie de ne pas être utilisé sur d'autres sites.
-        secure: isProduction, //correspond au HTTPS, en prod. (Cf. variable d'environnement)
-        signed: true,
-      });
+      console.log('hello', user),
+        res.cookie('token', jwt, {
+          httpOnly: true, //signifie au client que le cookie est inaccessible.
+          sameSite: 'strict', //Permet au cookie de ne pas être utilisé sur d'autres sites.
+          secure: isProduction, //correspond au HTTPS, en prod. (Cf. variable d'environnement)
+          signed: true,
+        });
 
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
-        isUnderAge: calculateAge(user.birthdate).isUnderAge,
+        // isUnderAge: calculateAge(user.birthdate).isUnderAge,
       });
     } catch (error) {
       return res.json({

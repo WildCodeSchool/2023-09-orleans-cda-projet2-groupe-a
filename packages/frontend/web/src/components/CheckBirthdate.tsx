@@ -83,8 +83,6 @@ export default function CheckBirthdate() {
       }, 1200);
     }
   };
-  console.log(birthdate);
-  console.log('coucou', isUnderAge);
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center overflow-y-auto p-5'>

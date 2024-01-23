@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+// import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
 import GreetsLogin from '@/components/GreetsLogin';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -15,7 +15,7 @@ export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUnderAge, setIsUnderAge] = useState<boolean>();
+  // const [isUnderAge, setIsUnderAge] = useState<boolean>();
   const { setIsImageShown, setIsModalShown, isWow, setIsWow } = useAnimations();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -42,15 +42,20 @@ export default function Login() {
 
       const data = (await res.json()) as {
         isLoggedIn: boolean;
-        isUnderAge: boolean;
+        // isUnderAge: boolean;
       }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
 
-      if (data.isLoggedIn && !data.isUnderAge) {
+      if (
+        data.isLoggedIn
+        // && !data.isUnderAge
+      ) {
         setIsLoggedIn(true);
         navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else if (data.isUnderAge) {
+      }
+      // (data.isUnderAge)
+      else {
         setIsLoggedIn(true);
-        setIsUnderAge(true);
+        // setIsUnderAge(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
       }
     } catch (error) {
@@ -60,7 +65,11 @@ export default function Login() {
       );
     }
 
-    if (birthdate && isUnderAge && isLoggedIn) {
+    if (
+      birthdate &&
+      // isUnderAge &&
+      isLoggedIn
+    ) {
       document.body.classList.add('overflow-hidden');
       setIsImageShown(true);
       setTimeout(() => {
@@ -100,9 +109,9 @@ export default function Login() {
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
           </h1>
-          {isUnderAge !== undefined && (
+          {/* {isUnderAge !== undefined && (
             <CheckBirthdateAnimations isUnderAge={isUnderAge} />
-          )}
+          )} */}
           <form
             onSubmit={handleSubmit}
             className='z-50 m-10 flex flex-col items-center gap-2'
