@@ -1,5 +1,3 @@
-// import StarRating from './StarRating';
-
 export default function CocktailCard() {
   return (
     <div className='relative -top-8'>
