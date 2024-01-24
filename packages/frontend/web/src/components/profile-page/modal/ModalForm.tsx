@@ -58,33 +58,29 @@ export default function ModalForm({
         },
       );
       const responseData = await response.json();
-      if (
-        responseData.ok === false &&
-        responseData.message === 'not connected'
-      ) {
-        navigate('/login');
-      }
-      if (
-        responseData.ok === false &&
-        responseData.message === 'wrong password'
-      ) {
-        setError('actualPassword', {
-          type: 'validate',
-          message: 'not the right password',
-        });
-      }
-      if (
-        responseData.ok === false &&
-        responseData.message === 'password do not match'
-      ) {
-        setError('newPassword', {
-          type: 'validate',
-          message: 'new password must match',
-        });
-      }
       if (responseData.ok === true) {
         setIsOpen(false);
-      }
+      } else
+        switch (responseData.message) {
+          case 'not connected': {
+            navigate('/login');
+            break;
+          }
+          case 'wrong password': {
+            setError('currentPassword', {
+              type: 'validate',
+              message: 'not the right password',
+            });
+            break;
+          }
+          case 'password do not match': {
+            setError('newPassword', {
+              type: 'validate',
+              message: 'new password must match',
+            });
+            break;
+          }
+        }
     } catch (error) {
       console.error('Error:', error);
     }

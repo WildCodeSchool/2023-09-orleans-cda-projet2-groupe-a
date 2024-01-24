@@ -228,7 +228,7 @@ user.put(
       pseudo,
       image,
       color,
-      actualPassword,
+      currentPassword,
       newPassword,
       confirmNewPassword,
     } = req.body;
@@ -239,7 +239,7 @@ user.put(
       if (image) updates.image = image;
       if (color) updates.color = color;
 
-      if (actualPassword) {
+      if (currentPassword) {
         const user = await db
           .selectFrom('user')
           .select(['user.password'])
@@ -255,7 +255,7 @@ user.put(
         }
 
         const isCorrectPassword = await Bun.password.verify(
-          actualPassword,
+          currentPassword,
           user.password,
           'bcrypt',
         );
@@ -278,7 +278,7 @@ user.put(
         .where('user.id', '=', userId)
         .executeTakeFirst();
 
-      res.json({ ok: 'true' });
+      res.json({ ok: true });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');

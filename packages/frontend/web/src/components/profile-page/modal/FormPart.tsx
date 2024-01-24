@@ -2,12 +2,12 @@ import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
 import type { UserInfoForm } from '@app/types';
 
-interface FormPartPros {
+interface FormPartProps {
   readonly register: UseFormRegister<UserInfoForm>;
   readonly errors: FieldErrors<UserInfoForm>;
 }
 
-export default function FormPart({ register, errors }: FormPartPros) {
+export default function FormPart({ register, errors }: FormPartProps) {
   const inputs = [
     {
       label: 'email',
@@ -27,15 +27,15 @@ export default function FormPart({ register, errors }: FormPartPros) {
       errorsMessage: errors.pseudo?.message,
     },
     {
-      label: 'actual password',
+      label: 'current password',
       type: 'password',
-      name: 'actualPassword',
+      name: 'currentPassword',
       errors: [
-        errors.actualPassword?.type === 'maxLength',
-        errors.actualPassword?.type === 'minLength',
-        errors.actualPassword?.type === 'validate',
+        errors.currentPassword?.type === 'maxLength',
+        errors.currentPassword?.type === 'minLength',
+        errors.currentPassword?.type === 'validate',
       ],
-      errorsMessage: errors.actualPassword?.message,
+      errorsMessage: errors.currentPassword?.message,
     },
     {
       label: 'new password',
@@ -79,24 +79,16 @@ export default function FormPart({ register, errors }: FormPartPros) {
                 type={input.type}
                 readOnly={input.type === 'email' ? true : false}
                 className='border-dark w-full rounded-sm  border-[4px] p-1 md:w-[80%]'
-                {...register(
-                  input.name as
-                    | 'pseudo'
-                    | 'email'
-                    | 'actualPassword'
-                    | 'newPassword'
-                    | 'confirmNewPassword',
-                  {
-                    maxLength: {
-                      value: 255,
-                      message: 'Max length exceeded !',
-                    },
-                    minLength: {
-                      value: 3,
-                      message: 'must be at least 3 characters',
-                    },
+                {...register(input.name as keyof UserInfoForm, {
+                  maxLength: {
+                    value: 255,
+                    message: 'Max length exceeded !',
                   },
-                )}
+                  minLength: {
+                    value: 3,
+                    message: 'must be at least 3 characters',
+                  },
+                })}
               />
               {input.errors.map((error) => {
                 return error ? (
