@@ -4,6 +4,7 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { adminRouter } from './admin';
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
 import { commentRouter } from './comment';
@@ -50,5 +51,5 @@ router.use('/cocktail', cocktailRouter);
 router.use('/comment', commentRouter);
 router.use('/glass', glass);
 router.use('/topping', topping);
-
+router.use('/admin', adminRouter);
 export default router;
