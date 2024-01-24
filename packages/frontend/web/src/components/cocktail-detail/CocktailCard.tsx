@@ -27,7 +27,7 @@ export default function CocktailCard({
           <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>
             {name}
           </p>
-          <p>{description}</p>
+          <p className='py-2 pl-3 text-sm'>{description}</p>
           <p>{virginCocktail.name}</p>
           <p>{id}</p>
           <div className='mt-2 flex justify-center' />

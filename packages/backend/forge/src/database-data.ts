@@ -22,7 +22,10 @@ await db.transaction().execute(async (trx) => {
     ('user1@example.com', 'userpassword', 'user1', 'avatar-2.webp', 'green', '1991-02-02', NOW()),
     ('user2@example.com', 'userpassword', 'user2', 'avatar-3.webp', 'orange', '1992-03-03', NOW()),
     ('user3@example.com', 'userpassword', 'user3', 'avatar-4.webp', 'pink', '1993-04-04', NOW()),
-    ('user4@example.com', 'userpassword', 'user4', 'avatar-5.webp', 'purple', '1994-05-05', NOW());
+    ('user4@example.com', 'userpassword', 'user4', 'avatar-5.webp', 'purple', '1994-05-05', NOW()),
+    ('user5@example.com', 'userpassword', 'user5', 'avatar-6.webp', 'purple', '1994-05-05', NOW()),
+    ('user6@example.com', 'userpassword', 'user6', 'avatar-7.webp', 'purple', '1994-05-05', NOW()),
+    ('user7@example.com', 'userpassword', 'user7', 'avatar-8.webp', 'purple', '1994-05-05', NOW());
   `.execute(trx);
 
   await sql`
@@ -146,7 +149,7 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity, anecdote)
+    INSERT INTO cocktail (name, image, total_kcal, total_degree, author, ratings_average, glass_id, final_flavour, created_at, total_quantity)
     VALUES
     ('Almond Joy', 'almond.jpg', 145, 0, 1, '1.5', 1, 'sweet', '2024-01-09 15:19:51', 1),
     ('Aperol Spritz', 'aperolspritz.jpg', 160, 8, 1, 4, 1, 'floral', NOW(), 1),

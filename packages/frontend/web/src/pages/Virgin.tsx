@@ -35,10 +35,10 @@ export default function VirginCocktails() {
 
   return (
     <div
-      className='z-20 flex h-screen w-screen items-start justify-center bg-cover p-5'
+      className='z-20 min-h-screen w-screen grid-flow-row bg-cover p-5'
       style={{ backgroundImage: `url('/bg-virgin.svg')` }}
     >
-      <div className='bg-card-virgin-orange border-light-orange mx-auto flex h-[13rem] w-[90vw] rounded-lg border-4 p-3 shadow-2xl sm:w-[70vw] md:h-[13rem] md:w-[27rem]'>
+      <div className='bg-card-virgin-orange border-light-orange flex h-full w-full justify-center rounded-lg border-4 p-3 shadow-2xl sm:w-[70vw] md:h-[13rem] md:w-[27rem]'>
         <h1 className='font-stroke text-light absolute z-50 m-auto flex stroke-[2rem] py-[4rem] ps-5 text-center text-4xl text-[2.5rem] font-extrabold uppercase'>
           {'Virgin'}
         </h1>
@@ -48,19 +48,20 @@ export default function VirginCocktails() {
             backgroundImage: `url('/feeding-bottle-cocktails-2.svg')`,
           }}
         />
-        <div className='mt-[250px] h-screen w-screen justify-items-center'>
-          <div className='grid h-full w-full grid-cols-5 gap-[350px]'>
-            {virginCocktails.length > 0 &&
-              virginCocktails.map((cocktail, index) => (
+      </div>
+      <div className='px-10'>
+        <div className=' flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
+          {virginCocktails.length > 0 &&
+            virginCocktails.map((cocktail, index) => (
+              <div key={index} className='pb-[22rem]'>
                 <CocktailCard
-                  key={index}
                   id={cocktail.id}
                   name={cocktail.name}
                   description={cocktail.description}
                   virginCocktail={cocktail}
                 />
-              ))}
-          </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>
