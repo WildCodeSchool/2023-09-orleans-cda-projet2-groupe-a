@@ -27,7 +27,7 @@ const validateUpdateUser = [
     .trim()
     .isLength({ min: 3, max: 60 }),
   body('image').trim().isLength({ max: 255 }),
-  body('actualPassword')
+  body('currentPassword')
     .optional({ checkFalsy: true })
     .trim()
     .isLength({ min: 3, max: 255 }),
