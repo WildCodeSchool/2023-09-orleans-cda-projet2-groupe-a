@@ -14,7 +14,7 @@ type CardCocktailProps = {
   readonly cocktails: CardCocktail[] | undefined;
 };
 
-const removeFavorite = async (id: number) => {
+const removeFavorites = async (id: number) => {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/favorite/add/${id}}`,
@@ -66,7 +66,7 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
                             [cocktail.cocktail_id]:
                               !clickedCocktails[cocktail.cocktail_id],
                           });
-                          await removeFavorite(cocktail.cocktail_id);
+                          await removeFavorites(cocktail.cocktail_id);
                         }}
                       />
                     )}

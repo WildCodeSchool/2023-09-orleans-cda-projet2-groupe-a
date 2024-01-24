@@ -1,7 +1,5 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-import { sql } from 'kysely';
-import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
 

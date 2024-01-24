@@ -5,7 +5,7 @@ import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
-import Favorite from './pages/Favorite';
+import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'favorites',
-        element: <Favorite />,
+        element: <Favorites />,
       },
       {
         path: 'cocktails',

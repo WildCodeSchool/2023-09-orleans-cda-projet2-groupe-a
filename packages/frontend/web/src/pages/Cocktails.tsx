@@ -35,13 +35,13 @@ type InputSearchBar = {
   searchTerm?: string;
 };
 
-interface CocktailWithFavorite extends Cocktails {
+interface CocktailWithFavorites extends Cocktails {
   is_favorite?: number | undefined;
 }
 
 export default function Cocktails() {
   const [cocktails, setCocktails] = useState<
-    CocktailWithFavorite[] | undefined
+    CocktailWithFavorites[] | undefined
   >();
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);

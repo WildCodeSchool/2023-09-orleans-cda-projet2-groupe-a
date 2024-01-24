@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import Stars from '@/components/favorite/Stars';
+import Title from '@/components/favorite/Title';
 import useFetch from '@/hooks/use-fetch';
 
 const url = `${import.meta.env.VITE_API_URL}/favorite/`;
@@ -18,7 +20,7 @@ const image = (image: string, total_degree: number) => {
   }
 };
 
-const removeFavorite = async (id: number) => {
+const removeFavorites = async (id: number) => {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/favorite/add/${id}}`,
@@ -64,23 +66,9 @@ export default function Favorite() {
   return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
-      style={{ backgroundImage: `url('favorite-bg.webp')` }}
+      style={{ backgroundImage: `url('favorites-bg.webp')` }}
     >
-      <div
-        className='mx-auto flex h-[13rem] w-[90vw] rounded border-[4px] border-[#FEADB3] bg-[#EA2879] bg-cover bg-center shadow-lg sm:w-[70vw] md:h-[13rem] md:w-[27rem]'
-        style={{ backgroundImage: `url('/dot-favorite.png')` }}
-      >
-        <div className='relative h-full w-full'>
-          <h1 className='font-stroke text-light absolute z-50 m-auto flex stroke-[2rem] py-[4rem] ps-10 text-center text-[2.5rem] font-extrabold uppercase'>{`Favorites`}</h1>
-          <div className='flex justify-end'>
-            <img
-              src='home/home-6.png'
-              alt='booze image'
-              className='absolute z-20 h-[13rem] sm:h-[13rem] sm:w-[13rem]'
-            />
-          </div>
-        </div>
-      </div>
+      <Title />
       <div className='px-10'>
         <div className=' flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
           {data === undefined
@@ -106,7 +94,7 @@ export default function Favorite() {
                                   ...clickedCocktails,
                                   [cocktail.id]: !clickedCocktails[cocktail.id],
                                 });
-                                await removeFavorite(cocktail.id);
+                                await removeFavorites(cocktail.id);
                               }}
                             />
                             <img
@@ -120,27 +108,9 @@ export default function Favorite() {
                                   {cocktail.name}
                                 </h1>
                               </div>
-                              <div className='flex justify-center'>
-                                {Number(cocktail.ratings_average) === 0 ? (
-                                  <p className='text-sm font-extralight'>
-                                    {'not grade yet'}
-                                  </p>
-                                ) : (
-                                  [1, 2, 3, 4, 5].map((index) => (
-                                    <div
-                                      key={index}
-                                      className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat grayscale ${
-                                        index <=
-                                        Math.round(
-                                          Number(cocktail.ratings_average),
-                                        )
-                                          ? 'grayscale-0 '
-                                          : 'grayscale'
-                                      }`}
-                                    />
-                                  ))
-                                )}
-                              </div>
+                              <Stars
+                                ratings_average={cocktail.ratings_average}
+                              />
                             </div>
                           </div>
                         </div>
