@@ -7,7 +7,8 @@ import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import NoKidsAllowed from './pages/NoKidsAllowed';
+import ProfilePage from './pages/ProfilePage';
+// import NoKidsAllowed from './pages/NoKidsAllowed';
 import Register from './pages/Register';
 import Virgin from './pages/Virgin';
 
@@ -20,8 +21,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        // path: 'profile/:id',
-        // element: <ProfilePage />,
+        path: 'profile/:id',
+        element: <ProfilePage />,
       },
       {
         path: '/details/:id',

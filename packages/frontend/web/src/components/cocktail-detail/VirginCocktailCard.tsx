@@ -1,18 +1,17 @@
 import type { VirginCocktail } from '@/pages/Virgin';
 
 type CocktailCardProps = {
-  readonly id?: number;
-  readonly virginCocktail?: VirginCocktail;
-  readonly name?: string;
-  readonly description?: string;
+  readonly virginCocktail: VirginCocktail;
+  readonly name: string;
+  readonly description: string;
 };
-
 export default function VirginCocktailCard({
-  id,
   virginCocktail,
   name,
   description,
 }: CocktailCardProps) {
+  console.log(virginCocktail.description);
+  console.log(virginCocktail);
   return (
     <div className='relative -top-8'>
       <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
@@ -28,8 +27,7 @@ export default function VirginCocktailCard({
             {name}
           </p>
           <p className='py-2 pl-3 text-sm'>{description}</p>
-          <p>{virginCocktail?.name}</p>
-          <p>{id}</p>
+          <p>{virginCocktail.description}</p>
           <div className='mt-2 flex justify-center' />
         </div>
       </div>

@@ -55,7 +55,6 @@ export default function VirginCocktails() {
             virginCocktails.map((cocktail, index) => (
               <div key={index} className='pb-[22rem]'>
                 <VirginCocktailCard
-                  id={cocktail.id}
                   name={cocktail.name}
                   description={cocktail.description}
                   virginCocktail={cocktail}
