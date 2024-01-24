@@ -1,13 +1,13 @@
 import type { VirginCocktail } from '@/pages/Virgin';
 
 type CocktailCardProps = {
-  readonly id: number;
-  readonly virginCocktail: VirginCocktail;
-  readonly name: string;
-  readonly description: string;
+  readonly id?: number;
+  readonly virginCocktail?: VirginCocktail;
+  readonly name?: string;
+  readonly description?: string;
 };
 
-export default function CocktailCard({
+export default function VirginCocktailCard({
   id,
   virginCocktail,
   name,
@@ -28,7 +28,7 @@ export default function CocktailCard({
             {name}
           </p>
           <p className='py-2 pl-3 text-sm'>{description}</p>
-          <p>{virginCocktail.name}</p>
+          <p>{virginCocktail?.name}</p>
           <p>{id}</p>
           <div className='mt-2 flex justify-center' />
         </div>

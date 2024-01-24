@@ -15,8 +15,15 @@ export type InputCocktailForm = {
 interface AddCommentProps {
   readonly setIsOpen: Dispatch<SetStateAction<boolean>>;
   readonly refEl: RefObject<HTMLDivElement>;
+  readonly isReload: boolean;
+  readonly setIsReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function AddComment({ refEl, setIsOpen }: AddCommentProps) {
+export default function AddComment({
+  refEl,
+  setIsOpen,
+  isReload,
+  setIsReload,
+}: AddCommentProps) {
   const { id } = useParams();
   const [hoveredStars, setHoveredStars] = useState(0);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
@@ -62,6 +69,7 @@ export default function AddComment({ refEl, setIsOpen }: AddCommentProps) {
         body: JSON.stringify(data),
       });
       setIsOpen(false);
+      setIsReload(!isReload);
     } catch {
       console.error(`Request error`);
     }
@@ -114,7 +122,10 @@ export default function AddComment({ refEl, setIsOpen }: AddCommentProps) {
                   className='border-dark ms-10 mt-[10.5rem] h-[12rem] w-[80%] rounded-[1rem] border-[4px] px-5 sm:ms-12 sm:h-[42%]'
                   {...register('content', {
                     required: false,
-                    maxLength: { value: 255, message: 'Max length exceeded !' },
+                    maxLength: {
+                      value: 255,
+                      message: 'Max length exceeded !',
+                    },
                   })}
                 />
                 <p className='ms-5 mt-5 text-[rgb(232,40,40)]'>

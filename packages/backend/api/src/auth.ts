@@ -67,6 +67,19 @@ authRouter.post(
     const { email, password, pseudo, birthdate } = req.body as AuthRegisterBody;
 
     try {
+      const userEmails = await db
+        .selectFrom('user')
+        .select(['user.email'])
+        .execute();
+
+      const emails = userEmails.map((user) => user.email);
+      if (emails.includes(email)) {
+        return res.json({
+          ok: false,
+          error: 'Email already exists',
+        });
+      }
+
       const hashedPassword = await Bun.password.hash(password, {
         algorithm: 'bcrypt',
         cost: 15,
@@ -83,8 +96,14 @@ authRouter.post(
         .execute();
       // ajouter la logique du JWT + génération d'un cookie ici.
 
+      const userId = await db
+        .selectFrom('user')
+        .select(['user.id'])
+        .where('user.email', '=', email)
+        .executeTakeFirst();
+
       const jwt = await new jose.SignJWT({
-        sub: email,
+        sub: userId?.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',
@@ -126,7 +145,7 @@ authRouter.post(
     try {
       const user = await db
         .selectFrom('user')
-        .select(['user.password'])
+        .select(['user.password', 'user.id'])
         .where('user.email', '=', email)
         .executeTakeFirst();
 
@@ -156,7 +175,7 @@ authRouter.post(
       // l'existence du JWT ou fait crasher l'appli, le cas échéant.
 
       const jwt = await new jose.SignJWT({
-        sub: email,
+        sub: user.id.toString(),
       })
         .setProtectedHeader({
           alg: 'HS256',

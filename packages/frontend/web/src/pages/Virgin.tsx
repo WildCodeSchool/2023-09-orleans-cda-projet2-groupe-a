@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import CocktailCard from '@/components/cocktail-detail/CocktailCard';
+import VirginCocktailCard from '@/components/cocktail-detail/VirginCocktailCard';
 
 export type VirginCocktail = {
   id: number;
@@ -54,7 +54,7 @@ export default function VirginCocktails() {
           {virginCocktails.length > 0 &&
             virginCocktails.map((cocktail, index) => (
               <div key={index} className='pb-[22rem]'>
-                <CocktailCard
+                <VirginCocktailCard
                   id={cocktail.id}
                   name={cocktail.name}
                   description={cocktail.description}

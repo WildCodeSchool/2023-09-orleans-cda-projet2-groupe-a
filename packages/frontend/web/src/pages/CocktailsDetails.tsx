@@ -3,9 +3,9 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
-import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
+import CocktailCard from '@/components/cocktail-detail/VirginCocktailCard';
 
 type Topping = {
   topping_id: number;
@@ -26,8 +26,6 @@ type Ingredient = {
   verb: string;
   priority: number;
 };
-
-// import StarRating from '@/components/cocktail-detail/StarRating';
 
 export default function CocktailsDetails() {
   const { id } = useParams();
@@ -86,18 +84,22 @@ export default function CocktailsDetails() {
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('/bg-details.png')` }}
     >
-      <h1 className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-24'>
+      <h1 className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-10'>
         {cocktail.name}
       </h1>
       <div className='flex flex-col justify-center sm:flex-row'>
         <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <img
-              src='/cocktail-placeholder.png'
+              src={
+                cocktail.image
+                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
+                  : '/cocktail-placeholder.png'
+              }
               alt='Cocktail picture'
               className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
             />
-            <div className='flex flex-wrap justify-center px-5 pt-4'>
+            <div className='flex max-h-[4.3rem] flex-wrap justify-center truncate px-5 pt-4'>
               {ingredients?.map((ingredient, index) => (
                 <div key={ingredient.ingredient_name}>
                   <p className='text-md me-1 uppercase'>
@@ -111,11 +113,11 @@ export default function CocktailsDetails() {
           <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
           <div className='border-dark bg-pastel-brown absolute -top-6 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         </div>
-        <div className='sm:x-[80] pt-16 sm:flex sm:w-[65%] sm:flex-col'>
+        <div className='sm:x-[80] sm:scrollbar-bigger-rounded pt-16 sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col  sm:overflow-y-scroll'>
           <CocktailForm cocktail={cocktail} />
-          <div className='border-dark bg-pastel-green m-auto my-20 h-[16rem] w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
+          <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
-            <div className='flex-row px-5 leading-10'>
+            <div className='flex-row px-5 pb-5 leading-10'>
               {tools?.map((tool) => (
                 <ul key={tool.tool_name}>
                   <li className='flex'>
@@ -126,9 +128,9 @@ export default function CocktailsDetails() {
               ))}
             </div>
           </div>
-          <div className='border-dark bg-pastel-pink m-auto mt-20 h-[23rem] w-[80%] rounded-sm border-[3px]'>
+          <div className='border-dark bg-pastel-pink m-auto mt-20 w-[80%] rounded-sm border-[3px]'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`ingredients`}</h3>
-            <div className='flex-row px-5 leading-10'>
+            <div className='flex-row px-5 pb-5 leading-10'>
               {ingredients?.map((ingredient) => (
                 <ul key={ingredient.ingredient_name}>
                   <li className='ms-4 flex'>
@@ -150,11 +152,11 @@ export default function CocktailsDetails() {
               </div>
             </div>
           </div>
-          <div className='border-dark bg-pastel-beige m-auto my-20 h-[21rem] w-[80%] rounded-sm border-[3px]'>
+          <div className='border-dark bg-pastel-beige m-auto my-20 w-[80%] rounded-sm border-[3px]'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`steps`}</h3>
             {ingredients?.map((ingredient, index) => (
               <ul key={ingredient.ingredient_name}>
-                <li className='flex px-5 leading-10'>
+                <li className='flex px-5 pb-5 leading-10'>
                   <p className='mx-4'>{`${index + 1} .`}</p>
                   <p>{ingredient.verb}</p>
                   <p className='ms-2'>{ingredient.quantity}</p>
