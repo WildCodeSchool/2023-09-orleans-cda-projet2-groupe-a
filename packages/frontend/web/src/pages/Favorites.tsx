@@ -15,7 +15,6 @@ const image = (image: string, total_degree: number) => {
       ? '/placeholder-cocktail.webp'
       : '/placeholder-cocktail-virgin.webp';
   } else {
-    console.log(image);
     return `${import.meta.env.VITE_BACKEND_URL}/${image}`;
   }
 };
