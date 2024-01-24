@@ -156,8 +156,12 @@ export default function AddCocktail() {
       }
 
       const responseBody = await response.json();
-      const cocktailId = responseBody.cocktailId;
-      navigate(`/details/${cocktailId}`);
+      if (responseBody.ok === true) {
+        const cocktailId = responseBody.cocktailId;
+        navigate(`/details/${cocktailId}`);
+      } else if (responseBody.message === 'not connected') {
+        navigate(`/login`);
+      }
     } catch (error) {
       console.error('Error:', error);
     }

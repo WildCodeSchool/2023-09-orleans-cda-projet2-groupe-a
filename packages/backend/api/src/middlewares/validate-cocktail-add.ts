@@ -1,12 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
-interface Ingredient {
-  id: number;
-  flavour: string;
-  name: string;
-  kcal: number;
-}
+import type { Ingredient } from '@app/types';
 
 const validateCocktailAdd = [
   body('ingredients')
