@@ -66,11 +66,8 @@ cocktailRouter.get(
     const degrees = req.query.degrees;
     const searchTerm = req.query.searchTerm;
 
-    // const userId = req.userId;
-    // const login = req.login;
-
-    const userId = 1;
-    const login = true;
+    const userId = req.userId;
+    const login = req.login;
 
     const selectClause = [
       'cocktail.id as cocktail_id',

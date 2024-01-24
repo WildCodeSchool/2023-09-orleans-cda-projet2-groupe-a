@@ -51,11 +51,13 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
                         src={'/heart.png'}
                         alt='heart'
                         className={`${
-                          clickedCocktails[cocktail.cocktail_id] ||
+                          (clickedCocktails[cocktail.cocktail_id] &&
+                            cocktail.is_favorite === 0) ||
                           (cocktail.is_favorite === 1 &&
                             clickedCocktails[cocktail.cocktail_id] ===
                               undefined) ||
-                          clickedCocktails[cocktail.cocktail_id]
+                          (!clickedCocktails[cocktail.cocktail_id] &&
+                            cocktail.is_favorite === 1)
                             ? 'grayscale-0'
                             : 'grayscale'
                         } absolute bottom-[0px] right-[5px] h-[40px] w-[40px]`}

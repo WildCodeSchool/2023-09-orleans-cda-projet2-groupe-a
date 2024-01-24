@@ -3,7 +3,7 @@ import type { Request, Response } from 'express';
 
 import { db } from '@app/backend-shared';
 
-// import loginIdUser from './middlewares/login-id-user';
+import loginIdUser from './middlewares/login-id-user';
 
 interface RequestWithUser extends Request {
   userId?: number;
@@ -11,62 +11,61 @@ interface RequestWithUser extends Request {
 
 const favoriteRouter = express.Router();
 
-/* favoriteRouter.get(
+favoriteRouter.get(
   '/',
   loginIdUser,
-  async (req: RequestWithUser, res: Response) => { */
-favoriteRouter.get('/', async (req: RequestWithUser, res: Response) => {
-  /*  const userId = req.userId; */
-  const userId = 1;
+  async (req: RequestWithUser, res: Response) => {
+    const userId = req.userId;
 
-  if (userId === undefined) {
-    return res.json({ ok: false, message: 'not connected' });
-  }
-
-  try {
-    const cocktail = await db
-      .selectFrom('favorite')
-      .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
-      .leftJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
-      .leftJoin('action', 'recipe.action_id', 'action.id')
-      .leftJoin('action_ingredient', 'action.id', 'action_ingredient.action_id')
-      .leftJoin(
-        'ingredient',
-        'action_ingredient.ingredient_id',
-        'ingredient.id',
-      )
-      .select((eb) => [
-        'cocktail.id',
-        'cocktail.name',
-        'cocktail.image',
-        'cocktail.ratings_average',
-        'cocktail.total_degree',
-      ])
-      .groupBy('cocktail.id')
-      .where('favorite.user_id', '=', Number(userId))
-      .orderBy('cocktail.name')
-      .execute();
-
-    if (!cocktail) {
-      return res.status(404).send('Cocktail not found');
+    if (userId === undefined) {
+      return res.json({ ok: false, message: 'not connected' });
     }
 
-    res.json(cocktail);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+    try {
+      const cocktail = await db
+        .selectFrom('favorite')
+        .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
+        .leftJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+        .leftJoin('action', 'recipe.action_id', 'action.id')
+        .leftJoin(
+          'action_ingredient',
+          'action.id',
+          'action_ingredient.action_id',
+        )
+        .leftJoin(
+          'ingredient',
+          'action_ingredient.ingredient_id',
+          'ingredient.id',
+        )
+        .select((eb) => [
+          'cocktail.id',
+          'cocktail.name',
+          'cocktail.image',
+          'cocktail.ratings_average',
+          'cocktail.total_degree',
+        ])
+        .groupBy('cocktail.id')
+        .where('favorite.user_id', '=', Number(userId))
+        .orderBy('cocktail.name')
+        .execute();
 
-/* favoriteRouter.post(
+      if (!cocktail) {
+        return res.status(404).send('Cocktail not found');
+      }
+
+      res.json(cocktail);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
+);
+
+favoriteRouter.post(
   '/favoriteAdd/:cocktailId',
   loginIdUser,
-  async (req: RequestWithUser, res: Response) => { */
-favoriteRouter.post(
-  '/add/:cocktailId',
   async (req: RequestWithUser, res: Response) => {
-    /*  const userId = req.userId; */
-    const userId = 1;
+    const userId = req.userId;
     const { cocktailId } = req.params;
 
     if (userId === undefined) {
