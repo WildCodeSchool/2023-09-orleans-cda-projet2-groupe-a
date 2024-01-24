@@ -66,8 +66,11 @@ cocktailRouter.get(
     const degrees = req.query.degrees;
     const searchTerm = req.query.searchTerm;
 
-    const userId = req.userId;
-    const login = req.login;
+    // const userId = req.userId;
+    // const login = req.login;
+
+    const userId = 1;
+    const login = true;
 
     const selectClause = [
       'cocktail.id as cocktail_id',
@@ -79,7 +82,7 @@ cocktailRouter.get(
       'cocktail.total_kcal as cocktail_kcal',
     ];
 
-    const string: string = sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
+    const string = sql<string>`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
 
     if (login) {
       selectClause.push(string);

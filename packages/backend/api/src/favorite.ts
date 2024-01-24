@@ -1,5 +1,7 @@
 import express from 'express';
 import type { Request, Response } from 'express';
+import { sql } from 'kysely';
+import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
 
@@ -19,10 +21,22 @@ favoriteRouter.get('/', async (req: RequestWithUser, res: Response) => {
   /*  const userId = req.userId; */
   const userId = 1;
 
+  if (userId === undefined) {
+    return res.json({ ok: false, message: 'not connected' });
+  }
+
   try {
     const cocktail = await db
       .selectFrom('favorite')
       .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
+      .leftJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+      .leftJoin('action', 'recipe.action_id', 'action.id')
+      .leftJoin('action_ingredient', 'action.id', 'action_ingredient.action_id')
+      .leftJoin(
+        'ingredient',
+        'action_ingredient.ingredient_id',
+        'ingredient.id',
+      )
       .select((eb) => [
         'cocktail.id',
         'cocktail.name',
@@ -30,6 +44,7 @@ favoriteRouter.get('/', async (req: RequestWithUser, res: Response) => {
         'cocktail.ratings_average',
         'cocktail.total_degree',
       ])
+      .groupBy('cocktail.id')
       .where('favorite.user_id', '=', Number(userId))
       .orderBy('cocktail.name')
       .execute();

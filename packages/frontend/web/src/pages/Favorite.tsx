@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
 const url = `${import.meta.env.VITE_API_URL}/favorite/`;
+
+interface notConnected {
+  ok: boolean;
+  message: string;
+}
 
 const image = (image: string, total_degree: number) => {
   if (image === null) {
@@ -41,13 +46,19 @@ export default function Favorite() {
     Record<number, boolean>
   >({});
 
-  const { data } =
-    useFetch<
-      Pick<
+  const navigate = useNavigate();
+
+  const { data } = useFetch<
+    | Pick<
         Cocktail,
         'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
       >[]
-    >(url);
+    | notConnected
+  >(url);
+
+  if (data && data.ok === false && data.message === 'not conneted') {
+    navigate('/login');
+  }
 
   return (
     <div
