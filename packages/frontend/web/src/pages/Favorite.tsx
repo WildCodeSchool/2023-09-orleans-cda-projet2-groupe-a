@@ -7,11 +7,6 @@ import useFetch from '@/hooks/use-fetch';
 
 const url = `${import.meta.env.VITE_API_URL}/favorite/`;
 
-interface notConnected {
-  ok: boolean;
-  message: string;
-}
-
 const image = (image: string, total_degree: number) => {
   if (image === null) {
     return total_degree > 0
@@ -48,15 +43,21 @@ export default function Favorite() {
 
   const navigate = useNavigate();
 
-  const { data } = useFetch<
-    | Pick<
+  const { data } =
+    useFetch<
+      Pick<
         Cocktail,
         'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
       >[]
-    | notConnected
-  >(url);
+    >(url);
 
-  if (data && data.ok === false && data.message === 'not conneted') {
+  if (
+    data &&
+    'message' in data &&
+    'ok' in data &&
+    data.ok === false &&
+    data.message === 'not connected'
+  ) {
     navigate('/login');
   }
 
