@@ -27,6 +27,8 @@ export default function CocktailComments() {
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
     useDisclosure(false);
 
+  const [isReload, setIsReload] = useState(false);
+
   const fetchComments = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
       signal,
@@ -54,7 +56,7 @@ export default function CocktailComments() {
     return () => {
       controller.abort();
     };
-  }, [id]);
+  }, [id, isReload]);
 
   return (
     <div>
@@ -90,9 +92,13 @@ export default function CocktailComments() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: '0rem' }}
             transition={{ duration: 1 }}
-            className='border-dark bg-pastel-green m-auto mb-20 flex w-[70%] flex-wrap rounded-sm border-[3px] object-contain sm:w-[90%] md:w-[90%]'
+            className='border-dark bg-pastel-green m-auto mb-20 flex w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:w-[100%] '
           >
-            <Comment comments={comments} />
+            <Comment
+              comments={comments}
+              setIsReload={setIsReload}
+              isReload={isReload}
+            />
           </motion.div>
         ) : undefined}
       </AnimatePresence>

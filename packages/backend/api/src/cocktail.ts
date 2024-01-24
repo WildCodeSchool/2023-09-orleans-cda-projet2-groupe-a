@@ -1,7 +1,9 @@
 import express from 'express';
+import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
+import type { Flavour } from '@app/types';
 import type { UpdateData } from '@app/types';
 
 import multerConfig from './middlewares/multer-config';
@@ -40,6 +42,118 @@ cocktailRouter.get('/', async (req, res) => {
   try {
     const cocktails = await db.selectFrom('cocktail').selectAll().execute();
     res.json({ cocktails });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+cocktailRouter.get('/alcohol', async (req, res) => {
+  const ingredients = req.query.ingredients;
+  const flavours = req.query.flavours;
+  const kcals = req.query.kcals;
+  const complexities = req.query.complexities;
+  const degrees = req.query.degrees;
+  const searchTerm = req.query.searchTerm;
+
+  try {
+    let query = db
+      .selectFrom('cocktail')
+      .innerJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
+      .innerJoin('action', 'recipe.action_id', 'action.id')
+      .innerJoin(
+        'action_ingredient',
+        'action.id',
+        'action_ingredient.action_id',
+      )
+      .innerJoin(
+        'ingredient',
+        'action_ingredient.ingredient_id',
+        'ingredient.id',
+      )
+      .select([
+        'cocktail.id as cocktail_id',
+        'cocktail.name as cocktail_name',
+        'cocktail.image as cocktail_image',
+        'cocktail.ratings_average as avg_rating',
+        'cocktail.created_at as cocktail_created',
+        'cocktail.final_flavour as cocktail_flavour',
+        'cocktail.total_kcal as cocktail_kcal',
+      ])
+      .groupBy('cocktail.id')
+      .orderBy('cocktail.name');
+
+    if (searchTerm !== undefined) {
+      query = query.where((eb) =>
+        eb.or([
+          eb('ingredient.name', 'like', `%${String(searchTerm)}%`),
+          eb('cocktail.name', 'like', `%${String(searchTerm)}%`),
+        ]),
+      );
+    }
+
+    if (ingredients !== undefined) {
+      const ingredientList: string[] = Array.isArray(ingredients)
+        ? ingredients.map(String)
+        : [String(ingredients)];
+
+      const countDistinctIngredients = sql<string>`COUNT(DISTINCT ingredient.name)`;
+
+      query = query
+        .having(countDistinctIngredients, '=', sql`${ingredientList.length}`)
+        .where('ingredient.name', 'in', ingredientList);
+    }
+
+    if (flavours !== undefined) {
+      const flavourList: Flavour[] = (
+        Array.isArray(flavours) ? flavours.map(String) : [String(flavours)]
+      ) as Flavour[];
+
+      const countDistinctFlavours = sql<string>`COUNT(DISTINCT cocktail.final_flavour)`;
+
+      query = query
+        .having(countDistinctFlavours, '=', sql`${flavourList.length}`)
+        .where('cocktail.final_flavour', 'in', flavourList);
+    }
+
+    if (kcals !== undefined) {
+      const kcalList: number[] = Array.isArray(kcals)
+        ? kcals.map(Number)
+        : [Number(kcals)];
+
+      const countDistinctKcals = sql<string>`COUNT(DISTINCT cocktail.total_kcal)`;
+
+      query = query
+        .having(countDistinctKcals, '=', sql`${kcalList.length}`)
+        .where('cocktail.total_kcal', 'in', kcalList);
+    }
+
+    if (complexities !== undefined) {
+      const complexityList: number[] = Array.isArray(complexities)
+        ? complexities.map(Number)
+        : [Number(complexities)];
+
+      const countDistinctComplexity = sql<string>`COUNT(DISTINCT recipe.total_complexity)`;
+
+      query = query
+        .having(countDistinctComplexity, '=', sql`${complexityList.length}`)
+        .where('recipe.total_complexity', 'in', complexityList);
+    }
+
+    if (degrees !== undefined) {
+      const degreeList: number[] = Array.isArray(degrees)
+        ? degrees.map(Number)
+        : [Number(degrees)];
+
+      const countDistinctDegree = sql<string>`COUNT(DISTINCT cocktail.total_degree)`;
+
+      query = query
+        .having(countDistinctDegree, '=', sql`${degreeList.length}`)
+        .where('cocktail.total_degree', 'in', degreeList);
+    }
+
+    const cocktailsFilter = await query.execute();
+    res.json({ cocktails: cocktailsFilter });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -137,6 +251,55 @@ cocktailRouter.post('/:id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
+  }
+});
+
+cocktailRouter.get('/:id/suggestion', async (req, res) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid cocktail ID' });
+    }
+
+    // requête pour obtenir les id des ingrédients du cocktail sélectionné
+    const ingredientSubquery = db
+      .selectFrom('action_ingredient')
+      .innerJoin('action', 'action_ingredient.action_id', 'action.id')
+      .innerJoin('recipe', 'action.id', 'recipe.action_id')
+      .where('recipe.cocktail_id', '=', id)
+      .select(['ingredient_id']);
+
+    const countCommonIngredients = sql<string>`COUNT(DISTINCT action_ingredient.ingredient_id)`;
+
+    // Requête principale pour obtenir les cocktails avec le plus d'ingrédients en commun
+    const cocktailsWithCommonIngredients = await db
+      .selectFrom('cocktail')
+      .select([
+        'cocktail.id',
+        'cocktail.name',
+        'cocktail.image',
+        'cocktail.ratings_average',
+        countCommonIngredients.as('common_ingredients_count'),
+      ])
+      .innerJoin('recipe', 'cocktail.id', 'recipe.cocktail_id')
+      .innerJoin('action', 'recipe.action_id', 'action.id')
+      .innerJoin(
+        'action_ingredient',
+        'action.id',
+        'action_ingredient.action_id',
+      )
+      .where('action_ingredient.ingredient_id', 'in', ingredientSubquery)
+      .where('cocktail.id', '!=', id)
+      .groupBy('cocktail.id')
+      .having(countCommonIngredients, '>', sql`0`)
+      .orderBy('common_ingredients_count', 'desc')
+      .limit(3)
+      .execute();
+
+    return res.json(cocktailsWithCommonIngredients);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 
