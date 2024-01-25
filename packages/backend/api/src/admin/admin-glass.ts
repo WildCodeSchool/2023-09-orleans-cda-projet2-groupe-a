@@ -2,9 +2,9 @@ import express from 'express';
 import type { UpdateObject } from 'kysely';
 
 import { db } from '@app/backend-shared';
-import type { Database } from '@app/types';
+import type { Database, GlassTable } from '@app/types';
 
-import { glassSchema } from '../validaton-schemas';
+import { glassSchema, glassSchemaPut } from '../validaton-schemas';
 
 const adminGlassRouter = express.Router();
 
@@ -47,7 +47,7 @@ adminGlassRouter.put('/:id', async (req, res) => {
   try {
     const id = Number.parseInt(req.params.id);
     const updateData = req.body;
-    const parsedUpdateData = glassSchema.parse(updateData) as UpdateObject<
+    const parsedUpdateData = glassSchemaPut.parse(updateData) as UpdateObject<
       Database,
       'glass',
       'glass'
@@ -64,6 +64,21 @@ adminGlassRouter.put('/:id', async (req, res) => {
     } else {
       res.status(404).send('Glass not found');
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route POST pour créer un nouveau verre
+adminGlassRouter.post('/', async (req, res) => {
+  try {
+    const parsedGlassData = glassSchema.parse(req.body);
+    const createdGlass = await db
+      .insertInto('glass')
+      .values(parsedGlassData)
+      .executeTakeFirst();
+    res.status(201).json(createdGlass);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

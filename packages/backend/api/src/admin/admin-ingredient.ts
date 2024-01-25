@@ -1,10 +1,10 @@
 import express from 'express';
-import type { UpdateObject } from 'kysely';
+import type { InsertObject, UpdateObject } from 'kysely';
 
 import { db } from '@app/backend-shared';
 import type { Database } from '@app/types';
 
-import { ingredientSchema } from '../validaton-schemas';
+import { ingredientSchema, ingredientSchemaPut } from '../validaton-schemas';
 
 const adminIngredientRouter = express.Router();
 
@@ -47,11 +47,9 @@ adminIngredientRouter.put('/:id', async (req, res) => {
   try {
     const id = Number.parseInt(req.params.id);
     const updateData = req.body;
-    const parsedUpdateData = ingredientSchema.parse(updateData) as UpdateObject<
-      Database,
-      'ingredient',
-      'ingredient'
-    >;
+    const parsedUpdateData = ingredientSchemaPut.parse(
+      updateData,
+    ) as UpdateObject<Database, 'ingredient', 'ingredient'>;
 
     const updatedIngredient = await db
       .updateTable('ingredient')
@@ -64,6 +62,21 @@ adminIngredientRouter.put('/:id', async (req, res) => {
     } else {
       res.status(404).send('Ingredient not found');
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route POST pour créer un nouveau ingrédient
+adminIngredientRouter.post('/', async (req, res) => {
+  try {
+    const parsedIngredientData = ingredientSchema.parse(req.body);
+    const createdIngredient = await db
+      .insertInto('ingredient')
+      .values(parsedIngredientData as InsertObject<Database, 'ingredient'>)
+      .executeTakeFirst();
+    res.status(201).json(createdIngredient);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

@@ -94,6 +94,14 @@ export const cocktailSchema = z.object({
 
 export const glassSchema = z.object({
   id: z.number().int().optional(),
+  name: z.string().min(2).max(255),
+  capacity: z.number(),
+  image: z.string(),
+  material: glassMaterialEnum,
+});
+
+export const glassSchemaPut = z.object({
+  id: z.number().int().optional(),
   name: z.string().min(2).max(255).optional(),
   capacity: z.number().optional(),
   image: z.string().optional(),
@@ -101,6 +109,18 @@ export const glassSchema = z.object({
 });
 
 export const ingredientSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().min(2).max(255),
+  color: z.string().min(3),
+  kcal: z.number().min(0),
+  degree: z.number().min(0).max(100),
+  description: z.string(),
+  image: z.string(),
+  flavour: flavourEnum,
+  family: ingredientFamilyEnum,
+});
+
+export const ingredientSchemaPut = z.object({
   id: z.number().int().optional(),
   name: z.string().min(2).max(255).optional(),
   color: z.string().min(3).optional(),
@@ -113,6 +133,12 @@ export const ingredientSchema = z.object({
 });
 
 export const toppingSchema = z.object({
+  id: z.number().int().optional(),
+  name: z.string().min(2).max(255),
+  flavour: flavourEnum,
+});
+
+export const toppingSchemaPut = z.object({
   id: z.number().int().optional(),
   name: z.string().min(2).max(255).optional(),
   flavour: flavourEnum.optional(),

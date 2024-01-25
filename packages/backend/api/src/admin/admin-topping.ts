@@ -4,7 +4,7 @@ import type { UpdateObject } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { Database } from '@app/types';
 
-import { toppingSchema } from '../validaton-schemas';
+import { toppingSchema, toppingSchemaPut } from '../validaton-schemas';
 
 const adminToppingRouter = express.Router();
 
@@ -47,7 +47,7 @@ adminToppingRouter.put('/:id', async (req, res) => {
   try {
     const id = Number.parseInt(req.params.id);
     const updateData = req.body;
-    const parsedUpdateData = toppingSchema.parse(updateData) as UpdateObject<
+    const parsedUpdateData = toppingSchemaPut.parse(updateData) as UpdateObject<
       Database,
       'topping',
       'topping'
@@ -64,6 +64,21 @@ adminToppingRouter.put('/:id', async (req, res) => {
     } else {
       res.status(404).send('Topping not found');
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route POST pour créer un nouveau topping
+adminToppingRouter.post('/', async (req, res) => {
+  try {
+    const parsedToppingData = toppingSchema.parse(req.body);
+    const createdTopping = await db
+      .insertInto('topping')
+      .values(parsedToppingData)
+      .executeTakeFirst();
+    res.status(201).json(createdTopping);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
