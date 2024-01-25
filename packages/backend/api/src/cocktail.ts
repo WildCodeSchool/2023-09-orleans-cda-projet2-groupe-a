@@ -4,7 +4,7 @@ import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type { Flavour } from '@app/types';
+import type { Cocktail, Flavour, Ingredient, Tool, Topping } from '@app/types';
 import type { UpdateData } from '@app/types';
 
 import isLoginOrNot from './middlewares/is-login-or-not';
@@ -15,6 +15,17 @@ const cocktailRouter = express.Router();
 interface RequestWithUser extends Request {
   userId?: number;
   login?: boolean;
+}
+
+interface cocktailWithFavorite extends Cocktail {
+  is_favorite: number;
+}
+
+interface OneCocktail {
+  cocktail: cocktailWithFavorite;
+  ingredients: Ingredient[];
+  tools: Tool[];
+  toppings: Topping[];
 }
 
 // Route post pour uploader un fichier
@@ -66,8 +77,8 @@ cocktailRouter.get(
     const degrees = req.query.degrees;
     const searchTerm = req.query.searchTerm;
 
-    const userId = req.userId;
-    const login = req.login;
+    const userId = 1; //req.userId;
+    const login = true; //req.login;
 
     const selectClause = [
       'cocktail.id as cocktail_id',
@@ -184,15 +195,25 @@ cocktailRouter.get(
 );
 
 // Route get pour récupérer les cocktails par id présents en BDD
-cocktailRouter.get('/:id', async (req, res) => {
+cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
   const id = req.params.id;
+  const userId = 1; // req.userId;
+  const login = true; // req.login
+
+  const selectClause = ['id'];
+
+  const string: string = sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`;
+
+  if (login) {
+    selectClause.push(string);
+  }
 
   try {
     const cocktail = await db
       .selectFrom('cocktail')
       .selectAll()
       .select((eb) => [
-        'id',
+        ...selectClause,
         jsonArrayFrom(
           eb
             .selectFrom('recipe')

@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import FavoriteHeart from '@/components/FavoriteHeart';
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
@@ -27,9 +28,13 @@ type Ingredient = {
   priority: number;
 };
 
+interface CocktailWithFavorite extends Cocktail {
+  is_favorite: number;
+}
+
 export default function CocktailsDetails() {
   const { id } = useParams();
-  const [cocktail, setCocktail] = useState<Cocktail | undefined>();
+  const [cocktail, setCocktail] = useState<CocktailWithFavorite | undefined>();
   const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
   const [toppings, setToppings] = useState<Topping[] | undefined>();
   const [tools, setTools] = useState<Tool[] | undefined>();
@@ -42,6 +47,8 @@ export default function CocktailsDetails() {
     });
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
+
       setCocktail(data.cocktail);
       setIngredients(data.cocktail.ingredients);
       setToppings(data.cocktail.toppings);
@@ -90,6 +97,7 @@ export default function CocktailsDetails() {
       <div className='flex flex-col justify-center sm:flex-row'>
         <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
+            <FavoriteHeart id={cocktail.id} isFavorite={cocktail.is_favorite} />
             <img
               src={
                 cocktail.image

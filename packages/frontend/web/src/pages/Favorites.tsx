@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import FavoriteHeart from '@/components/FavoriteHeart';
 import Stars from '@/components/favorite/Stars';
 import Title from '@/components/favorite/Title';
 import useFetch from '@/hooks/use-fetch';
@@ -19,29 +19,7 @@ const image = (image: string, total_degree: number) => {
   }
 };
 
-const removeFavorites = async (id: number) => {
-  try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/favorite/add/${id}}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-      },
-    );
-    await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export default function Favorite() {
-  const [clickedCocktails, setClickedCocktails] = useState<
-    Record<number, boolean>
-  >({});
-
   const navigate = useNavigate();
 
   const { data } =
@@ -79,23 +57,7 @@ export default function Favorite() {
                       <div className='relative'>
                         <div className='border-dark absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#F57575]'>
                           <div className='border-dark relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#EA2879]'>
-                            <img
-                              src={'/heart.png'}
-                              alt='heart'
-                              className={`${
-                                clickedCocktails[cocktail.id]
-                                  ? 'grayscale'
-                                  : 'grayscale-0'
-                              } absolute bottom-[0px] right-[5px] h-[40px] w-[40px]`}
-                              onClick={async (event) => {
-                                event.preventDefault();
-                                setClickedCocktails({
-                                  ...clickedCocktails,
-                                  [cocktail.id]: !clickedCocktails[cocktail.id],
-                                });
-                                await removeFavorites(cocktail.id);
-                              }}
-                            />
+                            <FavoriteHeart id={cocktail.id} isFavorite={1} />
                             <img
                               src={image(cocktail.image, cocktail.total_degree)}
                               alt='Cocktail picture'

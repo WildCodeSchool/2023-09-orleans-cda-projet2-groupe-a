@@ -13,9 +13,9 @@ const favoriteRouter = express.Router();
 
 favoriteRouter.get(
   '/',
-  loginIdUser,
+  /* loginIdUser, */
   async (req: RequestWithUser, res: Response) => {
-    const userId = req.userId;
+    const userId = 1; // req.userId;
 
     if (userId === undefined) {
       return res.json({ ok: false, message: 'not connected' });
@@ -62,10 +62,11 @@ favoriteRouter.get(
 );
 
 favoriteRouter.post(
-  '/favoriteAdd/:cocktailId',
-  loginIdUser,
+  '/add/:cocktailId',
+  /*loginIdUser,*/
   async (req: RequestWithUser, res: Response) => {
-    const userId = req.userId;
+    // const userId = req.userId;
+    const userId = 1;
     const { cocktailId } = req.params;
 
     if (userId === undefined) {
@@ -81,21 +82,24 @@ favoriteRouter.post(
           .where('user_id', '=', Number(userId))
           .executeTakeFirst();
 
-        await (isInFavorite === undefined
-          ? trx
-              .insertInto('favorite')
-              .values({
-                cocktail_id: Number.parseInt(cocktailId),
-                user_id: Number(userId),
-              })
-              .executeTakeFirst()
-          : trx
-              .deleteFrom('favorite')
-              .where('cocktail_id', '=', Number.parseInt(cocktailId))
-              .where('user_id', '=', Number(userId))
-              .executeTakeFirst());
+        if (isInFavorite === undefined) {
+          await trx
+            .insertInto('favorite')
+            .values({
+              cocktail_id: Number.parseInt(cocktailId),
+              user_id: Number(userId),
+            })
+            .executeTakeFirst();
+          return res.json({ ok: true, message: 'add' });
+        } else {
+          await trx
+            .deleteFrom('favorite')
+            .where('cocktail_id', '=', Number.parseInt(cocktailId))
+            .where('user_id', '=', Number(userId))
+            .executeTakeFirst();
+          return res.json({ ok: true, message: 'delete' });
+        }
       });
-      res.json({ ok: true });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
