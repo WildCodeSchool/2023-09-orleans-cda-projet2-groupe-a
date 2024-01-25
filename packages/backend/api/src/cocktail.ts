@@ -25,17 +25,6 @@ interface RequestWithUser extends Request {
   login?: boolean;
 }
 
-interface cocktailWithFavorite extends Cocktail {
-  is_favorite: number;
-}
-
-interface OneCocktail {
-  cocktail: cocktailWithFavorite;
-  ingredients: Ingredient[];
-  tools: Tool[];
-  toppings: Topping[];
-}
-
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
   const cocktailId = Number.parseInt(req.params.id);
