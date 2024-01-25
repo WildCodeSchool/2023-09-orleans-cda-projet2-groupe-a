@@ -1,10 +1,18 @@
 import express from 'express';
 import type { Request } from 'express';
 import { sql } from 'kysely';
+import type { ExpressionBuilder, RawBuilder } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type { Cocktail, Flavour, Ingredient, Tool, Topping } from '@app/types';
+import type {
+  Cocktail,
+  Database,
+  Flavour,
+  Ingredient,
+  Tool,
+  Topping,
+} from '@app/types';
 import type { UpdateData } from '@app/types';
 
 import isLoginOrNot from './middlewares/is-login-or-not';
@@ -80,7 +88,7 @@ cocktailRouter.get(
     const userId = 1; //req.userId;
     const login = true; //req.login;
 
-    const selectClause = [
+    const selectClause: (string | RawBuilder<unknown>)[] = [
       'cocktail.id as cocktail_id',
       'cocktail.name as cocktail_name',
       'cocktail.image as cocktail_image',
@@ -90,10 +98,10 @@ cocktailRouter.get(
       'cocktail.total_kcal as cocktail_kcal',
     ];
 
-    const string = sql<string>`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
+    const isFavorite = sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
 
     if (login) {
-      selectClause.push(string);
+      selectClause.push(isFavorite);
     }
 
     try {
@@ -200,21 +208,20 @@ cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
   const userId = 1; // req.userId;
   const login = true; // req.login
 
-  const selectClause = ['id'];
+  const selectClause: (string | RawBuilder<unknown>)[] = ['id'];
 
-  const string: string = sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`;
+  const isFavorite: RawBuilder<unknown> = sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`;
 
   if (login) {
-    selectClause.push(string);
+    selectClause.push(isFavorite);
   }
 
   try {
     const cocktail = await db
       .selectFrom('cocktail')
       .selectAll()
-      .select((eb) => [
-        ...selectClause,
-        jsonArrayFrom(
+      .select((eb: ExpressionBuilder<Database, 'cocktail'>) => {
+        const data = jsonArrayFrom(
           eb
             .selectFrom('recipe')
             .innerJoin('action', 'recipe.action_id', 'action.id')
@@ -236,9 +243,9 @@ cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
               'action.priority as priority',
             ])
             .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
-        ).as('ingredients'),
+        ).as('ingredients');
 
-        jsonArrayFrom(
+        const tools = jsonArrayFrom(
           eb
             .selectFrom('recipe')
             .innerJoin('action', 'recipe.action_id', 'action.id')
@@ -249,9 +256,9 @@ cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
               'tool.image as tool_image',
             ])
             .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
-        ).as('tools'),
+        ).as('tools');
 
-        jsonArrayFrom(
+        const toppings = jsonArrayFrom(
           eb
             .selectFrom('cocktail_topping')
             .innerJoin('topping', 'cocktail_topping.topping_id', 'topping.id')
@@ -261,8 +268,10 @@ cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
               'cocktail_topping.quantity as topping_quantity',
             ])
             .whereRef('cocktail_topping.cocktail_id', '=', 'cocktail.id'),
-        ).as('toppings'),
-      ])
+        ).as('toppings');
+
+        return [...selectClause, data, tools, toppings];
+      })
       .where('cocktail.id', '=', Number.parseInt(id))
       .executeTakeFirst();
 
