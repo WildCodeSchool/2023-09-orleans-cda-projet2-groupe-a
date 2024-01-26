@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export default function LegalNotice() {
   const [isModalShown, setIsModalShown] = useState(true);
+  const now: Date = new Date();
 
   // checks LocalStorage when component is mounted.
   // It can store simple datas like user's preferences
@@ -27,10 +28,9 @@ export default function LegalNotice() {
 
   return (
     <div className='flex flex-col items-center text-black'>
-      <div className='z-50 flex h-screen w-screen flex-col items-center justify-center gap-6 text-4xl'>
+      <div className='z-[200] flex h-screen w-screen flex-col items-center justify-center gap-6 text-4xl'>
         <div className='bg-light-green xxs:rounded-xl xxs:text-xl m-2 rounded-[30px] border-[5px] border-black p-4 font-bold transition-transform duration-500 ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:bg-opacity-80 sm:rounded-3xl sm:text-6xl'>
           <a href='/virgin'>{'Legal Notice'}</a>
-          {/* Todo : relier à la page /virgin ou cocktail random healthy */}
         </div>
         <div className='xxs:rounded-3xl xxs:text-lg z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
           <h1 className='xxs:text-md p-0.3 mx-0.5 my-10 text-center font-bold sm:text-3xl'>
@@ -161,7 +161,7 @@ export default function LegalNotice() {
             </p>
             <div className='my-10 flex flex-col items-center justify-center sm:flex-row sm:justify-around'>
               <div className='xxs:text-xs flex items-center justify-center text-center sm:text-sm'>
-                {'YummyCorn - 2023'} {/* Todo : mettre l'année en dynamique */}
+                {'YummyCorn | 2023 - ' + now.toLocaleDateString().slice(6, 10)}
               </div>
               <div className='xxs:text-xs xxs:flex xxs:mt-5 flex flex-col items-center justify-center rounded-xl border-2 border-transparent p-2 text-right text-blue-300 duration-500 hover:border-blue-500 sm:mt-0 sm:text-sm'>
                 <button type='button' onClick={handleClose}>
