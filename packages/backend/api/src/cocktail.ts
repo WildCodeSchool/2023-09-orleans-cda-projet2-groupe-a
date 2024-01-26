@@ -74,8 +74,8 @@ cocktailRouter.get(
     const degrees = req.query.degrees;
     const searchTerm = req.query.searchTerm;
 
-    const userId = 1; //req.userId;
-    const login = true; //req.login;
+    const userId = req.userId;
+    const login = req.login;
 
     const selectClause: (string | RawBuilder<unknown>)[] = [
       'cocktail.id as cocktail_id',
@@ -194,8 +194,8 @@ cocktailRouter.get(
 // Route get pour récupérer les cocktails par id présents en BDD
 cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
   const id = req.params.id;
-  const userId = 1; // req.userId;
-  const login = true; // req.login
+  const userId = req.userId;
+  const login = req.login;
 
   const selectClause: (string | RawBuilder<unknown>)[] = ['id'];
 

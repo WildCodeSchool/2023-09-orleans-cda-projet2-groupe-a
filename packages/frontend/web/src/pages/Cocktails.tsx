@@ -88,7 +88,7 @@ export default function Cocktails() {
       `${
         import.meta.env.VITE_API_URL
       }/cocktail/alcohol?${queryParameters.toString()}`,
-      { signal },
+      { signal, credentials: 'include' },
     );
 
     if (response.ok) {

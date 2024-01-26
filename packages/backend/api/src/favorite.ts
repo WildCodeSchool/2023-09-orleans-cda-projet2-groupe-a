@@ -13,9 +13,9 @@ const favoriteRouter = express.Router();
 
 favoriteRouter.get(
   '/',
-  /* loginIdUser, */
+  loginIdUser,
   async (req: RequestWithUser, res: Response) => {
-    const userId = 1; // req.userId;
+    const userId = req.userId;
 
     if (userId === undefined) {
       return res.json({ ok: false, message: 'not connected' });
@@ -63,10 +63,9 @@ favoriteRouter.get(
 
 favoriteRouter.post(
   '/add/:cocktailId',
-  /*loginIdUser,*/
+  loginIdUser,
   async (req: RequestWithUser, res: Response) => {
-    // const userId = req.userId;
-    const userId = 1;
+    const userId = req.userId;
     const { cocktailId } = req.params;
 
     if (userId === undefined) {
