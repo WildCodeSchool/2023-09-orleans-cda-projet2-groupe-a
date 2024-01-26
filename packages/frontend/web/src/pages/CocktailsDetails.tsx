@@ -26,7 +26,6 @@ type Ingredient = {
   priority: number;
 };
 
-
 export default function CocktailsDetails() {
   const { id } = useParams();
   const [cocktail, setCocktail] = useState<Cocktail | undefined>();
