@@ -1,8 +1,6 @@
 import {
-  Button,
   Datagrid,
   DeleteButton,
-  Link,
   List,
   NumberField,
   TextField,
@@ -11,11 +9,6 @@ import type { ListProps } from 'react-admin';
 
 export const IngredientList = (props: ListProps) => (
   <List {...props}>
-    <Button
-      component={Link}
-      to='/ingredient/create'
-      label='Add new ingredient'
-    />
     <Datagrid rowClick='edit'>
       <NumberField source='id' />
       <TextField source='name' />
