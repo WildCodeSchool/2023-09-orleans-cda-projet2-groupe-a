@@ -11,12 +11,30 @@ import validateRegister from './middlewares/validate-register';
 const JWT_SECRET = process.env.JWT_SECRET;
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 
+export default function calculateAge(birthdate: string): {
+  age: number;
+  isUnderAge: boolean;
+} {
+  const now: Date = new Date();
+  const registeredBirthdate = new Date(birthdate);
+  const minus18: Date = new Date();
+  minus18.setFullYear(minus18.getFullYear() - 18);
+  const age = now.getFullYear() - registeredBirthdate.getFullYear();
+
+  const isUnderAge = registeredBirthdate
+    ? new Date(registeredBirthdate).getTime() >= minus18.getTime()
+    : true;
+
+  return { age, isUnderAge };
+}
+
 // Condition préliminaire qui fait crasher l'appli si le JWT secret n'existe pas.
 // Cela arrivera jusqu'à ce que le JWT_SECRET soit renseigné.
 if (JWT_SECRET === undefined) {
   throw new Error('JWT_SECRET undefined');
 }
 
+// On crée une constante qui contient le JWT_SECRET encodé.
 const SECRET = new TextEncoder().encode(JWT_SECRET);
 const authRouter = express.Router();
 
@@ -33,16 +51,38 @@ authRouter.get('/check', async (req, res) => {
   }
 
   try {
-    await jose.jwtVerify(jwt, SECRET, {
+    const check = await jose.jwtVerify(jwt, SECRET, {
       //options
       issuer: 'http://localhost',
       audience: 'http://localhost',
     });
     // On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
+    // attention, c'est du backend, on a l'info dans la console de vscode.
+    const email: string | undefined = check.payload.sub;
+
+    if (email === null || email === undefined) {
+      throw new Error('Email is undefined');
+    }
+
+    const user = await db
+      .selectFrom('user')
+      .select(['user.birthdate'])
+      .where('user.email', '=', email)
+      .executeTakeFirst();
+
+    // Pour le cas où user est undefined, on envoie une erreur.
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.birthdate) {
+      throw new Error('Birthdate not found');
+    }
 
     return res.json({
       ok: true,
       isLoggedIn: true,
+      isUnderAge: calculateAge(user.birthdate).isUnderAge, // (variable qui contient un booléen lié au résultat du calcul de user.birthdate - minus18)
     });
   } catch (error) {
     //si l'erreur est le jwt expiré, on renvoie une erreur dédiée.
@@ -94,7 +134,6 @@ authRouter.post(
           birthdate,
         })
         .execute();
-      // ajouter la logique du JWT + génération d'un cookie ici.
 
       const userId = await db
         .selectFrom('user')
@@ -102,6 +141,11 @@ authRouter.post(
         .where('user.email', '=', email)
         .executeTakeFirst();
 
+      // une fois la birthdate entrée en BDD, on la récupère pour effectuer le calcul de l'âge.
+      // On sait donc si l'utilisateur est majeur ou non et on transmet cette information via isUnderAge.
+      // const userDateOfBirth = new Date(birthdate);
+
+      // ajouter la logique du JWT + génération d'un cookie ici.
       const jwt = await new jose.SignJWT({
         sub: userId?.id.toString(),
       })
@@ -111,7 +155,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('2h')
+        .setExpirationTime('10m')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
@@ -127,6 +171,8 @@ authRouter.post(
 
       return res.json({
         ok: true,
+        birthdate: birthdate, // After : is what is sent to the frontend. (Cf. AuthRegisterBody)
+        isUnderAge: calculateAge(birthdate).isUnderAge,
       });
     } catch (error) {
       return res.json({
@@ -183,7 +229,7 @@ authRouter.post(
         .setIssuedAt()
         .setIssuer('http://localhost')
         .setAudience('http://localhost')
-        .setExpirationTime('2h')
+        .setExpirationTime('10m')
         .sign(SECRET);
 
       // Envoi du jwt dans le token via l'objet res.
@@ -200,6 +246,7 @@ authRouter.post(
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
+        // isUnderAge: calculateAge(user.birthdate).isUnderAge,
       });
     } catch (error) {
       return res.json({

@@ -9,7 +9,7 @@ const validateRegister = [
     .isLength({ max: 254 })
     .toLowerCase()
     .isEmail(),
-  body('password').exists().trim().notEmpty().isLength({ min: 10, max: 255 }),
+  body('password').exists().trim().notEmpty().isLength({ min: 9, max: 255 }),
   body('pseudo').exists().trim().notEmpty().isLength({ min: 5, max: 60 }),
   body('birthdate')
     .exists()

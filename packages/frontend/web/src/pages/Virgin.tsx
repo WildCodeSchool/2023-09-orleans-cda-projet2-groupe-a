@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 
-import VirginCocktailCard from '@/components/cocktail-detail/VirginCocktailCard';
+import VirginCocktailCard from '../components/cocktail-detail/VirginCocktailCard';
 
 export type VirginCocktail = {
   id: number;
   virginCocktail: VirginCocktail;
-  virginCocktails: VirginCocktail[] | undefined;
   cocktail_id: number;
   name: string;
   avg_rating: number;
 };
+
+interface Data {
+  virginCocktails: VirginCocktail[];
+}
+
 export default function VirginCocktails() {
   const [virginCocktails, setVirginCocktails] = useState<VirginCocktail[]>([]);
 
@@ -22,7 +26,7 @@ export default function VirginCocktails() {
             `Failed to fetch virgin cocktails: ${response.statusText}`,
           );
         }
-        const data = await response.json();
+        const data: Data = (await response.json()) as Data;
         setVirginCocktails(data.virginCocktails);
       } catch (error) {
         console.error('Failed to retrieve any coktail:', error);

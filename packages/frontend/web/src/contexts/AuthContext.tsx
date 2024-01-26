@@ -20,13 +20,14 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     const abortController = new AbortController();
 
     (async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/check`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
         credentials: 'include', // Essentiel pour retrouver le cookie. Idem login.tsx.
       });
       const data = (await res.json()) as {
         // parenthèses autour d'await res.json() puis 'as' pour bien typer.
         ok: boolean;
         isLoggedIn: boolean;
+        //isUnderAge
       };
 
       setIsLoggedIn(data.isLoggedIn);
