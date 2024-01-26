@@ -6,8 +6,6 @@ type CocktailCardProps = {
   readonly virginCocktail: VirginCocktail;
   readonly name: string;
   readonly avg_rating: number;
-  readonly cocktail_id: number;
-  readonly virginCocktails: VirginCocktail[] | undefined;
 };
 export default function VirginCocktailCard({
   name,
@@ -33,7 +31,6 @@ export default function VirginCocktailCard({
             <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>
               {name}
             </p>
-            {/* <p className='py-2 pl-3 text-sm'>{'coucou'}</p> */}
             <div className='flex justify-center py-3'>
               {avg_rating === 0 ? (
                 <p className='text-sm font-extralight'>{'not grade yet'}</p>

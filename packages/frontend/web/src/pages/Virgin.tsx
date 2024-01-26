@@ -67,8 +67,6 @@ export default function VirginCocktails() {
                   name={cocktail.name}
                   avg_rating={cocktail.avg_rating}
                   virginCocktail={cocktail}
-                  cocktail_id={cocktail.cocktail_id}
-                  virginCocktails={virginCocktails}
                 />
               </div>
             ))}

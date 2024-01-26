@@ -5,7 +5,6 @@ import type { Cocktail } from '@app/types';
 
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
-import CocktailCard from '@/components/cocktail-detail/VirginCocktailCard';
 
 type Topping = {
   topping_id: number;
@@ -26,6 +25,7 @@ type Ingredient = {
   verb: string;
   priority: number;
 };
+
 
 export default function CocktailsDetails() {
   const { id } = useParams();
@@ -172,11 +172,6 @@ export default function CocktailsDetails() {
       </h2>
       <CocktailComments />
       <h2 className='font-stroke text-light mb-20 flex px-2 text-center text-[1.4rem] font-extrabold uppercase'>{`you're going to love them !`}</h2>
-
-      <div className='border-dark bg-pastel-pink relative m-auto mb-20 hidden h-[26rem] w-[90%] rounded-sm border-[3px] uppercase sm:block sm:flex-wrap'>
-        <CocktailCard />
-      </div>
-      {/* card swipper */}
       <div className='relative left-10 mx-auto mb-20 sm:hidden'>
         <div className='border-dark bg-card-pink-dark absolute m-auto mb-20 h-[21rem] w-[18rem] -rotate-3 rounded-sm border-[3px] uppercase'>
           <img
