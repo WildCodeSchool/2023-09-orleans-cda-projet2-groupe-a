@@ -84,8 +84,8 @@ async function getUser(id: number, shouldSelectEmail: boolean) {
       SELECT 
         user.pseudo, 
         user.image,
-        user.color
-        ${shouldSelectEmail ? ', user.email' : ''},
+        user.color,
+        ${shouldSelectEmail ? sql`user.email` : ''},
         (
           SELECT 
             JSON_ARRAYAGG(

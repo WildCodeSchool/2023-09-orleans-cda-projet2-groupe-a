@@ -46,7 +46,7 @@ export default function ProfilePage() {
     return () => {
       controller.abort();
     };
-  }, [urlUser]);
+  }, [urlUser, isOpen]);
 
   if (isLoading) {
     return null;
