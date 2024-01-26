@@ -41,7 +41,10 @@ export default function SimilarCocktail() {
   return (
     <div className='m-10 mb-8 flex flex-wrap justify-center md:justify-between'>
       {similarCocktails?.map((cocktail, index) => (
-        <div key={cocktail.id}>
+        <div
+          className='transition-transform ease-in-out hover:scale-110 '
+          key={cocktail.id}
+        >
           <Link to={`/details/${cocktail.id}`}>
             <div
               className={`border-dark mb-12 me-[28px] mt-5 h-[336px] w-[288px] rounded-sm border-[3px] ${

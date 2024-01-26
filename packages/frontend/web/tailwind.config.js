@@ -174,6 +174,7 @@ export default {
         'light-yellow': '#FCE544',
         'light-blue': '#0AD2E4',
         'light-orange': '#F58643',
+        'wow-orange': '#F89B1D',
         'light-green': '#4FD1A8',
         'light-pink': '#EA2879',
         'light-beige': '#FFF7D8',
@@ -185,6 +186,8 @@ export default {
         'card-pink': '#F5A2A2',
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
+        'pastel-blue': '#A7D9EF',
+        'pastel-pink': '#FDE0C7',
         'card-blue': '#85ACDA',
         'card-light-green': '#85DA89',
         'card-dark-green': '#85DABF',
@@ -208,6 +211,28 @@ export default {
       textStroke: (theme) => ({
         dark: '4px #000000',
       }),
+      animation: {
+        'fade-out': 'fade-out 1500ms ease-in forwards',
+        'scale-up': 'scale-up 700ms linear forwards',
+        'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
+        'color-pulse': 'color-pulse 2s linear infinite',
+      },
+      keyframes: {
+        'scale-up': {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        'fade-out': {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
+        'color-pulse': {
+          '0%, 100%': { color: 'white' },
+          '25%': { color: 'yellow' },
+          '50%': { color: 'orange' },
+          '75%': { color: 'red' },
+        },
+      },
     },
     keyframes: {
       spin: {
@@ -219,6 +244,8 @@ export default {
       'spin-infinite': 'spin 5s linear infinite',
     },
   },
+  variants: {},
+  plugins: [],
   plugins: [
     function ({ addUtilities, theme }) {
       const newUtilities = {

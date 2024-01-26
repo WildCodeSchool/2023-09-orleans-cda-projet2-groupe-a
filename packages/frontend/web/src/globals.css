@@ -260,4 +260,15 @@
   .filter-pink {
     filter: drop-shadow(0 0 3em #f257ced3);
   }
+
+  .shadow-card-cocktail {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+  }
+
+  .input[type='file']::file-selector-button {
+    background-color: transparent;
+    border: none;
+    display: none;
+  }
 }

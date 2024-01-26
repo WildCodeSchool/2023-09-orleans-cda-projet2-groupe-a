@@ -1,3 +1,4 @@
+import { Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 
@@ -5,6 +6,7 @@ import type { Cocktail } from '@app/types';
 
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
+import FireLevel from '@/components/cocktail-detail/FireLevel';
 import SimilarCocktail from '@/components/cocktail-detail/SimilarCocktail';
 
 type Topping = {
@@ -37,6 +39,12 @@ export default function CocktailsDetails() {
   const [actualLocation, setActualLocation] = useState(location.pathname);
   const [isLoading, setIsLoading] = useState(true);
   const topDetailsPage = useRef<HTMLHeadingElement>(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const toggleForm = () => {
+    setIsFormVisible(!isFormVisible);
+  };
+
   const fetchCocktails = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
       signal,
@@ -98,10 +106,18 @@ export default function CocktailsDetails() {
         className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-10'
       >
         {cocktail.name}
+        <button onClick={toggleForm} type='submit'>
+          <Pencil
+            size={38}
+            stroke='#8A741F'
+            className='ms-4 inline-block transition-transform ease-in-out hover:scale-110'
+          />
+        </button>
       </h1>
-      <div className='flex flex-col justify-center sm:flex-row'>
-        <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
-          <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
+      <FireLevel totalDegree={cocktail.total_degree} />
+      <div className='flex flex-col justify-center md:flex-row'>
+        <div className='relative m-auto h-[30rem] w-[25rem] transition-transform ease-in-out hover:scale-110 sm:m-0'>
+          <div className='border-dark bg-pastel-yellow absolute -top-4 left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <img
               src={
                 cocktail.image
@@ -122,11 +138,11 @@ export default function CocktailsDetails() {
               ))}
             </div>
           </div>
-          <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
-          <div className='border-dark bg-pastel-brown absolute -top-6 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
+          <div className='border-dark bg-card-pink absolute -top-8 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
+          <div className='border-dark bg-pastel-brown absolute -top-12 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         </div>
-        <div className='sm:x-[80] sm:scrollbar-bigger-rounded pt-16 sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col  sm:overflow-y-scroll'>
-          <CocktailForm cocktail={cocktail} />
+        <div className='sm:x-[80] sm:scrollbar-bigger-rounded sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col sm:overflow-y-scroll'>
+          <CocktailForm cocktail={cocktail} isFormVisible={isFormVisible} />
           <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
             <div className='flex-row px-5 pb-5 leading-10'>

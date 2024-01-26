@@ -25,7 +25,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
   });
 
   return (
-    <div className='mb-8 mt-4 flex justify-center sm:ms-6 sm:justify-normal'>
+    <div className='mb-4 mt-4 flex justify-center sm:ms-6 sm:justify-normal'>
       <div className='group relative'>
         <Search
           size={20}

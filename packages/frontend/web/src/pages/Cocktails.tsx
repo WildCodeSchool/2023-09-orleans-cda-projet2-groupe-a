@@ -135,7 +135,7 @@ export default function Cocktails() {
           <button
             type='button'
             onClick={toggleFilterBarVisibility}
-            className='font-stroke text-light ms-10 mt-10 cursor-pointer text-[1.2rem] uppercase sm:mt-6 '
+            className='font-stroke text-light ms-8 mt-10 cursor-pointer text-[1.2rem] uppercase sm:mt-6 '
           >
             {`filter by`}
           </button>
@@ -148,7 +148,7 @@ export default function Cocktails() {
             </div>
           ) : null}
         </div>
-        <div className='mt-10 sm:mt-24'>
+        <div className='mt-10'>
           <CardCocktail cocktails={cocktails} />
         </div>
       </div>
