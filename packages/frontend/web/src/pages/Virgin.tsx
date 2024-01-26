@@ -40,7 +40,7 @@ export default function VirginCocktails() {
 
   return (
     <div
-      className='z-20 min-h-screen w-screen grid-flow-row overflow-scroll bg-cover p-5'
+      className='z-20 min-h-screen w-screen grid-flow-row overflow-auto bg-cover p-5'
       style={{ backgroundImage: `url('/bg-virgin.svg')` }}
     >
       <div className='flex h-full w-full items-center justify-center'>
