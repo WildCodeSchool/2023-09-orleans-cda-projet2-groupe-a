@@ -1,9 +1,9 @@
 import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
-import { useAnimations } from '@/contexts/AnimationsContext';
-import { useBirth } from '@/contexts/BirthContext';
+import CheckBirthdateAnimations from '../components/CheckBirthdateAnimations';
+import { useAnimations } from '../contexts/AnimationsContext';
+import { useBirth } from '../contexts/BirthContext';
 
 // These two consts below do not need and function.
 // They don't need to be inside function CheckBirthdate.
@@ -19,15 +19,17 @@ export default function CheckBirthdate() {
   const { birthdate, setBirthdate } = useBirth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
-  useEffect(() => {
-    // Adds class 'overflow-hidden' to the body when the component is mounted
-    document.body.classList.add('overflow-hidden');
-    return () => {
-      // removes class 'overflow-hidden' from the body when the component is unmounted
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, []);
+  // UseEffect commenté pour ne pas empêcher le scroll sur les pages avant le fix sur CheckBirthdate.
+
+  // // useEffect qui permet d'ajouter la classe 'overflow - hidden' au body quand le composant est monté
+  // useEffect(() => {
+  //   // Adds class 'overflow-hidden' to the body when the component is mounted
+  //   document.body.classList.add('overflow-hidden');
+  //   return () => {
+  //     // removes class 'overflow-hidden' from the body when the component is unmounted
+  //     document.body.classList.remove('overflow-hidden');
+  //   };
+  // }, []);
 
   // useEffect that stores birthdate in the localstorage
   // so that browser memorize it and user doesn't have to enter it again.

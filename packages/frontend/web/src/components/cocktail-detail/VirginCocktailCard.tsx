@@ -19,7 +19,7 @@ export default function VirginCocktailCard({
   }
 
   return (
-    <div className='md:ml[10px] relative -top-8 sm:-ml-[180px]'>
+    <div className='relative -top-8'>
       <Link to={`/details/${virginCocktail.id}`}>
         <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         <div className='border-dark bg-pastel-brown absolute -top-6 left-6 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
