@@ -1,6 +1,8 @@
 import {
   Heart,
   Home,
+  LogIn,
+  LogOut,
   Martini,
   Milk,
   Plus,
@@ -11,13 +13,20 @@ import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useAuth } from '@/contexts/AuthContext';
+
 type NavbarContent = {
   name: string;
   url: string;
   icon: LucideIcon;
 };
 
-const navbarContent: NavbarContent[] = [
+const navbarContentInfo: NavbarContent[] = [
+  {
+    name: 'Login',
+    url: '/login',
+    icon: LogIn,
+  },
   {
     name: 'Cocktails',
     url: '/cocktails',
@@ -30,7 +39,7 @@ const navbarContent: NavbarContent[] = [
   },
   {
     name: 'Profile',
-    url: '/profile/1', // à changer plus tard bien sûr
+    url: '/profile/1',
     icon: UserCircle2,
   },
   {
@@ -51,9 +60,49 @@ const navbarContent: NavbarContent[] = [
 ];
 
 export default function Navbar() {
+  const [navbarContent, setNavbarContent] =
+    useState<NavbarContent[]>(navbarContentInfo);
   const [color, setColor] = useState<string>('#000000');
   const [hover, setHover] = useState<string>('#000000');
   const location = useLocation();
+
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/logout`,
+        {
+          method: 'POST',
+          credentials: 'include',
+        },
+      );
+      if (response.ok) {
+        setIsLoggedIn(false);
+      } else {
+        console.error('Error while logging out');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setNavbarContent((prevNavbarContent) => [
+      isLoggedIn
+        ? {
+            name: 'Logout',
+            url: '/',
+            icon: LogOut,
+          }
+        : {
+            name: 'Login',
+            url: '/login',
+            icon: LogIn,
+          },
+      ...prevNavbarContent.slice(1),
+    ]);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -119,6 +168,7 @@ export default function Navbar() {
               <Link to={content.url}>
                 <content.icon
                   className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                  {...(content.name === 'Logout' && { onClick: handleLogout })}
                 />
                 <p
                   className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
