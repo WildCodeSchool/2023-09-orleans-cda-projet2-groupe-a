@@ -271,4 +271,24 @@
     border: none;
     display: none;
   }
+
+  .input[type='checkbox'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+  }
+
+  input[type='checkbox'] {
+    position: relative;
+    top: 50%;
+    border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    border: 2px solid #000000;
+    transform: rotate(-5deg);
+  }
+  input[type='checkbox']:checked {
+    background: rgb(0, 0, 0);
+  }
 }
