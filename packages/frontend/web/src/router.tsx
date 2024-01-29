@@ -11,6 +11,7 @@ import NoKidsAllowed from './pages/NoKidsAllowed';
 import ProfilePage from './pages/ProfilePage';
 import PublicProfilePage from './pages/PublicProfilePage';
 import Register from './pages/Register';
+import Team from './components/Team';
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         path: 'cocktails',
         element: <Cocktails />,
       },
+      {
+        path: 'coucou',
+        element: <Team />,
+      }
     ],
   },
 ]);
