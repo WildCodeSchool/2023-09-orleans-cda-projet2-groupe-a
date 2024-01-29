@@ -17,7 +17,6 @@ export default function CocktailForm({
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [anecdote, setAnecdote] = useState('');
-  const [fileName, setFileName] = useState('');
 
   const onSubmit = async () => {
     const formDataToSend = new FormData();
@@ -36,9 +35,7 @@ export default function CocktailForm({
         },
       );
       if (response.ok) {
-        const data = await response.json();
-        setFileName(data.fileName);
-        console.log(data.fileName);
+        await response.json();
       } else {
         throw new Error('Server responded with non-OK status');
       }
