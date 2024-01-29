@@ -60,7 +60,8 @@ export interface IngredientTable {
     | 'milk'
     | 'cream'
     | 'condiment'
-    | 'other';
+    | 'other'
+    | 'softdrink';
 }
 export interface CocktailTable {
   id: Generated<number>;

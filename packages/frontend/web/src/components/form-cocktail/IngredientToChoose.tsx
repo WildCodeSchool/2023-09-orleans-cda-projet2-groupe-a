@@ -21,6 +21,7 @@ export default function IngredientToChoose({
       setShow(5);
     }
   };
+  console.log({ beforeIngredient });
 
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
     beforeIngredient?.id ?? 1

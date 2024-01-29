@@ -20,9 +20,13 @@ export default function IngredientsPart({
   setActualIngredient,
 }: IngredientsPartProps) {
   const ingredientArray = watch('ingredients');
+  console.log(watch('softdrink'));
+  console.log(watch('syrup'));
+  console.log(watch('alcohol'));
+
   const ingredients: IngredientArray[] = [
     {
-      beforeIngredient: watch('alcohol'),
+      beforeIngredient: watch('softdrink'),
       condition: ingredientArray === undefined,
     },
     {

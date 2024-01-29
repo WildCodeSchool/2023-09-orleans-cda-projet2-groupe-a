@@ -6,9 +6,26 @@ export default function LevelPart({
   level,
   handleLevelClick,
   errors,
+  setWithAlcohol,
+  withAlcohol,
 }: LevelPartProps) {
   return (
     <>
+      <label className='relative left-[-250px] top-[-110px] z-[100] inline-flex cursor-pointer items-center'>
+        <input
+          type='checkbox'
+          value=''
+          className='peer sr-only'
+          checked={withAlcohol}
+          onChange={() => {
+            setWithAlcohol(!withAlcohol);
+          }}
+        />
+        <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800" />
+        <span className='ms-3 text-sm font-medium text-gray-900 dark:text-gray-300'>
+          {'alcohol ?'}
+        </span>
+      </label>
       <h1 className='relative bottom-[3%] w-[200px] text-center text-xl uppercase sm:bottom-[10%] sm:w-[300px] sm:text-2xl'>
         {'Choose your duel'}
       </h1>

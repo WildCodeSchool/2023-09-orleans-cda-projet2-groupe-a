@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
@@ -11,6 +11,8 @@ import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
 import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
+import Softdrinks from '@/components/form-cocktail/Softdrinks';
+import Syrup from '@/components/form-cocktail/Syrup';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
@@ -20,6 +22,17 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
   const [actualIngredient, setActualIngredient] = useState(0);
+  const [withAlcohol, setWithAlcohol] = useState(true);
+
+  const {
+    register,
+    setError,
+    formState: { errors },
+    handleSubmit,
+    clearErrors,
+    setValue,
+    watch,
+  } = useForm<CocktailForm>();
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -31,21 +44,13 @@ export default function AddCocktail() {
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
+  const [selectedSoftdrink, setSelectedSoftdrink] = useState<Ingredient>();
+  const [selectedSyrup, setSelectedSyrup] = useState<Ingredient>();
 
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
     setShow(6);
   };
-
-  const {
-    register,
-    setError,
-    formState: { errors },
-    handleSubmit,
-    clearErrors,
-    setValue,
-    watch,
-  } = useForm<CocktailForm>();
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
@@ -72,6 +77,16 @@ export default function AddCocktail() {
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setShow(3);
     setSelectedAlcohol(alcohol);
+  };
+
+  const handleClickSoftDrinks = (softdrink: Ingredient) => {
+    setShow(2);
+    setValue('softdrink', softdrink);
+  };
+
+  const handleClickSyrup = (syrup: Ingredient) => {
+    setShow(3);
+    setValue('syrup', syrup);
   };
 
   const handleErrorSubmit = () => {
@@ -138,7 +153,7 @@ export default function AddCocktail() {
     }
   };
 
-  const squares = [
+  const squaresInfo = [
     {
       color: 'purple',
       order: {
@@ -158,6 +173,8 @@ export default function AddCocktail() {
           level={level}
           handleLevelClick={handleLevelClick}
           errors={errors}
+          withAlcohol={withAlcohol}
+          setWithAlcohol={setWithAlcohol}
         />
       ),
     },
@@ -291,6 +308,121 @@ export default function AddCocktail() {
       ),
     },
   ];
+  const [squares, setSquares] = useState(squaresInfo);
+
+  const contentWithAlcohol = [
+    {
+      color: 'purple',
+      order: {
+        lg: 1,
+        md: 1,
+      },
+      biasSide: {
+        lg: ['right'],
+        md: ['right'],
+      },
+      width: {
+        lg: 110,
+        md: 105,
+      },
+      component: (
+        <LevelPart
+          level={level}
+          handleLevelClick={handleLevelClick}
+          errors={errors}
+          withAlcohol={withAlcohol}
+          setWithAlcohol={setWithAlcohol}
+        />
+      ),
+    },
+    {
+      color: 'yellow',
+      order: {
+        lg: 3,
+        md: 4,
+      },
+      biasSide: {
+        lg: ['right', 'left'],
+        md: ['left'],
+      },
+      width: {
+        lg: 130,
+        md: 116,
+      },
+      right: {
+        lg: 15,
+        md: 16,
+      },
+      component: (
+        <AlcoholPart
+          alcohols={selectedAlcohols}
+          handleClickAlcohol={handleClickAlcohol}
+          watch={watch}
+          errors={errors}
+        />
+      ),
+    },
+  ];
+
+  const contentWithoutAlcohol = [
+    {
+      color: 'purple',
+      order: {
+        lg: 1,
+        md: 1,
+      },
+      biasSide: {
+        lg: ['right'],
+        md: ['right'],
+      },
+      width: {
+        lg: 110,
+        md: 105,
+      },
+      component: (
+        <Softdrinks
+          watch={watch}
+          handleClickSoftDrinks={handleClickSoftDrinks}
+          errors={errors}
+          withAlcohol={withAlcohol}
+          setWithAlcohol={setWithAlcohol}
+        />
+      ),
+    },
+    {
+      color: 'yellow',
+      order: {
+        lg: 3,
+        md: 4,
+      },
+      biasSide: {
+        lg: ['right', 'left'],
+        md: ['left'],
+      },
+      width: {
+        lg: 130,
+        md: 116,
+      },
+      right: {
+        lg: 15,
+        md: 16,
+      },
+      component: (
+        <Syrup
+          watch={watch}
+          handleClickSyrup={handleClickSyrup}
+          errors={errors}
+        />
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    setSquares((prevNavbarContent) => [
+      ...(withAlcohol ? contentWithAlcohol : contentWithoutAlcohol),
+      ...prevNavbarContent.slice(2),
+    ]);
+  }, [withAlcohol]);
 
   return (
     <>

@@ -12,6 +12,8 @@ export type CocktailForm = {
   topping?: string;
   ingredients?: Pick<Ingredient, 'id' | 'name' | 'flavour'>[];
   alcohol?: Ingredient;
+  softdrink?: Ingredient;
+  syrup?: Ingredient;
   level?: number;
   glass?: Pick<Glass, 'name' | 'id'>;
   flavours?: {
@@ -51,6 +53,8 @@ export interface LevelPartProps {
   level: number;
   handleLevelClick: (level: number) => void;
   errors: FieldErrors<CocktailForm>;
+  setWithAlcohol: (withAlcocool: boolean) => void;
+  withAlcohol: boolean;
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
@@ -90,4 +94,18 @@ export interface IngredientProps {
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
   actualIngredient: number;
   setActualIngredient: (actualIngredient: number) => void;
+}
+
+export interface SoftdrinksProps {
+  watch: UseFormWatch<CocktailForm>;
+  errors: FieldErrors<CocktailForm>;
+  handleClickSoftDrinks: (softdrink: Ingredient) => void;
+  setWithAlcohol: (withAlcocool: boolean) => void;
+  withAlcohol: boolean;
+}
+
+export interface SyrupProps {
+  watch: UseFormWatch<CocktailForm>;
+  errors: FieldErrors<CocktailForm>;
+  handleClickSyrup: (syrup: Ingredient) => void;
 }
