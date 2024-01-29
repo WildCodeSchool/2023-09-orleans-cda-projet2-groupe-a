@@ -17,7 +17,7 @@ interface RequestWithUser extends Request {
   userId?: number;
 }
 
-interface initialData {
+interface InitialData {
   totalQuantity: number;
   totalkcal: number;
   totalComplexity: number;
@@ -32,7 +32,7 @@ interface initialData {
   maxItems: Flavour[];
 }
 
-interface allIngredient {
+interface AllIngredient {
   quantity: number;
   flavour: Flavour;
   kcal: number;
@@ -52,19 +52,15 @@ cocktailRouter.post(
     const random = Math.random();
     let howMuchMoreIngredients = 0;
 
-    if (random <= 0.4) {
-      howMuchMoreIngredients = 0;
-    } else if (random > 0.4 && random <= 0.6) {
-      howMuchMoreIngredients = 1;
-    } else if (random > 0.6 && random <= 0.8) {
-      howMuchMoreIngredients = 2;
-    } else if (random > 0.8 && random <= 0.9) {
-      howMuchMoreIngredients = 3;
-    } else {
+    if (random > 0.9) {
       howMuchMoreIngredients = 4;
+    } else if (random > 0.8) {
+      howMuchMoreIngredients = 3;
+    } else if (random > 0.6) {
+      howMuchMoreIngredients = 2;
+    } else if (random > 0.4) {
+      howMuchMoreIngredients = 1;
     }
-
-    const createdAt = new Date();
 
     const verb: ActionTable['verb'][] = [
       'muddle',
@@ -177,7 +173,7 @@ cocktailRouter.post(
           ...moreIngredientArray,
         ];
 
-        const initialData: initialData = {
+        const initialData: InitialData = {
           totalQuantity: 0,
           totalkcal: 0,
           totalComplexity: 0,
@@ -205,7 +201,7 @@ cocktailRouter.post(
 
         // eslint-disable-next-line unicorn/no-array-reduce
         const data = allIngredients.reduce(
-          (acc: initialData, allIngredient: allIngredient) => {
+          (acc: InitialData, allIngredient: AllIngredient) => {
             const numberQuantity = Math.floor(Math.random() * 10 + 1);
             const numberComplexity = Math.floor(Math.random() * 10 + 1);
             const numberDuration = Math.floor(Math.random() * 10 + 1);
@@ -236,6 +232,8 @@ cocktailRouter.post(
 
         const finalFlavour: Flavour =
           data.maxItems[Math.floor(Math.random() * data.maxItems.length)];
+
+        const createdAt = new Date();
 
         const cocktail = await trx
           .insertInto('cocktail')
