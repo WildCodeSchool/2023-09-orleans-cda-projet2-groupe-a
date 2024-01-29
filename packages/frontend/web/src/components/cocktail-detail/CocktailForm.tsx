@@ -6,11 +6,13 @@ import type { Cocktail } from '@app/types';
 type CocktailFormProps = {
   readonly cocktail: Cocktail;
   readonly isFormVisible: boolean;
+  readonly setIsFormVisible: (isFormVisible: boolean) => void;
 };
 
 export default function CocktailForm({
   cocktail,
   isFormVisible,
+  setIsFormVisible,
 }: CocktailFormProps) {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -36,6 +38,7 @@ export default function CocktailForm({
       if (response.ok) {
         const data = await response.json();
         setFileName(data.fileName);
+        console.log(data.fileName);
       } else {
         throw new Error('Server responded with non-OK status');
       }
@@ -44,6 +47,7 @@ export default function CocktailForm({
     }
     setIsFormSubmitted(true);
     setUploadedImage(null);
+    setIsFormVisible(false);
   };
 
   return (

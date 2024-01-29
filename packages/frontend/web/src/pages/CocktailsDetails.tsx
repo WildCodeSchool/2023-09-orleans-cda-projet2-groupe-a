@@ -75,7 +75,7 @@ export default function CocktailsDetails() {
     return () => {
       controller.abort();
     };
-  }, [id]);
+  }, [id, isFormVisible]);
 
   useEffect(() => {
     if (actualLocation !== location.pathname) {
@@ -142,7 +142,11 @@ export default function CocktailsDetails() {
           <div className='border-dark bg-pastel-brown absolute -top-12 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         </div>
         <div className='sm:x-[80] sm:scrollbar-bigger-rounded sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col sm:overflow-y-scroll'>
-          <CocktailForm cocktail={cocktail} isFormVisible={isFormVisible} />
+          <CocktailForm
+            cocktail={cocktail}
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+          />
           <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
             <div className='flex-row px-5 pb-5 leading-10'>
