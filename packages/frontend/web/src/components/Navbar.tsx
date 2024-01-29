@@ -7,6 +7,7 @@ import {
   Milk,
   Plus,
   UserCircle2,
+  UserPlus,
   Users,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -22,11 +23,6 @@ type NavbarContent = {
 };
 
 const navbarContentInfo: NavbarContent[] = [
-  {
-    name: 'Login',
-    url: '/login',
-    icon: LogIn,
-  },
   {
     name: 'Cocktails',
     url: '/cocktails',
@@ -88,21 +84,33 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    setNavbarContent((prevNavbarContent) => [
-      isLoggedIn
-        ? {
-            name: 'Logout',
-            url: '/',
-            icon: LogOut,
-          }
-        : {
-            name: 'Login',
-            url: '/login',
-            icon: LogIn,
-          },
-      ...prevNavbarContent.slice(1),
-    ]);
+    if (isLoggedIn) {
+      setNavbarContent(() => [
+        {
+          name: 'Logout',
+          url: '/',
+          icon: LogOut,
+        },
+        ...navbarContentInfo,
+      ]);
+    } else {
+      setNavbarContent(() => [
+        {
+          name: 'Login',
+          url: '/login',
+          icon: LogIn,
+        },
+        {
+          name: 'Register',
+          url: '/register',
+          icon: UserPlus,
+        },
+        ...navbarContentInfo,
+      ]);
+    }
   }, [isLoggedIn]);
+
+  console.log(navbarContent);
 
   useEffect(() => {
     switch (location.pathname) {
