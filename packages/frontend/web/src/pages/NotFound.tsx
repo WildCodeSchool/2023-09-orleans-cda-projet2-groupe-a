@@ -9,7 +9,7 @@ export default function NotFound() {
         src='./blurring-glass.jpg'
         alt='Image error 404'
       />
-      <p className='font-stroke text-light xxs:mb-[10px] xxs:text-xl p-3 text-center sm:mb-10 sm:text-3xl'>
+      <p className='font-stroke text-light xxs:mb-[10px] xxs:text-xl p-3 text-center sm:mb-[2px] sm:text-3xl'>
         {
           "Sorry, the page you're looking for couldn't be found. You may try something else..."
         }
