@@ -3,26 +3,20 @@ interface FireLevelProps {
 }
 
 export default function FireLevel({ totalDegree }: FireLevelProps) {
-  let imagesToDisplay;
+  let fireLevelCount = 0;
 
   if (totalDegree >= 0 && totalDegree < 15) {
-    imagesToDisplay = (
-      <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-    );
+    fireLevelCount = 1;
   } else if (totalDegree >= 15 && totalDegree < 30) {
-    imagesToDisplay = (
-      <>
-        <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-        <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-      </>
-    );
-  } else if (totalDegree >= 30 && totalDegree <= 45) {
-    imagesToDisplay = (
-      <>
-        <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-        <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-        <img src='/form-cocktail/fire-level.png' alt='Fire Level' />
-      </>
+    fireLevelCount = 2;
+  } else if (totalDegree >= 30) {
+    fireLevelCount = 3;
+  }
+
+  const imagesToDisplay = [];
+  for (let index = 0; index < fireLevelCount; index++) {
+    imagesToDisplay.push(
+      <img key={index} src='/form-cocktail/fire-level.png' alt='Fire Level' />,
     );
   }
 
