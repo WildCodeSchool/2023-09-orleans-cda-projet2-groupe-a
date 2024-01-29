@@ -16,6 +16,8 @@ import Syrup from '@/components/form-cocktail/Syrup';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
+  console.log(data);
+
   return data;
 };
 
@@ -46,6 +48,7 @@ export default function AddCocktail() {
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
   const [selectedSoftdrink, setSelectedSoftdrink] = useState<Ingredient>();
   const [selectedSyrup, setSelectedSyrup] = useState<Ingredient>();
+  const [stepIngredient, setStepIngredient] = useState<number>(1);
 
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
@@ -59,9 +62,7 @@ export default function AddCocktail() {
       );
       const result = await response.json();
       setSelectedAlcohols(result);
-      if (selectedLevel === level) {
-        setLevel(0);
-      } else {
+      if (selectedLevel !== level) {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
         setShow(2);
@@ -153,7 +154,7 @@ export default function AddCocktail() {
     }
   };
 
-  const squaresInfo = [
+  const squares = [
     {
       color: 'purple',
       order: {
@@ -233,6 +234,8 @@ export default function AddCocktail() {
           setIsModalShown={setIsModalShown}
           actualIngredient={actualIngredient}
           setActualIngredient={setActualIngredient}
+          stepIngredient={stepIngredient}
+          setStepIngredient={setStepIngredient}
         />
       ),
     },
@@ -308,7 +311,6 @@ export default function AddCocktail() {
       ),
     },
   ];
-  const [squares, setSquares] = useState(squaresInfo);
 
   const contentWithAlcohol = [
     {
@@ -418,11 +420,14 @@ export default function AddCocktail() {
   ];
 
   useEffect(() => {
-    setSquares((prevNavbarContent) => [
-      ...(withAlcohol ? contentWithAlcohol : contentWithoutAlcohol),
-      ...prevNavbarContent.slice(2),
-    ]);
+    if (withAlcohol) {
+      squares.splice(0, 2, ...contentWithAlcohol);
+    } else {
+      squares.splice(0, 2, ...contentWithoutAlcohol);
+    }
   }, [withAlcohol]);
+
+  console.log(squares);
 
   return (
     <>

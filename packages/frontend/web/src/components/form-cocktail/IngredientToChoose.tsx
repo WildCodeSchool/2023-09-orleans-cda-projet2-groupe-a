@@ -1,4 +1,6 @@
 import { MoveRight, Skull } from 'lucide-react';
+import { useEffect } from 'react';
+import { set } from 'react-hook-form';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
 
@@ -11,17 +13,22 @@ export default function IngredientToChoose({
   beforeIngredient,
   actualIngredient,
   setActualIngredient,
+  stepIngredient,
+  setStepIngredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
+    console.log('in handleIngredientChange', value);
+    console.log('before', stepIngredient);
+
+    setStepIngredient(stepIngredient + 1);
     setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
     setActualIngredient(actualIngredient + 1);
     if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
       setShow(5);
     }
   };
-  console.log({ beforeIngredient });
 
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
     beforeIngredient?.id ?? 1
