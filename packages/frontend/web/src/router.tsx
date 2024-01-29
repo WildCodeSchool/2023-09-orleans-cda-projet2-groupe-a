@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import Team from './components/Team';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
@@ -11,7 +12,6 @@ import NoKidsAllowed from './pages/NoKidsAllowed';
 import ProfilePage from './pages/ProfilePage';
 import PublicProfilePage from './pages/PublicProfilePage';
 import Register from './pages/Register';
-import Team from './components/Team';
 
 const router = createBrowserRouter([
   {
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
       {
         path: 'coucou',
         element: <Team />,
-      }
+      },
     ],
   },
 ]);
