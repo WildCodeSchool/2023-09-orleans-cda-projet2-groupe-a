@@ -17,8 +17,21 @@ export interface CocktailsProfile {
 
 export interface UserProfile {
   pseudo: string;
+  image: string;
+  color: string;
+  email: string;
   comments: CommentsProfile[] | null;
   cocktails: CocktailsProfile[] | null;
+}
+
+export interface UserInfoForm {
+  pseudo: string;
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  color: string;
+  image: string;
 }
 
 export interface UpdateData {
