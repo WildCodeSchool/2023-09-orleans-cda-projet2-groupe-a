@@ -8,6 +8,7 @@ import Community from './pages/Community';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
+import NotFound from './pages/NotFound';
 import ProfilePage from './pages/ProfilePage';
 import Register from './pages/Register';
 
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: 'cocktails',
         element: <Cocktails />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
