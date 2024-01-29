@@ -39,7 +39,7 @@ const navbarContentInfo: NavbarContent[] = [
   },
   {
     name: 'Profile',
-    url: '/profile/1',
+    url: '/profile',
     icon: UserCircle2,
   },
   {
