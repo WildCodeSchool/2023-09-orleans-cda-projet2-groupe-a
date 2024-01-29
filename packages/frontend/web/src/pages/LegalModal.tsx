@@ -163,7 +163,7 @@ export default function LegalNotice() {
             <div className='my-10 flex flex-col items-center justify-center sm:flex-row sm:justify-around'>
               <div className='xxs:text-xs flex items-center justify-center text-center sm:text-sm'>
                 {'YummyCorn© | 2023 - ' +
-                  now.toLocaleDateString().slice(6, 10)}{' '}
+                  now.toLocaleDateString().slice(6, 10)}
               </div>
               <div className='xxs:text-xs xxs:flex xxs:mt-5 flex flex-col items-center justify-center rounded-xl border-2 border-transparent p-2 text-right text-blue-300 duration-500 hover:border-blue-500 sm:mt-0 sm:text-sm'>
                 <button type='button' onClick={handleClose}>
