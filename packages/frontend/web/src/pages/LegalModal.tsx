@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
+const now: Date = new Date();
+
 export default function LegalNotice() {
   const [isModalShown, setIsModalShown] = useState(true);
-  const now: Date = new Date();
 
   // checks LocalStorage when component is mounted.
   // It can store simple datas like user's preferences
