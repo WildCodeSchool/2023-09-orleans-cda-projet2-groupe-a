@@ -1,6 +1,4 @@
 import { MoveRight, Skull } from 'lucide-react';
-import { useEffect } from 'react';
-import { set } from 'react-hook-form';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import type { JSX } from 'react/jsx-runtime';
 
 import type { CocktailForm } from '@app/types';
@@ -42,7 +42,6 @@ export default function AddCocktail() {
     clearErrors,
     setValue,
     watch,
-    resetField,
   } = useForm<CocktailForm>();
 
   const [level, setLevel] = useState<number>(0);
@@ -55,8 +54,6 @@ export default function AddCocktail() {
   const [selectedTopping, setSelectedTopping] = useState<string>('');
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
-  const [selectedSoftdrink, setSelectedSoftdrink] = useState<Ingredient>();
-  const [selectedSyrup, setSelectedSyrup] = useState<Ingredient>();
 
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);

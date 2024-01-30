@@ -18,7 +18,7 @@ export default function Softdrinks({
   };
   const url = `${import.meta.env.VITE_API_URL}/ingredient/softdrinks`;
 
-  const { data, isLoading } = useFetch<Ingredient[]>(url);
+  const { data } = useFetch<Ingredient[]>(url);
 
   return (
     <>
