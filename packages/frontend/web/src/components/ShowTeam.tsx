@@ -37,63 +37,70 @@ export default function ShowTeam() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className='z-40 mt-5 flex h-screen w-screen flex-col items-center gap-6 bg-blue-200 text-xl'>
-      <div className='animate-color-pulse hover:bg-light-green font-stroke z-50 m-6 rounded-[30px] border-[5px] border-transparent p-6 text-3xl font-bold transition-transform duration-500 ease-in-out hover:rotate-1  hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80 hover:text-pink-400'>
+    <div className='z-40 flex h-screen w-screen flex-col items-center gap-6 bg-blue-200 text-xl'>
+      <div className='xs:text-3xl animate-color-pulse hover:bg-light-green font-stroke z-50 m-6 mt-[50px] rounded-[30px] border-[5px] border-transparent p-6 font-bold transition-transform duration-500 ease-in-out hover:rotate-1 hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80 hover:text-pink-400 sm:text-3xl'>
         <span>{'Proudly made with React by devoted devs'}</span>
       </div>
-      <div className='z-50 my-8 flex items-center justify-center gap-[4rem]'>
+      <div className='xxs:grid xxs:mb-[100px] xxs:grid-cols-1 z-50 my-8 gap-x-[3rem] gap-y-[20rem] sm:grid-cols-2 md:gap-8 md:gap-y-[20rem] lg:grid-cols-4 lg:gap-8 lg:gap-y-[15rem]'>
         {developers.map((developer, index) => (
-          <div key={index} className='h-64 w-64'>
-            <div
-              className='relative h-full w-full'
-              onMouseEnter={() => {
-                setHoveredIndex(index);
-              }}
-              onMouseLeave={() => {
-                setHoveredIndex(null);
-              }}
-            >
-              <img
-                className={`border-light absolute h-full w-full transform rounded-full border-4 object-cover transition-transform duration-150 ease-in-out ${
-                  hoveredIndex === index ? 'scale-x-0' : 'scale-x-100'
-                }`}
-                style={{
-                  boxShadow: '0px 0px 6px 4px #000000',
+          <div key={index}>
+            <div className='xxs:h-36 xxs:w-36 lg:h-48 lg:w-48 xl:h-64 xl:w-64'>
+              <div
+                className='relative h-full w-full'
+                onMouseEnter={() => {
+                  setHoveredIndex(index);
                 }}
-                src={developer.img1}
-                alt={`${developer.name} placeholder`}
-              />
-              <img
-                className={`border-light absolute h-full w-full transform rounded-full border-4 object-cover transition-transform duration-150 ease-in-out ${
-                  hoveredIndex === index ? 'scale-x-100' : 'scale-x-0'
-                }`}
-                style={{
-                  boxShadow: '0px 0px 6px 4px #000000',
+                onMouseLeave={() => {
+                  setHoveredIndex(null);
                 }}
-                src={developer.img2}
-                alt={`${developer.name} placeholder`}
-              />
-            </div>
-            <div className='mb-10 mt-6 flex flex-col'>
-              <p className='font-stroke text-light py-3 text-center'>
-                {developer.name}
-              </p>
-              <a
-                href={developer.linkedIn}
-                target='_blank'
-                className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
-                rel='noreferrer'
               >
-                <img src={'/icon-linkedin.svg'} alt='Icon LinkedIn' />
-              </a>
-              <a
-                href={developer.github}
-                target='_blank'
-                className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
-                rel='noreferrer'
-              >
-                <img src={'/icon-github-planet.svg'} alt='Icon Github' />
-              </a>
+                <img
+                  className={`border-light absolute h-full w-full transform rounded-full border-4 object-cover transition-transform duration-150 ease-in-out ${
+                    hoveredIndex === index ? 'scale-x-0' : 'scale-x-100'
+                  }`}
+                  style={{
+                    boxShadow: '0px 0px 6px 4px #000000',
+                  }}
+                  src={developer.img1}
+                  alt={`picture of ${developer.name}`}
+                />
+                <img
+                  className={`border-light absolute h-full w-full transform rounded-full border-4 object-cover transition-transform duration-150 ease-in-out ${
+                    hoveredIndex === index ? 'scale-x-100' : 'scale-x-0'
+                  }`}
+                  style={{
+                    boxShadow: '0px 0px 6px 4px #000000',
+                  }}
+                  src={developer.img2}
+                  alt={`picture of ${developer.name}`}
+                />
+              </div>
+              <div className='mb-10 mt-6 flex flex-col sm:mb-[5rem]'>
+                <p className='xxs:text-xs font-stroke text-light py-3 text-center'>
+                  {developer.name}
+                </p>
+                <a
+                  href={developer.linkedIn}
+                  target='_blank'
+                  className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
+                  rel='noreferrer'
+                >
+                  <img src={'/icon-linkedin.svg'} alt='Icon LinkedIn' />
+                </a>
+                <a
+                  href={developer.github}
+                  target='_blank'
+                  className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
+                  rel='noreferrer'
+                >
+                  <img src={'/icon-github-planet.svg'} alt='Icon Github' />
+                </a>
+                <div className='mt-3 flex w-[2/3] justify-center'>
+                  {window.innerWidth <= 640 && (
+                    <div className='w-11/12 border-t-2 border-blue-300 opacity-60' />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         ))}
