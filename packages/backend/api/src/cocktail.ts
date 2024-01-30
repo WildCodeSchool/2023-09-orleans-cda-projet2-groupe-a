@@ -207,8 +207,8 @@ cocktailRouter.post(
             const numberDuration = Math.floor(Math.random() * 10 + 1);
             acc.totalQuantity += numberQuantity;
             acc.totalComplexity += numberComplexity;
-            acc.totalDuration += allIngredient.kcal;
-            acc.totalkcal += numberDuration;
+            acc.totalDuration += numberDuration;
+            acc.totalkcal += allIngredient.kcal;
             acc.quantity.push(numberQuantity);
             acc.complexity.push(numberComplexity);
             acc.duration.push(numberDuration);
