@@ -11,7 +11,7 @@ export default function NotFound() {
       />
       <p className='font-stroke text-light xxs:mb-[10px] xxs:text-xl p-3 text-center sm:mb-[2px] sm:text-3xl'>
         {
-          "Sorry, the page you're looking for couldn't be found. You may try something else..."
+          "Sorry, the page you're looking for couldn't be found. Try something else..."
         }
       </p>
     </div>
