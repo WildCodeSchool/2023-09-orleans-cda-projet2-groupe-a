@@ -6,13 +6,14 @@ import useFetch from '@/hooks/use-fetch';
 
 export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
   };
   const url = `${import.meta.env.VITE_API_URL}/ingredient/syrup`;
 
-  const { data, isLoading } = useFetch<Ingredient[]>(url);
+  const { data } = useFetch<Ingredient[]>(url);
 
   return (
     <>
@@ -58,6 +59,8 @@ export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
               <li
                 className='w-[100px] hover:cursor-pointer'
                 onClick={() => {
+                  setHasSyrupOrNot('none');
+                  handleClickSyrup(null);
                   handleClickSelect();
                 }}
               >
@@ -86,7 +89,7 @@ export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
                   handleClickSelect();
                 }}
               >
-                {watch('syrup.name') || 'syrup'}
+                {watch('syrup.name') || hasSyrupOrNot}
               </li>
             </ul>
           )}

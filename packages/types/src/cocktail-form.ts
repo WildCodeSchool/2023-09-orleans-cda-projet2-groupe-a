@@ -13,7 +13,7 @@ export type CocktailForm = {
   ingredients?: Pick<Ingredient, 'id' | 'name' | 'flavour'>[];
   alcohol?: Ingredient;
   softdrink?: Ingredient;
-  syrup?: Ingredient;
+  syrup?: Ingredient | null;
   level?: number;
   glass?: Pick<Glass, 'name' | 'id'>;
   flavours?: {
@@ -107,5 +107,5 @@ export interface SoftdrinksProps {
 export interface SyrupProps {
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
-  handleClickSyrup: (syrup: Ingredient) => void;
+  handleClickSyrup: (syrup: Ingredient | null) => void;
 }

@@ -26,15 +26,13 @@ interface Square {
 }
 
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
-  console.log(data);
-
   return data;
 };
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
   const [actualIngredient, setActualIngredient] = useState(0);
-  const [withAlcohol, setWithAlcohol] = useState(false);
+  const [withAlcohol, setWithAlcohol] = useState(true);
 
   const {
     register,
@@ -44,6 +42,7 @@ export default function AddCocktail() {
     clearErrors,
     setValue,
     watch,
+    resetField,
   } = useForm<CocktailForm>();
 
   const [level, setLevel] = useState<number>(0);
@@ -61,7 +60,7 @@ export default function AddCocktail() {
 
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
-    setShow(6);
+    show < 6 ? setShow(6) : null;
   };
 
   const handleLevelClick = async (selectedLevel: number) => {
@@ -74,7 +73,7 @@ export default function AddCocktail() {
       if (selectedLevel !== level) {
         setLevel(selectedLevel);
         setValue('level', selectedLevel);
-        setShow(2);
+        show < 2 ? setShow(2) : null;
       }
     } catch (error) {
       console.error(
@@ -85,19 +84,19 @@ export default function AddCocktail() {
   };
 
   const handleClickAlcohol = (alcohol: Ingredient) => {
-    setShow(3);
+    show < 3 ? setShow(3) : null;
     setSelectedAlcohol(alcohol);
     setValue('alcohol', alcohol);
   };
 
   const handleClickSoftDrinks = (softdrink: Ingredient) => {
-    setShow(2);
+    show < 3 ? setShow(3) : null;
     setValue('softdrink', softdrink);
   };
 
-  const handleClickSyrup = (syrup: Ingredient) => {
-    setShow(3);
-    setValue('syrup', syrup);
+  const handleClickSyrup = (syrup: Ingredient | null) => {
+    show < 3 ? setShow(3) : null;
+    syrup === null ? setValue('syrup', null) : setValue('syrup', syrup);
   };
 
   const handleErrorSubmit = () => {
