@@ -24,6 +24,8 @@ export default function ToppingPart({
     ingredients?.[1]?.flavour,
     ingredients?.[2]?.flavour,
     selectedAlcohol?.flavour,
+    watch('softdrink.flavour'),
+    watch('syrup.flavour'),
   ];
 
   const memoizedFlavoursCount = useMemo(() => {
@@ -48,10 +50,15 @@ export default function ToppingPart({
         neutral: 0,
       },
     );
-  }, [selectedAlcohol?.flavour, selectedIngredient?.flavour]);
+  }, [
+    selectedAlcohol?.flavour,
+    watch('softdrink.flavour'),
+    watch('syrup.flavour'),
+    selectedIngredient?.flavour,
+  ]);
 
   useEffect(() => {
-    if (selectedAlcohol && selectedIngredient) {
+    if ((selectedAlcohol || watch('softdrink')) && selectedIngredient) {
       // eslint-disable-next-line unicorn/no-array-reduce
       const [maxFlavour] = Object.entries(memoizedFlavoursCount).reduce(
         ([currentFlavour, currentCount], [flavour, count]) =>
@@ -75,7 +82,14 @@ export default function ToppingPart({
           );
         });
     }
-  }, [memoizedFlavoursCount, mainFlavour, selectedAlcohol, selectedIngredient]);
+  }, [
+    memoizedFlavoursCount,
+    mainFlavour,
+    selectedAlcohol,
+    watch('softdrink.flavour'),
+    watch('syrup.flavour'),
+    selectedIngredient,
+  ]);
 
   const handleRandomToppingChoice = async () => {
     try {

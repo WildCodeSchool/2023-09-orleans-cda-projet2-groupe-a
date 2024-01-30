@@ -11,7 +11,7 @@ export default function LevelPart({
 }: LevelPartProps) {
   return (
     <>
-      <label className='relative left-[-250px] top-[-110px] z-[100] inline-flex cursor-pointer items-center'>
+      <label className='relative left-[-35%] top-[-22%] z-[100] inline-flex cursor-pointer items-center'>
         <input
           type='checkbox'
           value=''

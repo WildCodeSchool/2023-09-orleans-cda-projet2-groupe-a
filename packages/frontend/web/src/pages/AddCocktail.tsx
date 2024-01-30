@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
+import type { JSX } from 'react/jsx-runtime';
 
 import type { CocktailForm } from '@app/types';
 import type { Ingredient } from '@app/types';
@@ -15,6 +16,15 @@ import Softdrinks from '@/components/form-cocktail/Softdrinks';
 import Syrup from '@/components/form-cocktail/Syrup';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
+interface Square {
+  color: string;
+  order: { lg: number | string; md: number | string };
+  biasSide: { lg: string[]; md: string[] };
+  width: { lg: number; md: number };
+  right?: { lg: number; md: number } | undefined;
+  component: JSX.Element;
+}
+
 const onSubmit: SubmitHandler<CocktailForm> = (data) => {
   console.log(data);
 
@@ -24,7 +34,7 @@ const onSubmit: SubmitHandler<CocktailForm> = (data) => {
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
   const [actualIngredient, setActualIngredient] = useState(0);
-  const [withAlcohol, setWithAlcohol] = useState(true);
+  const [withAlcohol, setWithAlcohol] = useState(false);
 
   const {
     register,
@@ -48,7 +58,6 @@ export default function AddCocktail() {
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
   const [selectedSoftdrink, setSelectedSoftdrink] = useState<Ingredient>();
   const [selectedSyrup, setSelectedSyrup] = useState<Ingredient>();
-  const [stepIngredient, setStepIngredient] = useState<number>(1);
 
   const handleToppingChange = (value: string) => {
     setSelectedTopping(value);
@@ -78,6 +87,7 @@ export default function AddCocktail() {
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setShow(3);
     setSelectedAlcohol(alcohol);
+    setValue('alcohol', alcohol);
   };
 
   const handleClickSoftDrinks = (softdrink: Ingredient) => {
@@ -92,16 +102,27 @@ export default function AddCocktail() {
 
   const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
+    const softdrinkValue = watch('softdrink');
 
-    if (alcoholValue === undefined) {
+    if (alcoholValue === undefined && softdrinkValue === undefined) {
       setError('alcohol', { type: 'required', message: 'required' });
+      setError('softdrink', { type: 'required', message: 'required' });
     } else if (
-      typeof alcoholValue.name === 'string' &&
-      alcoholValue.name.length <= 255
+      (alcoholValue !== undefined &&
+        typeof alcoholValue.name === 'string' &&
+        alcoholValue.name.length <= 255) ||
+      (softdrinkValue !== undefined &&
+        typeof softdrinkValue.name === 'string' &&
+        softdrinkValue.name.length <= 255)
     ) {
       clearErrors('alcohol');
+      clearErrors('softdrink');
     } else {
       setError('alcohol', {
+        type: 'validate',
+        message: 'must be a string of 255 characters max',
+      });
+      setError('softdrink', {
         type: 'validate',
         message: 'must be a string of 255 characters max',
       });
@@ -109,12 +130,11 @@ export default function AddCocktail() {
 
     const levelValue = watch('level');
 
-    if (levelValue === undefined) {
+    if (levelValue === undefined && softdrinkValue === undefined) {
       setError('level', { type: 'required', message: 'required' });
     } else if (
-      typeof levelValue === 'number' &&
-      levelValue <= 3 &&
-      levelValue >= 1
+      (typeof levelValue === 'number' && levelValue <= 3 && levelValue >= 1) ||
+      softdrinkValue !== undefined
     ) {
       clearErrors('level');
     } else {
@@ -154,58 +174,7 @@ export default function AddCocktail() {
     }
   };
 
-  const squares = [
-    {
-      color: 'purple',
-      order: {
-        lg: 1,
-        md: 1,
-      },
-      biasSide: {
-        lg: ['right'],
-        md: ['right'],
-      },
-      width: {
-        lg: 110,
-        md: 105,
-      },
-      component: (
-        <LevelPart
-          level={level}
-          handleLevelClick={handleLevelClick}
-          errors={errors}
-          withAlcohol={withAlcohol}
-          setWithAlcohol={setWithAlcohol}
-        />
-      ),
-    },
-    {
-      color: 'yellow',
-      order: {
-        lg: 3,
-        md: 4,
-      },
-      biasSide: {
-        lg: ['right', 'left'],
-        md: ['left'],
-      },
-      width: {
-        lg: 130,
-        md: 116,
-      },
-      right: {
-        lg: 15,
-        md: 16,
-      },
-      component: (
-        <AlcoholPart
-          alcohols={selectedAlcohols}
-          handleClickAlcohol={handleClickAlcohol}
-          watch={watch}
-          errors={errors}
-        />
-      ),
-    },
+  const baseSquares = [
     {
       color: 'blue',
       order: {
@@ -234,8 +203,6 @@ export default function AddCocktail() {
           setIsModalShown={setIsModalShown}
           actualIngredient={actualIngredient}
           setActualIngredient={setActualIngredient}
-          stepIngredient={stepIngredient}
-          setStepIngredient={setStepIngredient}
         />
       ),
     },
@@ -312,7 +279,7 @@ export default function AddCocktail() {
     },
   ];
 
-  const contentWithAlcohol = [
+  const squaresWithAlcohol = [
     {
       color: 'purple',
       order: {
@@ -364,9 +331,10 @@ export default function AddCocktail() {
         />
       ),
     },
+    ...baseSquares,
   ];
 
-  const contentWithoutAlcohol = [
+  const squaresWithoutAlcohol = [
     {
       color: 'purple',
       order: {
@@ -417,68 +385,67 @@ export default function AddCocktail() {
         />
       ),
     },
+    ...baseSquares,
   ];
 
-  useEffect(() => {
-    if (withAlcohol) {
-      squares.splice(0, 2, ...contentWithAlcohol);
-    } else {
-      squares.splice(0, 2, ...contentWithoutAlcohol);
-    }
-  }, [withAlcohol]);
-
-  console.log(squares);
-
-  return (
-    <>
-      <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
-        <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
-          {squares.map((square, index) => (
-            <div
-              key={square.color}
-              className={`bg-dark relative lg:clip-path-polygon-${
-                square.color
-              }-lg md:clip-path-polygon-${square.color}-md lg:order-${
-                square.order.lg
-              } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
-                square.width.lg
-              }%] md:w-[${square.width.md}%] ${
-                square.right === undefined
-                  ? ''
-                  : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
-              }`}
-            >
-              <div
-                className={`lg:clip-path-polygon-${
-                  square.color
-                }-lg md:clip-path-polygon-${
-                  square.color
-                }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
-                  square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
-                } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
-                  square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
-                } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
-              >
-                <div
-                  className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
-                >
-                  <div
-                    className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
-                  />
-                  <div
-                    className={`
+  const renderSquare = (square: Square, index: number) => (
+    <div
+      key={square.color}
+      className={`bg-dark relative lg:clip-path-polygon-${
+        square.color
+      }-lg md:clip-path-polygon-${square.color}-md lg:order-${
+        square.order.lg
+      } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
+        square.width.lg
+      }%] md:w-[${square.width.md}%] ${
+        square.right === undefined
+          ? ''
+          : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
+      }`}
+    >
+      <div
+        className={`lg:clip-path-polygon-${
+          square.color
+        }-lg md:clip-path-polygon-${
+          square.color
+        }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
+          square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
+        } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
+          square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
+        } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
+      >
+        <div
+          className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
+        >
+          <div
+            className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
+          />
+          <div
+            className={`
     ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
     absolute left-[3%] 
     top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
       index + 1
     }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
-                  >
-                    {square.component}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+          >
+            {square.component}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
+        <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
+          {withAlcohol
+            ? squaresWithAlcohol.map((Component, index) =>
+                renderSquare(Component, index),
+              )
+            : squaresWithoutAlcohol.map((Component, index) =>
+                renderSquare(Component, index),
+              )}
         </div>
       </form>
       {isModalShown ? (

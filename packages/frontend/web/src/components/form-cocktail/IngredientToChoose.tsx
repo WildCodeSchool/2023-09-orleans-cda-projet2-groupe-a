@@ -13,16 +13,10 @@ export default function IngredientToChoose({
   beforeIngredient,
   actualIngredient,
   setActualIngredient,
-  stepIngredient,
-  setStepIngredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    console.log('in handleIngredientChange', value);
-    console.log('before', stepIngredient);
-
-    setStepIngredient(stepIngredient + 1);
     setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
     setActualIngredient(actualIngredient + 1);
     if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {

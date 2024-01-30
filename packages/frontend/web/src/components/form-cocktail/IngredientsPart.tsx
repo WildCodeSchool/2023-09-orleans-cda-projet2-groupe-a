@@ -18,14 +18,13 @@ export default function IngredientsPart({
   setIsModalShown,
   actualIngredient,
   setActualIngredient,
-  stepIngredient,
-  setStepIngredient,
 }: IngredientsPartProps) {
   const ingredientArray = watch('ingredients');
 
   const ingredients: IngredientArray[] = [
     {
-      beforeIngredient: watch('alcohol'),
+      beforeIngredient:
+        watch('alcohol') === undefined ? watch('softdrink') : watch('alcohol'),
       condition: ingredientArray === undefined,
     },
     {
@@ -82,8 +81,6 @@ export default function IngredientsPart({
                 beforeIngredient={ingredient.beforeIngredient}
                 actualIngredient={actualIngredient}
                 setActualIngredient={setActualIngredient}
-                stepIngredient={stepIngredient}
-                setStepIngredient={setStepIngredient}
               />
             </motion.div>
           );

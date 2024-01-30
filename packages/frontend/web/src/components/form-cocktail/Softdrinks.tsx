@@ -22,7 +22,7 @@ export default function Softdrinks({
 
   return (
     <>
-      <label className='relative left-[-250px] top-[-110px] z-[100] inline-flex cursor-pointer items-center'>
+      <label className='relative left-[-35%] top-[-32%] z-[100] inline-flex cursor-pointer items-center'>
         <input
           type='checkbox'
           value=''
@@ -41,14 +41,14 @@ export default function Softdrinks({
         {'Choose your booze'}
       </label>
 
-      {errors.alcohol?.type === 'required' ? (
+      {errors.softdrink?.type === 'required' ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.alcohol?.type === 'validate' ? (
+      {errors.softdrink?.type === 'validate' ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
-          {errors.alcohol.message}
+          {errors.softdrink.message}
         </span>
       ) : undefined}
 

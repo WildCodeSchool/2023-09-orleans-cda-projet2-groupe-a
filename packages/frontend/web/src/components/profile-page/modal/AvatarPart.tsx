@@ -10,7 +10,7 @@ export default function AvatarPart({
   return (
     <>
       {Array.from({ length: 22 }, (_, index: number) => (
-        <div key={index} className='flex gap-3'>
+        <div key={index} className='rounded-rotate flex gap-3'>
           <input
             className='hover:cursor-pointer'
             type='checkbox'
