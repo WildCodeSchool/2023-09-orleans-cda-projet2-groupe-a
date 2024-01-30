@@ -74,14 +74,14 @@ export default function ShowTeam() {
                 alt={`${developer.name} placeholder`}
               />
             </div>
-            <div className='mt-6 flex flex-col mb-10'>
+            <div className='mb-10 mt-6 flex flex-col'>
               <p className='font-stroke text-light py-3 text-center'>
                 {developer.name}
               </p>
               <a
                 href={developer.linkedIn}
                 target='_blank'
-                className='flex justify-center transform hover:scale-90 hover:opacity-80 hover:border transparent rounded-full'
+                className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
                 rel='noreferrer'
               >
                 <img src={'/icon-linkedin.svg'} alt='Icon LinkedIn' />
@@ -89,7 +89,7 @@ export default function ShowTeam() {
               <a
                 href={developer.github}
                 target='_blank'
-                className='flex justify-center transform hover:scale-90 hover:opacity-80 hover:border transparent rounded-full'
+                className='transparent flex transform justify-center rounded-full hover:scale-90 hover:border hover:opacity-80'
                 rel='noreferrer'
               >
                 <img src={'/icon-github-planet.svg'} alt='Icon Github' />
