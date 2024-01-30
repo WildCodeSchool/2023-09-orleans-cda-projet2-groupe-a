@@ -1,5 +1,5 @@
 import { Upload } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 import type { Cocktail } from '@app/types';
 
@@ -7,47 +7,43 @@ type CocktailFormProps = {
   readonly cocktail: Cocktail;
 };
 
-// Input de la page cocktail-detail
-type InputCocktailForm = {
-  anecdote?: string;
-  file?: string;
-  content?: string;
-};
-
-// Upload image
-export type File = {
-  originalname: 'string';
-  filename: 'string';
-};
 export default function CocktailForm({ cocktail }: CocktailFormProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InputCocktailForm>({
-    defaultValues: {
-      anecdote: '',
-      file: '',
-    },
-  });
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [anecdote, setAnecdote] = useState('');
 
-  const onSubmit = async (data: InputCocktailForm) => {
-    try {
-      await fetch(`${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-    } catch {
-      console.error(`Request error`);
+  const onSubmit = async () => {
+    const formDataToSend = new FormData();
+    formDataToSend.append('anecdote', anecdote || '');
+
+    if (uploadedImage) {
+      formDataToSend.append('cocktailPic', uploadedImage);
     }
+
+    try {
+      await fetch(
+        `${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}/upload`,
+        {
+          method: 'POST',
+          body: formDataToSend,
+        },
+      );
+    } catch (error) {
+      console.error(`Erreur de requête`, error);
+    }
+    setIsFormSubmitted(true);
+    setUploadedImage(null);
   };
 
   return (
     <div>
       <div>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          encType='multipart/form-data'
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await onSubmit();
+          }}
           className={`border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap`}
         >
           <div className='mx-auto mt-6 flex flex-col items-center'>
@@ -59,37 +55,56 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
               id='text'
               placeholder='Put your description !'
               className='bg-light-beige border-dark mt-10 h-[13rem] w-[85%] rounded-sm border-2 p-5'
-              {...register('anecdote', {
-                required: false,
-                maxLength: { value: 255, message: 'Max length exceeded !' },
-              })}
+              value={anecdote}
+              onChange={(event) => {
+                setAnecdote(event.target.value);
+              }}
             />
-            <p className='ms-5 mt-5 text-[rgb(232,40,40)]'>
-              {errors.anecdote?.message}
-            </p>
-            <div className='flex ps-10'>
-              <Upload
-                color='#0E0F0F'
-                className='my-auto h-7 w-7 stroke-[3px]'
+            <div className='flex'>
+              <label htmlFor='cocktailPic' className='sr-only'>
+                {'Upload Image'}
+              </label>
+              <input
+                type='file'
+                id='cocktailPic'
+                name='cocktailPic'
+                onChange={(event) => {
+                  setUploadedImage(event.target.files?.[0] || null);
+                }}
+                className='hidden'
               />
-              <label htmlFor='text' className='uppercase' />
+              <label
+                htmlFor='cocktailPic'
+                className='flex cursor-pointer items-center'
+              >
+                <Upload className='mt-4 stroke-[3px]' />
+              </label>
             </div>
-            <button type='submit' className='ms-auto flex items-center p-3'>
+            <button
+              type='submit'
+              disabled={!uploadedImage && !anecdote}
+              className='ms-auto flex items-center p-3'
+            >
               <p className='uppercase'>{`shake it !`}</p>
               <img
                 src='/shaker.svg'
                 alt='shaker'
                 className=' my-auto h-10 w-10 rotate-[30deg] cursor-pointer'
               />
+              {isFormSubmitted ? (
+                <div className='mt-4 text-center text-green-500'>
+                  {'Form sent successfully !'}
+                </div>
+              ) : null}
             </button>
           </div>
         </form>
       </div>
       <div
-        className={`border-dark bg-pastel-beige } m-auto mb-20 h-[21rem] w-[80%] rounded-sm border-[3px]`}
+        className={`border-dark bg-pastel-beige m-auto mb-20 w-[80%] rounded-sm border-[3px]`}
       >
         <h3 className='m-4 mt-8 text-center uppercase'>{`discover me !!!`}</h3>
-        <p className='ms-5 p-5'>{cocktail.anecdote}</p>
+        <p className='mb-5 ms-5 p-5'>{cocktail.anecdote}</p>
       </div>
     </div>
   );

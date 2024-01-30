@@ -24,8 +24,9 @@ export interface UserTable {
   password: string;
   pseudo: string;
   image?: string;
-  birthdate: Date;
+  birthdate: string;
   created_at?: Date;
+  color?: string;
 }
 export interface IngredientTable {
   id: Generated<number>;
