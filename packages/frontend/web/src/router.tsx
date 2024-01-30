@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
 import NotFound from './pages/NotFound';
 import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage';
 import Register from './pages/Register';
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile/:id',
+        element: <PublicProfilePage />,
+      },
+      {
+        path: 'profile',
         element: <ProfilePage />,
       },
       {
