@@ -246,13 +246,13 @@ await db.transaction().execute(async (trx) => {
     ('Knife', 'knife.png'),
     ('Spoon', 'spoon.jpg'),
     ('Muddler', 'muddler.png'),
-    ('Bar Spoon', 'barspoon.png'),
+    ('Bar Spoon', 'bar-spoon.png'),
     ('Jigger', 'jigger.png'),
     ('Strainer', 'strainer.png'),
-    ('Citrus Juicer', 'citrusjuicer.png'),
+    ('Citrus Juicer', 'citrus-juicer.png'),
     ('Blender', 'blender.png'),
-    ('Ice Pick', 'icepick.png'),
-    ('Stirring Glass', 'stirringglass.png');
+    ('Ice Pick', 'ice-pick.png'),
+    ('Stirring Glass', 'stirring-glass.png');
   `.execute(trx);
 
   await sql`
