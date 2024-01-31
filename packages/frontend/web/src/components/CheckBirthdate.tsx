@@ -1,9 +1,9 @@
 import { type FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CheckBirthdateAnimations from '../components/CheckBirthdateAnimations';
-import { useAnimations } from '../contexts/AnimationsContext';
-import { useBirth } from '../contexts/BirthContext';
+import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+import { useAnimations } from '@/contexts/AnimationsContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 // These two consts below do not need and function.
 // They don't need to be inside function CheckBirthdate.

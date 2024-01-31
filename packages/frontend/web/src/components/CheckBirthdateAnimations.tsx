@@ -1,5 +1,5 @@
-import { useAnimations } from '../contexts/AnimationsContext';
-import { useBirth } from '../contexts/BirthContext';
+import { useAnimations } from '@/contexts/AnimationsContext';
+import { useBirth } from '@/contexts/BirthContext';
 
 type CheckBirthdateAnimationsProps = {
   readonly isUnderAge: boolean;
