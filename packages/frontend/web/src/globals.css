@@ -266,13 +266,13 @@
     box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
   }
 
-  .input[type='file']::file-selector-button {
+  input[type='file']::file-selector-button {
     background-color: transparent;
     border: none;
     display: none;
   }
 
-  .input[type='checkbox'] {
+  input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;

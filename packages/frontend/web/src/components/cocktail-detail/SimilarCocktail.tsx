@@ -62,7 +62,7 @@ export default function SimilarCocktail() {
                   }`}
                 >
                   <img
-                    src={` ${
+                    src={`${
                       index % 2 === 0
                         ? '/placeholder-cocktail-virgin.webp'
                         : '/placeholder-cocktail.webp'

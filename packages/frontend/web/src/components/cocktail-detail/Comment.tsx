@@ -51,7 +51,7 @@ export default function Comment({
             </div>
           </div>
         ))}
-        <div className='m-3 h-[15rem] w-[18rem]  bg-[url("/comment.png")] bg-contain bg-no-repeat'>
+        <div className='m-3 h-[15rem] w-[18rem] bg-[url("/comment.png")] bg-contain bg-no-repeat'>
           <button type='button' className='h-full w-full'>
             <Plus
               onClick={() => {

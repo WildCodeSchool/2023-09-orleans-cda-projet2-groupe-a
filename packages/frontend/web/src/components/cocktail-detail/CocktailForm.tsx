@@ -86,7 +86,7 @@ export default function CocktailForm({
                 onChange={(event) => {
                   setUploadedImage(event.target.files?.[0] || null);
                 }}
-                className='input ms-28 mt-2 w-full'
+                className='ms-28 mt-2 w-full'
               />
               <div className='flex w-full justify-around'>
                 <label

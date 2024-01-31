@@ -30,9 +30,8 @@ cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
       .set(updateData)
       .where('id', '=', cocktailId)
       .execute();
-    res.send('Upload successful!');
     if (req.file) {
-      res.json({ fileName: req.file.filename });
+      res.json({ message: 'Upload successful!', fileName: req.file.filename });
     } else {
       res.status(400).send('No file uploaded.');
     }
