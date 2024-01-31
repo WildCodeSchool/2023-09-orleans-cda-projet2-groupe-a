@@ -3,21 +3,22 @@ import type { Request, Response } from 'express';
 
 import { db } from '@app/backend-shared';
 
-import loginIdUser from './middlewares/login-id-user';
+import checkAuthState from './middlewares/check-auth-state';
 
 interface RequestWithUser extends Request {
   userId?: number;
+  login?: boolean;
 }
 
 const favoriteRouter = express.Router();
 
 favoriteRouter.get(
   '/',
-  loginIdUser,
+  checkAuthState,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
 
-    if (userId === undefined) {
+    if (userId === undefined || !req.login) {
       return res.json({ ok: false, message: 'not connected' });
     }
 
@@ -25,26 +26,13 @@ favoriteRouter.get(
       const cocktail = await db
         .selectFrom('favorite')
         .innerJoin('cocktail', 'favorite.cocktail_id', 'cocktail.id')
-        .leftJoin('recipe', 'recipe.cocktail_id', 'cocktail.id')
-        .leftJoin('action', 'recipe.action_id', 'action.id')
-        .leftJoin(
-          'action_ingredient',
-          'action.id',
-          'action_ingredient.action_id',
-        )
-        .leftJoin(
-          'ingredient',
-          'action_ingredient.ingredient_id',
-          'ingredient.id',
-        )
-        .select((eb) => [
+        .select([
           'cocktail.id',
           'cocktail.name',
           'cocktail.image',
           'cocktail.ratings_average',
           'cocktail.total_degree',
         ])
-        .groupBy('cocktail.id')
         .where('favorite.user_id', '=', Number(userId))
         .orderBy('cocktail.name')
         .execute();
@@ -62,8 +50,8 @@ favoriteRouter.get(
 );
 
 favoriteRouter.post(
-  '/add/:cocktailId',
-  loginIdUser,
+  '/toggle/:cocktailId',
+  checkAuthState,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
     const { cocktailId } = req.params;

@@ -1,21 +1,13 @@
 import express from 'express';
 import type { Request } from 'express';
 import { sql } from 'kysely';
-import type { ExpressionBuilder, RawBuilder } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type {
-  Cocktail,
-  Database,
-  Flavour,
-  Ingredient,
-  Tool,
-  Topping,
-} from '@app/types';
+import type { Flavour } from '@app/types';
 import type { UpdateData } from '@app/types';
 
-import isLoginOrNot from './middlewares/is-login-or-not';
+import checkAuthState from './middlewares/check-auth-state';
 import multerConfig from './middlewares/multer-config';
 
 const cocktailRouter = express.Router();
@@ -65,7 +57,7 @@ cocktailRouter.get('/', async (req, res) => {
 
 cocktailRouter.get(
   '/alcohol',
-  isLoginOrNot,
+  checkAuthState,
   async (req: RequestWithUser, res) => {
     const ingredients = req.query.ingredients;
     const flavours = req.query.flavours;
@@ -75,23 +67,7 @@ cocktailRouter.get(
     const searchTerm = req.query.searchTerm;
 
     const userId = req.userId;
-    const login = req.login;
-
-    const selectClause: (string | RawBuilder<unknown>)[] = [
-      'cocktail.id as cocktail_id',
-      'cocktail.name as cocktail_name',
-      'cocktail.image as cocktail_image',
-      'cocktail.ratings_average as avg_rating',
-      'cocktail.created_at as cocktail_created',
-      'cocktail.final_flavour as cocktail_flavour',
-      'cocktail.total_kcal as cocktail_kcal',
-    ];
-
-    const isFavorite = sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`;
-
-    if (login) {
-      selectClause.push(isFavorite);
-    }
+    const isLogin = req.login;
 
     try {
       let query = db
@@ -109,9 +85,23 @@ cocktailRouter.get(
           'ingredient.id',
         )
         .leftJoin('favorite', 'favorite.cocktail_id', 'cocktail.id')
-        .select(selectClause)
+        .select([
+          'cocktail.id as cocktail_id',
+          'cocktail.name as cocktail_name',
+          'cocktail.image as cocktail_image',
+          'cocktail.ratings_average as avg_rating',
+          'cocktail.created_at as cocktail_created',
+          'cocktail.final_flavour as cocktail_flavour',
+          'cocktail.total_kcal as cocktail_kcal',
+        ])
         .groupBy('cocktail.id')
         .orderBy('cocktail.name');
+
+      if (isLogin) {
+        query = query.select(
+          sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`,
+        );
+      }
 
       if (searchTerm !== undefined) {
         query = query.where((eb) =>
@@ -192,88 +182,91 @@ cocktailRouter.get(
 );
 
 // Route get pour récupérer les cocktails par id présents en BDD
-cocktailRouter.get('/:id', isLoginOrNot, async (req: RequestWithUser, res) => {
-  const id = req.params.id;
-  const userId = req.userId;
-  const login = req.login;
+cocktailRouter.get(
+  '/:id',
+  checkAuthState,
+  async (req: RequestWithUser, res) => {
+    const id = req.params.id;
+    const userId = req.userId;
+    const isLogin = req.login;
 
-  const selectClause: (string | RawBuilder<unknown>)[] = ['id'];
+    try {
+      let query = db
+        .selectFrom('cocktail')
+        .selectAll()
+        .select((eb) => [
+          'id',
+          jsonArrayFrom(
+            eb
+              .selectFrom('recipe')
+              .innerJoin('action', 'recipe.action_id', 'action.id')
+              .innerJoin(
+                'action_ingredient',
+                'action.id',
+                'action_ingredient.action_id',
+              )
+              .innerJoin(
+                'ingredient',
+                'action_ingredient.ingredient_id',
+                'ingredient.id',
+              )
+              .select([
+                'ingredient.id as ingredient_id',
+                'ingredient.name as ingredient_name',
+                'action_ingredient.quantity as quantity',
+                'action.verb as verb',
+                'action.priority as priority',
+              ])
+              .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
+          ).as('ingredients'),
 
-  const isFavorite: RawBuilder<unknown> = sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`;
+          jsonArrayFrom(
+            eb
+              .selectFrom('recipe')
+              .innerJoin('action', 'recipe.action_id', 'action.id')
+              .innerJoin('tool', 'action.tool_id', 'tool.id')
+              .select([
+                'tool.id as tool_id',
+                'tool.name as tool_name',
+                'tool.image as tool_image',
+              ])
+              .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
+          ).as('tools'),
 
-  if (login) {
-    selectClause.push(isFavorite);
-  }
+          jsonArrayFrom(
+            eb
+              .selectFrom('cocktail_topping')
+              .innerJoin('topping', 'cocktail_topping.topping_id', 'topping.id')
+              .select([
+                'topping.id as topping_id',
+                'topping.name as topping_name',
+                'cocktail_topping.quantity as topping_quantity',
+              ])
+              .whereRef('cocktail_topping.cocktail_id', '=', 'cocktail.id'),
+          ).as('toppings'),
+        ])
+        .where('cocktail.id', '=', Number.parseInt(id));
 
-  try {
-    const cocktail = await db
-      .selectFrom('cocktail')
-      .selectAll()
-      .select((eb: ExpressionBuilder<Database, 'cocktail'>) => {
-        const data = jsonArrayFrom(
-          eb
-            .selectFrom('recipe')
-            .innerJoin('action', 'recipe.action_id', 'action.id')
-            .innerJoin(
-              'action_ingredient',
-              'action.id',
-              'action_ingredient.action_id',
-            )
-            .innerJoin(
-              'ingredient',
-              'action_ingredient.ingredient_id',
-              'ingredient.id',
-            )
-            .select([
-              'ingredient.id as ingredient_id',
-              'ingredient.name as ingredient_name',
-              'action_ingredient.quantity as quantity',
-              'action.verb as verb',
-              'action.priority as priority',
-            ])
-            .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
-        ).as('ingredients');
+      if (isLogin) {
+        // ✅ The return type is { first_name: string, last_name: string }
+        query = query.select(
+          sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`,
+        );
+      }
 
-        const tools = jsonArrayFrom(
-          eb
-            .selectFrom('recipe')
-            .innerJoin('action', 'recipe.action_id', 'action.id')
-            .innerJoin('tool', 'action.tool_id', 'tool.id')
-            .select([
-              'tool.id as tool_id',
-              'tool.name as tool_name',
-              'tool.image as tool_image',
-            ])
-            .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
-        ).as('tools');
+      const cocktail = await query.executeTakeFirstOrThrow();
 
-        const toppings = jsonArrayFrom(
-          eb
-            .selectFrom('cocktail_topping')
-            .innerJoin('topping', 'cocktail_topping.topping_id', 'topping.id')
-            .select([
-              'topping.id as topping_id',
-              'topping.name as topping_name',
-              'cocktail_topping.quantity as topping_quantity',
-            ])
-            .whereRef('cocktail_topping.cocktail_id', '=', 'cocktail.id'),
-        ).as('toppings');
+      if (!cocktail) {
+        return res.status(404).send('Cocktail not found');
+      }
 
-        return [...selectClause, data, tools, toppings];
-      })
-      .where('cocktail.id', '=', Number.parseInt(id))
-      .executeTakeFirst();
-
-    if (!cocktail) {
-      return res.status(404).send('Cocktail not found');
+      res.json({ cocktail });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
     }
-
-    res.json({ cocktail });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+  },
+);
 
 // Mettre à jour le champs anecdote grâce au formulaire
 cocktailRouter.post('/:id', async (req, res) => {

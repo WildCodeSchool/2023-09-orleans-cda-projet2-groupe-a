@@ -10,10 +10,10 @@ export default function FavoriteHeart({ id, isFavorite }: FavoriteHeartProps) {
     Record<number, boolean>
   >({});
 
-  const removeFavorites = async (id: number) => {
+  const toggleFavorites = async (id: number) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/favorite/add/${id}}`,
+        `${import.meta.env.VITE_API_URL}/favorite/toggle/${id}}`,
         {
           method: 'POST',
           headers: {
@@ -39,15 +39,14 @@ export default function FavoriteHeart({ id, isFavorite }: FavoriteHeartProps) {
       src={'/heart.png'}
       alt='heart'
       className={`${
-        (clickedCocktails[id] && isFavorite === 0) ||
-        (isFavorite === 1 && clickedCocktails[id] === undefined) ||
-        (clickedCocktails[id] && isFavorite === 1)
+        (clickedCocktails[id] === undefined && isFavorite === 1) ||
+        clickedCocktails[id]
           ? 'grayscale-0'
           : 'grayscale'
       } absolute bottom-[0px] right-[5px] h-[40px] w-[40px]`}
       onClick={async (event) => {
         event.preventDefault();
-        await removeFavorites(id);
+        await toggleFavorites(id);
       }}
     />
   );

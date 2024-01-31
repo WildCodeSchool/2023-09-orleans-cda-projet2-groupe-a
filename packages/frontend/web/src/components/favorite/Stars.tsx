@@ -11,7 +11,7 @@ export default function Stars({ ratings_average }: StarsProps) {
         [1, 2, 3, 4, 5].map((index) => (
           <div
             key={index}
-            className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat grayscale ${
+            className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat ${
               index <= Math.round(Number(ratings_average))
                 ? 'grayscale-0 '
                 : 'grayscale'

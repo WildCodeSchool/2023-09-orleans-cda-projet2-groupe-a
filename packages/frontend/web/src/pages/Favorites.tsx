@@ -7,6 +7,17 @@ import Stars from '@/components/favorite/Stars';
 import Title from '@/components/favorite/Title';
 import useFetch from '@/hooks/use-fetch';
 
+interface DataNotConnected {
+  ok: boolean;
+  message: string;
+}
+
+type Data = DataNotConnected &
+  Pick<
+    Cocktail,
+    'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
+  >[];
+
 const url = `${import.meta.env.VITE_API_URL}/favorite/`;
 
 const image = (image: string, total_degree: number) => {
@@ -22,21 +33,9 @@ const image = (image: string, total_degree: number) => {
 export default function Favorite() {
   const navigate = useNavigate();
 
-  const { data } =
-    useFetch<
-      Pick<
-        Cocktail,
-        'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
-      >[]
-    >(url);
+  const { data } = useFetch<Data>(url);
 
-  if (
-    data &&
-    'message' in data &&
-    'ok' in data &&
-    data.ok === false &&
-    data.message === 'not connected'
-  ) {
+  if (!data?.ok && data?.message === 'not connected') {
     navigate('/login');
   }
 
@@ -47,7 +46,7 @@ export default function Favorite() {
     >
       <Title />
       <div className='px-10'>
-        <div className=' flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
+        <div className='flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
           {data === undefined
             ? null
             : data.map((cocktail) => (

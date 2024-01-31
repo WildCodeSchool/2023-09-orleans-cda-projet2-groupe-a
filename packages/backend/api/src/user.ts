@@ -4,11 +4,12 @@ import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
-import loginIdUser from './middlewares/login-id-user';
+import checkAuthState from './middlewares/check-auth-state';
 import validateUpdateUser from './middlewares/validate-update-user';
 
 interface RequestWithUser extends Request {
   userId?: number;
+  login?: boolean;
 }
 
 const user = express.Router();
@@ -168,10 +169,11 @@ async function getAllUsers() {
   });
 }
 
-user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
+user.get('/profile', checkAuthState, async (req: RequestWithUser, res) => {
   const id = req.userId;
+  const isLogin = req.login;
   const shouldSelectEmail = true;
-  if (id == null) {
+  if (id == null || !isLogin) {
     res.json({ ok: false, message: 'not connected' });
     return;
   }
@@ -215,12 +217,13 @@ interface Updates {
 
 user.put(
   '/update',
-  loginIdUser,
+  checkAuthState,
   validateUpdateUser,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
+    const isLogin = req.login;
 
-    if (userId == null) {
+    if (userId == null || !isLogin) {
       return res.json({ ok: false, message: 'not connected' });
     }
 
