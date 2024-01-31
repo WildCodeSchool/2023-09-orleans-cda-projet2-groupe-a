@@ -17,13 +17,26 @@ export default function Community() {
   const { data } = useFetch<UserProfile[]>(url);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center overflow-x-hidden overflow-y-scroll bg-[url('/community/bg-all-profile.webp')] bg-cover ">
-      <img
-        src='/community/header-community.png'
-        alt='header community page'
-        className='mb-10 me-[28px] mt-20 sm:me-0'
-      />
-      <div className='grid w-full grid-cols-1 sm:w-[95%] sm:grid-cols-2 sm:gap-5 sm:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
+    <div
+      className='m-auto h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
+      style={{ backgroundImage: `url('/community/bg-all-profile.webp')` }}
+    >
+      <div
+        className='shadow-card-community mx-auto flex h-[13rem] w-[90vw] rounded border-[4px] border-[#B58EBA] bg-[#B61BCB] bg-cover bg-center shadow-lg transition-transform ease-in-out hover:scale-110 sm:w-[70vw] md:h-[12.5rem] md:w-[24rem]'
+        style={{ backgroundImage: `url('purple-dot.png')` }}
+      >
+        <div className='relative h-full w-full'>
+          <h1 className='font-stroke text-light absolute top-2 z-50 m-auto flex stroke-[2rem] py-[4rem] ps-3 text-center text-[2.3rem] font-extrabold uppercase'>{`Community`}</h1>
+          <div className='flex justify-end'>
+            <img
+              src='/home/home-1.png'
+              alt='Girls talking'
+              className='absolute top-2 z-20 h-[13rem] sm:h-[11rem] sm:w-[11rem]'
+            />
+          </div>
+        </div>
+      </div>
+      <div className='mx-auto mt-10 grid w-full grid-cols-1 sm:w-[95%] sm:grid-cols-2 sm:gap-5 sm:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
         {data === undefined
           ? null
           : data.map((user) => (

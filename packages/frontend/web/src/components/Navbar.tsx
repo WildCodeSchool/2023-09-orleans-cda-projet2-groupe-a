@@ -30,7 +30,7 @@ const navbarContent: NavbarContent[] = [
   },
   {
     name: 'Profile',
-    url: '/profile/1', // à changer plus tard bien sûr
+    url: '/profile',
     icon: UserCircle2,
   },
   {
