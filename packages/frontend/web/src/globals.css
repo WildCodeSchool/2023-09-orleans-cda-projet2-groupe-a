@@ -280,4 +280,9 @@
   input[type='checkbox']:checked {
     background: rgb(0, 0, 0);
   }
+
+  .shadow-card-community {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(33, 12, 42, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(38, 12, 42, 0.57);
+  }
 }
