@@ -4,7 +4,7 @@ import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type { UpdateData } from '@app/types';
+import type { Ingredient, UpdateData } from '@app/types';
 import type { ActionTable, Flavour } from '@app/types';
 
 import loginIdUser from './middlewares/login-id-user';
@@ -15,27 +15,6 @@ const cocktailRouter = express.Router();
 
 interface RequestWithUser extends Request {
   userId?: number;
-}
-
-interface InitialData {
-  totalQuantity: number;
-  totalkcal: number;
-  totalComplexity: number;
-  totalDuration: number;
-  quantity: number[];
-  kcal: number[];
-  complexity: number[];
-  duration: number[];
-  flavors: Flavour[];
-  counts: { [key in Flavour]: number };
-  maxCount: number;
-  maxItems: Flavour[];
-}
-
-interface AllIngredient {
-  quantity: number;
-  flavour: Flavour;
-  kcal: number;
 }
 
 cocktailRouter.post(
@@ -173,62 +152,53 @@ cocktailRouter.post(
           ...moreIngredientArray,
         ];
 
-        const initialData: InitialData = {
-          totalQuantity: 0,
-          totalkcal: 0,
-          totalComplexity: 0,
-          totalDuration: 0,
-          quantity: [],
-          kcal: [],
-          complexity: [],
-          duration: [],
-          flavors: [],
-          counts: {
-            fruity: 0,
-            spicy: 0,
-            herbaceous: 0,
-            floral: 0,
-            woody: 0,
-            bitter: 0,
-            sweet: 0,
-            salty: 0,
-            sour: 0,
-            neutral: 0,
-          },
-          maxCount: 0,
-          maxItems: [],
+        let totalQuantity = 0;
+        let totalkcal = 0;
+        let totalComplexity = 0;
+        let totalDuration = 0;
+        const quantity: number[] = [];
+        const kcal = [];
+        const complexity: number[] = [];
+        const duration: number[] = [];
+        const flavors = [];
+        const counts = {
+          fruity: 0,
+          spicy: 0,
+          herbaceous: 0,
+          floral: 0,
+          woody: 0,
+          bitter: 0,
+          sweet: 0,
+          salty: 0,
+          sour: 0,
+          neutral: 0,
         };
+        let maxCount = 0;
+        let maxItems = [];
 
         // eslint-disable-next-line unicorn/no-array-reduce
-        const data = allIngredients.reduce(
-          (acc: InitialData, allIngredient: AllIngredient) => {
-            const numberQuantity = Math.floor(Math.random() * 10 + 1);
-            const numberComplexity = Math.floor(Math.random() * 10 + 1);
-            const numberDuration = Math.floor(Math.random() * 10 + 1);
-            acc.totalQuantity += numberQuantity;
-            acc.totalComplexity += numberComplexity;
-            acc.totalDuration += numberDuration;
-            acc.totalkcal += allIngredient.kcal;
-            acc.quantity.push(numberQuantity);
-            acc.complexity.push(numberComplexity);
-            acc.duration.push(numberDuration);
-            acc.kcal.push(allIngredient.kcal);
-            acc.flavors.push(allIngredient.flavour);
+        const data = allIngredients.reduce((ingredient: Ingredient) => {
+          const numberQuantity = Math.floor(Math.random() * 10 + 1);
+          const numberComplexity = Math.floor(Math.random() * 10 + 1);
+          const numberDuration = Math.floor(Math.random() * 10 + 1);
+          totalQuantity += numberQuantity;
+          totalComplexity += numberComplexity;
+          totalDuration += numberDuration;
+          totalkcal += ingredient.kcal;
+          quantity.push(numberQuantity);
+          complexity.push(numberComplexity);
+          duration.push(numberDuration);
+          kcal.push(ingredient.kcal);
+          flavors.push(ingredient.flavour);
 
-            // Update counts, maxCount, and maxItems
-            acc.counts[allIngredient.flavour] =
-              (acc.counts[allIngredient.flavour] || 0) + 1;
-            if (acc.counts[allIngredient.flavour] > acc.maxCount) {
-              acc.maxCount = acc.counts[allIngredient.flavour];
-              acc.maxItems = [allIngredient.flavour];
-            } else if (acc.counts[allIngredient.flavour] === acc.maxCount) {
-              acc.maxItems.push(allIngredient.flavour);
-            }
-
-            return acc;
-          },
-          initialData,
-        );
+          counts[ingredient.flavour] = (counts[ingredient.flavour] || 0) + 1;
+          if (counts[ingredient.flavour] > maxCount) {
+            maxCount = counts[ingredient.flavour];
+            maxItems = [ingredient.flavour];
+          } else if (counts[ingredient.flavour] === maxCount) {
+            maxItems.push(ingredient.flavour);
+          }
+        });
 
         const finalFlavour: Flavour =
           data.maxItems[Math.floor(Math.random() * data.maxItems.length)];
@@ -241,11 +211,11 @@ cocktailRouter.post(
             name: name,
             glass_id: glass.id,
             total_degree: 23,
-            total_kcal: initialData.totalkcal,
+            total_kcal: totalkcal,
             created_at: createdAt,
             author: userId,
             final_flavour: finalFlavour,
-            total_quantity: initialData.totalQuantity,
+            total_quantity: totalQuantity,
           })
           .executeTakeFirstOrThrow();
 
@@ -279,8 +249,8 @@ cocktailRouter.post(
               verb: randomVerb,
               priority: Math.floor(Math.random() * 10),
               tool_id: toolId,
-              duration: initialData.duration[index],
-              complexity: initialData.complexity[index],
+              duration: duration[index],
+              complexity: complexity[index],
               is_mandatory: [true, false][Math.floor(Math.random() * 2)],
             })
             .executeTakeFirstOrThrow();
@@ -296,7 +266,7 @@ cocktailRouter.post(
             .values({
               ingredient_id: ingredient.id,
               action_id: Number(actionId),
-              quantity: initialData.quantity[index],
+              quantity: quantity[index],
             })
             .executeTakeFirstOrThrow();
 
@@ -305,8 +275,8 @@ cocktailRouter.post(
             .values({
               cocktail_id: Number(cocktailId),
               action_id: Number(actionId),
-              total_complexity: initialData.totalComplexity,
-              total_duration: initialData.totalDuration,
+              total_complexity: totalComplexity,
+              total_duration: totalDuration,
               step: 1,
             })
             .executeTakeFirstOrThrow();
