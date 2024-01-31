@@ -28,11 +28,11 @@ export default function CommentsSection({
   }, [isOpen]);
   return (
     <div ref={commentsReference}>
-      <h1 className='font-stroke-small-text text-light ml-7 text-xl font-extrabold uppercase lg:text-2xl'>
+      <h1 className='font-stroke-title text-light ml-7 pb-5 text-xl font-extrabold uppercase lg:text-2xl'>
         {'your comments'}
       </h1>
       <div>
-        <div className='ml-7 ps-2'>
+        {/* <div className='ml-7 ps-2'>
           <div className='font-stroke text-light mb-10 flex text-[1.5rem] font-extrabold uppercase'>
             {isOpen ? (
               <button type='button' onClick={onCommentsToggle}>
@@ -51,8 +51,8 @@ export default function CommentsSection({
             )}
             <h2 className='pe-2'>{`review`}</h2>
           </div>
-        </div>
-        <AnimatePresence>
+        </div> */}
+        {/* <AnimatePresence>
           {isOpen ? (
             <motion.div
               initial={{ opacity: 0, height: '0rem' }}
@@ -60,17 +60,17 @@ export default function CommentsSection({
               exit={{ opacity: 0, height: '0rem' }}
               transition={{ duration: 1 }}
               className='m-auto mb-20 flex w-[90%] flex-wrap rounded-sm object-contain uppercase sm:w-[90%]'
-            >
-              <div className='my-3 flex grid h-full w-full items-center justify-center gap-5 md:grid-cols-2 lg:grid-cols-3'>
-                {comments === null ? (
-                  'no comments yet'
-                ) : (
-                  <Comments comments={comments} />
-                )}
-              </div>
-            </motion.div>
-          ) : undefined}
-        </AnimatePresence>
+            > */}
+        <div className='my-5 ms-8 flex grid h-full w-full items-center justify-center gap-5 md:grid-cols-2 lg:grid-cols-3'>
+          {comments === null ? (
+            '"No comments yet"'
+          ) : (
+            <Comments comments={comments} />
+          )}
+        </div>
+        {/* </motion.div> */}
+        {/* ) : undefined} */}
+        {/* </AnimatePresence> */}
       </div>
     </div>
   );
