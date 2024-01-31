@@ -65,7 +65,7 @@ export default function ProfilePage() {
         setIsOpen={setIsOpen}
       />
       <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
-        <h1 className='font-stroke-title text-light mb-10 mt-5 text-[1.6rem] font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:w-[160px] lg:top-[12%] lg:w-[250px] lg:text-[1.6rem] '>
+        <h1 className='font-stroke-title text-light mb-10 mt-20 text-[1.6rem] font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:mt-5 md:w-[160px] lg:top-[12%] lg:w-[250px] lg:text-[1.6rem] '>
           {'your recipes'}
         </h1>
         <div className="z-20 h-[240px] w-[350px] bg-[url('/profile-page/miss-hold-it.webp')] bg-cover sm:h-[400px] sm:w-[600px]" />
