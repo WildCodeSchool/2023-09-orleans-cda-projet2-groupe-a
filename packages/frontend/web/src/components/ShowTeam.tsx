@@ -1,39 +1,39 @@
 import { useState } from 'react';
 
 const now: Date = new Date();
+const developers = [
+  {
+    name: 'Jean-Antoine',
+    linkedIn: 'https://www.linkedin.com/in/jaalazard/',
+    github: 'https://github.com/jaalazard/',
+    img1: './avatar/avatar-23.webp',
+    img2: './jeehapic.jpeg',
+  },
+  {
+    name: 'Noémie',
+    linkedIn: 'https://www.linkedin.com/in/no%C3%A9mie-barre-3a2204272/',
+    github: 'https://github.com/No3ml3',
+    img1: './avatar/avatar-3.webp',
+    img2: './noemiepic.jpg',
+  },
+  {
+    name: 'Justine',
+    linkedIn:
+      'https://www.linkedin.com/in/justine-cl%C3%A9ment-savary-a62496272/',
+    github: 'https://github.com/Justicesvr',
+    img1: './avatar/avatar-8.webp',
+    img2: './justinepic.jpg',
+  },
+  {
+    name: 'Cédrick',
+    linkedIn: 'https://www.linkedin.com/in/c%C3%A9drick-marie/',
+    github: 'https://github.com/Cardamced',
+    img1: './avatar/avatar-9.webp',
+    img2: './cedpic.jpeg',
+  },
+];
 
 export default function ShowTeam() {
-  const developers = [
-    {
-      name: 'Jean-Antoine',
-      linkedIn: 'https://www.linkedin.com/in/jaalazard/',
-      github: 'https://github.com/jaalazard/',
-      img1: './avatar/avatar-23.webp',
-      img2: './jeehapic.jpeg',
-    },
-    {
-      name: 'Noémie',
-      linkedIn: 'https://www.linkedin.com/in/no%C3%A9mie-barre-3a2204272/',
-      github: 'https://github.com/No3ml3',
-      img1: './avatar/avatar-3.webp',
-      img2: './noemiepic.jpg',
-    },
-    {
-      name: 'Justine',
-      linkedIn:
-        'https://www.linkedin.com/in/justine-cl%C3%A9ment-savary-a62496272/',
-      github: 'https://github.com/Justicesvr',
-      img1: './avatar/avatar-8.webp',
-      img2: './justinepic.jpg',
-    },
-    {
-      name: 'Cédrick',
-      linkedIn: 'https://www.linkedin.com/in/c%C3%A9drick-marie/',
-      github: 'https://github.com/Cardamced',
-      img1: './avatar/avatar-9.webp',
-      img2: './cedpic.jpeg',
-    },
-  ];
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
