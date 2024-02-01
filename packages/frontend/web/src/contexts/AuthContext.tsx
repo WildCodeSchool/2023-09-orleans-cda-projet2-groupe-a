@@ -20,7 +20,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     const abortController = new AbortController();
 
     (async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/check`, {
+      const res = await fetch(`/api/auth/check`, {
         credentials: 'include', // Essentiel pour retrouver le cookie. Idem login.tsx.
       });
       const data = (await res.json()) as {

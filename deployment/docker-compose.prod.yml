@@ -2,11 +2,6 @@ version: '3'
 
 name: '2023-09-orleans-cda-projet2-dev'
 
-networks:
-  frontend:
-  backend:
-  db:
-
 services:
   api:
     build:
@@ -14,7 +9,9 @@ services:
       context: ../
     restart: always
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+        restart: true
     env_file:
       - ./common.env
       - ./api.env
@@ -44,7 +41,7 @@ services:
     ports:
       - 80:8080
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf
       - web-client-build:/web-client-build
     networks:
       - backend
@@ -75,9 +72,16 @@ services:
       - ./common.env
       - ./api.env
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+        restart: true
     networks:
       - db
 
 volumes:
   web-client-build:
+
+networks:
+  frontend:
+  backend:
+  db:

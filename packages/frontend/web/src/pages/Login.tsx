@@ -27,7 +27,7 @@ export default function Login() {
     // Param2: Object containing : method, credentials, headers, body.
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const res = await fetch(`/api/auth/login`, {
         credentials: 'include', // Optional but essential to find out cookie.
         method: 'POST',
         headers: {

@@ -21,13 +21,10 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
     }
 
     try {
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}/upload`,
-        {
-          method: 'POST',
-          body: formDataToSend,
-        },
-      );
+      await fetch(`/api/cocktail/${cocktail.id}/upload`, {
+        method: 'POST',
+        body: formDataToSend,
+      });
     } catch (error) {
       console.error(`Erreur de requête`, error);
     }

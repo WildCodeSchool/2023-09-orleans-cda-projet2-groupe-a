@@ -9,7 +9,7 @@ import { Header } from '@/components/profile-page/Header';
 
 import ModalForm from '../components/profile-page/modal/ModalForm';
 
-const urlUser = `${import.meta.env.VITE_API_URL}/user/profile`;
+const urlUser = `/api/user/profile`;
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
