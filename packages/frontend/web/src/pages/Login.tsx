@@ -28,7 +28,6 @@ export default function Login() {
 
     try {
       const res = await fetch(`/api/auth/login`, {
-        credentials: 'include', // Optional but essential to find out cookie.
         method: 'POST',
         headers: {
           'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.

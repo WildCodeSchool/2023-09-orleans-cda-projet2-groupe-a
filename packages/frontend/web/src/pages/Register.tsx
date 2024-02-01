@@ -33,7 +33,6 @@ export default function Register() {
     try {
       const res = await fetch(`/api/auth/register`, {
         method: 'POST',
-        credentials: 'include', // optionnal but essential in order to retrieve the cookie.
         headers: {
           'content-type': 'application/json', // Header contains the type of content of the HTTP request. Aka JSON.
         },

@@ -20,7 +20,6 @@ export default function ProfilePage() {
   const fetchUser = async (urlUser: string, signal: AbortSignal) => {
     const response = await fetch(urlUser, {
       signal,
-      credentials: 'include',
     });
 
     if (response.ok) {

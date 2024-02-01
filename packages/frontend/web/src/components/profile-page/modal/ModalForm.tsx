@@ -53,7 +53,6 @@ export default function ModalForm({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        credentials: 'include',
       });
       const responseData = await response.json();
       if (responseData.ok === true) {
