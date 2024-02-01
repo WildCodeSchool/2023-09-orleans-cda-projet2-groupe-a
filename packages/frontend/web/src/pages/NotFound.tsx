@@ -6,7 +6,7 @@ export default function NotFound() {
       </h1>
       <img
         className='w-3/4 items-center justify-center'
-        src='./blurring-glass.jpg'
+        src='/blurring-glass.jpg'
         alt='Image error 404'
       />
       <p className='font-stroke text-light xxs:mb-[10px] xxs:text-xl p-3 text-center sm:mb-[2px] sm:text-3xl'>
