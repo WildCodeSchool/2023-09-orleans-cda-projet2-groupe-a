@@ -32,7 +32,7 @@ export const ToppingCreate = (props: CreateProps) => (
           { id: 'mixed', name: 'Mixed' },
           { id: 'other', name: 'Other' },
         ]}
-      />{' '}
+      />
     </SimpleForm>
   </Create>
 );
