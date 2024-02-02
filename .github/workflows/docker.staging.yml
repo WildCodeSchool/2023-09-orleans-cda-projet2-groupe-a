@@ -3,7 +3,7 @@ name: docker-build
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
@@ -27,5 +27,5 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker-compose -f deployment/docker-compose.build.yml build
-          docker-compose -f deployment/docker-compose.build.yml push
+          docker-compose -f deployment/docker-compose.build.staging.yml build
+          docker-compose -f deployment/docker-compose.build.staging.yml push
