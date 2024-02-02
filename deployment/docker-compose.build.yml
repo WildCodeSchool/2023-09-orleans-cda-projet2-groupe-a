@@ -1,6 +1,6 @@
 version: '3.3'
 
-name: 'yummycorn-2023-09-orleans-cda-projet2-dev'
+name: 'x-2023-09-orleans-cda-projet2-dev'
 
 services:
   api:
