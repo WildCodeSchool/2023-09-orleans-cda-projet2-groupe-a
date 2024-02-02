@@ -5,13 +5,16 @@ services:
     build:
       dockerfile: ./deployment/DockerfileBackendApi
       context: ../
+    image: yummycorn-api
 
   web:
     build:
       dockerfile: ./deployment/DockerfileFrontendWeb
       context: ../
+    image: yummycorn-web
 
   migrations:
     build:
       dockerfile: ./deployment/DockerfileBackendMigrations
       context: ../
+    image: yummycorn-migrations
