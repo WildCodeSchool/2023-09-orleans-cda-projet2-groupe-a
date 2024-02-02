@@ -1,7 +1,15 @@
 import express from 'express';
+import type { Request, Response } from 'express';
 import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
+
+import loginIdUser from './middlewares/login-id-user';
+import validateUpdateUser from './middlewares/validate-update-user';
+
+interface RequestWithUser extends Request {
+  userId?: number;
+}
 
 const user = express.Router();
 
@@ -16,7 +24,7 @@ const user = express.Router();
 //    - The rating given in each comment
 //    - The name of the cocktail associated with each comment
 
-async function getUserById(id: number) {
+async function getUser(id: number, shouldSelectEmail: boolean) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
       WITH ranked_ingredients AS (
@@ -75,6 +83,9 @@ async function getUserById(id: number) {
       ) 
       SELECT 
         user.pseudo, 
+        user.image,
+        user.color,
+        ${shouldSelectEmail ? sql`user.email` : ''},
         (
           SELECT 
             JSON_ARRAYAGG(
@@ -157,11 +168,29 @@ async function getAllUsers() {
   });
 }
 
-user.get('/:id', async (req, res) => {
-  const id = Number.parseInt(req.params.id);
+user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
+  const id = req.userId;
+  const shouldSelectEmail = true;
+  if (id == null) {
+    res.json({ ok: false, message: 'not connected' });
+    return;
+  }
 
   try {
-    const result = await getUserById(id);
+    const result = await getUser(id, shouldSelectEmail);
+    res.json(result[0]);
+  } catch {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+user.get('/:id', async (req, res) => {
+  const id = Number.parseInt(req.params.id);
+  const shouldSelectEmail = false;
+
+  try {
+    const result = await getUser(id, shouldSelectEmail);
+
     res.json(result[0]);
   } catch {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -176,5 +205,85 @@ user.get('/', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+interface Updates {
+  pseudo?: string;
+  image?: string;
+  password?: string;
+  color?: string;
+}
+
+user.put(
+  '/update',
+  loginIdUser,
+  validateUpdateUser,
+  async (req: RequestWithUser, res: Response) => {
+    const userId = req.userId;
+
+    if (userId == null) {
+      return res.json({ ok: false, message: 'not connected' });
+    }
+
+    const {
+      pseudo,
+      image,
+      color,
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    } = req.body;
+
+    try {
+      const updates: Updates = {};
+      if (pseudo) updates.pseudo = pseudo;
+      if (image) updates.image = image;
+      if (color) updates.color = color;
+
+      if (currentPassword) {
+        const user = await db
+          .selectFrom('user')
+          .select(['user.password'])
+          .where('user.id', '=', userId)
+          .executeTakeFirst();
+
+        if (user === undefined) {
+          return res.json({ ok: false, message: 'user not found' });
+        }
+
+        if (newPassword !== confirmNewPassword) {
+          return res.json({ ok: false, message: 'password do not match' });
+        }
+
+        const isCorrectPassword = await Bun.password.verify(
+          currentPassword,
+          user.password,
+          'bcrypt',
+        );
+
+        if (!isCorrectPassword) {
+          return res.json({ ok: false, message: 'wrong password' });
+        }
+
+        const hashedPassword = await Bun.password.hash(newPassword, {
+          algorithm: 'bcrypt',
+          cost: 15,
+        });
+
+        updates.password = hashedPassword;
+      }
+
+      await db
+        .updateTable('user')
+        .set(updates)
+        .where('user.id', '=', userId)
+        .executeTakeFirst();
+
+      res.json({ ok: true });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
+);
 
 export { user };
