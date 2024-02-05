@@ -4,7 +4,7 @@ name: '2023-09-orleans-cda-projet2-dev'
 
 services:
   api:
-    image: no3ml3/yummycorn-api
+    image: no3ml3/yummycorn-api:latest
     restart: always
     depends_on:
       database:
@@ -18,7 +18,7 @@ services:
       - backend
 
   web:
-    image: no3ml3/yummycorn-web
+    image: no3ml3/yummycorn-web:latest
     env_file:
       - ./common.env
       - ./web.env
@@ -60,7 +60,7 @@ services:
       - db
 
   migrations:
-    image: no3ml3/yummycorn-migrations
+    image: no3ml3/yummycorn-migrations:latest
     env_file:
       - ./common.env
       - ./api.env
