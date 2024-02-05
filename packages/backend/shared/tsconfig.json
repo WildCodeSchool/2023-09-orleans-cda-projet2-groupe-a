@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
     },
     "lib": ["ESNext"],
     "module": "esnext",
@@ -19,7 +19,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "types": [
-      "bun-types" // add Bun global
-    ]
-  }
+      "bun-types", // add Bun global
+    ],
+  },
 }
