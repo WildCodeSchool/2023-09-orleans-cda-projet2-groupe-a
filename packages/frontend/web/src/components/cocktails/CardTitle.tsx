@@ -5,7 +5,7 @@ export default function CardTitle() {
       style={{ backgroundImage: `url('blue-dot.png')` }}
     >
       <div className='relative h-full w-full'>
-        <h1 className='font-stroke text-light absolute z-50 m-auto flex stroke-[2rem] py-[4rem] ps-5 text-center text-[2.5rem] font-extrabold uppercase'>{`Cocktails`}</h1>
+        <h1 className='font-stroke text-light absolute z-50 m-auto flex stroke-[2rem] py-[4rem] ps-5 text-center text-[2.5rem] font-extrabold uppercase'>{`Surprise mother fucker`}</h1>
         <div className='flex justify-end'>
           <img
             src='/cocktail-img.png'
