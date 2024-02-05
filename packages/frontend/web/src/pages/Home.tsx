@@ -11,7 +11,7 @@ import LegalNotice from './LegalModal';
 
 const squares = [
   {
-    color: 'purple',
+    color: 'pink',
     order: {
       all: 1,
     },
@@ -33,7 +33,7 @@ const squares = [
     ),
   },
   {
-    color: 'yellow',
+    color: 'pink',
     order: {
       all: 2,
       lg: 3,
@@ -60,7 +60,7 @@ const squares = [
     ),
   },
   {
-    color: 'blue',
+    color: 'pink',
     order: {
       all: 4,
       lg: 5,
@@ -87,7 +87,7 @@ const squares = [
     ),
   },
   {
-    color: 'orange',
+    color: 'pink',
     order: {
       all: 3,
       lg: 2,
@@ -110,7 +110,7 @@ const squares = [
     ),
   },
   {
-    color: 'green',
+    color: 'pink',
     order: {
       all: 5,
       lg: 4,
