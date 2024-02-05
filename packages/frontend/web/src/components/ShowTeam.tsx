@@ -7,7 +7,7 @@ const developers = [
     linkedIn: 'https://www.linkedin.com/in/jaalazard/',
     github: 'https://github.com/jaalazard/',
     img1: './avatar/avatar-23.webp',
-    img2: './jeehapic.jpeg',
+    img2: './jaapic.jpg',
   },
   {
     name: 'Noémie',
