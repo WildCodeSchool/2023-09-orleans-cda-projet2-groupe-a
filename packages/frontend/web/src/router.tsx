@@ -48,10 +48,10 @@ const router = createBrowserRouter([
         path: 'shaker',
         element: <AddCocktail />,
       },
-      // {
+      /*       // {
       // path: 'virgin', à prévoir
       // element: <Virgin />, à prévoir
-      // },
+      // }, */
       {
         path: '/cocktail-details/:id',
         element: <CocktailsDetails />,
