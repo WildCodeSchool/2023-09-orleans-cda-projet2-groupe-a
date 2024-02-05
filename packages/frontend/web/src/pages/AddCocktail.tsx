@@ -138,7 +138,7 @@ export default function AddCocktail() {
 
   const squares = [
     {
-      color: 'purple',
+      color: 'pink',
       order: {
         lg: 1,
         md: 1,
@@ -160,7 +160,7 @@ export default function AddCocktail() {
       ),
     },
     {
-      color: 'yellow',
+      color: 'pink',
       order: {
         lg: 3,
         md: 4,
@@ -187,7 +187,7 @@ export default function AddCocktail() {
       ),
     },
     {
-      color: 'blue',
+      color: 'pink',
       order: {
         lg: 5,
         md: 2,
@@ -218,7 +218,7 @@ export default function AddCocktail() {
       ),
     },
     {
-      color: 'orange',
+      color: 'pink',
       order: {
         lg: 2,
         md: 5,
@@ -238,7 +238,7 @@ export default function AddCocktail() {
       component: <GlassPart errors={errors} setValue={setValue} />,
     },
     {
-      color: 'green',
+      color: 'pink',
       order: {
         lg: 4,
         md: 3,
