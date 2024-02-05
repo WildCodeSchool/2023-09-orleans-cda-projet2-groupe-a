@@ -192,7 +192,7 @@ export default {
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
         'pastel-blue': '#A7D9EF',
-        'pastel-pink': '#FF017B',
+        'pastel-pink': '#FDE0C7',
         'card-blue': '#85ACDA',
         'card-light-green': '#85DA89',
         'card-dark-green': '#85DABF',
