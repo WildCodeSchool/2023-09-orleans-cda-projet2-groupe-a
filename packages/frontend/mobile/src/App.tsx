@@ -6,7 +6,7 @@ import AddCocktailScreen from './pages/AddCocktailScreen';
 
 const stack = createNativeStackNavigator();
 
-const app = () => {
+function App() {
   return (
     <NavigationContainer>
       <stack.Navigator>
@@ -18,6 +18,6 @@ const app = () => {
       </stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
-export default app;
+export default App;

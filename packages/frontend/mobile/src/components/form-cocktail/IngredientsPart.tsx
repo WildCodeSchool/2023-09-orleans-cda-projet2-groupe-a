@@ -9,9 +9,8 @@ import {
   View,
 } from 'react-native';
 
+import { useFetch } from '@app/frontend-shared/src/hooks/use-fetch';
 import type { IngredientsPartProps } from '@app/types';
-
-import { useFetch } from '../../hooks/use-fetch';
 
 const styles = StyleSheet.create({
   title: {
@@ -56,6 +55,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const baseUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export default function IngredientsPart({
   selectedIngredients = [],
   setSelectedIngredients,
@@ -63,17 +64,14 @@ export default function IngredientsPart({
   errors,
   watch,
 }: IngredientsPartProps) {
-  const url1 = `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${watch(
-    'alcohol.id',
-  )}`;
+  const url1 = `${baseUrl}/ingredient/${watch('alcohol.id')}`;
   const url2 =
     selectedIngredients.length > 0
-      ? `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${selectedIngredients[0].id}`
+      ? `${baseUrl}/ingredient/${selectedIngredients[0].id}`
       : '';
-
   const url3 =
     selectedIngredients.length > 1
-      ? `${process.env.EXPO_PUBLIC_API_URL}/ingredient/${selectedIngredients[1].id}`
+      ? `${baseUrl}/ingredient/${selectedIngredients[1].id}`
       : '';
 
   const { data: ingredientsList1 } = useFetch(url1);

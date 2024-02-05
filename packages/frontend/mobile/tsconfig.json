@@ -7,5 +7,5 @@
     "strictNullChecks": true
   },
   "extends": "expo/tsconfig.base",
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "../shared/src/hooks/use-fetch.ts"]
 }

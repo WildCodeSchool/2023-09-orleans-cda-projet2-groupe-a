@@ -11,7 +11,7 @@ import Svg from 'react-native-svg';
 import type { NamePartProps } from '@app/types';
 
 import colors from '../../../colors';
-import shakerIcon from './icons/ShakerIcon';
+import ShakerIcon from './icons/ShakerIcon';
 
 const styles = StyleSheet.create({
   input: {
@@ -100,7 +100,7 @@ export default function NamePart({
             handleErrorSubmit();
           }}
         >
-          <Svg>{shakerIcon}</Svg>
+          <Svg>{ShakerIcon}</Svg>
         </TouchableOpacity>
       </View>
     </>

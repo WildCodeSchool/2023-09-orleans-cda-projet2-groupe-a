@@ -1,7 +1,7 @@
 import colors from 'colors';
 import Svg, { G, Path } from 'react-native-svg';
 
-const shakerIcon = (
+const ShakerIcon = (
   <Svg height='100' width='100' viewBox='0 0 250 463' fill={colors.light}>
     <G>
       <Path
@@ -31,4 +31,4 @@ const shakerIcon = (
   </Svg>
 );
 
-export default shakerIcon;
+export default ShakerIcon;
