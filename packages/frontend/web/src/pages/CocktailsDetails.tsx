@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import Carrousel from '@/components/cocktail-detail/Carousel';
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
@@ -176,7 +177,7 @@ export default function CocktailsDetails() {
       <div className='border-dark bg-pastel-pink relative m-auto mb-20 hidden h-[26rem] w-[90%] rounded-sm border-[3px] uppercase sm:block sm:flex-wrap'>
         <CocktailCard />
       </div>
-      {/* card swipper */}
+      <Carrousel cocktail={cocktail} />
       <div className='relative left-10 mx-auto mb-20 sm:hidden'>
         <div className='border-dark bg-card-pink-dark absolute m-auto mb-20 h-[21rem] w-[18rem] -rotate-3 rounded-sm border-[3px] uppercase'>
           <img
