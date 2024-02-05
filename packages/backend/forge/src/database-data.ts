@@ -235,7 +235,7 @@ await db.transaction().execute(async (trx) => {
     ('Mango Delight', 'fruity'),
     ('Peachy Perfection', 'fruity'),
     ('Pistachio Sprinkle', 'nutty'),
-    ('Strawberry Bliss', 'fruity');
+    ('Strawberry Bliss', 'fruity'),
     ('Ginger Slice', 'spicy');
   `.execute(trx);
 
