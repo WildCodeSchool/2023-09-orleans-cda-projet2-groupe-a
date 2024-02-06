@@ -50,7 +50,7 @@ favoriteRouter.get(
 );
 
 favoriteRouter.post(
-  '/toggle/:cocktailId',
+  '/:cocktailId/toggle',
   checkAuthState,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
