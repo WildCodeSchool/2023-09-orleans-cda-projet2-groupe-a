@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -61,6 +61,7 @@ export default function Navbar() {
   const [color, setColor] = useState<string>('#000000');
   const [hover, setHover] = useState<string>('#000000');
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -75,6 +76,7 @@ export default function Navbar() {
       );
       if (response.ok) {
         setIsLoggedIn(false);
+        navigate('/');
       } else {
         console.error('Error while logging out');
       }
@@ -109,8 +111,6 @@ export default function Navbar() {
       ]);
     }
   }, [isLoggedIn]);
-
-  console.log(navbarContent);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -173,19 +173,37 @@ export default function Navbar() {
                 (index + 1) * 100
               }ms] sm:group-hover:max-h-full sm:group-hover:opacity-100`}
             >
-              <Link to={content.url}>
-                <content.icon
-                  className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-                  {...(content.name === 'Logout' && { onClick: handleLogout })}
-                />
-                <p
-                  className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
-                    (index + 1) * 40
-                  }px]`}
-                >
-                  {content.name}
-                </p>
-              </Link>
+              {content.name === 'Logout' ? (
+                <>
+                  <content.icon
+                    className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                    onClick={() => handleLogout()}
+                  />
+                  <p
+                    className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
+                      (index + 1) * 40
+                    }px]`}
+                  >
+                    {content.name}
+                  </p>
+                </>
+              ) : (
+                <Link to={content.url}>
+                  <content.icon
+                    className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                    {...(content.name === 'Logout' && {
+                      onClick: handleLogout,
+                    })}
+                  />
+                  <p
+                    className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
+                      (index + 1) * 40
+                    }px]`}
+                  >
+                    {content.name}
+                  </p>
+                </Link>
+              )}
             </div>
           );
         })}
