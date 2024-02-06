@@ -55,7 +55,7 @@ export default function Cocktails() {
   ) => {
     const queryParameters = new URLSearchParams();
 
-    if (searchTerm) {
+    if (searchTerm !== undefined) {
       queryParameters.append('searchTerm', searchTerm);
     }
 
@@ -128,12 +128,12 @@ export default function Cocktails() {
       style={{ backgroundImage: `url('bg-cocktails.png')` }}
     >
       <CardTitle />
-      <div className='sm:grid sm:grid-cols-4'>
-        <div className='col-span-1'>
+      <div className='sm:flex'>
+        <div>
           <button
             type='button'
             onClick={toggleFilterBarVisibility}
-            className='font-stroke text-light ms-10 mt-6 cursor-pointer text-[1.2rem] uppercase'
+            className='font-stroke text-light ms-8 mt-10 cursor-pointer text-[1.2rem] uppercase sm:mt-6 '
           >
             {`filter by`}
           </button>
@@ -146,7 +146,7 @@ export default function Cocktails() {
             </div>
           ) : null}
         </div>
-        <div className='col-span-3 my-24'>
+        <div className='mt-10'>
           <CardCocktail cocktails={cocktails} />
         </div>
       </div>

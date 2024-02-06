@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import ShowTeam from './components/ShowTeam';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
   {
     element: <Layout />,
@@ -66,8 +71,8 @@ const router = createBrowserRouter([
         element: <Cocktails />,
       },
       {
-        path: '*',
-        element: <NotFound />,
+        path: 'devteam',
+        element: <ShowTeam />,
       },
     ],
   },
