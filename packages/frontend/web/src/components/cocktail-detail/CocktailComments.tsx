@@ -89,7 +89,7 @@ export default function CocktailComments() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: '0rem' }}
             transition={{ duration: 1 }}
-            className='border-dark bg-pastel-green m-auto mb-20 flex w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:w-[100%] '
+            className='border-dark bg-pastel-green m-auto mb-20 flex max-w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:max-w-[100%] '
           >
             <Comment
               comments={comments}
