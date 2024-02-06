@@ -5,7 +5,6 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 import type { Cocktail } from '@app/types';
 
 import FavoriteHeart from '@/components/FavoriteHeart';
-import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
 import FireLevel from '@/components/cocktail-detail/FireLevel';
@@ -58,7 +57,6 @@ export default function CocktailsDetails() {
     });
     if (response.ok) {
       const data = await response.json();
-
       setCocktail(data.cocktail);
       setIngredients(data.cocktail.ingredients);
       setToppings(data.cocktail.toppings);
@@ -123,9 +121,9 @@ export default function CocktailsDetails() {
         </button>
       </h1>
       <FireLevel totalDegree={cocktail.total_degree} />
-      <div className='flex flex-col justify-center sm:flex-row'>
-        <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
-          <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
+      <div className='flex flex-col justify-center md:flex-row'>
+        <div className='relative m-auto h-[30rem] w-[25rem] transition-transform ease-in-out hover:scale-110 sm:m-0'>
+          <div className='border-dark bg-pastel-yellow absolute -top-4 left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
             <FavoriteHeart id={cocktail.id} isFavorite={cocktail.is_favorite} />
             <img
               src={
