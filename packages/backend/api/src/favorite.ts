@@ -7,7 +7,7 @@ import checkAuthState from './middlewares/check-auth-state';
 
 interface RequestWithUser extends Request {
   userId?: number;
-  login?: boolean;
+  isloggedIn?: boolean;
 }
 
 const favoriteRouter = express.Router();
@@ -18,8 +18,8 @@ favoriteRouter.get(
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
 
-    if (userId === undefined || !req.login) {
-      return res.json({ ok: false, message: 'not connected' });
+    if (userId === undefined || !req.isloggedIn) {
+      return res.json({ status: { ok: false, message: 'not connected' } });
     }
 
     try {
@@ -41,7 +41,7 @@ favoriteRouter.get(
         return res.status(404).send('Cocktail not found');
       }
 
-      res.json(cocktail);
+      res.json({ cocktails: cocktail });
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');

@@ -3,7 +3,7 @@ import * as jose from 'jose';
 
 interface RequestWithUser extends Request {
   userId?: number;
-  login?: boolean;
+  isloggedIn?: boolean;
 }
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -13,7 +13,7 @@ const checkAuthState = async function (
   res: Response,
   next: NextFunction,
 ) {
-  req.login = false;
+  req.isloggedIn = false;
   const jwt: string | undefined = req.signedCookies.token;
 
   const SECRET = new TextEncoder().encode(JWT_SECRET);
@@ -34,7 +34,7 @@ const checkAuthState = async function (
       return;
     }
     const userid = Number.parseInt(result.payload.sub);
-    req.login = true;
+    req.isloggedIn = true;
     req.userId = userid;
   } catch {
     next();

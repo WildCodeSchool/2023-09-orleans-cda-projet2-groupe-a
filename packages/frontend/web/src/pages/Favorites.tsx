@@ -12,11 +12,13 @@ interface DataNotConnected {
   message: string;
 }
 
-type Data = DataNotConnected &
-  Pick<
+type Data = {
+  status?: DataNotConnected;
+  cocktails?: Pick<
     Cocktail,
     'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
   >[];
+};
 
 const url = `${import.meta.env.VITE_API_URL}/favorite/`;
 
@@ -35,7 +37,11 @@ export default function Favorite() {
 
   const { data } = useFetch<Data>(url);
 
-  if (!data?.ok && data?.message === 'not connected') {
+  if (
+    data?.status !== undefined &&
+    !data.status.ok &&
+    data.status.message === 'not connected'
+  ) {
     navigate('/login');
   }
 
@@ -47,9 +53,9 @@ export default function Favorite() {
       <Title />
       <div className='px-10'>
         <div className='flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
-          {data === undefined
+          {data === undefined || data.cocktails === undefined
             ? null
-            : data.map((cocktail) => (
+            : data.cocktails.map((cocktail) => (
                 <div key={cocktail.id} className='m-6'>
                   <Link to={`/details/${cocktail.id}`}>
                     <div className='border-dark b-6 me-[28px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#F575D1]'>

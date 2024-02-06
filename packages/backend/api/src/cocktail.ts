@@ -14,7 +14,7 @@ const cocktailRouter = express.Router();
 
 interface RequestWithUser extends Request {
   userId?: number;
-  login?: boolean;
+  isloggedIn?: boolean;
 }
 
 // Route post pour uploader un fichier
@@ -67,7 +67,7 @@ cocktailRouter.get(
     const searchTerm = req.query.searchTerm;
 
     const userId = req.userId;
-    const isLogin = req.login;
+    const isloggedIn = req.isloggedIn;
 
     try {
       let query = db
@@ -97,9 +97,11 @@ cocktailRouter.get(
         .groupBy('cocktail.id')
         .orderBy('cocktail.name');
 
-      if (isLogin) {
+      if (isloggedIn) {
         query = query.select(
-          sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) as is_favorite`,
+          sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId})`.as(
+            'is_favorite',
+          ),
         );
       }
 
@@ -188,14 +190,13 @@ cocktailRouter.get(
   async (req: RequestWithUser, res) => {
     const id = req.params.id;
     const userId = req.userId;
-    const isLogin = req.login;
+    const isloggedIn = req.isloggedIn;
 
     try {
       let query = db
         .selectFrom('cocktail')
         .selectAll()
         .select((eb) => [
-          'id',
           jsonArrayFrom(
             eb
               .selectFrom('recipe')
@@ -247,10 +248,11 @@ cocktailRouter.get(
         ])
         .where('cocktail.id', '=', Number.parseInt(id));
 
-      if (isLogin) {
-        // ✅ The return type is { first_name: string, last_name: string }
+      if (isloggedIn) {
         query = query.select(
-          sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END) as is_favorite`,
+          sql`(SELECT CASE WHEN EXISTS (SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId}) THEN 1 ELSE 0 END)`.as(
+            'is_favorite',
+          ),
         );
       }
 

@@ -9,7 +9,7 @@ import validateUpdateUser from './middlewares/validate-update-user';
 
 interface RequestWithUser extends Request {
   userId?: number;
-  login?: boolean;
+  isloggedIn?: boolean;
 }
 
 const user = express.Router();
@@ -171,9 +171,9 @@ async function getAllUsers() {
 
 user.get('/profile', checkAuthState, async (req: RequestWithUser, res) => {
   const id = req.userId;
-  const isLogin = req.login;
+  const isloggedIn = req.isloggedIn;
   const shouldSelectEmail = true;
-  if (id == null || !isLogin) {
+  if (id == null || !isloggedIn) {
     res.json({ ok: false, message: 'not connected' });
     return;
   }
@@ -221,9 +221,9 @@ user.put(
   validateUpdateUser,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
-    const isLogin = req.login;
+    const isloggedIn = req.isloggedIn;
 
-    if (userId == null || !isLogin) {
+    if (userId == null || !isloggedIn) {
       return res.json({ ok: false, message: 'not connected' });
     }
 
