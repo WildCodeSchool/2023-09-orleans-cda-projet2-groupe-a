@@ -24,7 +24,7 @@ export default function IngredientsPart({
   const ingredients: IngredientArray[] = [
     {
       beforeIngredient:
-        watch('alcohol') === undefined ? watch('softdrink') : watch('alcohol'),
+        watch('alcohol') === undefined ? watch('softDrink') : watch('alcohol'),
       condition: ingredientArray === undefined,
     },
     {

@@ -24,7 +24,7 @@ export default function ToppingPart({
     ingredients?.[1]?.flavour,
     ingredients?.[2]?.flavour,
     selectedAlcohol?.flavour,
-    watch('softdrink.flavour'),
+    watch('softDrink.flavour'),
     watch('syrup.flavour'),
   ];
 
@@ -52,13 +52,13 @@ export default function ToppingPart({
     );
   }, [
     selectedAlcohol?.flavour,
-    watch('softdrink.flavour'),
+    watch('softDrink.flavour'),
     watch('syrup.flavour'),
     selectedIngredient?.flavour,
   ]);
 
   useEffect(() => {
-    if ((selectedAlcohol || watch('softdrink')) && selectedIngredient) {
+    if ((selectedAlcohol || watch('softDrink')) && selectedIngredient) {
       // eslint-disable-next-line unicorn/no-array-reduce
       const [maxFlavour] = Object.entries(memoizedFlavoursCount).reduce(
         ([currentFlavour, currentCount], [flavour, count]) =>
@@ -86,7 +86,7 @@ export default function ToppingPart({
     memoizedFlavoursCount,
     mainFlavour,
     selectedAlcohol,
-    watch('softdrink.flavour'),
+    watch('softDrink.flavour'),
     watch('syrup.flavour'),
     selectedIngredient,
   ]);

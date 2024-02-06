@@ -12,7 +12,7 @@ import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
 import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
-import Softdrinks from '@/components/form-cocktail/Softdrinks';
+import SoftDrinks from '@/components/form-cocktail/SoftDrinks';
 import Syrup from '@/components/form-cocktail/Syrup';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
@@ -86,9 +86,9 @@ export default function AddCocktail() {
     setValue('alcohol', alcohol);
   };
 
-  const handleClickSoftDrinks = (softdrink: Ingredient) => {
+  const handleClickSoftDrinks = (softDrink: Ingredient) => {
     show < 3 ? setShow(3) : null;
-    setValue('softdrink', softdrink);
+    setValue('softDrink', softDrink);
   };
 
   const handleClickSyrup = (syrup: Ingredient | null) => {
@@ -98,27 +98,27 @@ export default function AddCocktail() {
 
   const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
-    const softdrinkValue = watch('softdrink');
+    const softDrinkValue = watch('softDrink');
 
-    if (alcoholValue === undefined && softdrinkValue === undefined) {
+    if (alcoholValue === undefined && softDrinkValue === undefined) {
       setError('alcohol', { type: 'required', message: 'required' });
-      setError('softdrink', { type: 'required', message: 'required' });
+      setError('softDrink', { type: 'required', message: 'required' });
     } else if (
       (alcoholValue !== undefined &&
         typeof alcoholValue.name === 'string' &&
         alcoholValue.name.length <= 255) ||
-      (softdrinkValue !== undefined &&
-        typeof softdrinkValue.name === 'string' &&
-        softdrinkValue.name.length <= 255)
+      (softDrinkValue !== undefined &&
+        typeof softDrinkValue.name === 'string' &&
+        softDrinkValue.name.length <= 255)
     ) {
       clearErrors('alcohol');
-      clearErrors('softdrink');
+      clearErrors('softDrink');
     } else {
       setError('alcohol', {
         type: 'validate',
         message: 'must be a string of 255 characters max',
       });
-      setError('softdrink', {
+      setError('softDrink', {
         type: 'validate',
         message: 'must be a string of 255 characters max',
       });
@@ -126,11 +126,11 @@ export default function AddCocktail() {
 
     const levelValue = watch('level');
 
-    if (levelValue === undefined && softdrinkValue === undefined) {
+    if (levelValue === undefined && softDrinkValue === undefined) {
       setError('level', { type: 'required', message: 'required' });
     } else if (
       (typeof levelValue === 'number' && levelValue <= 3 && levelValue >= 1) ||
-      softdrinkValue !== undefined
+      softDrinkValue !== undefined
     ) {
       clearErrors('level');
     } else {
@@ -346,7 +346,7 @@ export default function AddCocktail() {
         md: 105,
       },
       component: (
-        <Softdrinks
+        <SoftDrinks
           watch={watch}
           handleClickSoftDrinks={handleClickSoftDrinks}
           errors={errors}

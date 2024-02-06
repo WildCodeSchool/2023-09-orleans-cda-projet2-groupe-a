@@ -4,6 +4,8 @@ import type { Ingredient, SyrupProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
+const url = `${import.meta.env.VITE_API_URL}/ingredient/syrup`;
+
 export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
@@ -11,7 +13,6 @@ export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
   };
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/syrup`;
 
   const { data } = useFetch<Ingredient[]>(url);
 

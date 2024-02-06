@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import type { Ingredient, SoftdrinksProps } from '@app/types';
+import type { Ingredient, SoftDrinksProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
-export default function Softdrinks({
+export default function SoftDrinks({
   errors,
   watch,
   handleClickSoftDrinks,
   setWithAlcohol,
   withAlcohol,
-}: SoftdrinksProps) {
+}: SoftDrinksProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleClickSelect = () => {
@@ -41,14 +41,14 @@ export default function Softdrinks({
         {'Choose your booze'}
       </label>
 
-      {errors.softdrink?.type === 'required' ? (
+      {errors.softDrink?.type === 'required' ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.softdrink?.type === 'validate' ? (
+      {errors.softDrink?.type === 'validate' ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
-          {errors.softdrink.message}
+          {errors.softDrink.message}
         </span>
       ) : undefined}
 
@@ -78,16 +78,16 @@ export default function Softdrinks({
               </li>
               {data === undefined
                 ? null
-                : data.map((softdrinks) => (
+                : data.map((softDrinks) => (
                     <li
-                      key={softdrinks.id}
+                      key={softDrinks.id}
                       className='w-[200px] hover:cursor-pointer'
                       onClick={() => {
-                        handleClickSoftDrinks(softdrinks);
+                        handleClickSoftDrinks(softDrinks);
                         handleClickSelect();
                       }}
                     >
-                      {softdrinks.name}
+                      {softDrinks.name}
                     </li>
                   ))}
             </ul>
@@ -99,7 +99,7 @@ export default function Softdrinks({
                   handleClickSelect();
                 }}
               >
-                {watch('softdrink.name') || 'soft drinks'}
+                {watch('softDrink.name') || 'soft drinks'}
               </li>
             </ul>
           )}
