@@ -14,7 +14,7 @@ type CardCocktailProps = {
 
 export default function CardCocktail({ cocktails }: CardCocktailProps) {
   return (
-    <div className='mb-2 mt-[0.5rem] flex flex-wrap justify-center'>
+    <div className='sm:scrollbar-bigger-rounded mb-16 mt-[0.5rem] flex h-[75vh] flex-wrap justify-center sm:overflow-y-scroll'>
       {cocktails?.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-6'>
           <Link to={`/details/${cocktail.cocktail_id}`}>

@@ -82,7 +82,7 @@ export interface CocktailTable {
     | '4'
     | '4.5'
     | '5';
-  glass_id: number;
+  glass_id: number | null;
   final_flavour:
     | 'fruity'
     | 'spicy'
