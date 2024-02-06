@@ -2,8 +2,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 // Input de la page cocktail-detail
 export type InputCocktailForm = {
@@ -61,12 +62,19 @@ export default function AddComment({
     },
   });
 
-  const onSubmit = async (data: InputCocktailForm) => {
+  const onSubmit = async (data: InputCocktailForm) => {  
+          
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/comment/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+      });
+
+      await fetch(`${import.meta.env.VITE_API_URL}/rating/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: hoveredStars - 1 }), 
       });
       setIsOpen(false);
       setIsReload(!isReload);
