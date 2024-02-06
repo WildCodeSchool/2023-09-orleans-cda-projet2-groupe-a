@@ -28,18 +28,6 @@ cocktailRouter.post(
     if (userId === undefined) {
       return res.json({ ok: false, message: 'not connected' });
     }
-    const random = Math.random();
-    let howMuchMoreIngredients = 0;
-
-    if (random > 0.9) {
-      howMuchMoreIngredients = 4;
-    } else if (random > 0.8) {
-      howMuchMoreIngredients = 3;
-    } else if (random > 0.6) {
-      howMuchMoreIngredients = 2;
-    } else if (random > 0.4) {
-      howMuchMoreIngredients = 1;
-    }
 
     const verb: ActionTable['verb'][] = [
       'muddle',
@@ -78,79 +66,7 @@ cocktailRouter.post(
 
     try {
       const shaker = await db.transaction().execute(async (trx) => {
-        const ingredientsByIngredient = await db
-          .selectFrom('ingredient')
-          .select([
-            'ingredient.id',
-            'ingredient.name',
-            'ingredient.flavour',
-            'ingredient.flavour',
-            'ingredient.degree',
-            'ingredient.kcal',
-          ])
-          .innerJoin(
-            'action_ingredient',
-            'ingredient.id',
-            'action_ingredient.ingredient_id',
-          )
-          .innerJoin('action', 'action_ingredient.action_id', 'action.id')
-          .innerJoin('recipe', 'action.id', 'recipe.action_id')
-          .where(
-            'recipe.cocktail_id',
-            'in',
-            db
-              .selectFrom('recipe')
-              .select('cocktail_id')
-              .innerJoin('action', 'recipe.action_id', 'action.id')
-              .innerJoin(
-                'action_ingredient',
-                'action.id',
-                'action_ingredient.action_id',
-              )
-              .where((eb) =>
-                eb.or([
-                  eb('action_ingredient.ingredient_id', '=', ingredients[0].id),
-                  eb('action_ingredient.ingredient_id', '=', ingredients[1].id),
-                  eb('action_ingredient.ingredient_id', '=', ingredients[2].id),
-                ]),
-              ),
-          )
-          .where('ingredient.id', 'not in', [
-            ingredients[0].id,
-            ingredients[1].id,
-            ingredients[2].id,
-          ])
-          .groupBy('ingredient.id')
-          .orderBy(sql`COUNT(ingredient.id)`, 'desc')
-          .limit(howMuchMoreIngredients)
-          .execute();
-
-        const ingredient = await db
-          .selectFrom('ingredient')
-          .select([
-            'ingredient.id',
-            'ingredient.name',
-            'ingredient.flavour',
-            'ingredient.flavour',
-            'ingredient.degree',
-            'ingredient.kcal',
-          ])
-          .where('ingredient.id', 'not in', [
-            ingredients[0],
-            ingredients[1],
-            ingredients[2],
-          ])
-          .orderBy(sql`rand()`)
-          .limit(howMuchMoreIngredients - ingredientsByIngredient.length)
-          .execute();
-
-        const moreIngredientArray = [...ingredientsByIngredient, ...ingredient];
-
-        const allIngredients = [
-          ...ingredients,
-          alcohol,
-          ...moreIngredientArray,
-        ];
+        const allIngredients = [...ingredients, alcohol];
 
         let totalQuantity = 0;
         let totalkcal = 0;
