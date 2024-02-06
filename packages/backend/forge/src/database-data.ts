@@ -204,6 +204,7 @@ await db.transaction().execute(async (trx) => {
     ('Pineapple Syrup', 'Yellow', 150, 0, 'Tropical and sweet pineapple essence', 'pineapplesyrup.jpg', 'fruity', 'syrup'),
     ('Gingerbread Syrup', 'Brown', 190, 0, 'Warm and spicy gingerbread flavor', 'gingerbreadsyrup.jpg', 'spicy', 'syrup'),
     ('Maple Syrup', 'Brown', 220, 0, 'Rich and sweet maple essence', 'maplesyrup.jpg', 'sweet', 'syrup');
+    ('Ice', 'Clear', 0, 0, 'Frozen water', 'ice.jpg', 'neutral', 'other');
   `.execute(trx);
 
   await sql`
@@ -275,27 +276,44 @@ await db.transaction().execute(async (trx) => {
     INSERT INTO topping (name, flavour)
     VALUES
     ('Whipped Cream', 'sweet'),
-      ('Cherry', 'sweet'),
-      ('Lime Twist', 'sour'),
-      ('Orange Zest', 'fruity'),
-      ('Mint Sprig', 'herbaceous'),
-      ('Cinnamon Stick', 'spicy'),
-      ('Nutmeg Dust', 'spicy'),
-      ('Ginger Slice', 'spicy');
+    ('Cherry', 'sweet'),
+    ('Lime Twist', 'sour'),
+    ('Orange Zest', 'fruity'),
+    ('Mint Sprig', 'herbaceous'),
+    ('Cinnamon Stick', 'spicy'),
+    ('Nutmeg Dust', 'spicy'),
+    ('Almond Slices', 'nutty'),
+    ('Anise Crunch', 'spicy'),
+    ('Apple Chunks', 'fruity'),
+    ('Avocado Swirl', 'neutral'),
+    ('Basil Leaves', 'herbaceous'),
+    ('Blueberry Burst', 'fruity'),
+    ('Caramel Drizzle', 'sweet'),
+    ('Cinnamon Twist', 'spicy'),
+    ('Coconut Shreds', 'fruity'),
+    ('Ginger Infusion', 'spicy'),
+    ('Kiwi Slices', 'fruity'),
+    ('Mango Delight', 'fruity'),
+    ('Peachy Perfection', 'fruity'),
+    ('Pistachio Sprinkle', 'nutty'),
+    ('Strawberry Bliss', 'fruity'),
+    ('Ginger Slice', 'spicy');
   `.execute(trx);
 
   await sql`
     INSERT INTO tool (name, image)
     VALUES
-    ('Shaker', 'shaker.jpg'),
-    ('Muddler', 'muddler.jpg'),
-    ('Bar Spoon', 'barspoon.jpg'),
-    ('Jigger', 'jigger.jpg'),
-    ('Strainer', 'strainer.jpg'),
-    ('Citrus Juicer', 'citrusjuicer.jpg'),
-    ('Blender', 'blender.jpg'),
-    ('Ice Pick', 'icepick.jpg'),
-    ('Stirring Glass', 'stirringglass.jpg');
+    ('Shaker', 'shaker.png'),
+    ('Knife', 'knife.png'),
+    ('Spoon', 'spoon.jpg'),
+    ('Muddler', 'muddler.png'),
+    ('Bar Spoon', 'bar-spoon.png'),
+    ('Jigger', 'jigger.png'),
+    ('Strainer', 'strainer.png'),
+    ('Citrus Juicer', 'citrus-juicer.png'),
+    ('Blender', 'blender.png'),
+    ('Ice Pick', 'ice-pick.png'),
+    ('Stirring Glass', 'stirring-glass.png');
   `.execute(trx);
 
   await sql`

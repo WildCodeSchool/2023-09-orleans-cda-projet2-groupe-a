@@ -25,7 +25,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
   });
 
   return (
-    <div className='ms-6 mt-4'>
+    <div className='mb-4 mt-4 flex justify-center sm:ms-6 sm:justify-normal'>
       <div className='group relative'>
         <Search
           size={20}
@@ -34,7 +34,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='bg-card-green border-dark flex h-[2.5rem] w-[2rem] rounded-sm border-[3px] opacity-0 transition-all duration-500 ease-in-out focus:outline-none group-hover:w-[15rem] group-hover:opacity-100 '
+          className='bg-card-green border-dark flex h-[2.5rem] w-[2rem] rounded-sm border-[3px] opacity-0 transition-all duration-500 ease-in-out focus:outline-none group-hover:w-[18rem] group-hover:opacity-100 sm:group-hover:w-[15rem] '
         >
           <input
             value={watch('searchTerm')}

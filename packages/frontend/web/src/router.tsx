@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import ShowTeam from './components/ShowTeam';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
       {
         path: 'cocktails',
         element: <Cocktails />,
+      },
+      {
+        path: 'devteam',
+        element: <ShowTeam />,
       },
     ],
   },
