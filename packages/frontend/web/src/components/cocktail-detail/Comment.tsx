@@ -25,7 +25,7 @@ export default function Comment({
 
   return comments === undefined ? null : (
     <div className='flex w-full justify-center'>
-      <div className='my-4 flex w-full flex-wrap justify-around'>
+      <div className='my-4 flex w-full flex-wrap justify-around sm:justify-normal'>
         {comments.map((comment) => (
           <div
             key={comment.comment_id}
