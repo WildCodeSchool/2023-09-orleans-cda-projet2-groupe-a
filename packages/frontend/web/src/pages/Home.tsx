@@ -227,7 +227,7 @@ export default function Home() {
           ))}
         </div>
       </form>
-      <div className='z40 absolute top-0 bg-black bg-opacity-60 shadow-inner'>
+      <div className='z[100] absolute top-0 bg-black bg-opacity-60 shadow-inner'>
         <LegalNotice />
       </div>
     </div>
