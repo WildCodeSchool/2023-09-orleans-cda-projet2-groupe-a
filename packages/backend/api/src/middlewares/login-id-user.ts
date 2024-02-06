@@ -17,8 +17,6 @@ const loginIdUser = async function (
   const SECRET = new TextEncoder().encode(JWT_SECRET);
 
   if (jwt === undefined) {
-    console.log('before jwt undefined');
-
     return res.json({ ok: false, message: 'not connected' });
   }
 
@@ -29,8 +27,6 @@ const loginIdUser = async function (
     });
 
     if (!result.payload || typeof result.payload.sub !== 'string') {
-      console.log('before result.payload');
-
       return res.json({ ok: false, message: 'not connected' });
     }
     const userid = Number.parseInt(result.payload.sub);
@@ -38,12 +34,8 @@ const loginIdUser = async function (
     req.userId = userid;
   } catch (error) {
     if (error instanceof jose.errors.JWTExpired) {
-      console.log('before jwt expired');
-
       return res.json({ ok: false, message: 'not connected' });
     }
-    console.log('before jwt error');
-
     return res.json({ ok: false, message: 'not connected' });
   }
 
