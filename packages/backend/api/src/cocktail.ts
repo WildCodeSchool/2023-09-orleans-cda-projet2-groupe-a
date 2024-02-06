@@ -37,7 +37,11 @@ cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
       .set(updateData)
       .where('id', '=', cocktailId)
       .execute();
-    res.send('Fichier uploadé avec succès!');
+    if (req.file) {
+      res.json({ message: 'Upload successful!', fileName: req.file.filename });
+    } else {
+      res.status(400).send('No file uploaded.');
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -288,6 +292,55 @@ cocktailRouter.post('/:id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
+  }
+});
+
+cocktailRouter.get('/:id/suggestion', async (req, res) => {
+  try {
+    const id = Number.parseInt(req.params.id);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid cocktail ID' });
+    }
+
+    // requête pour obtenir les id des ingrédients du cocktail sélectionné
+    const ingredientSubquery = db
+      .selectFrom('action_ingredient')
+      .innerJoin('action', 'action_ingredient.action_id', 'action.id')
+      .innerJoin('recipe', 'action.id', 'recipe.action_id')
+      .where('recipe.cocktail_id', '=', id)
+      .select(['ingredient_id']);
+
+    const countCommonIngredients = sql<string>`COUNT(DISTINCT action_ingredient.ingredient_id)`;
+
+    // Requête principale pour obtenir les cocktails avec le plus d'ingrédients en commun
+    const cocktailsWithCommonIngredients = await db
+      .selectFrom('cocktail')
+      .select([
+        'cocktail.id',
+        'cocktail.name',
+        'cocktail.image',
+        'cocktail.ratings_average',
+        countCommonIngredients.as('common_ingredients_count'),
+      ])
+      .innerJoin('recipe', 'cocktail.id', 'recipe.cocktail_id')
+      .innerJoin('action', 'recipe.action_id', 'action.id')
+      .innerJoin(
+        'action_ingredient',
+        'action.id',
+        'action_ingredient.action_id',
+      )
+      .where('action_ingredient.ingredient_id', 'in', ingredientSubquery)
+      .where('cocktail.id', '!=', id)
+      .groupBy('cocktail.id')
+      .having(countCommonIngredients, '>', sql`0`)
+      .orderBy('common_ingredients_count', 'desc')
+      .limit(3)
+      .execute();
+
+    return res.json(cocktailsWithCommonIngredients);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 

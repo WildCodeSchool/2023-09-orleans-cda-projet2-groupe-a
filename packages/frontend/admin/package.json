@@ -1,0 +1,30 @@
+{
+  "name": "@app/admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun vite",
+    "build": "bun tsc && bun vite build",
+    "preview": "bun vite preview"
+  },
+  "dependencies": {
+    "ra-data-json-server": "^4.16.7",
+    "ra-data-simple-rest": "^4.16.7",
+    "react": "^18.2.0",
+    "react-admin": "^4.16.7",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+}

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Pencil } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
@@ -7,6 +8,8 @@ import FavoriteHeart from '@/components/FavoriteHeart';
 import CocktailCard from '@/components/cocktail-detail/CocktailCard';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
+import FireLevel from '@/components/cocktail-detail/FireLevel';
+import SimilarCocktail from '@/components/cocktail-detail/SimilarCocktail';
 
 type Topping = {
   topping_id: number;
@@ -38,8 +41,15 @@ export default function CocktailsDetails() {
   const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
   const [toppings, setToppings] = useState<Topping[] | undefined>();
   const [tools, setTools] = useState<Tool[] | undefined>();
-
+  const location = useLocation();
+  const [actualLocation, setActualLocation] = useState(location.pathname);
   const [isLoading, setIsLoading] = useState(true);
+  const topDetailsPage = useRef<HTMLHeadingElement>(null);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const toggleForm = () => {
+    setIsFormVisible(!isFormVisible);
+  };
 
   const fetchCocktails = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
@@ -73,7 +83,15 @@ export default function CocktailsDetails() {
     return () => {
       controller.abort();
     };
-  }, [id]);
+  }, [id, isFormVisible]);
+
+  useEffect(() => {
+    if (actualLocation !== location.pathname) {
+      topDetailsPage.current?.scrollIntoView({ behavior: 'smooth' });
+
+      setActualLocation(location.pathname);
+    }
+  }, [location.pathname, actualLocation]);
 
   if (cocktail === undefined && !isLoading) {
     return <Navigate to='/' />;
@@ -91,9 +109,20 @@ export default function CocktailsDetails() {
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-no-repeat lg:p-16'
       style={{ backgroundImage: `url('/bg-details.png')` }}
     >
-      <h1 className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-10'>
+      <h1
+        ref={topDetailsPage}
+        className='font-stroke text-light z-50 mx-5 pt-16 text-center text-[1.6rem] font-extrabold uppercase sm:text-start md:ps-4 lg:ps-10 xl:ps-10'
+      >
         {cocktail.name}
+        <button onClick={toggleForm} type='submit'>
+          <Pencil
+            size={38}
+            stroke='#8A741F'
+            className='ms-4 inline-block transition-transform ease-in-out hover:scale-110'
+          />
+        </button>
       </h1>
+      <FireLevel totalDegree={cocktail.total_degree} />
       <div className='flex flex-col justify-center sm:flex-row'>
         <div className='relative m-auto h-[30rem] w-[25rem] sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
@@ -118,11 +147,15 @@ export default function CocktailsDetails() {
               ))}
             </div>
           </div>
-          <div className='border-dark bg-card-pink absolute -top-3 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
-          <div className='border-dark bg-pastel-brown absolute -top-6 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
+          <div className='border-dark bg-card-pink absolute -top-8 left-10 z-30 m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
+          <div className='border-dark bg-pastel-brown absolute -top-12 left-6  m-auto my-20 h-[21rem] w-[18rem] rounded-sm border-[3px]' />
         </div>
-        <div className='sm:x-[80] sm:scrollbar-bigger-rounded pt-16 sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col  sm:overflow-y-scroll'>
-          <CocktailForm cocktail={cocktail} />
+        <div className='sm:x-[80] sm:scrollbar-bigger-rounded sm:flex sm:h-[800px] sm:w-[65%] sm:flex-col sm:overflow-y-scroll'>
+          <CocktailForm
+            cocktail={cocktail}
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+          />
           <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
             <div className='flex-row px-5 pb-5 leading-10'>
@@ -179,38 +212,10 @@ export default function CocktailsDetails() {
         {cocktail.name}
       </h2>
       <CocktailComments />
-      <h2 className='font-stroke text-light mb-20 flex px-2 text-center text-[1.4rem] font-extrabold uppercase'>{`you're going to love them !`}</h2>
+      <h2 className='font-stroke text-light mb-10 mt-20 flex px-2 text-center text-[1.4rem] font-extrabold uppercase'>{`you're going to love them !`}</h2>
 
-      <div className='border-dark bg-pastel-pink relative m-auto mb-20 hidden h-[26rem] w-[90%] rounded-sm border-[3px] uppercase sm:block sm:flex-wrap'>
-        <CocktailCard />
-      </div>
-      {/* card swipper */}
-      <div className='relative left-10 mx-auto mb-20 sm:hidden'>
-        <div className='border-dark bg-card-pink-dark absolute m-auto mb-20 h-[21rem] w-[18rem] -rotate-3 rounded-sm border-[3px] uppercase'>
-          <img
-            src='/cocktail-placeholder.png'
-            alt='Cocktail picture'
-            className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
-          />
-          <div>
-            <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
-            <div className='mt-2 flex justify-center' />
-            {/* starRating */}
-          </div>
-        </div>
-        <div className='border-dark bg-card-green absolute m-auto mb-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
-          <img
-            src='/cocktail-placeholder.png'
-            alt='Cocktail picture'
-            className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
-          />
-          <div>
-            <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
-            <div className='mt-2 flex justify-center'>
-              {/* <StarRating  /> */}
-            </div>
-          </div>
-        </div>
+      <div className='border-dark bg-pastel-pink relative m-auto mb-20 w-[90%] rounded-sm border-[3px] sm:w-[70%] sm:flex-wrap md:w-[90%]'>
+        <SimilarCocktail />
       </div>
     </div>
   );
