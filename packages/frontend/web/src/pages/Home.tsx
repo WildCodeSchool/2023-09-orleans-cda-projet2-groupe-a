@@ -81,7 +81,7 @@ const squares = [
       lg: 8,
     },
     component: (
-      <Link to='/profile/1'>
+      <Link to='/profile'>
         <ProfilePart />
       </Link>
     ),

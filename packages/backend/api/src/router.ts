@@ -4,6 +4,12 @@ import { sql } from 'kysely';
 import { db } from '@app/backend-shared';
 import type { SomeInterface } from '@app/types';
 
+import { adminCocktailRouter } from './admin/admin-cocktail';
+import { adminCommentRouter } from './admin/admin-comment';
+import { adminGlassRouter } from './admin/admin-glass';
+import { adminIngredientRouter } from './admin/admin-ingredient';
+import { adminToppingRouter } from './admin/admin-topping';
+import { adminUserRouter } from './admin/admin-user';
 import { authRouter } from './auth';
 import { cocktailRouter } from './cocktail';
 import { commentRouter } from './comment';
@@ -54,5 +60,10 @@ router.use('/comment', commentRouter);
 router.use('/glass', glass);
 router.use('/filter', filterRouter);
 router.use('/topping', topping);
-
+router.use('/admin/cocktail', adminCocktailRouter);
+router.use('/admin/comment', adminCommentRouter);
+router.use('/admin/glass', adminGlassRouter);
+router.use('/admin/ingredient', adminIngredientRouter);
+router.use('/admin/topping', adminToppingRouter);
+router.use('/admin/user', adminUserRouter);
 export default router;

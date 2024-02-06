@@ -4,6 +4,11 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
   safelist: [
+    'mt-0',
+    'mt-10',
+    'mr-10',
+    'gap-3',
+    'gap-1',
     'md:ps-2.5',
     'md:pe-2.5',
     'order-1',
@@ -187,7 +192,7 @@ export default {
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
         'pastel-blue': '#A7D9EF',
-        'pastel-pink': '#FF017B',
+        'pastel-pink': '#FDE0C7',
         'card-blue': '#85ACDA',
         'card-light-green': '#85DA89',
         'card-dark-green': '#85DABF',

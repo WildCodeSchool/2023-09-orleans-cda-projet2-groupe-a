@@ -15,7 +15,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "types": ["bun-types"]
+    "types": [
+      "bun-types", // add Bun global
+    ],
   },
-  "extends": "expo/tsconfig.base"
 }

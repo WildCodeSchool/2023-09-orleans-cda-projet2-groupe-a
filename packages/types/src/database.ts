@@ -26,6 +26,7 @@ export interface UserTable {
   image?: string;
   birthdate: string;
   created_at?: Date;
+  color?: string;
 }
 export interface IngredientTable {
   id: Generated<number>;
@@ -81,7 +82,7 @@ export interface CocktailTable {
     | '4'
     | '4.5'
     | '5';
-  glass_id: number;
+  glass_id: number | null;
   final_flavour:
     | 'fruity'
     | 'spicy'

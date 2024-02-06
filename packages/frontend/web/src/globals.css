@@ -260,4 +260,40 @@
   .filter-pink {
     filter: drop-shadow(0 0 3em #f257ced3);
   }
+
+  .shadow-card-cocktail {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+  }
+
+  input[type='file']::file-selector-button {
+    background-color: transparent;
+    border: none;
+    display: none;
+  }
+
+  input[type='checkbox'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+  }
+
+  input[type='checkbox'] {
+    position: relative;
+    top: 50%;
+    border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    border: 2px solid #000000;
+    transform: rotate(-5deg);
+  }
+  input[type='checkbox']:checked {
+    background: rgb(0, 0, 0);
+  }
+
+  .shadow-card-community {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(33, 12, 42, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(38, 12, 42, 0.57);
+  }
 }
