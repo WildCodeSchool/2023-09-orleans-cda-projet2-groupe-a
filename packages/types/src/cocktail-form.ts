@@ -5,11 +5,11 @@ import type {
   UseFormWatch,
 } from 'react-hook-form';
 
-import type { Glass, Ingredient } from '.';
+import type { Glass, Ingredient, Topping } from '.';
 
 export type CocktailForm = {
   name?: string;
-  topping?: string;
+  topping?: Topping;
   ingredients?: Pick<Ingredient, 'id' | 'name' | 'flavour'>[];
   alcohol?: Ingredient;
   level?: number;
@@ -73,9 +73,9 @@ export interface GlassPartProps {
 
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedTopping: string;
+  selectedTopping: Topping | undefined;
   selectedAlcohol: Ingredient | null;
-  handleToppingChange: (topping: string) => void;
+  handleToppingChange: (topping: Topping) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
 }
