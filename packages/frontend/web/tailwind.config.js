@@ -82,6 +82,14 @@ export default {
     'md:clip-path-polygon-blue-md',
     'md:clip-path-polygon-orange-md',
     'md:clip-path-polygon-pink-md',
+
+    'md:clip-path-polygon-purple-shaker-md',
+    'md:clip-path-polygon-yellow-shaker-md',
+    'md:clip-path-polygon-green-shaker-md',
+    'md:clip-path-polygon-blue-shaker-md',
+    'md:clip-path-polygon-orange-shaker-md',
+    'md:clip-path-polygon-pink-shaker-md',
+
     'clip-path-polygon-purple',
     'clip-path-polygon-yellow',
     'clip-path-polygon-green',

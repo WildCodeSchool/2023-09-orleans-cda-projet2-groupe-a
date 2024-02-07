@@ -1,4 +1,4 @@
-import { MoveRight, Skull } from 'lucide-react';
+import { ArrowRight, CheckCircle2, MoveRight, Skull } from 'lucide-react';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
 
@@ -11,17 +11,17 @@ export default function IngredientToChoose({
   beforeIngredient,
   actualIngredient,
   setActualIngredient,
+  isFinished,
+  setIsFinished,
+  setNextIngredient,
+  nextIngredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
+    setValue(`ingredients[${nextIngredient}]` as keyof CocktailForm, value);
     setActualIngredient(actualIngredient + 1);
-    if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
-      setShow(5);
-    }
   };
-
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
     beforeIngredient?.id ?? 1
   }`;
@@ -40,26 +40,49 @@ export default function IngredientToChoose({
       const data = await response.json();
       setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, data);
       setActualIngredient(actualIngredient + 1);
-      if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
-        setShow(5);
-      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const allIngredients = () => {
+    setIsFinished(true);
+    setShow(5);
+  };
+
+  const goToNextIngredient = () => {
+    setNextIngredient(nextIngredient + 1);
+  };
+
   const ingredients = watch('ingredients');
 
-  return `ingredients[${actualIngredient}]` === 'ingredients[3]' &&
-    ingredients !== undefined ? (
-    <ul className='relative bottom-[7%] right-[-7%] h-[136px] sm:bottom-[10%] sm:right-[-13%]'>
-      <li className='mb-2'>{ingredients[0].name}</li>
-      <li className='mb-2'>{ingredients[1].name}</li>
-      <li>{ingredients[2].name}</li>
+  return isFinished && ingredients !== undefined ? (
+    <ul className='relative bottom-[7%] right-[-7%] h-[100px] overflow-y-scroll sm:bottom-[30%] sm:right-[-13%]'>
+      {ingredients.map((ingredient) => (
+        <li key={ingredient.name} className='mx-2 mb-1'>
+          {ingredient.name}
+        </li>
+      ))}
     </ul>
   ) : (
     <>
-      <fieldset className='relative bottom-[7%] right-[-7%] grid h-[88px] w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[10%] sm:right-[-13%] sm:w-[300px]'>
+      <div
+        className={`${ingredients && ingredients[nextIngredient] ? 'block' : 'hidden'} relative bottom-[7%] right-[-7%] flex gap-5 sm:bottom-[25%] sm:right-[-40%]`}
+      >
+        <ArrowRight
+          onClick={() => {
+            goToNextIngredient();
+          }}
+          className='hover:cursor-pointer'
+        />
+        <CheckCircle2
+          onClick={() => {
+            allIngredients();
+          }}
+          className='hover:cursor-pointer'
+        />
+      </div>
+      <fieldset className='relative bottom-[7%] right-[-7%] grid h-[88px] w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[17%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
           : data?.map((ingredient) => (
@@ -68,10 +91,12 @@ export default function IngredientToChoose({
                   className='hover:cursor-pointer'
                   type='radio'
                   id={ingredient.name}
-                  value={ingredients ? ingredients[2]?.name : undefined}
+                  value={
+                    ingredients ? ingredients[nextIngredient]?.name : undefined
+                  }
                   checked={
                     ingredients
-                      ? ingredients[2]?.name === ingredient.name
+                      ? ingredients[nextIngredient]?.name === ingredient.name
                       : false
                   }
                   onChange={() => {

@@ -90,4 +90,8 @@ export interface IngredientProps {
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
   actualIngredient: number;
   setActualIngredient: (actualIngredient: number) => void;
+  isFinished: boolean;
+  setIsFinished: (isFinished: boolean) => void;
+  nextIngredient: number;
+  setNextIngredient: (nextIngredient: number) => void;
 }
