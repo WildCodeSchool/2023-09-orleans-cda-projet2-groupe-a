@@ -16,7 +16,6 @@ export default function IngredientsPart({
   setActualIngredient,
 }: IngredientsPartProps) {
   const [isFinished, setIsFinished] = useState(false);
-  const [nextIngredient, setNextIngredient] = useState(1);
   const alcohol = watch('alcohol');
   const [beforeIngredient, setBeforeIngredient] = useState<
     Ingredient | undefined
@@ -26,9 +25,9 @@ export default function IngredientsPart({
 
   useEffect(() => {
     if (ingredients !== undefined) {
-      setBeforeIngredient(ingredients[nextIngredient - 1]);
+      setBeforeIngredient(ingredients[actualIngredient - 1]);
     }
-  }, [nextIngredient]);
+  }, [actualIngredient]);
 
   return (
     <>
@@ -72,8 +71,6 @@ export default function IngredientsPart({
           setActualIngredient={setActualIngredient}
           isFinished={isFinished}
           setIsFinished={setIsFinished}
-          setNextIngredient={setNextIngredient}
-          nextIngredient={nextIngredient}
         />
       </motion.div>
     </>

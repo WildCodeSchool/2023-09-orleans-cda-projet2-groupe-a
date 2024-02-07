@@ -92,6 +92,4 @@ export interface IngredientProps {
   setActualIngredient: (actualIngredient: number) => void;
   isFinished: boolean;
   setIsFinished: (isFinished: boolean) => void;
-  nextIngredient: number;
-  setNextIngredient: (nextIngredient: number) => void;
 }

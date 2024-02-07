@@ -13,13 +13,11 @@ export default function IngredientToChoose({
   setActualIngredient,
   isFinished,
   setIsFinished,
-  setNextIngredient,
-  nextIngredient,
 }: IngredientProps) {
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(`ingredients[${nextIngredient}]` as keyof CocktailForm, value);
+    setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
     setActualIngredient(actualIngredient + 1);
   };
   const url = `${import.meta.env.VITE_API_URL}/ingredient/${
@@ -51,7 +49,7 @@ export default function IngredientToChoose({
   };
 
   const goToNextIngredient = () => {
-    setNextIngredient(nextIngredient + 1);
+    setActualIngredient(actualIngredient + 1);
   };
 
   const ingredients = watch('ingredients');
@@ -66,22 +64,6 @@ export default function IngredientToChoose({
     </ul>
   ) : (
     <>
-      <div
-        className={`${ingredients && ingredients[nextIngredient] ? 'block' : 'hidden'} relative bottom-[7%] right-[-7%] flex gap-5 sm:bottom-[25%] sm:right-[-40%]`}
-      >
-        <ArrowRight
-          onClick={() => {
-            goToNextIngredient();
-          }}
-          className='hover:cursor-pointer'
-        />
-        <CheckCircle2
-          onClick={() => {
-            allIngredients();
-          }}
-          className='hover:cursor-pointer'
-        />
-      </div>
       <fieldset className='relative bottom-[7%] right-[-7%] grid h-[88px] w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[17%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
@@ -92,11 +74,13 @@ export default function IngredientToChoose({
                   type='radio'
                   id={ingredient.name}
                   value={
-                    ingredients ? ingredients[nextIngredient]?.name : undefined
+                    ingredients
+                      ? ingredients[actualIngredient]?.name
+                      : undefined
                   }
                   checked={
                     ingredients
-                      ? ingredients[nextIngredient]?.name === ingredient.name
+                      ? ingredients[actualIngredient]?.name === ingredient.name
                       : false
                   }
                   onChange={() => {
@@ -112,6 +96,15 @@ export default function IngredientToChoose({
               </div>
             ))}
       </fieldset>
+      <div
+        onClick={() => {
+          allIngredients();
+        }}
+        className={`${ingredients ? 'visible opacity-100' : 'invisible opacity-0'} relative bottom-[10%] right-[-7%] flex gap-5 transition-all duration-200 ease-in-out hover:cursor-pointer sm:bottom-[10%] sm:right-[-35%]`}
+      >
+        <p>{'done?'}</p>
+        <CheckCircle2 />
+      </div>
       <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:right-[0%] lg:top-[70%] lg:me-0 lg:gap-6'>
         <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           {'Choose your blend or amend'}
