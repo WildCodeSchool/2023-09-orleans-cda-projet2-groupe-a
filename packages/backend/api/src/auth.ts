@@ -191,7 +191,7 @@ authRouter.post(
     try {
       const user = await db
         .selectFrom('user')
-        .select(['user.password', 'user.id'])
+        .select(['user.password', 'user.id', 'user.birthdate'])
         .where('user.email', '=', email)
         .executeTakeFirst();
 
@@ -207,6 +207,25 @@ authRouter.post(
         user.password, //à récuperer dans la BDD donc querybuilder ci-dessus l.90)
         'bcrypt',
       );
+
+      const isLoggedIn = isCorrectPassword;
+      const isUnderAge = calculateAge(user.birthdate).isUnderAge;
+
+      if (isLoggedIn) {
+        if (isUnderAge) {
+          console.log('coucou mineur', user.birthdate);
+          res.json({ isUnderAge: true });
+          //--> stocker réponse "mineur" dans un contexte.
+        } else {
+          console.log('coucou majeur', user.birthdate);
+          res.json({ isUnderAge: false });
+          // --> envoyer réponse "majeur" dans un contexte.
+        }
+      } else {
+        console.log(
+          'Tu dois renseigner ta date de naissance dans CheckBirthdate',
+        );
+      }
 
       if (!isCorrectPassword) {
         return res.json({
@@ -243,10 +262,11 @@ authRouter.post(
         signed: true,
       });
 
+      if (isLoggedIn && !isUnderAge) console.log({ user });
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,
-        // isUnderAge: calculateAge(user.birthdate).isUnderAge,
+        isUnderAge: calculateAge(user.birthdate).isUnderAge,
       });
     } catch (error) {
       return res.json({
