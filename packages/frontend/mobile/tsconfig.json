@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
     },
-    "strictNullChecks": true
+    "strictNullChecks": true,
   },
   "extends": "expo/tsconfig.base",
-  "include": ["**/*.ts", "**/*.tsx", "../shared/src/hooks/use-fetch.ts"]
+  "include": ["**/*.ts", "**/*.tsx"],
 }

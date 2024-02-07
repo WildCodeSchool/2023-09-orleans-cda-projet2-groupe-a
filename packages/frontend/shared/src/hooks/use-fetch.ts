@@ -1,4 +1,3 @@
-// useFetch.js (ou useFetch.ts pour TypeScript)
 import { useEffect, useState } from 'react';
 
 export function useFetch<Ingredient>(url: string): {
@@ -9,6 +8,8 @@ export function useFetch<Ingredient>(url: string): {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     if (url === '') {
       setIsLoading(false);
       return;
@@ -17,17 +18,23 @@ export function useFetch<Ingredient>(url: string): {
       fetch(url)
         .then((response) => response.json())
         .then((result) => {
-          setData(result);
+          if (isMounted) {
+            setData(result);
+          }
         })
         .catch((error) => {
           console.error('Erreur de requête', error);
         })
         .finally(() => {
-          setIsLoading(false);
+          if (isMounted) {
+            setIsLoading(false);
+          }
         });
     };
-
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, [url]);
 
   return { data, isLoading };

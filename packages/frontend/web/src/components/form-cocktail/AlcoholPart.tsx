@@ -46,9 +46,9 @@ export default function AlcoholPart({
         />
         <div>
           {isOpen ? (
-            <ul className='absolute bottom-[-220px] left-[-12%] h-[250px] w-[125px] overflow-y-scroll bg-white p-1 sm:bottom-[-220px] sm:h-[250px] md:bottom-[-95px] md:left-[-11.8%] md:h-[125px] lg:bottom-[-190px] lg:left-[-12%] lg:h-[220px]'>
+            <ul className='absolute bottom-[-220px] left-[-12%] h-[250px] w-[125px] overflow-y-scroll p-1 sm:bottom-[-220px] sm:h-[250px] md:bottom-[-95px] md:left-[-11.8%] md:h-[125px] lg:bottom-[-190px] lg:left-[-12%] lg:h-[220px]'>
               <li
-                className='w-[100px] hover:cursor-pointer'
+                className='w-[100px] w-full bg-white pl-1 pr-2 hover:cursor-pointer'
                 onClick={() => {
                   handleClickSelect();
                 }}
@@ -58,7 +58,7 @@ export default function AlcoholPart({
               {alcohols.map((alcohol) => (
                 <li
                   key={alcohol.id}
-                  className='w-[100px] hover:cursor-pointer'
+                  className='w-[100px] w-full bg-white pl-1 pr-2 hover:cursor-pointer'
                   onClick={() => {
                     handleClickAlcohol(alcohol);
                     handleClickSelect();
@@ -71,7 +71,7 @@ export default function AlcoholPart({
           ) : (
             <ul>
               <li
-                className='relative bottom-[-10px] w-[100px] hover:cursor-pointer'
+                className='relative bottom-[-10px] w-[100px] bg-white pl-1 pr-2 hover:cursor-pointer'
                 onClick={() => {
                   handleClickSelect();
                 }}
