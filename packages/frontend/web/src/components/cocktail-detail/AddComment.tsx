@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
 import { useAuth } from '@/contexts/AuthContext';

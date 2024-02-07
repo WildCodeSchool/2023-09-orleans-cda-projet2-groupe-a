@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { set } from 'react-hook-form';
 
 import type { User } from '@app/types';
 
