@@ -20,9 +20,7 @@ export default function VirginCocktails() {
   useEffect(() => {
     const fetchCocktails = async (): Promise<void> => {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/virgin`,
-        );
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/virgin`);
         if (!response.ok) {
           throw new Error(
             `Failed to fetch virgin cocktails: ${response.statusText}`,
@@ -60,7 +58,7 @@ export default function VirginCocktails() {
           </div>
         </div>
       </div>
-      <div className='px-10'>
+      <div className='px-50 md:pl-28'>
         <div className='xs:text-xl xxs:-ml-[360px] flex flex-col items-center justify-center gap-y-10 sm:-ml-[80px] sm:px-20 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3'>
           {virginCocktails.length > 0 &&
             virginCocktails.map((cocktail, index) => (
