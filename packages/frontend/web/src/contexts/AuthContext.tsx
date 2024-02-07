@@ -1,4 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { set } from 'react-hook-form';
+
+import type { User } from '@app/types';
 
 type AuthProviderProps = {
   readonly children: React.ReactNode;
@@ -7,6 +10,8 @@ type AuthProviderProps = {
 type AuthProviderState = {
   isLoggedIn: boolean; // typage du contenu du context.
   setIsLoggedIn: (value: boolean) => void;
+  user: User | null;
+  setUser: (value: User | null) => void;
 };
 
 const AuthProviderContext = createContext<AuthProviderState | undefined>(
@@ -15,7 +20,7 @@ const AuthProviderContext = createContext<AuthProviderState | undefined>(
 
 export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -27,10 +32,12 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
         // parenthèses autour d'await res.json() puis 'as' pour bien typer.
         ok: boolean;
         isLoggedIn: boolean;
+        user: User | null;
         //isUnderAge
       };
 
       setIsLoggedIn(data.isLoggedIn);
+      setUser(data.user);
     })();
 
     return () => {
@@ -42,6 +49,8 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     () => ({
       isLoggedIn,
       setIsLoggedIn,
+      user,
+      setUser,
     }),
     [isLoggedIn],
   );

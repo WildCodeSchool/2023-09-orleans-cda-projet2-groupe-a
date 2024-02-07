@@ -16,10 +16,10 @@ import { commentRouter } from './comment';
 import { filterRouter } from './filter';
 import { glass } from './glass';
 import { ingredient } from './ingredient';
+import { ratingRouter } from './rating';
 import { getAlcoholsByDegree } from './services/alcohol-service';
 import { topping } from './topping';
 import { user } from './user';
-import { ratingRouter } from './rating';
 
 const router = express.Router();
 
