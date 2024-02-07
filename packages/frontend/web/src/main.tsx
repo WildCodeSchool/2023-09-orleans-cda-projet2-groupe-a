@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Favicon from 'react-favicon';
 import { RouterProvider } from 'react-router-dom';
 
 import { AnimationsProvider } from './contexts/AnimationsContext.tsx';
@@ -7,6 +8,12 @@ import { AuthProvider } from './contexts/AuthContext';
 import { BirthProvider } from './contexts/BirthContext.tsx';
 import './globals.css';
 import router from './router.tsx';
+
+const Main = () => {
+  return <Favicon src='/yummycorn-favicon.png' alt='favicon Yummycorn' />;
+};
+
+export default Main;
 
 const rootElement = document.querySelector('#root');
 
