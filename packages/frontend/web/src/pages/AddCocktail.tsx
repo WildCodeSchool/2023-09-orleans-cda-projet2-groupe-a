@@ -155,6 +155,7 @@ export default function AddCocktail() {
       } else if (responseBody.message === 'not connected') {
         navigate(`/login`);
       }
+      console.log(responseBody);
     } catch (error) {
       console.error('Error:', error);
     }

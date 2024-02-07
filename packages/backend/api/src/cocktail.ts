@@ -24,6 +24,8 @@ cocktailRouter.post(
   async (req: RequestWithUser, res: Response) => {
     const { name, glass, ingredients, alcohol, topping } = req.body;
     const userId = req.userId;
+    console.log(userId);
+    console.log(ingredients);
 
     if (userId === undefined) {
       return res.json({ ok: false, message: 'not connected' });

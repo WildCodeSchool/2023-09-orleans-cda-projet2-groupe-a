@@ -19,23 +19,28 @@ const loginIdUser = async function (
   if (jwt === undefined) {
     return res.json({ ok: false, message: 'not connected' });
   }
+  console.log(jwt);
 
   try {
     const result = await jose.jwtVerify(jwt, SECRET, {
       issuer: 'http://localhost',
       audience: 'http://localhost',
     });
+    console.log(result.payload.sub);
 
     if (!result.payload || typeof result.payload.sub !== 'string') {
       return res.json({ ok: false, message: 'not connected' });
     }
     const userid = Number.parseInt(result.payload.sub);
+    console.log(userid);
 
     req.userId = userid;
   } catch (error) {
+    console.log({ error });
     if (error instanceof jose.errors.JWTExpired) {
       return res.json({ ok: false, message: 'not connected' });
     }
+
     return res.json({ ok: false, message: 'not connected' });
   }
 
