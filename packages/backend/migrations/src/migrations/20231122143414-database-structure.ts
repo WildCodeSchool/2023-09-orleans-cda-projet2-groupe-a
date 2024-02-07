@@ -157,55 +157,55 @@ export async function up(db: Kysely<Database>): Promise<void> {
 export async function down(db: Kysely<Database>): Promise<void> {
   await db.transaction().execute(async (trx) => {
     await sql`
-      DROP TABLE recipe IF EXISTS;
+      DROP TABLE IF EXISTS recipe;
     `.execute(trx);
 
     await sql`
-      DROP TABLE cocktail_topping IF EXISTS;
+      DROP TABLE IF EXISTS cocktail_topping;
     `.execute(trx);
 
     await sql`
-      DROP TABLE action_ingredient IF EXISTS;
+      DROP TABLE IF EXISTS action_ingredient;
     `.execute(trx);
 
     await sql`
-      DROP TABLE action IF EXISTS;
+      DROP TABLE IF EXISTS action;
     `.execute(trx);
 
     await sql`
-      DROP TABLE tool IF EXISTS;
+      DROP TABLE IF EXISTS tool;
     `.execute(trx);
 
     await sql`
-      DROP TABLE topping IF EXISTS;
+      DROP TABLE IF EXISTS topping;
     `.execute(trx);
 
     await sql`
-      DROP TABLE rating IF EXISTS;
+      DROP TABLE IF EXISTS rating;
     `.execute(trx);
 
     await sql`
-      DROP TABLE favorite IF EXISTS;
+      DROP TABLE IF EXISTS favorite;
     `.execute(trx);
 
     await sql`
-      DROP TABLE comment IF EXISTS;
+      DROP TABLE IF EXISTS comment;
     `.execute(trx);
 
     await sql`
-      DROP TABLE cocktail IF EXISTS;
+      DROP TABLE IF EXISTS cocktail;
     `.execute(trx);
 
     await sql`
-      DROP TABLE ingredient IF EXISTS;
+      DROP TABLE IF EXISTS ingredient;
     `.execute(trx);
 
     await sql`
-      DROP TABLE user IF EXISTS;
+      DROP TABLE IF EXISTS user;
     `.execute(trx);
 
     await sql`
-      DROP TABLE glass IF EXISTS;
+      DROP TABLE IF EXISTS glass;
     `.execute(trx);
   });
 }
