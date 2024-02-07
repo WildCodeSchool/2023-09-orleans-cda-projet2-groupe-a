@@ -216,13 +216,25 @@ export default {
       textStroke: (theme) => ({
         dark: '4px #000000',
       }),
+      backgroundImage: (theme) => ({
+        'gradient-animation':
+          'linear-gradient(90deg, #B61BCB, #EA2879, #F58643, #FCE544, #C1F0DB, #0AD2E4, #B61BCB)',
+      }),
+      backgroundSize: {
+        200: '200% 100%',
+      },
       animation: {
         'fade-out': 'fade-out 1500ms ease-in forwards',
         'scale-up': 'scale-up 700ms linear forwards',
         'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
         'color-pulse': 'color-pulse 2s linear infinite',
+        'gradient-x': 'gradient-x 10s linear infinite',
       },
       keyframes: {
+        'gradient-x': {
+          '0%': { 'background-position': '0%' },
+          '100%': { 'background-position': '100%' },
+        },
         'scale-up': {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
