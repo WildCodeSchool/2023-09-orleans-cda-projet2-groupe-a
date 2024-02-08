@@ -25,7 +25,7 @@ export async function down(db: Kysely<Database>): Promise<void> {
 
     await sql`
       ALTER TABLE topping
-      ADD COLUMN flavour ENUM('fruity', 'spicy', 'earthy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'peppery', 'mixed', 'fresh', 'acidulous', 'sour', 'neutral', 'umami', 'astringent', 'other') NOT NULL
+      ADD COLUMN flavour ENUM('fruity', 'spicy', 'herbaceous', 'floral', 'woody', 'bitter', 'sweet', 'salty', 'sour', 'neutral') NOT NULL
     `.execute(trx);
   });
 }
