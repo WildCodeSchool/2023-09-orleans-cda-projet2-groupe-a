@@ -4,11 +4,12 @@ import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
+import blockNotLogin from './middlewares/block-not-login';
 import checkAuthState from './middlewares/check-auth-state';
 import validateUpdateUser from './middlewares/validate-update-user';
 
 interface RequestWithUser extends Request {
-  userId?: number;
+  userId: number;
   isloggedIn?: boolean;
 }
 
@@ -169,22 +170,22 @@ async function getAllUsers() {
   });
 }
 
-user.get('/profile', checkAuthState, async (req: RequestWithUser, res) => {
-  const id = req.userId;
-  const isloggedIn = req.isloggedIn;
-  const shouldSelectEmail = true;
-  if (id == null || !isloggedIn) {
-    res.json({ ok: false, message: 'not connected' });
-    return;
-  }
+user.get(
+  '/profile',
+  checkAuthState,
+  blockNotLogin,
+  async (req: RequestWithUser, res) => {
+    const id = req.userId;
+    const shouldSelectEmail = true;
 
-  try {
-    const result = await getUser(id, shouldSelectEmail);
-    res.json(result[0]);
-  } catch {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    try {
+      const result = await getUser(id, shouldSelectEmail);
+      res.json(result[0]);
+    } catch {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+);
 
 user.get('/:id', async (req, res) => {
   const id = Number.parseInt(req.params.id);
@@ -218,6 +219,7 @@ interface Updates {
 user.put(
   '/update',
   checkAuthState,
+  blockNotLogin,
   validateUpdateUser,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;

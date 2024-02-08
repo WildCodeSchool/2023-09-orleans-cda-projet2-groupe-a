@@ -1,5 +1,5 @@
 interface StarsProps {
-  readonly ratings_average: string;
+  readonly ratings_average: string | undefined;
 }
 
 export default function Stars({ ratings_average }: StarsProps) {

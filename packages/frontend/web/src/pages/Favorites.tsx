@@ -20,9 +20,9 @@ type Data = {
   >[];
 };
 
-const url = `${import.meta.env.VITE_API_URL}/favorite/`;
+const url = `api/favorite/`;
 
-const image = (image: string, total_degree: number) => {
+const image = (image: string | undefined, total_degree: number) => {
   if (image === null) {
     return total_degree > 0
       ? '/placeholder-cocktail.webp'

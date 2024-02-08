@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
 interface RequestWithUser extends Request {
-  userId?: number;
+  userId: number;
   isloggedIn?: boolean;
 }
 

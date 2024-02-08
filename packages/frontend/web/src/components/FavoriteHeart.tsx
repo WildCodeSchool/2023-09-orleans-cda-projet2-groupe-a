@@ -12,16 +12,13 @@ export default function FavoriteHeart({ id, isFavorite }: FavoriteHeartProps) {
 
   const toggleFavorites = async (id: number) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/favorite/${id}/toggle`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
+      const response = await fetch(`api/favorite/${id}/toggle`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        credentials: 'include',
+      });
       const responseBody = await response.json();
       if (responseBody.ok === true) {
         setClickedCocktails({
