@@ -8,32 +8,31 @@ export function useFetch<Ingredient>(url: string): {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, { signal });
+        const result = await response.json();
+        setData(result);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Erreur de requête', error);
+        setIsLoading(false);
+      }
+    };
 
     if (url === '') {
       setIsLoading(false);
-      return;
+    } else {
+      fetchData().catch((error) => {
+        console.error('Erreur lors de la récupération des données:', error);
+      });
     }
-    const fetchData = () => {
-      fetch(url)
-        .then((response) => response.json())
-        .then((result) => {
-          if (isMounted) {
-            setData(result);
-          }
-        })
-        .catch((error) => {
-          console.error('Erreur de requête', error);
-        })
-        .finally(() => {
-          if (isMounted) {
-            setIsLoading(false);
-          }
-        });
-    };
-    fetchData();
+
     return () => {
-      isMounted = false;
+      abortController.abort();
     };
   }, [url]);
 
