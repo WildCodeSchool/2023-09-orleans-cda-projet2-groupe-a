@@ -47,17 +47,13 @@ export default function ModalForm({
 
   const onSubmit = async (data: UserInfoForm) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/user/update`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
+      const response = await fetch(`/api/user/update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
       const responseData = await response.json();
       if (responseData.ok === true) {
         setIsOpen(false);
