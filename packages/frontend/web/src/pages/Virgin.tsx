@@ -18,9 +18,14 @@ export default function VirginCocktails() {
   const [virginCocktails, setVirginCocktails] = useState<VirginCocktail[]>([]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
     const fetchCocktails = async (): Promise<void> => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/virgin`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/virgin`, {
+          signal,
+        });
         if (!response.ok) {
           throw new Error(
             `Failed to fetch virgin cocktails: ${response.statusText}`,
@@ -33,9 +38,11 @@ export default function VirginCocktails() {
       }
     };
 
-    fetchCocktails().catch((error) => {
-      error;
-    });
+    fetchCocktails().catch(() => {});
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return (
