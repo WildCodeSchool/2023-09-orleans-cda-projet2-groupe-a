@@ -22,18 +22,14 @@ export default function IngredientToChoose({
     }
   };
 
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/${
-    beforeIngredient?.id ?? 1
-  }`;
+  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}`;
 
   const { data, isLoading } =
     useFetch<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>(url);
 
   const randomIngredient = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/ingredient/random`,
-      );
+      const response = await fetch(`/api/ingredient/random`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

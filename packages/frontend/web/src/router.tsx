@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import NotFound from './components/NotFound';
 import ShowTeam from './components/ShowTeam';
 import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
@@ -12,6 +13,7 @@ import NoKidsAllowed from './pages/NoKidsAllowed';
 import ProfilePage from './pages/ProfilePage';
 import PublicProfilePage from './pages/PublicProfilePage';
 import Register from './pages/Register';
+import Virgin from './pages/Virgin';
 
 const router = createBrowserRouter([
   {
@@ -49,10 +51,10 @@ const router = createBrowserRouter([
         path: 'shaker',
         element: <AddCocktail />,
       },
-      // {
-      // path: 'virgin', à prévoir
-      // element: <Virgin />, à prévoir
-      // },
+      {
+        path: 'virgin',
+        element: <Virgin />,
+      },
       {
         path: '/cocktail-details/:id',
         element: <CocktailsDetails />,
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: 'devteam',
         element: <ShowTeam />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
