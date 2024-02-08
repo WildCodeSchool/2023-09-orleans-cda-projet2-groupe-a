@@ -239,7 +239,7 @@ user.put(
       if (image) updates.image = image;
       if (color) updates.color = color;
 
-      if (currentPassword) {
+      if (currentPassword && newPassword && confirmNewPassword) {
         const user = await db
           .selectFrom('user')
           .select(['user.password'])

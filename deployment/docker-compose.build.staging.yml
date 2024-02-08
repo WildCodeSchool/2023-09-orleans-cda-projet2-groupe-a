@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  api:
+    build:
+      dockerfile: ./deployment/DockerfileBackendApi
+      context: ../
+    image: no3ml3/yummycorn-api-staging
+
+  web:
+    build:
+      dockerfile: ./deployment/DockerfileFrontendWeb
+      context: ../
+    image: no3ml3/yummycorn-web-staging
+
+  migrations:
+    build:
+      dockerfile: ./deployment/DockerfileBackendMigrations
+      context: ../
+    image: no3ml3/yummycorn-migrations-staging
