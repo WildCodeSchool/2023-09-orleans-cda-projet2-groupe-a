@@ -17,5 +17,4 @@
     "allowJs": true,
     "types": ["bun-types"]
   },
-  "extends": "expo/tsconfig.base"
 }

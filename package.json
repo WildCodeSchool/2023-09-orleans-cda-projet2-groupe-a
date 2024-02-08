@@ -64,7 +64,6 @@
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
-    "react-favicon": "^2.0.3",
     "zod": "^3.22.4"
   }
 }
