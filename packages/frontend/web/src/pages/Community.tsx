@@ -11,7 +11,7 @@ interface UserProfile {
   average_rating: number | null;
 }
 
-const url = `${import.meta.env.VITE_API_URL}/user`;
+const url = `/api/user`;
 
 export default function Community() {
   const { data } = useFetch<UserProfile[]>(url);

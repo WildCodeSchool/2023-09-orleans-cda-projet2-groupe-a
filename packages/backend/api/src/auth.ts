@@ -56,18 +56,26 @@ authRouter.get('/check', async (req, res) => {
       issuer: 'http://localhost',
       audience: 'http://localhost',
     });
+
+    if (!check.payload || typeof check.payload.sub !== 'string') {
+      return res.json({
+        ok: false,
+        isLoggedIn: false,
+      });
+    }
+
     // On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
     // attention, c'est du backend, on a l'info dans la console de vscode.
-    const email: string | undefined = check.payload.sub;
+    const id = Number.parseInt(check.payload.sub);
 
-    if (email === null || email === undefined) {
-      throw new Error('Email is undefined');
+    if (id === null || id === undefined) {
+      throw new Error('id is undefined');
     }
 
     const user = await db
       .selectFrom('user')
       .select(['user.birthdate'])
-      .where('user.email', '=', email)
+      .where('user.id', '=', id)
       .executeTakeFirst();
 
     // Pour le cas où user est undefined, on envoie une erreur.
@@ -256,5 +264,18 @@ authRouter.post(
     }
   },
 );
+
+authRouter.post('/logout', (req: Request, res: Response) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax',
+    expires: new Date(0),
+  });
+  return res.json({
+    ok: true,
+    isLoggedIn: false,
+  });
+});
 
 export { authRouter };

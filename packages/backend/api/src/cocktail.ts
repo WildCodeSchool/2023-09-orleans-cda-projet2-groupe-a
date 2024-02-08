@@ -1,14 +1,223 @@
 import express from 'express';
+import type { Request, Response } from 'express';
 import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
-import type { Flavour } from '@app/types';
-import type { UpdateData } from '@app/types';
+import type { Ingredient, UpdateData } from '@app/types';
+import type { ActionTable, Flavour } from '@app/types';
 
+import loginIdUser from './middlewares/login-id-user';
 import multerConfig from './middlewares/multer-config';
+import validateCocktailAdd from './middlewares/validate-cocktail-add';
 
 const cocktailRouter = express.Router();
+
+interface RequestWithUser extends Request {
+  userId?: number;
+}
+
+cocktailRouter.post(
+  '/add',
+  loginIdUser,
+  validateCocktailAdd,
+  async (req: RequestWithUser, res: Response) => {
+    const { name, glass, ingredients, alcohol, topping } = req.body;
+    const userId = req.userId;
+
+    if (userId === undefined) {
+      return res.json({ ok: false, message: 'not connected' });
+    }
+
+    const verb: ActionTable['verb'][] = [
+      'muddle',
+      'stir',
+      'shake',
+      'strain',
+      'build',
+      'mix',
+      'pour',
+      'garnish',
+      'twist',
+      'spritz',
+      'layer',
+      'float',
+      'rim',
+      'ignite',
+      'blend',
+      'top',
+      'chill',
+      'heat',
+      'smoke',
+      'double strain',
+      'express',
+      'infuse',
+      'dissolve',
+      'whip',
+      'squeeze',
+      'roll',
+      'dash',
+      'steam',
+      'blast chill',
+      'carbonate',
+      'mist',
+      'stir-fry',
+    ];
+
+    try {
+      const shaker = await db.transaction().execute(async (trx) => {
+        const allIngredients = [...ingredients, alcohol];
+
+        let totalQuantity = 0;
+        let totalkcal = 0;
+        let totalComplexity = 0;
+        let totalDuration = 0;
+        const quantity: number[] = [];
+        const kcal = [];
+        const complexity: number[] = [];
+        const duration: number[] = [];
+        const flavors = [];
+        const counts = {
+          fruity: 0,
+          spicy: 0,
+          herbaceous: 0,
+          floral: 0,
+          woody: 0,
+          bitter: 0,
+          sweet: 0,
+          salty: 0,
+          sour: 0,
+          neutral: 0,
+        };
+        let maxCount = 0;
+        let maxItems = [];
+
+        // eslint-disable-next-line unicorn/no-array-reduce
+        const data = allIngredients.reduce((ingredient: Ingredient) => {
+          const numberQuantity = Math.floor(Math.random() * 10 + 1);
+          const numberComplexity = Math.floor(Math.random() * 10 + 1);
+          const numberDuration = Math.floor(Math.random() * 10 + 1);
+          totalQuantity += numberQuantity;
+          totalComplexity += numberComplexity;
+          totalDuration += numberDuration;
+          totalkcal += ingredient.kcal;
+          quantity.push(numberQuantity);
+          complexity.push(numberComplexity);
+          duration.push(numberDuration);
+          kcal.push(ingredient.kcal);
+          flavors.push(ingredient.flavour);
+
+          counts[ingredient.flavour] = (counts[ingredient.flavour] || 0) + 1;
+          if (counts[ingredient.flavour] > maxCount) {
+            maxCount = counts[ingredient.flavour];
+            maxItems = [ingredient.flavour];
+          } else if (counts[ingredient.flavour] === maxCount) {
+            maxItems.push(ingredient.flavour);
+          }
+        });
+
+        const finalFlavour: Flavour =
+          data.maxItems[Math.floor(Math.random() * data.maxItems.length)];
+
+        const createdAt = new Date();
+
+        const cocktail = await trx
+          .insertInto('cocktail')
+          .values({
+            name: name,
+            glass_id: glass.id,
+            total_degree: 23,
+            total_kcal: totalkcal,
+            created_at: createdAt,
+            author: userId,
+            final_flavour: finalFlavour,
+            total_quantity: totalQuantity,
+          })
+          .executeTakeFirstOrThrow();
+
+        const cocktailId = cocktail.insertId;
+
+        if (cocktailId === undefined) {
+          return res.status(404).send('Cocktail not found');
+        }
+
+        let index = 0;
+        for (const ingredient of allIngredients) {
+          const randomVerb = verb[Math.floor(Math.random() * verb.length)];
+
+          const tools = await sql`
+            SELECT tool_id, COUNT(*) as frequency
+            FROM action
+            WHERE verb = ${randomVerb}
+            GROUP BY tool_id
+            ORDER BY frequency DESC
+            LIMIT 1
+          `.execute(trx);
+
+          const toolId =
+            tools.rows.length > 0
+              ? (tools.rows[0] as { tool_id: number }).tool_id
+              : Math.random() * 10;
+
+          const action = await trx
+            .insertInto('action')
+            .values({
+              verb: randomVerb,
+              priority: Math.floor(Math.random() * 10),
+              tool_id: toolId,
+              duration: duration[index],
+              complexity: complexity[index],
+              is_mandatory: [true, false][Math.floor(Math.random() * 2)],
+            })
+            .executeTakeFirstOrThrow();
+
+          const actionId = action.insertId;
+
+          if (actionId === undefined) {
+            return res.status(404).send('action not found');
+          }
+
+          await trx
+            .insertInto('action_ingredient')
+            .values({
+              ingredient_id: ingredient.id,
+              action_id: Number(actionId),
+              quantity: quantity[index],
+            })
+            .executeTakeFirstOrThrow();
+
+          await trx
+            .insertInto('recipe')
+            .values({
+              cocktail_id: Number(cocktailId),
+              action_id: Number(actionId),
+              total_complexity: totalComplexity,
+              total_duration: totalDuration,
+              step: 1,
+            })
+            .executeTakeFirstOrThrow();
+
+          index++;
+        }
+
+        await trx
+          .insertInto('cocktail_topping')
+          .values({
+            cocktail_id: Number(cocktailId),
+            topping_id: topping.id,
+            quantity: Math.floor(Math.random() * 10),
+          })
+          .executeTakeFirst();
+
+        return res.json({ ok: true, cocktailId: Number(cocktailId) });
+      });
+      res.status(200).json({ cocktailId: Number(shaker) });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  },
+);
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
@@ -30,11 +239,7 @@ cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
       .set(updateData)
       .where('id', '=', cocktailId)
       .execute();
-    if (req.file) {
-      res.json({ message: 'Upload successful!', fileName: req.file.filename });
-    } else {
-      res.status(400).send('No file uploaded.');
-    }
+    res.send('Fichier uploadé avec succès!');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -255,55 +460,6 @@ cocktailRouter.post('/:id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
-  }
-});
-
-cocktailRouter.get('/:id/suggestion', async (req, res) => {
-  try {
-    const id = Number.parseInt(req.params.id);
-    if (Number.isNaN(id)) {
-      return res.status(400).json({ error: 'Invalid cocktail ID' });
-    }
-
-    // requête pour obtenir les id des ingrédients du cocktail sélectionné
-    const ingredientSubquery = db
-      .selectFrom('action_ingredient')
-      .innerJoin('action', 'action_ingredient.action_id', 'action.id')
-      .innerJoin('recipe', 'action.id', 'recipe.action_id')
-      .where('recipe.cocktail_id', '=', id)
-      .select(['ingredient_id']);
-
-    const countCommonIngredients = sql<string>`COUNT(DISTINCT action_ingredient.ingredient_id)`;
-
-    // Requête principale pour obtenir les cocktails avec le plus d'ingrédients en commun
-    const cocktailsWithCommonIngredients = await db
-      .selectFrom('cocktail')
-      .select([
-        'cocktail.id',
-        'cocktail.name',
-        'cocktail.image',
-        'cocktail.ratings_average',
-        countCommonIngredients.as('common_ingredients_count'),
-      ])
-      .innerJoin('recipe', 'cocktail.id', 'recipe.cocktail_id')
-      .innerJoin('action', 'recipe.action_id', 'action.id')
-      .innerJoin(
-        'action_ingredient',
-        'action.id',
-        'action_ingredient.action_id',
-      )
-      .where('action_ingredient.ingredient_id', 'in', ingredientSubquery)
-      .where('cocktail.id', '!=', id)
-      .groupBy('cocktail.id')
-      .having(countCommonIngredients, '>', sql`0`)
-      .orderBy('common_ingredients_count', 'desc')
-      .limit(3)
-      .execute();
-
-    return res.json(cocktailsWithCommonIngredients);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
   }
 });
 

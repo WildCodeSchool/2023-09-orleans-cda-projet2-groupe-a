@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import type { CocktailForm } from '@app/types';
+import type { CocktailForm, Topping } from '@app/types';
 import type { Ingredient } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
@@ -12,10 +12,6 @@ import LevelPart from '@/components/form-cocktail/LevelPart';
 import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
-
-const onSubmit: SubmitHandler<CocktailForm> = (data) => {
-  return data;
-};
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -28,12 +24,15 @@ export default function AddCocktail() {
     null,
   );
 
-  const [selectedTopping, setSelectedTopping] = useState<string>('');
+  const [selectedTopping, setSelectedTopping] = useState<Topping | undefined>();
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
-  const handleToppingChange = (value: string) => {
+  const navigate = useNavigate();
+
+  const handleToppingChange = (value: Topping) => {
     setSelectedTopping(value);
+    setValue('topping', value);
     setShow(6);
   };
 
@@ -49,9 +48,7 @@ export default function AddCocktail() {
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/alcohols/${selectedLevel}`,
-      );
+      const response = await fetch(`/api/alcohols/${selectedLevel}`);
       const result = await response.json();
       setSelectedAlcohols(result);
       if (selectedLevel === level) {
@@ -72,6 +69,7 @@ export default function AddCocktail() {
   const handleClickAlcohol = (alcohol: Ingredient) => {
     setShow(3);
     setSelectedAlcohol(alcohol);
+    setValue('alcohol', alcohol);
   };
 
   const handleErrorSubmit = () => {
@@ -135,6 +133,36 @@ export default function AddCocktail() {
         type: 'validate',
         message: 'must be a number',
       });
+    }
+  };
+
+  const onSubmit = async (data: CocktailForm) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/cocktail/add`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseBody = await response.json();
+      if (responseBody.ok === true) {
+        const cocktailId = responseBody.cocktailId;
+        navigate(`/details/${cocktailId}`);
+      } else if (responseBody.message === 'not connected') {
+        navigate(`/login`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 

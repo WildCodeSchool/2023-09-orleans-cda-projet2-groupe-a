@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
-  register,
   selectedTopping,
   selectedAlcohol,
   handleToppingChange,
@@ -63,7 +62,7 @@ export default function ToppingPart({
 
       setMainFlavour(maxFlavour);
 
-      fetch(`${import.meta.env.VITE_API_URL}/topping/${maxFlavour}`)
+      fetch(`/api/topping/${maxFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
@@ -79,13 +78,11 @@ export default function ToppingPart({
 
   const handleRandomToppingChoice = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/topping/random/1`,
-      );
+      const response = await fetch(`/api/topping/random/1`);
       const result = await response.json();
       setRandomTopping(result[0]);
       setIsRandomToppingChoosen((prev) => !prev);
-      handleToppingChange(result.name);
+      handleToppingChange(result);
     } catch (error) {
       console.error(error);
     }
@@ -94,7 +91,7 @@ export default function ToppingPart({
 
   useEffect(() => {
     if (shouldShowRandomTopping) {
-      handleToppingChange(randomTopping.name);
+      handleToppingChange(randomTopping);
     }
   }, [shouldShowRandomTopping, randomTopping, handleToppingChange]);
 
@@ -130,20 +127,9 @@ export default function ToppingPart({
                 type='radio'
                 id={topping.name}
                 value={topping.name}
-                {...register('topping', {
-                  required: true,
-                  maxLength: {
-                    value: 255,
-                    message: "can't be longer than 255",
-                  },
-                  validate: {
-                    isString: (value) =>
-                      typeof value === 'string' || 'Must be a string',
-                  },
-                })}
-                checked={selectedTopping === topping.name}
+                checked={selectedTopping?.name === topping.name}
                 onChange={() => {
-                  handleToppingChange(topping.name);
+                  handleToppingChange(topping);
                 }}
               />
               <label className='hover:cursor-pointer' htmlFor={topping.name}>
