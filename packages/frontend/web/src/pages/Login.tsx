@@ -27,8 +27,7 @@ export default function Login() {
     // Param2: Object containing : method, credentials, headers, body.
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
-        credentials: 'include', // Optional but essential to find out cookie.
+      const res = await fetch(`/api/auth/login`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
