@@ -227,6 +227,17 @@ export default function Home() {
           ))}
         </div>
       </form>
+      <div className='z-[60]'>
+        <a href='/devteam'>
+          {
+            <img
+              src='/yummycorn.svg'
+              alt='YummyCorn Link towards Dev Team'
+              className={`absolute bottom-0 right-2 z-[50] w-[90px] ${window.innerWidth <= 530 ? 'mb-11 w-[60px]' : ''}`}
+            />
+          }
+        </a>
+      </div>
       <div className='z40 absolute top-0 bg-black bg-opacity-60 shadow-inner'>
         <LegalNotice />
       </div>
