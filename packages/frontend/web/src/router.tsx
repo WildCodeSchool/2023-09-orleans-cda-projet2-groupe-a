@@ -13,6 +13,7 @@ import NoKidsAllowed from './pages/NoKidsAllowed';
 import ProfilePage from './pages/ProfilePage';
 import PublicProfilePage from './pages/PublicProfilePage';
 import Register from './pages/Register';
+import Virgin from './pages/Virgin';
 
 const router = createBrowserRouter([
   {
@@ -50,10 +51,10 @@ const router = createBrowserRouter([
         path: 'shaker',
         element: <AddCocktail />,
       },
-      // {
-      // path: 'virgin', à prévoir
-      // element: <Virgin />, à prévoir
-      // },
+      {
+        path: 'virgin',
+        element: <Virgin />,
+      },
       {
         path: '/cocktail-details/:id',
         element: <CocktailsDetails />,
