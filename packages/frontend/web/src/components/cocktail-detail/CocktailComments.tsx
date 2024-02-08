@@ -46,10 +46,7 @@ export default function CocktailComments() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchComments(
-      `${import.meta.env.VITE_API_URL}/comment/${id}`,
-      signal,
-    ).catch((error) => {
+    fetchComments(`/api/comment/${id}`, signal).catch((error) => {
       console.error(error);
     });
 

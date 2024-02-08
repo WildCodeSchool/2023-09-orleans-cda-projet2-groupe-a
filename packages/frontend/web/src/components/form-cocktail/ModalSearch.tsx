@@ -33,9 +33,7 @@ export default function ModalSearch({
   const [data, setData] = useState<Pick<Ingredient, 'name' | 'id'>[]>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/search/${watch(
-    'searchIngredient',
-  )}`;
+  const url = `/api/ingredient/search/${watch('searchIngredient')}`;
 
   const searchIngredient = watch('searchIngredient');
 
