@@ -7,6 +7,7 @@ import { db } from '@app/backend-shared';
 import type { Ingredient, UpdateData } from '@app/types';
 import type { ActionTable, Flavour } from '@app/types';
 
+import blockNotLogin from './middlewares/block-not-login';
 import checkAuthState from './middlewares/check-auth-state';
 import multerConfig from './middlewares/multer-config';
 import validateCocktailAdd from './middlewares/validate-cocktail-add';
@@ -21,14 +22,11 @@ interface RequestWithUser extends Request {
 cocktailRouter.post(
   '/add',
   checkAuthState,
+  blockNotLogin,
   validateCocktailAdd,
   async (req: RequestWithUser, res: Response) => {
     const { name, glass, ingredients, alcohol, topping } = req.body;
     const userId = req.userId;
-
-    if (userId === undefined) {
-      return res.json({ ok: false, message: 'not connected' });
-    }
 
     const verb: ActionTable['verb'][] = [
       'muddle',

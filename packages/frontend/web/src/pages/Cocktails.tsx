@@ -85,10 +85,8 @@ export default function Cocktails() {
     }
 
     const response = await fetch(
-      `${
-        import.meta.env.VITE_API_URL
-      }/cocktail/alcohol?${queryParameters.toString()}`,
-      { signal, credentials: 'include' },
+      `/api/cocktail/alcohol?${queryParameters.toString()}`,
+      { signal },
     );
 
     if (response.ok) {

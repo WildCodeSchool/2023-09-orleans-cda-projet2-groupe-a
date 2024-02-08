@@ -3,6 +3,7 @@ import type { Request, Response } from 'express';
 
 import { db } from '@app/backend-shared';
 
+import blockNotLogin from './middlewares/block-not-login';
 import checkAuthState from './middlewares/check-auth-state';
 
 interface RequestWithUser extends Request {
@@ -15,12 +16,9 @@ const favoriteRouter = express.Router();
 favoriteRouter.get(
   '/',
   checkAuthState,
+  blockNotLogin,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
-
-    if (userId === undefined || !req.isloggedIn) {
-      return res.json({ status: { ok: false, message: 'not connected' } });
-    }
 
     try {
       const cocktail = await db
@@ -52,13 +50,10 @@ favoriteRouter.get(
 favoriteRouter.post(
   '/:cocktailId/toggle',
   checkAuthState,
+  blockNotLogin,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
     const { cocktailId } = req.params;
-
-    if (userId === undefined) {
-      return res.json({ result: 'not connected' });
-    }
 
     try {
       await db.transaction().execute(async (trx) => {

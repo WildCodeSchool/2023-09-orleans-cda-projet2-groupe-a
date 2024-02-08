@@ -71,10 +71,7 @@ export default function CocktailsDetails() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchCocktails(
-      `${import.meta.env.VITE_API_URL}/cocktail/${id}`,
-      signal,
-    ).catch((error) => {
+    fetchCocktails(`/api/cocktail/${id}`, signal).catch((error) => {
       console.error(error);
     });
 

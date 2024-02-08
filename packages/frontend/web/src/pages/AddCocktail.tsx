@@ -15,7 +15,7 @@ import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
-  const [actualIngredient, setActualIngredient] = useState(0);
+  const [actualIngredient, setActualIngredient] = useState<number>(0);
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -48,9 +48,7 @@ export default function AddCocktail() {
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/alcohols/${selectedLevel}`,
-      );
+      const response = await fetch(`/api/alcohols/${selectedLevel}`);
       const result = await response.json();
       setSelectedAlcohols(result);
       if (selectedLevel === level) {
@@ -291,6 +289,7 @@ export default function AddCocktail() {
           handleToppingChange={handleToppingChange}
           errors={errors}
           watch={watch}
+          selectedIngredients={[]}
         />
       ),
     },

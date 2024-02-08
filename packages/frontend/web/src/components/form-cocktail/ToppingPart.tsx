@@ -62,7 +62,7 @@ export default function ToppingPart({
 
       setMainFlavour(maxFlavour);
 
-      fetch(`${import.meta.env.VITE_API_URL}/topping/${maxFlavour}`)
+      fetch(`/api/topping/${maxFlavour}`)
         .then((response) => response.json())
         .then((data) => {
           setToppings(data);
@@ -78,9 +78,7 @@ export default function ToppingPart({
 
   const handleRandomToppingChoice = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/topping/random/1`,
-      );
+      const response = await fetch(`/api/topping/random/1`);
       const result = await response.json();
       setRandomTopping(result[0]);
       setIsRandomToppingChoosen((prev) => !prev);

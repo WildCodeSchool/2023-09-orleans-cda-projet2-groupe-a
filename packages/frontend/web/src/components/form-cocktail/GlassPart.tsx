@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import type { Glass, GlassPartProps } from '@app/types';
 
-const url = `${import.meta.env.VITE_API_URL}/glass`;
+const url = `/api/glass`;
 
 export default function GlassPart({ errors, setValue }: GlassPartProps) {
   const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
