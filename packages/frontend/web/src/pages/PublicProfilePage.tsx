@@ -9,7 +9,7 @@ import { PublicHeader } from '@/components/profile-page/PublicHeader';
 
 export default function PublicProfilePage() {
   const { id } = useParams();
-  const urlUser = `${import.meta.env.VITE_API_URL}/user/${id}`;
+  const urlUser = `/api/user/${id}`;
   const [user, setUser] = useState<Omit<UserProfile, 'email'>>();
   const [isLoading, setIsLoading] = useState(true);
 

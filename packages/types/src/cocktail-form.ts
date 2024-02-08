@@ -5,11 +5,11 @@ import type {
   UseFormWatch,
 } from 'react-hook-form';
 
-import type { Glass, Ingredient } from '.';
+import type { Glass, Ingredient, Topping } from '.';
 
 export type CocktailForm = {
   name?: string;
-  topping?: string;
+  topping?: Topping;
   ingredients?: Pick<Ingredient, 'id' | 'name' | 'flavour'>[];
   alcohol?: Ingredient;
   level?: number;
@@ -56,28 +56,33 @@ export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
-  setValue: (
+  setValue?: (
     name: keyof CocktailForm,
     value: string | { id: number; name: string },
   ) => void;
-  setShow: (show: number) => void;
-  setIsModalShown: (isModalShown: boolean) => void;
-  actualIngredient: number;
+  setShow?: (show: number) => void;
+  setIsModalShown?: (isModalShown: boolean) => void;
+  actualIngredient: number | undefined;
   setActualIngredient: (actualIngredient: number) => void;
+  selectedIngredients?: Ingredient[];
+  setSelectedIngredients?: (selectedIngredients: Ingredient[]) => void;
+  handleIngredientChange?: (ingredient: Ingredient) => void;
 }
 
 export interface GlassPartProps {
-  errors: FieldErrors<CocktailForm>;
   setValue: UseFormSetValue<CocktailForm>;
+  handleGlassPartNextStepClick?: (section: number) => void;
+  errors: FieldErrors<CocktailForm>;
 }
 
 export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
-  selectedTopping: string;
+  selectedTopping: Topping | undefined;
   selectedAlcohol: Ingredient | null;
-  handleToppingChange: (topping: string) => void;
+  handleToppingChange: (topping: Topping) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
+  selectedIngredients: Ingredient[];
 }
 
 export interface IngredientProps {
@@ -88,6 +93,6 @@ export interface IngredientProps {
   ) => void;
   setShow: (show: number) => void;
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  actualIngredient: number;
+  actualIngredient: number | undefined;
   setActualIngredient: (actualIngredient: number) => void;
 }
