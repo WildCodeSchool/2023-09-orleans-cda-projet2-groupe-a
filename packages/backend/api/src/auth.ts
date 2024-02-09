@@ -265,4 +265,17 @@ authRouter.post(
   },
 );
 
+authRouter.post('/logout', (req: Request, res: Response) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax',
+    expires: new Date(0),
+  });
+  return res.json({
+    ok: true,
+    isLoggedIn: false,
+  });
+});
+
 export { authRouter };

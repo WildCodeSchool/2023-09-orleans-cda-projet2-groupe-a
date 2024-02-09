@@ -65,7 +65,7 @@ export default function AddComment({
 
   const onSubmit = async (data: InputCocktailForm) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/comment/${id}`, {
+      await fetch(`/api/comment/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

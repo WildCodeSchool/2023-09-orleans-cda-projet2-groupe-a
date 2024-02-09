@@ -17,7 +17,13 @@ async function getToppingsByFlavour(mainFlavour: Flavour): Promise<Topping[]> {
     const result = await sql`
       SELECT * FROM topping WHERE flavour = ${mainFlavour} LIMIT 4;
     `.execute(trx);
-    return result.rows as Topping[];
+    const toppings = result.rows as Topping[];
+    if (toppings.length < 4) {
+      const neededRandomToppings = 4 - toppings.length;
+      const randomToppingsResult = await getRandomTopping(neededRandomToppings);
+      toppings.push(...randomToppingsResult);
+    }
+    return toppings;
   });
 }
 

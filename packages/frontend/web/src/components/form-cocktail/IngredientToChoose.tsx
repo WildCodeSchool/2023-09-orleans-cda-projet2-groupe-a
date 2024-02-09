@@ -15,31 +15,31 @@ export default function IngredientToChoose({
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
-    setActualIngredient(actualIngredient + 1);
-    if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
-      setShow(5);
+    if (typeof actualIngredient === 'number') {
+      setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
+      setActualIngredient(actualIngredient + 1);
+      if (actualIngredient === 2) {
+        // Notez que nous utilisons le nombre directement ici
+        setShow(5);
+      }
     }
   };
 
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/${
-    beforeIngredient?.id ?? 1
-  }`;
+  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}`;
 
   const { data, isLoading } =
     useFetch<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>(url);
 
   const randomIngredient = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/ingredient/random`,
-      );
+      const response = await fetch(`/api/ingredient/random`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, data);
-      setActualIngredient(actualIngredient + 1);
+      actualIngredient !== undefined &&
+        setActualIngredient(actualIngredient + 1);
       if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
         setShow(5);
       }

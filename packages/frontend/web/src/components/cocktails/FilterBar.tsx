@@ -79,7 +79,7 @@ export default function FilterBar({ filters, setFilters }: FilterBarProps) {
   ];
 
   const fetchFilterBar = async (signal: AbortSignal) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/filter`, {
+    const response = await fetch(`/api/filter`, {
       signal,
     });
     if (response.ok) {
