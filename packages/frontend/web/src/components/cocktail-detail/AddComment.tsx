@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
+import { useAuth } from '@/contexts/AuthContext';
+
 // Input de la page cocktail-detail
 export type InputCocktailForm = {
   anecdote?: string;
@@ -25,9 +27,9 @@ export default function AddComment({
   setIsReload,
 }: AddCommentProps) {
   const { id } = useParams();
+  const { user } = useAuth();
   const [hoveredStars, setHoveredStars] = useState(0);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
-
   const handleStarHover = (hoveredCount: number) => {
     setHoveredStars(hoveredCount);
   };
@@ -67,6 +69,12 @@ export default function AddComment({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+      });
+
+      await fetch(`${import.meta.env.VITE_API_URL}/rating/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: hoveredStars - 1, userId: user?.id }),
       });
       setIsOpen(false);
       setIsReload(!isReload);
