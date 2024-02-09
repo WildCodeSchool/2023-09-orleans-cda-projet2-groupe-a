@@ -28,12 +28,11 @@ export default function SimilarCocktail() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchSimilarCocktails(
-      `${import.meta.env.VITE_API_URL}/cocktail/${id}/suggestion`,
-      signal,
-    ).catch((error) => {
-      console.error(error);
-    });
+    fetchSimilarCocktails(`/api/cocktail/${id}/suggestion`, signal).catch(
+      (error) => {
+        console.error(error);
+      },
+    );
 
     return () => {
       controller.abort();

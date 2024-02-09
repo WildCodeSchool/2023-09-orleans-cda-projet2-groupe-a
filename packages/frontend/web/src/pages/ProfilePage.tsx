@@ -72,7 +72,6 @@ export default function ProfilePage() {
         {user.cocktails === null ? (
           <div className='bg-light border-dark relative top-[-40px] z-10 w-full border-y-[6px] pe-1 sm:top-[-60px] md:w-[50%] md:border-[6px]'>
             <p className='my-12 flex justify-center'>
-              {' '}
               {'"There is no cocktails for the moment"'}
             </p>
           </div>
