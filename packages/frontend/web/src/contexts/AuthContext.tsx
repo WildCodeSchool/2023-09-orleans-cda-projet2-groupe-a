@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import { useAge } from './AgeContext';
+
 type AuthProviderProps = {
   readonly children: React.ReactNode;
 };
@@ -15,6 +17,7 @@ const AuthProviderContext = createContext<AuthProviderState | undefined>(
 
 export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { setIsUnderAge } = useAge();
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -25,16 +28,17 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
         // parenthèses autour d'await res.json() puis 'as' pour bien typer.
         ok: boolean;
         isLoggedIn: boolean;
-        //isUnderAge
+        isUnderAge: boolean;
       };
 
       setIsLoggedIn(data.isLoggedIn);
+      setIsUnderAge(data.isUnderAge);
     })();
 
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [setIsUnderAge]);
 
   const value = useMemo(
     () => ({

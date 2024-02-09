@@ -9,8 +9,8 @@ type AnimationsProviderState = {
   setIsSubmitted: (value: boolean) => void;
   isImageShown: boolean;
   setIsImageShown: (value: boolean) => void;
-  isUnderAge: boolean;
-  setIsUnderAge: (value: boolean) => void;
+
+  // useAge pour aller chercher l'info isUnderAge et centraliser. RAPPEL : on peut utiliser un contexte dans un autre contexte
   isModalShown: boolean;
   setIsModalShown: (value: boolean) => void;
   isWow: boolean;

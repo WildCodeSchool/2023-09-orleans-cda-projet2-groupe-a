@@ -223,16 +223,12 @@ authRouter.post(
         if (isUnderAge) {
           console.log('coucou mineur', user.birthdate);
           res.json({ isUnderAge: true });
-          //--> stocker réponse "mineur" dans un contexte.
         } else {
           console.log('coucou majeur', user.birthdate);
           res.json({ isUnderAge: false });
-          // --> envoyer réponse "majeur" dans un contexte.
         }
       } else {
-        console.log(
-          'Tu dois renseigner ta date de naissance dans CheckBirthdate',
-        );
+        console.log('You are not logged in');
       }
 
       if (!isCorrectPassword) {

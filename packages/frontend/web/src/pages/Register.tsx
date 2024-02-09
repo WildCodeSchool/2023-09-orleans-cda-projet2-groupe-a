@@ -31,7 +31,7 @@ export default function Register() {
     document.body.classList.remove('overflow-hidden');
 
     try {
-      const res = await fetch(`/api/auth/register`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // Header contains the type of content of the HTTP request. Aka JSON.
