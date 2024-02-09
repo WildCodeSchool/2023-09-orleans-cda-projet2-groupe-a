@@ -15,10 +15,13 @@ export default function IngredientToChoose({
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
-    setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
-    setActualIngredient(actualIngredient + 1);
-    if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
-      setShow(5);
+    if (typeof actualIngredient === 'number') {
+      setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
+      setActualIngredient(actualIngredient + 1);
+      if (actualIngredient === 2) {
+        // Notez que nous utilisons le nombre directement ici
+        setShow(5);
+      }
     }
   };
 
@@ -35,7 +38,8 @@ export default function IngredientToChoose({
       }
       const data = await response.json();
       setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, data);
-      setActualIngredient(actualIngredient + 1);
+      actualIngredient !== undefined &&
+        setActualIngredient(actualIngredient + 1);
       if (`ingredients[${actualIngredient}]` === 'ingredients[2]') {
         setShow(5);
       }
