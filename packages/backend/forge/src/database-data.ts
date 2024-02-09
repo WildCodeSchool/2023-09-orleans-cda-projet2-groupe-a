@@ -260,7 +260,7 @@ await db.transaction().execute(async (trx) => {
     ('Mint Sprig', 'herbaceous'),
     ('Cinnamon Stick', 'spicy'),
     ('Nutmeg Dust', 'spicy'),
-    ('Almond Slices', 'nutty'),
+    ('Almond Slices', 'other'),
     ('Anise Crunch', 'spicy'),
     ('Apple Chunks', 'fruity'),
     ('Avocado Swirl', 'neutral'),
@@ -273,7 +273,7 @@ await db.transaction().execute(async (trx) => {
     ('Kiwi Slices', 'fruity'),
     ('Mango Delight', 'fruity'),
     ('Peachy Perfection', 'fruity'),
-    ('Pistachio Sprinkle', 'nutty'),
+    ('Pistachio Sprinkle', 'other'),
     ('Strawberry Bliss', 'fruity'),
     ('Ginger Slice', 'spicy');
   `.execute(trx);
