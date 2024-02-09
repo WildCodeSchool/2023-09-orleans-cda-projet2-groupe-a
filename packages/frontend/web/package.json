@@ -16,7 +16,8 @@
     "react-router-dom": "^6.19.0",
     "framer-motion": "^10.16.5",
     "lucide-react": "^0.292.0",
-    "react-hook-form": "^7.48.2"
+    "react-hook-form": "^7.48.2",
+    "@lottiefiles/react-lottie-player": "^3.5.3"
   },
   "devDependencies": {
     "@app/types": "workspace:*",
