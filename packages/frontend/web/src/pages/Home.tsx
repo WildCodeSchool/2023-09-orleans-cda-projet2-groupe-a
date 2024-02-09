@@ -238,7 +238,7 @@ export default function Home() {
           }
         </a>
       </div>
-      <div className='z40 absolute top-0 bg-black bg-opacity-60 shadow-inner'>
+      <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-inner'>
         <LegalNotice />
       </div>
     </div>
