@@ -33,7 +33,7 @@ export default function CheckBirthdate() {
   // so that browser memorize it and user doesn't have to enter it again.
   useEffect(() => {
     if (birthdate !== undefined && birthdate !== '') {
-      localStorage.setItem('birthdate', birthdate);
+      sessionStorage.setItem('birthdate', birthdate);
     }
   }, [birthdate]);
 

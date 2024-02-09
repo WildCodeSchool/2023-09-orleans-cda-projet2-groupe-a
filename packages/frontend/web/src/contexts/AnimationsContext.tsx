@@ -1,5 +1,7 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
+import { useAge } from './AgeContext';
+
 interface AnimationsProviderProps {
   readonly children: React.ReactNode;
 }
@@ -9,7 +11,8 @@ type AnimationsProviderState = {
   setIsSubmitted: (value: boolean) => void;
   isImageShown: boolean;
   setIsImageShown: (value: boolean) => void;
-
+  isUnderAge: boolean | null;
+  setIsUnderAge: (value: boolean) => void;
   // useAge pour aller chercher l'info isUnderAge et centraliser. RAPPEL : on peut utiliser un contexte dans un autre contexte
   isModalShown: boolean;
   setIsModalShown: (value: boolean) => void;
@@ -32,9 +35,9 @@ export function useAnimations() {
 export function AnimationsProvider({ children }: AnimationsProviderProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isImageShown, setIsImageShown] = useState(false);
-  const [isUnderAge, setIsUnderAge] = useState(false);
   const [isModalShown, setIsModalShown] = useState(false);
   const [isWow, setIsWow] = useState(false);
+  const { isUnderAge, setIsUnderAge } = useAge();
 
   const value = useMemo(
     () => ({
@@ -49,7 +52,7 @@ export function AnimationsProvider({ children }: AnimationsProviderProps) {
       isWow,
       setIsWow,
     }),
-    [isSubmitted, isImageShown, isUnderAge, isModalShown, isWow],
+    [isSubmitted, isImageShown, isUnderAge, isModalShown, setIsUnderAge, isWow],
   );
 
   return (

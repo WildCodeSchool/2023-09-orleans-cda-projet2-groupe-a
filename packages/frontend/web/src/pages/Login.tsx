@@ -47,9 +47,7 @@ export default function Login() {
       if (data.isLoggedIn && !data.isUnderAge) {
         setIsLoggedIn(true);
         navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      }
-      // (data.isUnderAge)
-      else {
+      } else {
         setIsLoggedIn(true);
         setIsUnderAge(true);
         navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.

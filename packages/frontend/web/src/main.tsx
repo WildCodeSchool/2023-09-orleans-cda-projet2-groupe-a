@@ -14,15 +14,15 @@ const rootElement = document.querySelector('#root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <AnimationsProvider>
-        <BirthProvider>
-          <AgeProvider>
-            <AuthProvider>
+      <AgeProvider>
+        <AuthProvider>
+          <AnimationsProvider>
+            <BirthProvider>
               <RouterProvider router={router} />
-            </AuthProvider>
-          </AgeProvider>
-        </BirthProvider>
-      </AnimationsProvider>
+            </BirthProvider>
+          </AnimationsProvider>
+        </AuthProvider>
+      </AgeProvider>
     </React.StrictMode>,
   );
 }
