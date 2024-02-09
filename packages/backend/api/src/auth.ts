@@ -63,9 +63,6 @@ authRouter.get('/check', async (req, res) => {
         isLoggedIn: false,
       });
     }
-
-    // On peut ici console.log({ check }) qui contient le payload qu'on peut détailler/vérifier.
-    // attention, c'est du backend, on a l'info dans la console de vscode.
     const id = Number.parseInt(check.payload.sub);
 
     if (id === null || id === undefined) {
@@ -74,10 +71,9 @@ authRouter.get('/check', async (req, res) => {
 
     const user = await db
       .selectFrom('user')
-      .select(['user.birthdate'])
+      .select(['user.birthdate', 'user.id'])
       .where('user.id', '=', id)
       .executeTakeFirst();
-
     // Pour le cas où user est undefined, on envoie une erreur.
     if (!user) {
       throw new Error('User not found');
@@ -89,6 +85,10 @@ authRouter.get('/check', async (req, res) => {
 
     return res.json({
       ok: true,
+      user: {
+        birthdate: user.birthdate,
+        id: user.id,
+      },
       isLoggedIn: true,
       isUnderAge: calculateAge(user.birthdate).isUnderAge, // (variable qui contient un booléen lié au résultat du calcul de user.birthdate - minus18)
     });
