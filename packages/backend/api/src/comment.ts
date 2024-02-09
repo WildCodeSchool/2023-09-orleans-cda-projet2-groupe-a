@@ -44,15 +44,14 @@ commentRouter.get('/:id', async (req, res) => {
 commentRouter.post('/:id', async (req, res) => {
   const { content } = req.body;
   const createdAt = new Date();
-  // const { cocktailId, userId } = req.body;
   const cocktailId = req.params.id;
-  const userId = 1;
+  const userId = req.params.id;
 
   try {
     await db
       .insertInto('comment')
       .values({
-        user_id: userId,
+        user_id: Number.parseInt(userId),
         cocktail_id: Number.parseInt(cocktailId),
         content: content,
         created_at: createdAt,

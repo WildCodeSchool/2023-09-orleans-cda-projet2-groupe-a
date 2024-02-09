@@ -22,10 +22,13 @@ export default function CommentsSection({
   };
 
   useEffect(() => {
-    if (isOpen) {
-      commentsReference.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isOpen && commentsReference.current) {
+      commentsReference.current.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   }, [isOpen]);
+
   return (
     <div ref={commentsReference}>
       <h1 className='font-stroke-small-text text-light ml-7 text-xl font-extrabold uppercase lg:text-2xl'>
