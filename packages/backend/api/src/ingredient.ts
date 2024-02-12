@@ -30,7 +30,13 @@ ingredient.get('/syrup', async (req, res) => {
 ingredient.get('/random', async (req, res) => {
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
+    .select([
+      'ingredient.id',
+      'ingredient.name',
+      'ingredient.flavour',
+      'ingredient.degree',
+      'ingredient.kcal',
+    ])
     .orderBy(sql`RAND()`)
     .limit(1)
     .executeTakeFirst();
@@ -44,7 +50,14 @@ ingredient.get('/:ingredientId', async (req, res) => {
   // It get the 6 most popular ingredients base on one ingredient
   const ingredientsByIngredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
+    .select([
+      'ingredient.id',
+      'ingredient.name',
+      'ingredient.flavour',
+      'ingredient.flavour',
+      'ingredient.degree',
+      'ingredient.kcal',
+    ])
     .innerJoin(
       'action_ingredient',
       'ingredient.id',
@@ -79,7 +92,14 @@ ingredient.get('/:ingredientId', async (req, res) => {
   // It complete my function with random ingredients, in cas there is not enough
   const ingredient = await db
     .selectFrom('ingredient')
-    .select(['ingredient.id', 'ingredient.name', 'ingredient.flavour'])
+    .select([
+      'ingredient.id',
+      'ingredient.name',
+      'ingredient.flavour',
+      'ingredient.flavour',
+      'ingredient.degree',
+      'ingredient.kcal',
+    ])
     .where('ingredient.id', '!=', Number.parseInt(ingredientId))
     .orderBy(sql`rand()`)
     .limit(6 - ingredientsByIngredient.length)

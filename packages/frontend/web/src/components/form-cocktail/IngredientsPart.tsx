@@ -48,7 +48,9 @@ export default function IngredientsPart({
         <button
           type='button'
           onClick={() => {
-            setIsModalShown(true);
+            if (setIsModalShown) {
+              setIsModalShown(true);
+            }
           }}
         >
           <Search size={30} />
@@ -76,8 +78,8 @@ export default function IngredientsPart({
             >
               <IngredientToChoose
                 watch={watch}
-                setValue={setValue}
-                setShow={setShow}
+                setValue={setValue || (() => {})}
+                setShow={setShow || (() => {})}
                 beforeIngredient={ingredient.beforeIngredient}
                 actualIngredient={actualIngredient}
                 setActualIngredient={setActualIngredient}
