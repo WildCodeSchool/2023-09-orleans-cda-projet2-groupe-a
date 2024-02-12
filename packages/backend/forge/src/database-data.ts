@@ -206,7 +206,7 @@ await db.transaction().execute(async (trx) => {
     ('Cherry Syrup', 'Red', 160, 0, 'Sweet and tart cherry infusion', 'cherrysyrup.jpg', 'fruity', 'syrup'),
     ('Pineapple Syrup', 'Yellow', 150, 0, 'Tropical and sweet pineapple essence', 'pineapplesyrup.jpg', 'fruity', 'syrup'),
     ('Gingerbread Syrup', 'Brown', 190, 0, 'Warm and spicy gingerbread flavor', 'gingerbreadsyrup.jpg', 'spicy', 'syrup'),
-    ('Maple Syrup', 'Brown', 220, 0, 'Rich and sweet maple essence', 'maplesyrup.jpg', 'sweet', 'syrup');
+    ('Maple Syrup', 'Brown', 220, 0, 'Rich and sweet maple essence', 'maplesyrup.jpg', 'sweet', 'syrup'),
     ('Ice', 'Clear', 0, 0, 'Frozen water', 'ice.jpg', 'neutral', 'other');
   `.execute(trx);
 

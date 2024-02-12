@@ -60,13 +60,13 @@ export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
-  setValue?: (
+  setValue: (
     name: keyof CocktailForm,
     value: string | { id: number; name: string },
   ) => void;
-  setShow?: (show: number) => void;
-  setIsModalShown?: (isModalShown: boolean) => void;
-  actualIngredient: number | undefined;
+  setShow: (show: number) => void;
+  setIsModalShown: (isModalShown: boolean) => void;
+  actualIngredient: number;
   setActualIngredient: (actualIngredient: number) => void;
   selectedIngredients?: Ingredient[];
   setSelectedIngredients?: (selectedIngredients: Ingredient[]) => void;
@@ -97,8 +97,10 @@ export interface IngredientProps {
   ) => void;
   setShow: (show: number) => void;
   beforeIngredient: Pick<Ingredient, 'name' | 'id'> | undefined;
-  actualIngredient: number | undefined;
+  actualIngredient: number;
   setActualIngredient: (actualIngredient: number) => void;
+  isFinished: boolean;
+  setIsFinished: (isFinished: boolean) => void;
 }
 
 export interface SoftDrinksProps {

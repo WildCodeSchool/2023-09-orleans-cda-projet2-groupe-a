@@ -4,7 +4,7 @@ import type { Ingredient, SyrupProps } from '@app/types';
 
 import useFetch from '@/hooks/use-fetch';
 
-const url = `${import.meta.env.VITE_API_URL}/ingredient/syrup`;
+const url = `/api/ingredient/syrup`;
 
 export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);

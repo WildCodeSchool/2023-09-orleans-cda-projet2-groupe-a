@@ -16,7 +16,7 @@ export default function SoftDrinks({
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
   };
-  const url = `${import.meta.env.VITE_API_URL}/ingredient/softdrinks`;
+  const url = `/api/ingredient/softdrinks`;
 
   const { data } = useFetch<Ingredient[]>(url);
 

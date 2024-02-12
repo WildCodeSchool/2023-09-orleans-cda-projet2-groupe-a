@@ -38,7 +38,7 @@ export default function AddCocktail() {
 
   const [withAlcohol, setWithAlcohol] = useState(true);
   const [isModalShown, setIsModalShown] = useState(false);
-  const [actualIngredient, setActualIngredient] = useState<number>(0);
+  const [actualIngredient, setActualIngredient] = useState(0);
 
   const [level, setLevel] = useState<number>(0);
   const [show, setShow] = useState<number>(1);
@@ -59,11 +59,12 @@ export default function AddCocktail() {
     setValue('topping', value);
     setShow(6);
   };
-
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(`/api/alcohols/${selectedLevel}`);
+
       const result = await response.json();
+
       setSelectedAlcohols(result);
       if (selectedLevel !== level) {
         setLevel(selectedLevel);
@@ -142,16 +143,8 @@ export default function AddCocktail() {
 
     if (ingredientsValue === undefined) {
       setError('ingredients', { type: 'required', message: 'required' });
-    } else if (
-      ingredientsValue.length === 3 &&
-      ingredientsValue.every((ingredient) => typeof ingredient.id === 'number')
-    ) {
-      clearErrors('ingredients');
     } else {
-      setError('ingredients', {
-        type: 'validate',
-        message: 'please choose 3 ingredients',
-      });
+      clearErrors('ingredients');
     }
 
     const glassValue = watch('glass');
@@ -170,17 +163,14 @@ export default function AddCocktail() {
 
   const onSubmit = async (data: CocktailForm) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/add`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
+      const response = await fetch(`/api/cocktail/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -478,8 +468,6 @@ export default function AddCocktail() {
           <ModalSearch
             setIsModalShown={setIsModalShown}
             setValue={setValue}
-            watchIngredient={watch}
-            setShow={setShow}
             actualIngredient={actualIngredient}
             setActualIngredient={setActualIngredient}
           />

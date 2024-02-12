@@ -1,14 +1,10 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import IngredientToChoose from './IngredientToChoose';
-
-interface IngredientArray {
-  beforeIngredient: Pick<Ingredient, 'id' | 'name'> | undefined;
-  condition: boolean;
-}
 
 export default function IngredientsPart({
   errors,
@@ -19,25 +15,19 @@ export default function IngredientsPart({
   actualIngredient,
   setActualIngredient,
 }: IngredientsPartProps) {
-  const ingredientArray = watch('ingredients');
+  const [isFinished, setIsFinished] = useState(false);
+  const alcohol = watch('alcohol');
+  const [beforeIngredient, setBeforeIngredient] = useState<
+    Ingredient | undefined
+  >(alcohol);
 
-  const ingredients: IngredientArray[] = [
-    {
-      beforeIngredient:
-        watch('alcohol') === undefined ? watch('softDrink') : watch('alcohol'),
-      condition: ingredientArray === undefined,
-    },
-    {
-      beforeIngredient: ingredientArray?.[0],
-      condition:
-        ingredientArray?.[0] !== undefined && ingredientArray[1] === undefined,
-    },
-    {
-      beforeIngredient: ingredientArray?.[1],
-      condition:
-        ingredientArray?.[0] !== undefined && ingredientArray[1] !== undefined,
-    },
-  ];
+  const ingredients = watch('ingredients');
+
+  useEffect(() => {
+    if (ingredients !== undefined) {
+      setBeforeIngredient(ingredients[actualIngredient - 1]);
+    }
+  }, [actualIngredient]);
 
   return (
     <>
@@ -46,11 +36,10 @@ export default function IngredientsPart({
           {'Choose your fuse'}
         </h1>
         <button
+          className={`${isFinished ? 'hidden' : 'block'}`}
           type='button'
           onClick={() => {
-            if (setIsModalShown) {
-              setIsModalShown(true);
-            }
+            setIsModalShown(true);
           }}
         >
           <Search size={30} />
@@ -67,27 +56,23 @@ export default function IngredientsPart({
           {errors.ingredients.message}
         </span>
       ) : undefined}
-      {ingredients.map((ingredient) => {
-        if (ingredient.condition) {
-          return (
-            <motion.div
-              key={`ingredients[${actualIngredient}]`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <IngredientToChoose
-                watch={watch}
-                setValue={setValue || (() => {})}
-                setShow={setShow || (() => {})}
-                beforeIngredient={ingredient.beforeIngredient}
-                actualIngredient={actualIngredient}
-                setActualIngredient={setActualIngredient}
-              />
-            </motion.div>
-          );
-        }
-      })}
+      {/* {ingredients.map((ingredient) => { */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <IngredientToChoose
+          watch={watch}
+          setValue={setValue}
+          setShow={setShow}
+          beforeIngredient={beforeIngredient}
+          actualIngredient={actualIngredient}
+          setActualIngredient={setActualIngredient}
+          isFinished={isFinished}
+          setIsFinished={setIsFinished}
+        />
+      </motion.div>
     </>
   );
 }

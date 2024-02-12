@@ -36,6 +36,7 @@ const loginIdUser = async function (
     if (error instanceof jose.errors.JWTExpired) {
       return res.json({ ok: false, message: 'not connected' });
     }
+
     return res.json({ ok: false, message: 'not connected' });
   }
 

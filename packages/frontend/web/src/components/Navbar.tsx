@@ -67,13 +67,10 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/logout`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        },
-      );
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
       if (response.ok) {
         setIsLoggedIn(false);
         navigate('/');
