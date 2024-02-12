@@ -16,16 +16,13 @@ export default function IngredientsPart({
   setActualIngredient,
 }: IngredientsPartProps) {
   const [isFinished, setIsFinished] = useState(false);
-  const alcohol = watch('alcohol');
-  const [beforeIngredient, setBeforeIngredient] = useState<
-    Ingredient | undefined
-  >(alcohol);
+  const [beforeIngredient, setBeforeIngredient] = useState(watch('alcohol'));
 
-  const ingredients: Ingredient[] | undefined = watch('ingredients');
+  const ingredients = watch('ingredients');
 
   useEffect(() => {
     if (ingredients !== undefined) {
-      setBeforeIngredient(ingredients[actualIngredient - 1]);
+      setBeforeIngredient(ingredients[actualIngredient - 1] as Ingredient);
     }
   }, [actualIngredient]);
 
