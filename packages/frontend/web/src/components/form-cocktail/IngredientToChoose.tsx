@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
 
-import useFetch from '@/hooks/use-fetch';
-
 export default function IngredientToChoose({
   watch,
   setValue,
@@ -16,7 +14,6 @@ export default function IngredientToChoose({
   const [ingredientsList, setIngredientsList] =
     useState<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
 
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
@@ -57,9 +54,9 @@ export default function IngredientToChoose({
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchData(url, controller).catch((error) => {
-      setError(error);
+    fetchData(url, controller).catch(() => {
       setIsLoading(false);
+      console.error('the fetch doesnt work');
     });
     return () => {
       controller.abort();
