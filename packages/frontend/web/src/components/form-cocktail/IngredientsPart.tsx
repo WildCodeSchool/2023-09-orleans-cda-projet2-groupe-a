@@ -21,7 +21,7 @@ export default function IngredientsPart({
     Ingredient | undefined
   >(alcohol);
 
-  const ingredients = watch('ingredients');
+  const ingredients: Ingredient[] | undefined = watch('ingredients');
 
   useEffect(() => {
     if (ingredients !== undefined) {
@@ -56,7 +56,6 @@ export default function IngredientsPart({
           {errors.ingredients.message}
         </span>
       ) : undefined}
-      {/* {ingredients.map((ingredient) => { */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

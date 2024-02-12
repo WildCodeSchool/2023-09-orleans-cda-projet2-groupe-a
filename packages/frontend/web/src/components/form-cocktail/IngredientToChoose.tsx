@@ -44,10 +44,6 @@ export default function IngredientToChoose({
     setShow(5);
   };
 
-  const goToNextIngredient = () => {
-    setActualIngredient(actualIngredient + 1);
-  };
-
   const ingredients = watch('ingredients');
 
   return isFinished && ingredients !== undefined ? (
