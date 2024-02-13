@@ -5,13 +5,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 
-import { useAuth } from '@/contexts/AuthContext';
-
 // Input de la page cocktail-detail
 export type InputCocktailForm = {
   anecdote?: string;
   file?: string;
   content?: string;
+  score?: number;
 };
 
 interface AddCommentProps {
@@ -27,9 +26,9 @@ export default function AddComment({
   setIsReload,
 }: AddCommentProps) {
   const { id } = useParams();
-  const { user } = useAuth();
   const [hoveredStars, setHoveredStars] = useState(0);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
+  const [score, setScore] = useState(0);
   const handleStarHover = (hoveredCount: number) => {
     setHoveredStars(hoveredCount);
   };
@@ -45,7 +44,7 @@ export default function AddComment({
         ? (clickStates[index] = true)
         : (clickStates[index] = false);
     }
-
+    setScore(indexStar);
     setClicked(clickStates);
   };
 
@@ -64,17 +63,12 @@ export default function AddComment({
   });
 
   const onSubmit = async (data: InputCocktailForm) => {
+    data = { ...data, score: score };
     try {
       await fetch(`/api/comment/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, userId: user?.id }),
-      });
-
-      await fetch(`api/rating/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ score: hoveredStars - 1, userId: user?.id }),
+        body: JSON.stringify(data),
       });
       setIsOpen(false);
       setIsReload(!isReload);

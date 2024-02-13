@@ -8,31 +8,22 @@ import { useDisclosure } from '@app/frontend-shared';
 import Comment from './Comment';
 import StarRating from './StarRating';
 
-interface CommentsByUserIdCocktailId {
-  id: number;
-  score: number | null;
-  content: string;
-  user_id: number;
-  user_name: string;
-  created_at: Date;
-  user_image: string | null;
-}
-
-interface CocktailComments {
-  content: string;
+interface CommentsRatings {
   comment_id: number;
-  user_id: number;
   cocktail_id: number;
-  comment_user: string;
-  numberComment: number;
-  score: number;
+  comment: string;
+  rating: number;
   rating_id: number;
-  commentsByUserIdCocktailId: CommentsByUserIdCocktailId[];
+  user_id: number;
+  pseudo: string;
+}
+interface CommentInfo {
+  comments_ratings: CommentsRatings[];
 }
 
 export default function CocktailComments() {
-  const [comments, setComments] = useState<CocktailComments>();
-  const [ratings, setRatings] = useState<CocktailComments[]>();
+  const [comments, setComments] = useState<CommentInfo>();
+  const [ratings, setRatings] = useState();
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -46,7 +37,7 @@ export default function CocktailComments() {
     });
     if (response.ok) {
       const data = await response.json();
-      setComments(data.comments);
+      setComments(data);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -101,15 +92,11 @@ export default function CocktailComments() {
             transition={{ duration: 1 }}
             className='border-dark bg-pastel-green m-auto mb-20 flex max-w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:max-w-[100%] '
           >
-            {comments?.commentsByUserIdCocktailId.length === 0 ? (
-              'No rating yet'
-            ) : (
-              <Comment
-                comments={comments?.commentsByUserIdCocktailId}
-                setIsReload={setIsReload}
-                isReload={isReload}
-              />
-            )}
+            <Comment
+              comments={comments?.comments_ratings}
+              setIsReload={setIsReload}
+              isReload={isReload}
+            />
           </motion.div>
         ) : undefined}
       </AnimatePresence>

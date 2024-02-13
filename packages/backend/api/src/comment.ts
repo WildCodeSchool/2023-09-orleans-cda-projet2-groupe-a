@@ -1,4 +1,5 @@
 import express from 'express';
+import { sql } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
@@ -18,40 +19,23 @@ commentRouter.get('/', async (req, res) => {
   }
 });
 
+async function getAllComments(id: number) {
+  return db.transaction().execute(async (trx) => {
+    const result =
+      await sql`SELECT JSON_ARRAYAGG(JSON_OBJECT('user_id', comment.user_id, 'pseudo', user.pseudo, 'cocktail_id', comment.cocktail_id, 'comment_id', comment.id, 'comment', comment.content, 'rating_id', rating.id, 'rating', rating.score)) as comments_ratings FROM comment JOIN rating ON comment.id = rating.id AND comment.cocktail_id = rating.cocktail_id JOIN user ON comment.user_id = user.id WHERE comment.cocktail_id = ${id};`.execute(
+        trx,
+      );
+
+    return result.rows;
+  });
+}
+
 // Route get pour récupérer les commentaires d'un cocktail par id
 commentRouter.get('/:id', async (req, res) => {
   const cocktailId = req.params.id;
   try {
-    const comments = await db
-      .selectFrom('cocktail')
-      .selectAll()
-      .select((eb) => [
-        'id',
-        jsonArrayFrom(
-          eb
-            .selectFrom('comment')
-            .innerJoin('user', 'user.id', 'comment.user_id')
-            .leftJoin('rating', (join) =>
-              join
-                .onRef('rating.user_id', '=', 'user.id')
-                .onRef('rating.cocktail_id', '=', 'comment.cocktail_id'),
-            )
-            .select([
-              'comment.id',
-              'comment.content',
-              'comment.created_at',
-              'user.id as user_id',
-              'user.pseudo as user_name',
-              'user.image as user_image',
-              'rating.score',
-            ])
-            .whereRef('comment.cocktail_id', '=', 'cocktail.id'),
-        ).as('commentsByUserIdCocktailId'),
-      ])
-      .where('cocktail.id', '=', Number.parseInt(cocktailId))
-      .executeTakeFirst();
-
-    res.json({ comments });
+    const comments = await getAllComments(Number.parseInt(cocktailId));
+    return res.json(comments[0]);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -66,28 +50,37 @@ declare module 'express-serve-static-core' {
 
 // Ajouter un commentaire en base de donnée
 commentRouter.post('/:id', loginIdUser, async (req, res) => {
-  const { content } = req.body;
+  const { content, score } = req.body;
   const createdAt = new Date();
   const cocktailId = req.params.id;
   const userId = req.userId;
 
-  if (!content) {
-    return res.status(400).send('Content is required.');
-  }
-  if (!userId) {
-    return res.status(401).send('You must be logged in to post a comment!');
+  if (userId === undefined) {
+    return res.json({ ok: false, message: 'not connected' });
   }
 
   try {
-    await db
-      .insertInto('comment')
-      .values({
-        user_id: userId,
-        cocktail_id: Number.parseInt(cocktailId),
-        content: content,
-        created_at: createdAt,
-      })
-      .execute();
+    await db.transaction().execute(async (trx) => {
+      await trx
+        .insertInto('comment')
+        .values({
+          user_id: userId,
+          cocktail_id: Number.parseInt(cocktailId),
+          content: content,
+          created_at: createdAt,
+        })
+        .executeTakeFirstOrThrow();
+
+      await trx
+        .insertInto('rating')
+        .values({
+          user_id: userId,
+          cocktail_id: Number.parseInt(cocktailId),
+          score: score,
+          created_at: createdAt,
+        })
+        .executeTakeFirstOrThrow();
+    });
 
     res.json({ ok: true });
   } catch (error) {
