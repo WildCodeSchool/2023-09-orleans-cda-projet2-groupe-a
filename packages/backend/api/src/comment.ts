@@ -1,6 +1,9 @@
 import express from 'express';
+import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
+
+import loginIdUser from './middlewares/login-id-user';
 
 const commentRouter = express.Router();
 
@@ -15,97 +18,81 @@ commentRouter.get('/', async (req, res) => {
   }
 });
 
-// Route get pour récupérer les cocktails par id présents en BDD
+// Route get pour récupérer les commentaires d'un cocktail par id
 commentRouter.get('/:id', async (req, res) => {
-  const id = req.params.id;
-
+  const cocktailId = req.params.id;
   try {
-    const commentsByUserIdCocktailId = await db
-      .selectFrom('comment')
+    const comments = await db
+      .selectFrom('cocktail')
       .selectAll()
-      .where('cocktail_id', '=', Number.parseInt(id))
-      .orderBy('created_at', 'desc')
-      .execute();
+      .select((eb) => [
+        'id',
+        jsonArrayFrom(
+          eb
+            .selectFrom('comment')
+            .innerJoin('user', 'user.id', 'comment.user_id')
+            .leftJoin('rating', (join) =>
+              join
+                .onRef('rating.user_id', '=', 'user.id')
+                .onRef('rating.cocktail_id', '=', 'comment.cocktail_id'),
+            )
+            .select([
+              'comment.id',
+              'comment.content',
+              'comment.created_at',
+              'user.id as user_id',
+              'user.pseudo as user_name',
+              'user.image as user_image',
+              'rating.score',
+            ])
+            .whereRef('comment.cocktail_id', '=', 'cocktail.id'),
+        ).as('commentsByUserIdCocktailId'),
+      ])
+      .where('cocktail.id', '=', Number.parseInt(cocktailId))
+      .executeTakeFirst();
 
-    const ratings = await db
-      .selectFrom('rating')
-      .selectAll()
-      .where('cocktail_id', '=', Number.parseInt(id))
-      .execute();
-
-    res.json({ commentsByUserIdCocktailId, ratings });
+    res.json({ comments });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
 
+declare module 'express-serve-static-core' {
+  interface Request {
+    userId?: number;
+  }
+}
+
 // Ajouter un commentaire en base de donnée
-// commentRouter.post('/:id', async (req, res) => {
-//   const { content } = req.body;
-//   const createdAt = new Date();
-//   const cocktailId = req.params.id;
-//   const userId = req.params.id;
+commentRouter.post('/:id', loginIdUser, async (req, res) => {
+  const { content } = req.body;
+  const createdAt = new Date();
+  const cocktailId = req.params.id;
+  const userId = req.userId;
 
-//   try {
-//     await db
-//       .insertInto('comment')
-//       .values({
-//         user_id: Number.parseInt(userId),
-//         cocktail_id: Number.parseInt(cocktailId),
-//         content: content,
-//         created_at: createdAt,
-//       })
-//       .execute();
+  if (!content) {
+    return res.status(400).send('Content is required.');
+  }
+  if (!userId) {
+    return res.status(401).send('You must be logged in to post a comment!');
+  }
 
-//     res.json({ ok: true });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
-
-commentRouter.post('/:id', async (req, res) => {
   try {
-    // Récupérer l'ID de l'utilisateur à partir de la session ou du token
-    const userId = req.userId; // Cela dépend de votre système d'authentification
-    const commentId = req.params.id;
-    const newCommentText = req.body.comment;
-
-    // Vérifier que l'utilisateur est authentifié
-    if (!userId) {
-      return res
-        .status(401)
-        .send('Vous devez être connecté pour éditer un commentaire.');
-    }
-
-    // Récupérer le commentaire de la base de données
-    const comment = await db
-      .selectFrom('comments')
-      .where('id', '=', commentId)
-      .execute();
-
-    // Vérifier que le commentaire existe et que l'utilisateur a le droit de l'éditer
-    if (!comment || comment.userId !== userId) {
-      return res
-        .status(403)
-        .send("Vous n'avez pas le droit d'éditer ce commentaire.");
-    }
-
-    // Mettre à jour le commentaire avec le nouveau texte
     await db
-      .updateTable('comments')
-      .set({
-        comment: newCommentText,
-        // Vous pouvez également mettre à jour la date de la dernière édition si nécessaire
+      .insertInto('comment')
+      .values({
+        user_id: userId,
+        cocktail_id: Number.parseInt(cocktailId),
+        content: content,
+        created_at: createdAt,
       })
-      .where('id', '=', commentId)
       .execute();
 
     res.json({ ok: true });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Erreur interne du serveur.');
+    res.status(500).send('Internal Server Error');
   }
 });
 

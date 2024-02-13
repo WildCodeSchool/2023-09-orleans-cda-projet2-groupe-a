@@ -15,7 +15,7 @@ export default function CommentsSection({
         {'your comments'}
       </h1>
       <div>
-        <div className='mb-20 ms-8 mt-5 flex grid h-full w-full items-center justify-center gap-5 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='mb-20 ms-8 mt-5 grid h-full w-full items-center justify-center gap-5 md:grid-cols-2 lg:grid-cols-4'>
           {comments === null ? (
             '"No comments yet"'
           ) : (
