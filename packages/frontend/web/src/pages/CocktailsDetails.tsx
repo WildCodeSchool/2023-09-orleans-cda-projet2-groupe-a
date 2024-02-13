@@ -118,7 +118,7 @@ export default function CocktailsDetails() {
             <img
               src={
                 cocktail.image
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
+                  ? `api/${cocktail.image}`
                   : '/cocktail-placeholder.png'
               }
               alt='Cocktail picture'

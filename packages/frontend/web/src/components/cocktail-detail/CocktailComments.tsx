@@ -8,6 +8,16 @@ import { useDisclosure } from '@app/frontend-shared';
 import Comment from './Comment';
 import StarRating from './StarRating';
 
+interface CommentsByUserIdCocktailId {
+  id: number;
+  score: number | null;
+  content: string;
+  user_id: number;
+  user_name: string;
+  created_at: Date;
+  user_image: string | null;
+}
+
 interface CocktailComments {
   content: string;
   comment_id: number;
@@ -17,10 +27,11 @@ interface CocktailComments {
   numberComment: number;
   score: number;
   rating_id: number;
+  commentsByUserIdCocktailId: CommentsByUserIdCocktailId[];
 }
 
 export default function CocktailComments() {
-  const [comments, setComments] = useState<CocktailComments[]>();
+  const [comments, setComments] = useState<CocktailComments>();
   const [ratings, setRatings] = useState<CocktailComments[]>();
   const { id } = useParams();
 
@@ -35,8 +46,7 @@ export default function CocktailComments() {
     });
     if (response.ok) {
       const data = await response.json();
-      setComments(data.commentsByUserIdCocktailId);
-      setRatings(data.ratings);
+      setComments(data.comments);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -91,11 +101,15 @@ export default function CocktailComments() {
             transition={{ duration: 1 }}
             className='border-dark bg-pastel-green m-auto mb-20 flex max-w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:max-w-[100%] '
           >
-            <Comment
-              comments={comments}
-              setIsReload={setIsReload}
-              isReload={isReload}
-            />
+            {comments?.commentsByUserIdCocktailId.length === 0 ? (
+              'No rating yet'
+            ) : (
+              <Comment
+                comments={comments?.commentsByUserIdCocktailId}
+                setIsReload={setIsReload}
+                isReload={isReload}
+              />
+            )}
           </motion.div>
         ) : undefined}
       </AnimatePresence>

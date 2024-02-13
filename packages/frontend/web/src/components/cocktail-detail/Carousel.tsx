@@ -56,7 +56,7 @@ export default function Carousel({
       {similarCocktails.map((cocktail, itemIndex) => (
         <div
           key={cocktail.id}
-          className={` ${getClassName(itemIndex)} ${
+          className={`${getClassName(itemIndex)} ${
             itemIndex === index ? 'z-10' : 'z-0'
           }`}
         >

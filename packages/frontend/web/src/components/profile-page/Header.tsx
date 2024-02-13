@@ -17,7 +17,7 @@ export function Header({
 }: ConnectUserProfileProps) {
   return (
     <>
-      <h1 className='font-stroke-title text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-10 sm:pb-12 sm:pt-24 sm:text-start sm:text-[2.3rem]'>
+      <h1 className='font-stroke-title text-light pt-10 text-center text-[2rem] font-extrabold uppercase sm:mx-20 sm:pb-12 sm:pt-24 sm:text-start sm:text-[2.3rem]'>
         {`Welcome ${pseudo}`}
       </h1>
       <div className='gb-center relative flex h-[30rem] w-[100%] items-center justify-center sm:right-[0%] sm:m-2 sm:w-[97%] lg:m-6'>

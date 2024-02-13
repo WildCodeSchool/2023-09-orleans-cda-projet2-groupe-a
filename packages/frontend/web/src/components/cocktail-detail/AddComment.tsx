@@ -68,10 +68,10 @@ export default function AddComment({
       await fetch(`/api/comment/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, userId: user?.id }),
       });
 
-      await fetch(`${import.meta.env.VITE_API_URL}/rating/${id}`, {
+      await fetch(`api/rating/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ score: hoveredStars - 1, userId: user?.id }),
