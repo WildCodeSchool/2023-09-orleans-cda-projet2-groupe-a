@@ -12,12 +12,11 @@ export default function FavoriteHeart({ id, isFavorite }: FavoriteHeartProps) {
 
   const toggleFavorites = async (id: number) => {
     try {
-      const response = await fetch(`api/favorite/${id}/toggle`, {
+      const response = await fetch(`/api/favorite/${id}/toggle`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include',
       });
       const responseBody = await response.json();
       if (responseBody.ok === true) {

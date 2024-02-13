@@ -67,9 +67,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`api/auth/logout`, {
+      const response = await fetch(`/api/auth/logout`, {
         method: 'POST',
-        credentials: 'include',
       });
       if (response.ok) {
         setIsLoggedIn(false);

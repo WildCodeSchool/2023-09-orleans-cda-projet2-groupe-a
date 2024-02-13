@@ -8,7 +8,6 @@ export default function useFetch<T>(url: string) {
   const fetchData = async (url: RequestInfo, controller: AbortController) => {
     const res = await fetch(url, {
       signal: controller.signal,
-      credentials: 'include',
     });
     const info = await res.json();
 

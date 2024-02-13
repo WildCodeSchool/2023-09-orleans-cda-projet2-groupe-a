@@ -27,7 +27,7 @@ export default function CocktailForm({
     }
 
     try {
-      const response = await fetch(`api/cocktail/${cocktail.id}/upload`, {
+      const response = await fetch(`/api/cocktail/${cocktail.id}/upload`, {
         method: 'POST',
         body: formDataToSend,
       });

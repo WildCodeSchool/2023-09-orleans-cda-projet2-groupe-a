@@ -53,7 +53,6 @@ export default function CocktailsDetails() {
   const fetchCocktails = async (url: string, signal: AbortSignal) => {
     const response = await fetch(url, {
       signal,
-      credentials: 'include',
     });
     if (response.ok) {
       const data = await response.json();

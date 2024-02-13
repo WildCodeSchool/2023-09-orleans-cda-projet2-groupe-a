@@ -138,13 +138,12 @@ export default function AddCocktail() {
 
   const onSubmit = async (data: CocktailForm) => {
     try {
-      const response = await fetch(`api/cocktail/add`, {
+      const response = await fetch(`/api/cocktail/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        credentials: 'include',
       });
 
       if (!response.ok) {

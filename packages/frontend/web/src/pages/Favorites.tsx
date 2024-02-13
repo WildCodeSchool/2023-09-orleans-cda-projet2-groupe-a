@@ -20,7 +20,7 @@ type Data = {
   >[];
 };
 
-const url = `api/favorite/`;
+const url = `/api/favorite/`;
 
 const image = (image: string | undefined, total_degree: number) => {
   if (image === null) {

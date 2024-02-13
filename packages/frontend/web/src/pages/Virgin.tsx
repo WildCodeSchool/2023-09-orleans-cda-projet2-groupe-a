@@ -23,7 +23,7 @@ export default function VirginCocktails() {
 
     const fetchCocktails = async (): Promise<void> => {
       try {
-        const response = await fetch(`api/virgin`, {
+        const response = await fetch(`/api/virgin`, {
           signal,
         });
         if (!response.ok) {

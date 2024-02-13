@@ -26,7 +26,7 @@ export default function SimilarCocktail() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchSimilarCocktails(`api/cocktail/${id}/suggestion`, signal).catch(
+    fetchSimilarCocktails(`/api/cocktail/${id}/suggestion`, signal).catch(
       (error) => {
         console.error(error);
       },
