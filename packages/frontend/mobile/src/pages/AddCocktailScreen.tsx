@@ -103,7 +103,7 @@ export default function AddCocktailScreen() {
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/alcohols/${selectedLevel}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/alcohol/${selectedLevel}`,
       );
       const result = await response.json();
 
