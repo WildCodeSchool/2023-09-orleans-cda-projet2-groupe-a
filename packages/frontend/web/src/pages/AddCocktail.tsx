@@ -48,7 +48,7 @@ export default function AddCocktail() {
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(`/api/alcohols/${selectedLevel}`);
+      const response = await fetch(`/api/alcohol/${selectedLevel}`);
       const result = await response.json();
       setSelectedAlcohols(result);
       if (selectedLevel === level) {
