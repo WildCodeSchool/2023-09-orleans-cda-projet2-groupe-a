@@ -17,13 +17,10 @@ interface CommentsRatings {
   user_id: number;
   pseudo: string;
 }
-interface CommentInfo {
-  comments_ratings: CommentsRatings[];
-}
 
 export default function CocktailComments() {
-  const [comments, setComments] = useState<CommentInfo>();
-  const [ratings, setRatings] = useState();
+  const [comments, setComments] = useState<CommentsRatings[]>();
+  const [rating, setRating] = useState<number | null>();
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -37,7 +34,8 @@ export default function CocktailComments() {
     });
     if (response.ok) {
       const data = await response.json();
-      setComments(data);
+      setComments(data.comments_ratings);
+      setRating(data.average_rating);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -79,7 +77,7 @@ export default function CocktailComments() {
           )}
           <h2 className='pe-2'>{`review`}</h2>
           <div className='my-auto flex'>
-            <StarRating ratings={ratings} />
+            <StarRating rating={rating} />
           </div>
         </div>
       </div>
@@ -93,7 +91,7 @@ export default function CocktailComments() {
             className='border-dark bg-pastel-green m-auto mb-20 flex max-w-[80%] flex-wrap rounded-sm border-[3px] object-contain lg:max-w-[100%] '
           >
             <Comment
-              comments={comments?.comments_ratings}
+              comments={comments}
               setIsReload={setIsReload}
               isReload={isReload}
             />
