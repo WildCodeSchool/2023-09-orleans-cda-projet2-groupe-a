@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import type { JSX } from 'react/jsx-runtime';
 
 import type { CocktailForm, Topping } from '@app/types';
 import type { Ingredient } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
+import FormPart from '@/components/form-cocktail/FormPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
 import IngredientsPart from '@/components/form-cocktail/IngredientsPart';
 import LevelPart from '@/components/form-cocktail/LevelPart';
@@ -15,15 +15,6 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import SoftDrinks from '@/components/form-cocktail/SoftDrinks';
 import Syrup from '@/components/form-cocktail/Syrup';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
-
-interface Square {
-  color: string;
-  order: { lg: number | string; md: number | string };
-  biasSide: { lg: string[]; md: string[] };
-  width: { lg: number; md: number };
-  right?: { lg: number; md: number } | undefined;
-  component: JSX.Element;
-}
 
 export default function AddCocktail() {
   const {
@@ -61,7 +52,7 @@ export default function AddCocktail() {
   };
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(`/api/alcohols/${selectedLevel}`);
+      const response = await fetch(`/api/alcohol/${selectedLevel}`);
 
       const result = await response.json();
 
@@ -169,7 +160,6 @@ export default function AddCocktail() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -403,64 +393,27 @@ export default function AddCocktail() {
     ...baseSquares,
   ];
 
-  const renderSquare = (square: Square, index: number) => (
-    <div
-      key={square.color}
-      className={`bg-dark relative lg:clip-path-polygon-${
-        square.color
-      }-lg md:clip-path-polygon-${square.color}-md lg:order-${
-        square.order.lg
-      } md:order-${square.order.md} h-screen w-full md:h-full lg:w-[${
-        square.width.lg
-      }%] md:w-[${square.width.md}%] ${
-        square.right === undefined
-          ? ''
-          : `lg:right-[${square.right.lg}%] md:right-[${square.right.md}%]`
-      }`}
-    >
-      <div
-        className={`lg:clip-path-polygon-${
-          square.color
-        }-lg md:clip-path-polygon-${
-          square.color
-        }-md h-screen w-full bg-transparent md:h-full md:p-2 ${
-          square.biasSide.md.includes('left') ? 'md:ps-2.5' : ''
-        } ${square.biasSide.md.includes('right') ? 'md:pe-2.5' : ''} ${
-          square.biasSide.lg.includes('left') ? 'lg:ps-2.5' : ''
-        } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
-      >
-        <div
-          className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
-        >
-          <div
-            className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
-          />
-          <div
-            className={`
-    ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
-    absolute left-[3%] 
-    top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
-      index + 1
-    }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
-          >
-            {square.component}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
           {withAlcohol
-            ? squaresWithAlcohol.map((Component, index) =>
-                renderSquare(Component, index),
-              )
-            : squaresWithoutAlcohol.map((Component, index) =>
-                renderSquare(Component, index),
-              )}
+            ? squaresWithAlcohol.map((Component, index) => (
+                <FormPart
+                  key={index}
+                  square={Component}
+                  index={index}
+                  show={show}
+                />
+              ))
+            : squaresWithoutAlcohol.map((Component, index) => (
+                <FormPart
+                  key={index}
+                  square={Component}
+                  index={index}
+                  show={show}
+                />
+              ))}
         </div>
       </form>
       {isModalShown ? (

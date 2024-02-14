@@ -1,8 +1,7 @@
 import { CheckCircle2, MoveRight, Skull } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
-
-import useFetch from '@/hooks/use-fetch';
 
 export default function IngredientToChoose({
   watch,
@@ -14,20 +13,57 @@ export default function IngredientToChoose({
   isFinished,
   setIsFinished,
 }: IngredientProps) {
+  const [ingredientsList, setIngredientsList] =
+    useState<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>();
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
     setValue(`ingredients[${actualIngredient}]` as keyof CocktailForm, value);
     setActualIngredient(actualIngredient + 1);
   };
-  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}`;
 
-  const { data, isLoading } =
-    useFetch<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>(url);
+  const fetchData = async (url: RequestInfo, controller: AbortController) => {
+    const res = await fetch(url, {
+      signal: controller.signal,
+    });
+    const info = await res.json();
+
+    setIngredientsList(info);
+    setIsLoading(false);
+  };
+
+  const ingredients = watch('ingredients') as Ingredient[];
+
+  const queryParameters = new URLSearchParams();
+
+  queryParameters.append(`alcohol`, watch('alcohol.name'));
+
+  if (ingredients !== undefined) {
+    for (const [index, ingredient] of ingredients.entries()) {
+      queryParameters.append(`ingredient${index}`, ingredient.name);
+    }
+  }
+
+  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}?${queryParameters.toString()}`;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData(url, controller).catch(() => {
+      setIsLoading(false);
+      console.error('the fetch doesnt work');
+    });
+    return () => {
+      controller.abort();
+    };
+  }, [url]);
 
   const randomIngredient = async () => {
     try {
-      const response = await fetch(`/api/ingredient/random`);
+      const response = await fetch(
+        `/api/ingredient/random?${queryParameters.toString()}`,
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -44,8 +80,6 @@ export default function IngredientToChoose({
     setShow(5);
   };
 
-  const ingredients = watch('ingredients');
-
   return isFinished && ingredients !== undefined ? (
     <ul className='relative bottom-[7%] right-[-7%] h-[100px] overflow-y-scroll sm:bottom-[30%] sm:right-[-13%]'>
       {ingredients.map((ingredient) => (
@@ -59,7 +93,7 @@ export default function IngredientToChoose({
       <fieldset className='relative bottom-[7%] right-[-7%] grid h-[88px] w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[17%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
-          : data?.map((ingredient) => (
+          : ingredientsList?.map((ingredient) => (
               <div key={ingredient.id} className='flex gap-3'>
                 <input
                   className='hover:cursor-pointer'

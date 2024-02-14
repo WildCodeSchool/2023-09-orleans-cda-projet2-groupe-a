@@ -28,6 +28,10 @@ ingredient.get('/syrup', async (req, res) => {
 });
 
 ingredient.get('/random', async (req, res) => {
+  const mixedArray = Object.values(req.query).map((value) => value);
+  const chosenIngredients: string[] = mixedArray.filter(
+    (item): item is string => typeof item === 'string',
+  );
   const ingredient = await db
     .selectFrom('ingredient')
     .select([
@@ -37,6 +41,7 @@ ingredient.get('/random', async (req, res) => {
       'ingredient.degree',
       'ingredient.kcal',
     ])
+    .where('ingredient.name', 'not in', chosenIngredients ?? [])
     .orderBy(sql`RAND()`)
     .limit(1)
     .executeTakeFirst();
@@ -44,8 +49,13 @@ ingredient.get('/random', async (req, res) => {
   return res.json(ingredient);
 });
 
-ingredient.get('/:ingredientId', async (req, res) => {
+ingredient.get(`/:ingredientId`, async (req, res) => {
   const ingredientId = req.params.ingredientId;
+
+  const mixedArray = Object.values(req.query).map((value) => value);
+  const chosenIngredients: string[] = mixedArray.filter(
+    (item): item is string => typeof item === 'string',
+  );
 
   // It get the 6 most popular ingredients base on one ingredient
   const ingredientsByIngredient = await db
@@ -84,6 +94,7 @@ ingredient.get('/:ingredientId', async (req, res) => {
         ),
     )
     .where('ingredient.id', '!=', Number.parseInt(ingredientId))
+    .where('ingredient.name', 'not in', chosenIngredients ?? [])
     .groupBy('ingredient.id')
     .orderBy(sql`COUNT(ingredient.id)`, 'desc')
     .limit(6)
@@ -101,6 +112,7 @@ ingredient.get('/:ingredientId', async (req, res) => {
       'ingredient.kcal',
     ])
     .where('ingredient.id', '!=', Number.parseInt(ingredientId))
+    .where('ingredient.name', 'not in', chosenIngredients ?? [])
     .orderBy(sql`rand()`)
     .limit(6 - ingredientsByIngredient.length)
     .execute();
