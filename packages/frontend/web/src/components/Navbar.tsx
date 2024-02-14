@@ -40,7 +40,7 @@ const navbarContentInfo: NavbarContent[] = [
   },
   {
     name: 'Favorite',
-    url: '/favorite',
+    url: '/favorites',
     icon: Heart,
   },
   {
