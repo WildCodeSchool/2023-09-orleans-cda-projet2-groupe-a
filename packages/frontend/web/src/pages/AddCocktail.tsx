@@ -48,7 +48,7 @@ export default function AddCocktail() {
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(`/api/alcohols/${selectedLevel}`);
+      const response = await fetch(`/api/alcohol/${selectedLevel}`);
       const result = await response.json();
       setSelectedAlcohols(result);
       if (selectedLevel === level) {
@@ -138,17 +138,13 @@ export default function AddCocktail() {
 
   const onSubmit = async (data: CocktailForm) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/add`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
+      const response = await fetch(`/api/cocktail/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
