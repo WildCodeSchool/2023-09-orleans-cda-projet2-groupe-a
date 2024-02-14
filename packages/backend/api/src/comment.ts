@@ -1,11 +1,11 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import { sql } from 'kysely';
-import { jsonArrayFrom } from 'kysely/helpers/mysql';
 
 import { db } from '@app/backend-shared';
 
-import loginIdUser from './middlewares/login-id-user';
+import blockNotLogin from './middlewares/block-not-login';
+import checkAuthState from './middlewares/check-auth-state';
 import validateComment from './middlewares/validate-comment';
 
 interface RequestWithUser extends Request {
@@ -71,7 +71,8 @@ declare module 'express-serve-static-core' {
 // Ajouter un commentaire en base de donnée
 commentRouter.post(
   '/:id',
-  loginIdUser,
+  checkAuthState,
+  blockNotLogin,
   validateComment,
   async (req: RequestWithUser, res: Response) => {
     const { content, score } = req.body;

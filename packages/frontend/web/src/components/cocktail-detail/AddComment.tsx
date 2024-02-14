@@ -107,7 +107,6 @@ export default function AddComment({
       });
     }
   };
-  console.log(errors);
 
   const onSubmit = async (data: InputCocktailForm) => {
     data = { ...data, score: watch('score') };

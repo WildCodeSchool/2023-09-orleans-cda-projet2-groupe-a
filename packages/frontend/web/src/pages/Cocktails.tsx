@@ -35,8 +35,14 @@ type InputSearchBar = {
   searchTerm?: string;
 };
 
+interface CocktailWithFavorites extends Cocktails {
+  is_favorite?: number | undefined;
+}
+
 export default function Cocktails() {
-  const [cocktails, setCocktails] = useState<Cocktails[] | undefined>();
+  const [cocktails, setCocktails] = useState<
+    CocktailWithFavorites[] | undefined
+  >();
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [isFilterBarVisible, setIsFilterBarVisible] = useState(true);
   const categories = [
