@@ -8,6 +8,7 @@ export type VirginCocktail = {
   cocktail_id: number;
   name: string;
   avg_rating: number;
+  is_favorite: number;
 };
 
 interface Data {
@@ -74,6 +75,8 @@ export default function VirginCocktails() {
                   name={cocktail.name}
                   avg_rating={cocktail.avg_rating}
                   virginCocktail={cocktail}
+                  is_favorite={cocktail.is_favorite}
+                  cocktail_id={cocktail.id}
                 />
               </div>
             ))}
