@@ -56,8 +56,7 @@ favoriteRouter.post(
     const { cocktailId } = req.params;
 
     try {
-      let info = { ok: false, message: "didn't work" };
-      await db.transaction().execute(async (trx) => {
+      const toggleFavorite = await db.transaction().execute(async (trx) => {
         const isInFavorite = await trx
           .selectFrom('favorite')
           .selectAll()
@@ -72,18 +71,18 @@ favoriteRouter.post(
               cocktail_id: Number.parseInt(cocktailId),
               user_id: Number(userId),
             })
-            .executeTakeFirst();
-          info = { ok: true, message: 'add' };
+            .executeTakeFirstOrThrow();
+          return { ok: true, message: 'add' };
         } else {
           await trx
             .deleteFrom('favorite')
             .where('cocktail_id', '=', Number.parseInt(cocktailId))
             .where('user_id', '=', Number(userId))
-            .executeTakeFirst();
-          info = { ok: true, message: 'delete' };
+            .executeTakeFirstOrThrow();
+          return { ok: true, message: 'delete' };
         }
       });
-      return res.json(info);
+      return res.json(toggleFavorite);
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
