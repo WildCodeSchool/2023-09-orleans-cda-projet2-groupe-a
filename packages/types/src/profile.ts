@@ -13,6 +13,7 @@ export interface CocktailsProfile {
   cocktail_name: string;
   ingredient_name: string;
   family: string;
+  is_favorite?: number | undefined;
 }
 
 export interface UserProfile {
