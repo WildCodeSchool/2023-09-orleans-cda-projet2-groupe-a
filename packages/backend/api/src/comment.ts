@@ -28,22 +28,32 @@ commentRouter.get('/', async (req, res) => {
 async function getAllComments(id: number) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
-      SELECT 
-      JSON_ARRAYAGG(JSON_OBJECT('user_id', comment.user_id, 'pseudo', user.pseudo, 'cocktail_id', comment.cocktail_id, 'comment_id', comment.id, 'comment', comment.content, 'rating_id', rating.id, 'rating', rating.score)) as comments_ratings,
-      AVG(rating.score) as average_rating
+          SELECT 
+          JSON_ARRAYAGG(
+              JSON_OBJECT(
+                  'user_id', comment.user_id, 
+                  'pseudo', user.pseudo, 
+                  'cocktail_id', comment.cocktail_id, 
+                  'comment_id', comment.id, 
+                  'comment', comment.content, 
+                  'rating_id', rating.id, 
+                  'rating', rating.score
+              )
+          ) as comments_ratings,
+          AVG(rating.score) as average_rating
       FROM 
-      comment
+          comment
       JOIN 
-      rating 
+          rating 
       ON 
-      comment.id = rating.id 
-      AND comment.cocktail_id = rating.cocktail_id
+          comment.id = rating.id 
+          AND comment.cocktail_id = rating.cocktail_id
       JOIN
-      user
+          user
       ON
-      comment.user_id = user.id
+          comment.user_id = user.id
       WHERE 
-      comment.cocktail_id = ${id};
+          comment.cocktail_id = ${id};
     `.execute(trx);
 
     return result.rows;
@@ -61,12 +71,6 @@ commentRouter.get('/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-declare module 'express-serve-static-core' {
-  interface Request {
-    userId?: number;
-  }
-}
 
 // Ajouter un commentaire en base de donnée
 commentRouter.post(

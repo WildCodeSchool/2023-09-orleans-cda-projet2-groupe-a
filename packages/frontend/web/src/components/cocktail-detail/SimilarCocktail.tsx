@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
-import Carrousel from './Carousel';
+import Carousel from './Carousel';
 
 export default function SimilarCocktail() {
   const { id } = useParams();
@@ -113,7 +113,7 @@ export default function SimilarCocktail() {
       </div>
       <div className='xs:left-[5rem] relative left-[2rem] mb-14 mt-20 block h-[400px] sm:left-[10rem] md:hidden '>
         {Array.isArray(similarCocktails) && similarCocktails.length > 0 && (
-          <Carrousel similarCocktails={similarCocktails} />
+          <Carousel similarCocktails={similarCocktails} />
         )}
       </div>
     </>
