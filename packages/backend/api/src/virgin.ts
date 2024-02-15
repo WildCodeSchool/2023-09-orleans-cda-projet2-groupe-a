@@ -18,19 +18,19 @@ virginRouter.get('/', checkAuthState, async (req: RequestWithUser, res) => {
   const userId = req.userId;
   const isloggedIn = req.isloggedIn;
   try {
-    let query = db
+    const virginCocktails = await db
       .selectFrom('cocktail')
       .selectAll()
-      .where('total_degree', '=', 0);
-
-    if (isloggedIn) {
-      query = query.select(
-        sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId})`.as(
-          'is_favorite',
+      .$if(isloggedIn !== undefined && isloggedIn, (qb) =>
+        qb.select(
+          sql`EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId})`.as(
+            'is_favorite',
+          ),
         ),
-      );
-    }
-    const virginCocktails = await query.execute();
+      )
+      .where('total_degree', '=', 0)
+      .execute();
+
     res.json({ virginCocktails });
   } catch (error) {
     console.error(error);
