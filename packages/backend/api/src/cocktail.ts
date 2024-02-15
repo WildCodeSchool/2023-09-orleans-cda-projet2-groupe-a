@@ -43,6 +43,10 @@ cocktailRouter.post(
       req.body;
     const userId = req.userId;
 
+    if (userId === undefined) {
+      return res.status(500).send('Internal Server Error');
+    }
+
     const verb: ActionTable['verb'][] = [
       'muddle',
       'stir',
