@@ -12,10 +12,9 @@ const storage = multer.diskStorage({
     callback(null, 'uploads');
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
     const uniqueSuffix = crypto.randomUUID();
-    const uniqueName = `${uniqueSuffix}_${name}.${extension}`;
+    const uniqueName = `${uniqueSuffix}.${extension}`;
     callback(null, uniqueName);
   },
 });

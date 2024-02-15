@@ -2,11 +2,17 @@ import { Link } from 'react-router-dom';
 
 import type { CocktailsProfile } from '@app/types';
 
+import { useAuth } from '@/contexts/AuthContext';
+
+import FavoriteHeart from '../FavoriteHeart';
+
 interface CocktailProfileProps {
   readonly cocktails: CocktailsProfile[];
 }
 
 export default function Card({ cocktails }: CocktailProfileProps) {
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       {cocktails.map((cocktail) => (
@@ -36,6 +42,12 @@ export default function Card({ cocktails }: CocktailProfileProps) {
                       : 'bg-card-virgin-salmon'
                   } relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]`}
                 >
+                  {isLoggedIn ? (
+                    <FavoriteHeart
+                      id={cocktail.cocktail_id}
+                      isFavorite={cocktail.is_favorite}
+                    />
+                  ) : null}
                   <img
                     src={`${
                       cocktail.family === 'alcohol'
