@@ -232,6 +232,7 @@ export default {
         'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
         'color-pulse': 'color-pulse 2s linear infinite',
         'gradient-x': 'gradient-x 10s linear infinite',
+        'spin-infinite': 'spin 8s linear infinite',
       },
       keyframes: {
         'gradient-x': {
@@ -252,16 +253,11 @@ export default {
           '50%': { color: 'orange' },
           '75%': { color: 'red' },
         },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
-    },
-    keyframes: {
-      spin: {
-        '0%': { transform: 'rotate(0deg)' },
-        '100%': { transform: 'rotate(360deg)' },
-      },
-    },
-    animation: {
-      'spin-infinite': 'spin 5s linear infinite',
     },
   },
   variants: {},
