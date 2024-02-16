@@ -1,8 +1,8 @@
 interface StarRatingProps {
-  readonly rating: number | null | undefined;
+  readonly rating: number | null;
 }
 export default function StarRating({ rating }: StarRatingProps) {
-  return rating === null || rating === undefined ? null : (
+  return rating === null ? null : (
     <div className='flex'>
       {[1, 2, 3, 4, 5].map((index) => (
         <div

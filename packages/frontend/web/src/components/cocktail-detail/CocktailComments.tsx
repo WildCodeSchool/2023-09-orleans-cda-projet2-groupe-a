@@ -20,7 +20,7 @@ interface CommentsRatings {
 
 export default function CocktailComments() {
   const [comments, setComments] = useState<CommentsRatings[]>();
-  const [rating, setRating] = useState<number | null>();
+  const [rating, setRating] = useState<number | null>(null);
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -53,6 +53,8 @@ export default function CocktailComments() {
       controller.abort();
     };
   }, [id, isReload]);
+
+  console.log('comments', comments);
 
   return (
     <div>
