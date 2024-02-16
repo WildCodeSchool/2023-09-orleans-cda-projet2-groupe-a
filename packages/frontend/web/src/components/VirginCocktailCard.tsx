@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import type { VirginCocktail } from '../../pages/Virgin';
+import type { VirginCocktail } from '../pages/Virgin';
 
 type CocktailCardProps = {
   readonly virginCocktail: VirginCocktail;

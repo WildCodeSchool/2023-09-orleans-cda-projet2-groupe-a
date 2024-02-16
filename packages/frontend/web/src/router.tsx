@@ -56,10 +56,6 @@ const router = createBrowserRouter([
         element: <Virgin />,
       },
       {
-        path: '/cocktail-details/:id',
-        element: <CocktailsDetails />,
-      },
-      {
         path: 'community',
         element: <Community />,
       },

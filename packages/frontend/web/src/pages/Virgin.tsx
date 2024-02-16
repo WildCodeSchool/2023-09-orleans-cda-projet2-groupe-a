@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import VirginCocktailCard from '../components/cocktail-detail/VirginCocktailCard';
+import VirginCocktailCard from '../components/VirginCocktailCard';
 
 export type VirginCocktail = {
   id: number;

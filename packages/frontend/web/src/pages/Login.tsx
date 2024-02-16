@@ -103,72 +103,77 @@ export default function Login() {
     }
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
-      <div
-        className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
-        style={{ backgroundImage: `url('/enter.svg')` }}
-      >
-        <div className='flex h-screen w-screen flex-col items-center justify-center'>
-          {isLoggedIn ? <GreetsLogin /> : null}
-          <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
-            {'Login'}
-          </h1>
-          {/* {isUnderAge !== undefined && (
+  return (
+    <div className='bg-pastel-blue relative flex h-screen items-center justify-center p-5'>
+      {!!isLoading && (
+        <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-lg'>
+          <Loading />
+        </div>
+      )}
+      <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
+        <div
+          className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+          style={{ backgroundImage: `url('/enter.svg')` }}
+        >
+          <div className='flex h-screen w-screen flex-col items-center justify-center'>
+            {isLoggedIn ? <GreetsLogin /> : null}
+            <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
+              {'Login'}
+            </h1>
+            {/* {isUnderAge !== undefined && (
             <CheckBirthdateAnimations isUnderAge={isUnderAge} />
           )} */}
-          <form
-            onSubmit={handleSubmit}
-            className='z-50 m-10 flex flex-col items-center gap-2'
-          >
-            <input
-              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
-              type='email'
-              placeholder='Email'
-              value={email}
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
-            />
-            <input
-              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
-              type='password'
-              placeholder='Password'
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-            />
-            <div className='flex items-center justify-center gap-1.5'>
-              <button
-                className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[185px] md:text-xl'
-                type='submit'
-              >
-                {'Login'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className='fixed top-1 z-40 flex h-1/5 flex-col items-start justify-center'>
-        {email !== '' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
-          <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
-            {'example@example.com'}
+            <form
+              onSubmit={handleSubmit}
+              className='z-50 m-10 flex flex-col items-center gap-2'
+            >
+              <input
+                className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
+                type='email'
+                placeholder='Email'
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              />
+              <input
+                className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
+                type='password'
+                placeholder='Password'
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+              <div className='flex items-center justify-center gap-1.5'>
+                <button
+                  className='button border-dark m-1 h-14 w-[288px] rounded border-[5px] bg-blue-500 p-1 text-sm font-bold text-white hover:bg-blue-700 md:w-[185px] md:text-xl'
+                  type='submit'
+                >
+                  {'Login'}
+                </button>
+              </div>
+            </form>
           </div>
-        )}
-        {password == '' ||
-          (password.length < 3 && (
-            <>
-              <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
-                {'Password must contain at least 3 caracters'}
-              </div>
-              <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
-                {'Password field must be completed'}
-              </div>
-            </>
-          ))}
+        </div>
+        <div className='fixed top-1 z-40 flex h-1/5 flex-col items-start justify-center'>
+          {email !== '' && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
+            <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1'>
+              {'example@example.com'}
+            </div>
+          )}
+          {password == '' ||
+            (password.length < 3 && (
+              <>
+                <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
+                  {'Password must contain at least 3 caracters'}
+                </div>
+                <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
+                  {'Password field must be completed'}
+                </div>
+              </>
+            ))}
+        </div>
       </div>
     </div>
   );

@@ -331,7 +331,6 @@ cocktailRouter.get('/alcohol', async (req, res) => {
         : [Number(kcals)];
 
       const countDistinctKcals = sql<string>`COUNT(DISTINCT cocktail.total_kcal)`;
-
       query = query
         .having(countDistinctKcals, '=', sql`${kcalList.length}`)
         .where('cocktail.total_kcal', 'in', kcalList);
@@ -343,7 +342,6 @@ cocktailRouter.get('/alcohol', async (req, res) => {
         : [Number(complexities)];
 
       const countDistinctComplexity = sql<string>`COUNT(DISTINCT recipe.total_complexity)`;
-
       query = query
         .having(countDistinctComplexity, '=', sql`${complexityList.length}`)
         .where('recipe.total_complexity', 'in', complexityList);
@@ -355,7 +353,6 @@ cocktailRouter.get('/alcohol', async (req, res) => {
         : [Number(degrees)];
 
       const countDistinctDegree = sql<string>`COUNT(DISTINCT cocktail.total_degree)`;
-
       query = query
         .having(countDistinctDegree, '=', sql`${degreeList.length}`)
         .where('cocktail.total_degree', 'in', degreeList);

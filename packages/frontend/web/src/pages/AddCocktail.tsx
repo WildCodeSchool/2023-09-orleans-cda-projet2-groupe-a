@@ -13,6 +13,8 @@ import ModalSearch from '@/components/form-cocktail/ModalSearch';
 import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
+import Shaker from './Shaker';
+
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
   const [actualIngredient, setActualIngredient] = useState<number>(0);
@@ -29,6 +31,7 @@ export default function AddCocktail() {
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
 
   const navigate = useNavigate();
+  const [isShake, setIsShake] = useState(false);
 
   const handleToppingChange = (value: Topping) => {
     setSelectedTopping(value);
@@ -155,8 +158,11 @@ export default function AddCocktail() {
       }
 
       const responseBody = await response.json();
+      setIsShake(true);
       if (responseBody.ok === true) {
         const cocktailId = responseBody.cocktailId;
+        setIsShake(false);
+
         navigate(`/details/${cocktailId}`);
       } else if (responseBody.message === 'not connected') {
         navigate(`/login`);
@@ -323,6 +329,11 @@ export default function AddCocktail() {
 
   return (
     <>
+      {!!isShake && (
+        <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-lg'>
+          <Shaker />
+        </div>
+      )}
       <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
         <div className='grid w-screen grid-flow-col grid-rows-6 gap-1 gap-y-2 md:h-screen md:grid-rows-3 md:p-3 lg:grid-rows-2'>
           {squares.map((square, index) => (
