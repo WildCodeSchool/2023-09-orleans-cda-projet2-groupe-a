@@ -5,6 +5,7 @@ export * from './cocktail-form';
 export * from './profile';
 
 export type User = {
+  id: number;
   name: string;
   email: string;
 };

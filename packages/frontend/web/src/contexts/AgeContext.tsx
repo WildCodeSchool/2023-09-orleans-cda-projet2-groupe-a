@@ -7,6 +7,7 @@ interface AgeProviderProps {
 type AgeProviderState = {
   isUnderAge: boolean | null;
   setIsUnderAge: (value: boolean | null) => void;
+  storedAge: string | null;
 };
 
 export const AgeContext = createContext<AgeProviderState | undefined | null>(
@@ -18,7 +19,14 @@ export const AgeProvider: React.FC<AgeProviderProps> = ({
 }: AgeProviderProps) => {
   const [isUnderAge, setIsUnderAge] = useState<boolean | null>(() => {
     const storedAge = window.sessionStorage.getItem('isUnderAge');
-    return storedAge === 'true' ? true : storedAge === 'false' ? false : null;
+
+    if (storedAge === 'true') {
+      return true;
+    } else if (storedAge === 'false') {
+      return false;
+    } else {
+      return null;
+    }
   });
 
   useEffect(() => {

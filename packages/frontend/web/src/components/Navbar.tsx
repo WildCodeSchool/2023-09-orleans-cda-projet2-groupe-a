@@ -40,7 +40,7 @@ const navbarContentInfo: NavbarContent[] = [
   },
   {
     name: 'Favorite',
-    url: '/favorite',
+    url: '/favorites',
     icon: Heart,
   },
   {
@@ -67,13 +67,9 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/logout`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        },
-      );
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+      });
       if (response.ok) {
         setIsLoggedIn(false);
         navigate('/');
@@ -154,7 +150,7 @@ export default function Navbar() {
 
   return (
     <div className='flex justify-center'>
-      <div className='ms:p-0 group fixed bottom-0 z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:h-[28px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
+      <div className='ms:p-0 group fixed bottom-0 z-[50] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:h-[28px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
         <Link to='/'>
           <Home
             className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}

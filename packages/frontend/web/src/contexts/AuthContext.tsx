@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
+import type { User } from '@app/types';
+
 import { useAge } from './AgeContext';
 
 type AuthProviderProps = {
@@ -9,6 +11,8 @@ type AuthProviderProps = {
 type AuthProviderState = {
   isLoggedIn: boolean; // typage du contenu du context.
   setIsLoggedIn: (value: boolean) => void;
+  user: User | null;
+  setUser: (value: User | null) => void;
 };
 
 const AuthProviderContext = createContext<AuthProviderState | undefined>(
@@ -18,7 +22,7 @@ const AuthProviderContext = createContext<AuthProviderState | undefined>(
 export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { setIsUnderAge } = useAge();
-
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -29,10 +33,13 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
         ok: boolean;
         isLoggedIn: boolean;
         isUnderAge: boolean;
+        user: User | null;
       };
 
       setIsLoggedIn(data.isLoggedIn);
       setIsUnderAge(data.isUnderAge);
+      setIsLoggedIn(data.isLoggedIn);
+      setUser(data.user);
     })();
 
     return () => {
@@ -44,6 +51,8 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     () => ({
       isLoggedIn,
       setIsLoggedIn,
+      user,
+      setUser,
     }),
     [isLoggedIn],
   );

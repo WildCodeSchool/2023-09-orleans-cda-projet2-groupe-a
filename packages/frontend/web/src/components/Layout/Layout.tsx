@@ -12,7 +12,7 @@ export default function Layout() {
     sessionStorage.getItem('birthdate'),
   );
   const { isLoggedIn } = useAuth();
-  const { isUnderAge } = useAge();
+  const { storedAge } = useAge();
 
   useEffect(() => {
     setBirthdate(sessionStorage.getItem('birthdate'));
@@ -21,7 +21,7 @@ export default function Layout() {
   return (
     <>
       {!isLoggedIn && <CheckBirthdate />}
-      {isUnderAge
+      {storedAge
         ? sessionStorage.getItem('isUnderAge') === null && <CheckBirthdate />
         : null}
       <Navbar />
