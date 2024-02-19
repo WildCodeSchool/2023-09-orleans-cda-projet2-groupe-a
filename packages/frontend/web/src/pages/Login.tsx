@@ -42,7 +42,7 @@ export default function Login() {
       const data = (await res.json()) as {
         isLoggedIn: boolean;
         isUnderAge: boolean;
-      }; // Hover .json shows that it's a promise. la souris au-dessus de json ci-contre montre que c'est d'une promesse. Hence, the mention "await" preceed res.json.
+      }; // Hover .json shows that it's a promise. Hence, the mention "await" preceed res.json.
 
       if (data.isLoggedIn && !data.isUnderAge) {
         setIsLoggedIn(true);
@@ -153,6 +153,7 @@ export default function Login() {
             </>
           ))}
       </div>
+      <div className='bg-white text-black'>{"'coucou"}</div>
     </div>
   );
 }

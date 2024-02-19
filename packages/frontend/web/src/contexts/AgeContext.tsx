@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 interface AgeProviderProps {
   readonly children: React.ReactNode;
@@ -16,9 +16,14 @@ export const AgeContext = createContext<AgeProviderState | undefined | null>(
 export const AgeProvider: React.FC<AgeProviderProps> = ({
   children,
 }: AgeProviderProps) => {
-  const [isUnderAge, setIsUnderAge] = useState(
-    window.sessionStorage.getItem('isUnderAge') === 'true' || null,
-  );
+  const [isUnderAge, setIsUnderAge] = useState<boolean | null>(() => {
+    const storedAge = window.sessionStorage.getItem('isUnderAge');
+    return storedAge === 'true' ? true : storedAge === 'false' ? false : null;
+  });
+
+  useEffect(() => {
+    window.sessionStorage.setItem('isUnderAge', String(isUnderAge));
+  }, [isUnderAge]);
 
   const value = useMemo(
     () => ({ isUnderAge, setIsUnderAge }),

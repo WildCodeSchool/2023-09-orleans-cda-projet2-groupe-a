@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { useAge } from '@/contexts/AgeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
 import CheckBirthdate from '../CheckBirthdate';
@@ -11,14 +12,18 @@ export default function Layout() {
     sessionStorage.getItem('birthdate'),
   );
   const { isLoggedIn } = useAuth();
+  const { isUnderAge } = useAge();
 
   useEffect(() => {
-    setBirthdate(localStorage.getItem('birthdate'));
+    setBirthdate(sessionStorage.getItem('birthdate'));
   }, []);
 
   return (
     <>
       {!isLoggedIn && <CheckBirthdate />}
+      {isUnderAge
+        ? sessionStorage.getItem('isUnderAge') === null && <CheckBirthdate />
+        : null}
       <Navbar />
       <Outlet />
     </>
