@@ -124,7 +124,7 @@ export default function CocktailsDetails() {
             <img
               src={
                 cocktail.image
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
+                  ? `api/${cocktail.image}`
                   : '/cocktail-placeholder.png'
               }
               alt='Cocktail picture'
@@ -208,9 +208,7 @@ export default function CocktailsDetails() {
       <CocktailComments />
       <h2 className='font-stroke text-light mb-10 mt-20 flex px-2 text-center text-[1.4rem] font-extrabold uppercase'>{`you're going to love them !`}</h2>
 
-      <div className='border-dark bg-pastel-pink relative m-auto mb-20 w-[90%] rounded-sm border-[3px] sm:w-[70%] sm:flex-wrap md:w-[90%]'>
-        <SimilarCocktail />
-      </div>
+      <SimilarCocktail />
     </div>
   );
 }

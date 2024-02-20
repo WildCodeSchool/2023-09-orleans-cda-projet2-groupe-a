@@ -4,6 +4,8 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
   safelist: [
+    'mt-[10.5rem]',
+    'mt-[7rem]',
     'mt-0',
     'mt-10',
     'mr-10',

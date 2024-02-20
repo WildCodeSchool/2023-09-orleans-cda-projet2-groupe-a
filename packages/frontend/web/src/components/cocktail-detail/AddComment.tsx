@@ -3,15 +3,14 @@ import { Star } from 'lucide-react';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
-
-import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // Input de la page cocktail-detail
 export type InputCocktailForm = {
   anecdote?: string;
   file?: string;
   content?: string;
+  score?: number;
 };
 
 interface AddCommentProps {
@@ -26,13 +25,50 @@ export default function AddComment({
   isReload,
   setIsReload,
 }: AddCommentProps) {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const { user } = useAuth();
   const [hoveredStars, setHoveredStars] = useState(0);
   const [clicked, setClicked] = useState([false, false, false, false, false]);
   const handleStarHover = (hoveredCount: number) => {
     setHoveredStars(hoveredCount);
   };
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    watch,
+    setValue,
+    clearErrors,
+    formState: { errors },
+  } = useForm<InputCocktailForm>({
+    defaultValues: {
+      content: '',
+    },
+  });
+
+  const allErrors = [
+    {
+      condition: errors.score?.type === 'required',
+      message: errors.score?.message,
+    },
+    {
+      condition: errors.content?.type === 'required',
+      message: errors.content?.message,
+    },
+    {
+      condition: errors.score?.type === 'validate',
+      message: errors.score?.message,
+    },
+    {
+      condition: errors.content?.type === 'maxLength',
+      message: errors.content?.message,
+    },
+    {
+      condition: errors.content?.type === 'minLength',
+      message: errors.content?.message,
+    },
+  ];
 
   const handleStarClick = (
     event: { preventDefault: () => void },
@@ -45,7 +81,7 @@ export default function AddComment({
         ? (clickStates[index] = true)
         : (clickStates[index] = false);
     }
-
+    setValue('score', indexStar);
     setClicked(clickStates);
   };
 
@@ -53,31 +89,40 @@ export default function AddComment({
     setIsOpen(false);
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InputCocktailForm>({
-    defaultValues: {
-      content: '',
-    },
-  });
+  const handleErrorSubmit = () => {
+    const scoreValue = watch('score');
+
+    if (scoreValue === undefined) {
+      setError('score', { type: 'required', message: 'please give a grade' });
+    } else if (
+      typeof scoreValue === 'number' &&
+      scoreValue >= 1 &&
+      scoreValue <= 5
+    ) {
+      clearErrors('score');
+    } else {
+      setError('score', {
+        type: 'validate',
+        message: 'must be between 1 and 5',
+      });
+    }
+  };
 
   const onSubmit = async (data: InputCocktailForm) => {
+    data = { ...data, score: watch('score') };
     try {
-      await fetch(`/api/comment/${id}`, {
+      const response = await fetch(`/api/comment/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-
-      await fetch(`${import.meta.env.VITE_API_URL}/rating/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ score: hoveredStars - 1, userId: user?.id }),
-      });
-      setIsOpen(false);
-      setIsReload(!isReload);
+      const responseData = await response.json();
+      if (responseData.ok === true) {
+        setIsOpen(false);
+        setIsReload(!isReload);
+      } else if (responseData.message === 'not connected') {
+        navigate('/login');
+      }
     } catch {
       console.error(`Request error`);
     }
@@ -123,24 +168,43 @@ export default function AddComment({
                 onSubmit={handleSubmit(onSubmit)}
                 className='mx-auto sm:h-[25rem] sm:w-[25rem] '
               >
+                <div className='absolute left-[15%] sm:left-[30%] md:left-[35%] lg:left-[40%] xl:left-[40%] 2xl:left-[45%]'>
+                  {allErrors.map(
+                    (error, index) =>
+                      error.condition && (
+                        <p key={index} className='mb-2 text-center'>
+                          {error.message}
+                        </p>
+                      ),
+                  )}
+                </div>
                 <input
                   type='text'
                   id='text'
                   placeholder='Add your comment!'
-                  className='border-dark ms-10 mt-[10.5rem] h-[12rem] w-[80%] rounded-[1rem] border-[4px] px-5 sm:ms-12 sm:h-[42%]'
+                  className={`border-dark ms-10 mt-[10.5rem] h-[12rem] w-[80%] rounded-[1rem] border-[4px] px-5 sm:ms-12 sm:h-[42%]`}
                   {...register('content', {
-                    required: false,
+                    required: {
+                      value: true,
+                      message: 'please write a comment !',
+                    },
+                    minLength: {
+                      value: 1,
+                      message: 'Min length not reached !',
+                    },
                     maxLength: {
                       value: 255,
                       message: 'Max length exceeded !',
                     },
                   })}
                 />
-                <p className='ms-5 mt-5 text-[rgb(232,40,40)]'>
-                  {errors.content?.message}
-                </p>
                 <div className='flex w-full justify-center'>
-                  <button type='submit'>
+                  <button
+                    type='submit'
+                    onClick={() => {
+                      handleErrorSubmit();
+                    }}
+                  >
                     <p className='border-dark hover:bg-dark-orange duration-250 mt-16 rounded border-[3px] p-2 uppercase shadow-sm transition-transform ease-in-out hover:scale-110 sm:mt-24'>
                       {`send`}
                     </p>
