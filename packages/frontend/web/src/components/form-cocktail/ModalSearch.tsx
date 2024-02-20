@@ -1,15 +1,11 @@
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 
 import type { CocktailForm, Ingredient } from '@app/types';
 
 interface ModalSearchProps {
   readonly setIsModalShown: (isModalShown: boolean) => void;
-  readonly setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
   readonly actualIngredient: number;
   readonly setActualIngredient: (actualIngredient: number) => void;
 }
@@ -20,10 +16,10 @@ interface SearchIngredient {
 
 export default function ModalSearch({
   setIsModalShown,
-  setValue,
   actualIngredient,
   setActualIngredient,
 }: ModalSearchProps) {
+  const { setValue } = useFormContext();
   const { register, watch } = useForm<SearchIngredient>();
   const [data, setData] = useState<Pick<Ingredient, 'name' | 'id'>[]>();
   const [isLoading, setIsLoading] = useState(true);

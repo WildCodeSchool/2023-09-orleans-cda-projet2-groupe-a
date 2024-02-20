@@ -1,11 +1,6 @@
-import type {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
-import type { CocktailForm, Ingredient, Topping } from '@app/types';
+import type { Ingredient, Topping } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';
 import GlassPart from '@/components/form-cocktail/GlassPart';
@@ -20,10 +15,6 @@ import FormPart from './FormPart';
 
 interface UseSquareProps {
   readonly withAlcohol: boolean;
-  readonly watch: UseFormWatch<CocktailForm>;
-  readonly errors: FieldErrors;
-  readonly register: UseFormRegister<CocktailForm>;
-  readonly setValue: UseFormSetValue<CocktailForm>;
   readonly setShow: (show: number) => void;
   readonly setIsModalShown: (isModalShown: boolean) => void;
   readonly actualIngredient: number;
@@ -43,10 +34,6 @@ interface UseSquareProps {
 }
 export default function GetSquares({
   withAlcohol,
-  watch,
-  errors,
-  register,
-  setValue,
   setShow,
   setIsModalShown,
   actualIngredient,
@@ -64,6 +51,12 @@ export default function GetSquares({
   handleClickSyrup,
   show,
 }: UseSquareProps) {
+  const {
+    register,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const baseSquares = [
     {
       color: 'blue',
