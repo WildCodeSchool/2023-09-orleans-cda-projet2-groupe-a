@@ -168,7 +168,7 @@ export default function Home() {
   ];
 
   return (
-    <div className='relative overflow-hidden'>
+    <div className='relative  cursor-none  overflow-hidden'>
       <form
         className='flex h-screen w-screen justify-center'
         onSubmit={undefined}
@@ -192,7 +192,7 @@ export default function Home() {
               }`}
             >
               <div
-                className={`lg:clip-path-polygon-${
+                className={` cursor-none lg:clip-path-polygon-${
                   square.color
                 }-lg clip-path-polygon-${square.color} md:clip-path-polygon-${
                   square.color
@@ -203,20 +203,20 @@ export default function Home() {
                 } ${square.biasSide.lg.includes('right') ? 'lg:pe-2.5' : ''}`}
               >
                 <div
-                  className={`bg-dark-${square.color} group lg:clip-path-polygon-${square.color}-lg clip-path-polygon-${square.color} md:clip-path-polygon-${square.color}-md relative h-full w-full md:h-full`}
+                  className={`bg-dark-${square.color} group cursor-none lg:clip-path-polygon-${square.color}-lg clip-path-polygon-${square.color} md:clip-path-polygon-${square.color}-md relative h-full w-full md:h-full`}
                 >
                   <div
-                    className={`filter-black-to-${square.color} group-hover:animate-spin-infinite absolute left-[-5rem] top-[-6rem] z-[100] flex h-[200%] w-[200%] items-center justify-center bg-[url('polygon-black.png')] bg-cover bg-center bg-no-repeat object-fill sm:left-[-12rem] sm:top-[-6rem] md:left-[-15rem] md:top-[-6rem] lg:left-[-15rem] lg:top-[-12rem] xl:left-[-15rem] 2xl:left-[-22rem] 2xl:top-[-13rem]`}
+                    className={`filter-black-to-${square.color} group-hover:animate-spin-infinite absolute left-[-5rem] top-[-6rem] z-[100] flex h-[200%] w-[200%] cursor-none items-center justify-center bg-[url('polygon-black.png')] bg-cover bg-center bg-no-repeat object-fill sm:left-[-12rem] sm:top-[-6rem] md:left-[-15rem] md:top-[-6rem] lg:left-[-15rem] lg:top-[-12rem] xl:left-[-15rem] 2xl:left-[-22rem] 2xl:top-[-13rem]`}
                   />
                   {square.color === 'blue' ? (
                     <div
-                      className={`absolute left-[14%] top-0 z-[100] flex h-full w-[80%] flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:left-[20%] sm:w-[60%] md:left-[8%] md:w-[80%] md:bg-auto lg:left-[8%] lg:top-[10%] lg:w-[80%]`}
+                      className={`absolute left-[14%] top-0 z-[100] flex h-full  w-[80%]  cursor-none flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:left-[20%] sm:w-[60%] md:left-[8%] md:w-[80%] md:bg-auto lg:left-[8%] lg:top-[10%] lg:w-[80%]`}
                     >
                       {square.component}
                     </div>
                   ) : (
                     <div
-                      className={`absolute left-[8%] top-0 z-[100] flex h-full w-[80%] flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:left-[20%] sm:w-[60%] md:left-[8%] md:w-[80%] md:bg-auto lg:left-[8%] lg:w-[80%]`}
+                      className={`absolute left-[8%] top-0 z-[100] flex h-full w-[80%]  cursor-none flex-col items-center justify-center bg-contain bg-center bg-no-repeat sm:left-[20%] sm:w-[60%] md:left-[8%] md:w-[80%] md:bg-auto lg:left-[8%] lg:w-[80%]`}
                     >
                       {square.component}
                     </div>
