@@ -221,6 +221,7 @@ authRouter.post(
 
       if (isLoggedIn) {
         if (isUnderAge) {
+          console.log(isUnderAge);
           console.log('coucou mineur', user.birthdate);
           res.json({ isUnderAge: true });
         } else {
@@ -266,7 +267,7 @@ authRouter.post(
         signed: true,
       });
 
-      if (isLoggedIn && !isUnderAge) console.log({ user });
+      if (isLoggedIn && isUnderAge) console.log({ user });
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,

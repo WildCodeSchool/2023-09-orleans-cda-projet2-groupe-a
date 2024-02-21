@@ -26,13 +26,9 @@ export default function Register() {
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
     setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 1500);
-    document.body.classList.remove('overflow-hidden');
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+      const res = await fetch(`api/auth/register`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // Header contains the type of content of the HTTP request. Aka JSON.
@@ -54,32 +50,31 @@ export default function Register() {
       //Hence, the mention "await" preceed res.json.
 
       if (data.ok) {
+        console.log(data.isUnderAge);
         setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
-        setTimeout(() => {
-          if (!isWow) {
-            setIsWow;
+        if (data.isUnderAge) {
+          console.log(data.isUnderAge);
+          if (isWow) {
+            setIsWow(false);
           }
           setTimeout(() => {
-            window.scrollTo({
-              top: document.body.scrollHeight,
-              behavior: 'smooth',
-            });
+            setIsModalShown(true);
           }, 700);
-        }, 1200);
-        navigate('/'); // If user is registered, he's automatically logged in and redirected towards homepage, regarding he's underage or not.
-      } else {
-        document.body.classList.add('overflow-hidden');
-        setIsWow(false);
-        setIsImageShown(true);
-        setTimeout(() => {
-          setIsModalShown(true);
-        }, 2500);
-        // User Registered but not logged in
-        setIsLoggedIn(true);
-        setTimeout(() => {
-          navigate('/virgin');
-        }, 6000);
+          setTimeout(() => {
+            navigate('/virgin');
+          }, 7000);
+        } else {
+          console.log(data.isUnderAge);
+          setTimeout(() => {
+            if (!isWow && !data.isUnderAge) {
+              setIsWow(true);
+            }
+            setTimeout(() => {
+              navigate('/');
+            }, 2500);
+          }, 500);
+        }
       }
     } catch {
       console.error('An error occured while registering.');

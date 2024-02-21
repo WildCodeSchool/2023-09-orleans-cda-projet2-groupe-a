@@ -38,7 +38,6 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
 
       setIsLoggedIn(data.isLoggedIn);
       setIsUnderAge(data.isUnderAge);
-      setIsLoggedIn(data.isLoggedIn);
       setUser(data.user);
     })();
 
@@ -51,10 +50,11 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     () => ({
       isLoggedIn,
       setIsLoggedIn,
+      setIsUnderAge,
       user,
       setUser,
     }),
-    [isLoggedIn],
+    [isLoggedIn, user, setIsUnderAge],
   );
 
   return (

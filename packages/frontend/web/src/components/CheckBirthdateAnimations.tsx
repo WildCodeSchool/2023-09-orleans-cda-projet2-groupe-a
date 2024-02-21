@@ -1,8 +1,9 @@
+import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useBirth } from '@/contexts/BirthContext';
 
 type CheckBirthdateAnimationsProps = {
-  readonly isUnderAge: boolean;
+  readonly isUnderAge: boolean | null;
 };
 
 export default function CheckBirthdateAnimations({

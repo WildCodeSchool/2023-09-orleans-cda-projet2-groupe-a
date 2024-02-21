@@ -3,28 +3,25 @@ import { useNavigate } from 'react-router-dom';
 
 import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
 import GreetsLogin from '@/components/GreetsLogin';
+import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBirth } from '@/contexts/BirthContext';
 
-import Loading from './Loading';
-
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { birthdate } = useBirth();
+  const { isUnderAge, setIsUnderAge } = useAge();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUnderAge, setIsUnderAge] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState(false);
   // const [isUnderAge, setIsUnderAge] = useState<boolean>();
   const { setIsImageShown, setIsModalShown, isWow, setIsWow } = useAnimations();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
-    setIsLoading(true);
 
     // Fetch sends request to /login route and returns a promise that is the answer to that request.
     // Await suspends code execution as soon as the promise is resolved.
@@ -32,7 +29,7 @@ export default function Login() {
     // Param2: Object containing : method, credentials, headers, body.
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const res = await fetch(`api/auth/login`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
@@ -49,17 +46,29 @@ export default function Login() {
         isUnderAge: boolean;
       }; // Hover .json shows that it's a promise. Hence, the mention "await" preceed res.json.
 
-      if (data.isLoggedIn && !data.isUnderAge) {
-        setIsLoggedIn(true);
-        setIsLoading(false);
-        navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      } else {
-        setIsLoggedIn(true);
-        setIsLoading(false);
-        // setIsUnderAge(true);
-        setIsUnderAge(true);
-        navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+      console.log(data);
+      console.log(res.json());
+      if (data.isLoggedIn) {
+        setIsLoggedIn(data.isLoggedIn);
+        if (data.isUnderAge) {
+          setIsUnderAge(data.isUnderAge);
+          navigate('/virgin');
+        } else {
+          setIsUnderAge(data.isUnderAge);
+          navigate('/');
+        }
       }
+
+      // console.log('hello', data);
+      // if (data.isLoggedIn && !data.isUnderAge) {
+      //   setIsLoggedIn(true);
+      //   console.log(data.isUnderAge);
+      //   navigate('/'); // If the user is logged in, he's redirected towards homepage.
+      // } else {
+      //   setIsLoggedIn(true);
+      //   setIsUnderAge(true);
+      //   navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
+      // }
     } catch (error) {
       console.error(
         'Error occured while logging in. Please try again later.',
@@ -96,9 +105,7 @@ export default function Login() {
     }
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
       <div
         className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
@@ -109,9 +116,9 @@ export default function Login() {
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
           </h1>
-          {isUnderAge !== undefined && (
+          {isUnderAge !== undefined && isUnderAge !== null && isUnderAge ? (
             <CheckBirthdateAnimations isUnderAge={isUnderAge} />
-          )}
+          ) : null}
           <form
             onSubmit={handleSubmit}
             className='z-50 m-10 flex flex-col items-center gap-2'
@@ -163,7 +170,6 @@ export default function Login() {
             </>
           ))}
       </div>
-      <div className='bg-white text-black'>{"'coucou"}</div>
     </div>
   );
 }
