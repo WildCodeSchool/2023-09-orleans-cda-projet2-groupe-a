@@ -1,12 +1,79 @@
+import { useFormContext } from 'react-hook-form';
+
 import type { NamePartProps } from '@app/types';
 
 import ShakerIcon from '../icons/ShakerIcon';
 
-export default function NamePart({
-  register,
-  errors,
-  handleErrorSubmit,
-}: NamePartProps) {
+export default function NamePart({ register, errors }: NamePartProps) {
+  const { watch, setError, clearErrors } = useFormContext();
+  const handleErrorSubmit = () => {
+    const alcoholValue = watch('alcohol');
+    const softDrinkValue = watch('softDrink');
+
+    if (alcoholValue === undefined && softDrinkValue === undefined) {
+      setError('alcohol', { type: 'required', message: 'required' });
+      setError('softDrink', { type: 'required', message: 'required' });
+    } else if (
+      (alcoholValue !== undefined &&
+        typeof alcoholValue.name === 'string' &&
+        alcoholValue.name.length <= 255) ||
+      (softDrinkValue !== undefined &&
+        typeof softDrinkValue.name === 'string' &&
+        softDrinkValue.name.length <= 255)
+    ) {
+      clearErrors('alcohol');
+      clearErrors('softDrink');
+    } else {
+      setError('alcohol', {
+        type: 'validate',
+        message: 'must be a string of 255 characters max',
+      });
+      setError('softDrink', {
+        type: 'validate',
+        message: 'must be a string of 255 characters max',
+      });
+    }
+
+    const levelValue = watch('level');
+
+    if (levelValue === undefined && softDrinkValue === undefined) {
+      setError('level', { type: 'required', message: 'required' });
+    } else if (
+      (typeof levelValue === 'number' && levelValue <= 3 && levelValue >= 1) ||
+      softDrinkValue !== undefined
+    ) {
+      clearErrors('level');
+    } else {
+      setError('level', {
+        type: 'validate',
+        message: 'must be a number between 1 and 3',
+      });
+    }
+
+    const ingredientsValue = watch('ingredients');
+
+    if (ingredientsValue === undefined) {
+      setError('ingredients', {
+        type: 'required',
+        message: 'required',
+      });
+    } else {
+      clearErrors('ingredients');
+    }
+
+    const glassValue = watch('glass');
+
+    if (glassValue === undefined) {
+      setError('glass', { type: 'required', message: 'required' });
+    } else if (typeof glassValue.id === 'number') {
+      clearErrors('glass');
+    } else {
+      setError('glass', {
+        type: 'validate',
+        message: 'must be a number',
+      });
+    }
+  };
   return (
     <>
       <h1 className='relative w-[300px] rotate-[-12deg] text-center text-xl uppercase sm:text-2xl md:bottom-[8%] lg:w-[350px]'>

@@ -1,17 +1,26 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import type { AlcoholPartProps } from '@app/types';
+import type { AlcoholPartProps, Ingredient } from '@app/types';
 
 export default function AlcoholPart({
   alcohols,
-  handleClickAlcohol,
   watch,
   errors,
+  setShow,
+  show,
+  setSelectedAlcohol,
 }: AlcoholPartProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { setValue } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
+  };
+  const handleClickAlcohol = (alcohol: Ingredient) => {
+    show < 3 ? setShow(3) : null;
+    setSelectedAlcohol(alcohol);
+    setValue('alcohol', alcohol);
   };
 
   return (

@@ -21,16 +21,14 @@ interface UseSquareProps {
   readonly setActualIngredient: (actualIngredient: number) => void;
   readonly selectedTopping: Topping | undefined;
   readonly selectedAlcohol: Ingredient | null;
-  readonly handleToppingChange: (topping: Topping) => void;
-  readonly handleErrorSubmit: () => void;
   readonly level: number;
-  readonly handleLevelClick: (level: number) => void;
   readonly setWithAlcohol: (withAlcocool: boolean) => void;
   readonly selectedAlcohols: Ingredient[];
-  readonly handleClickAlcohol: (alcohol: Ingredient) => void;
-  readonly handleClickSoftDrinks: (softDrink: Ingredient) => void;
-  readonly handleClickSyrup: (syrup: Ingredient | null) => void;
+  readonly setSelectedAlcohol: (alcohol: Ingredient) => void;
   readonly show: number;
+  readonly setLevel: (level: number) => void;
+  readonly setSelectedAlcohols: (alcohols: Ingredient[]) => void;
+  readonly setSelectedTopping: (topping: Topping) => void;
 }
 export default function GetSquares({
   withAlcohol,
@@ -40,16 +38,14 @@ export default function GetSquares({
   setActualIngredient,
   selectedTopping,
   selectedAlcohol,
-  handleToppingChange,
-  handleErrorSubmit,
   level,
-  handleLevelClick,
   setWithAlcohol,
   selectedAlcohols,
-  handleClickAlcohol,
-  handleClickSoftDrinks,
-  handleClickSyrup,
+  setSelectedAlcohol,
   show,
+  setLevel,
+  setSelectedAlcohols,
+  setSelectedTopping,
 }: UseSquareProps) {
   const {
     register,
@@ -128,10 +124,12 @@ export default function GetSquares({
           register={register}
           selectedTopping={selectedTopping}
           selectedAlcohol={selectedAlcohol}
-          handleToppingChange={handleToppingChange}
           errors={errors}
           watch={watch}
           selectedIngredients={[]}
+          setSelectedTopping={setSelectedTopping}
+          show={show}
+          setShow={setShow}
         />
       ),
     },
@@ -153,13 +151,7 @@ export default function GetSquares({
         lg: 4,
         md: 5,
       },
-      component: (
-        <NamePart
-          register={register}
-          handleErrorSubmit={handleErrorSubmit}
-          errors={errors}
-        />
-      ),
+      component: <NamePart register={register} errors={errors} />,
     },
   ];
 
@@ -181,10 +173,13 @@ export default function GetSquares({
       component: (
         <LevelPart
           level={level}
-          handleLevelClick={handleLevelClick}
           errors={errors}
           withAlcohol={withAlcohol}
           setWithAlcohol={setWithAlcohol}
+          setSelectedAlcohols={setSelectedAlcohols}
+          setLevel={setLevel}
+          show={show}
+          setShow={setShow}
         />
       ),
     },
@@ -209,9 +204,11 @@ export default function GetSquares({
       component: (
         <AlcoholPart
           alcohols={selectedAlcohols}
-          handleClickAlcohol={handleClickAlcohol}
+          setSelectedAlcohol={setSelectedAlcohol}
           watch={watch}
           errors={errors}
+          setShow={setShow}
+          show={show}
         />
       ),
     },
@@ -236,10 +233,11 @@ export default function GetSquares({
       component: (
         <SoftDrinks
           watch={watch}
-          handleClickSoftDrinks={handleClickSoftDrinks}
           errors={errors}
           withAlcohol={withAlcohol}
           setWithAlcohol={setWithAlcohol}
+          show={show}
+          setShow={setShow}
         />
       ),
     },
@@ -262,11 +260,7 @@ export default function GetSquares({
         md: 16,
       },
       component: (
-        <Syrup
-          watch={watch}
-          handleClickSyrup={handleClickSyrup}
-          errors={errors}
-        />
+        <Syrup watch={watch} show={show} setShow={setShow} errors={errors} />
       ),
     },
     ...baseSquares,

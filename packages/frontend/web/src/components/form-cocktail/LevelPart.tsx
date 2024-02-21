@@ -1,14 +1,39 @@
+import { useFormContext } from 'react-hook-form';
+
 import type { LevelPartProps } from '@app/types';
 
 const numberLevel = [3, 2, 1];
 
 export default function LevelPart({
   level,
-  handleLevelClick,
   errors,
   setWithAlcohol,
   withAlcohol,
+  setSelectedAlcohols,
+  setLevel,
+  show,
+  setShow,
 }: LevelPartProps) {
+  const { setValue } = useFormContext();
+  const handleLevelClick = async (selectedLevel: number) => {
+    try {
+      const response = await fetch(`/api/alcohol/${selectedLevel}`);
+
+      const result = await response.json();
+
+      setSelectedAlcohols(result);
+      if (selectedLevel !== level) {
+        setLevel(selectedLevel);
+        setValue('level', selectedLevel);
+        show < 2 ? setShow(2) : null;
+      }
+    } catch (error) {
+      console.error(
+        'Une erreur est survenue lors de la récupération des alcools',
+        error,
+      );
+    }
+  };
   return (
     <>
       <label className='relative left-[-35%] top-[-22%] z-[100] inline-flex cursor-pointer items-center'>
@@ -49,7 +74,7 @@ export default function LevelPart({
               level >= number ? 'grayscale-0 ' : 'grayscale'
             }`}
             onClick={() => {
-              handleLevelClick(number);
+              void handleLevelClick(number);
             }}
           />
         ))}

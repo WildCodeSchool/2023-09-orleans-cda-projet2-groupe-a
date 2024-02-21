@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Ingredient, SoftDrinksProps } from '@app/types';
 
@@ -7,11 +8,13 @@ import useFetch from '@/hooks/use-fetch';
 export default function SoftDrinks({
   errors,
   watch,
-  handleClickSoftDrinks,
+  show,
+  setShow,
   setWithAlcohol,
   withAlcohol,
 }: SoftDrinksProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { setValue } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -19,6 +22,11 @@ export default function SoftDrinks({
   const url = `/api/ingredient/softdrinks`;
 
   const { data } = useFetch<Ingredient[]>(url);
+
+  const handleClickSoftDrinks = (softDrink: Ingredient) => {
+    show < 3 ? setShow(3) : null;
+    setValue('softDrink', softDrink);
+  };
 
   return (
     <>

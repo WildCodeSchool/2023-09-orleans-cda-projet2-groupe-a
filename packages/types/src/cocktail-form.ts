@@ -38,23 +38,27 @@ export type CocktailForm = {
 
 export interface AlcoholPartProps {
   alcohols: Ingredient[];
-  handleClickAlcohol: (alcohol: Ingredient) => void;
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
+  show: number;
+  setShow: (show: number) => void;
+  setSelectedAlcohol: (alcohol: Ingredient) => void;
 }
 
 export interface NamePartProps {
   register: UseFormRegister<CocktailForm>;
-  handleErrorSubmit: () => void;
   errors: FieldErrors<CocktailForm>;
 }
 
 export interface LevelPartProps {
   level: number;
-  handleLevelClick: (level: number) => void;
   errors: FieldErrors<CocktailForm>;
   setWithAlcohol: (withAlcocool: boolean) => void;
   withAlcohol: boolean;
+  setSelectedAlcohols: (alcohols: Ingredient[]) => void;
+  setLevel: (level: number) => void;
+  show: number;
+  setShow: (show: number) => void;
 }
 export interface IngredientsPartProps {
   register: UseFormRegister<CocktailForm>;
@@ -83,10 +87,12 @@ export interface ToppingPartProps {
   register: UseFormRegister<CocktailForm>;
   selectedTopping: Topping | undefined;
   selectedAlcohol: Ingredient | null;
-  handleToppingChange: (topping: Topping) => void;
   errors: FieldErrors<CocktailForm>;
   watch: UseFormWatch<CocktailForm>;
   selectedIngredients: Ingredient[];
+  setSelectedTopping: (topping: Topping) => void;
+  show: number;
+  setShow: (show: number) => void;
 }
 
 export interface IngredientProps {
@@ -106,13 +112,15 @@ export interface IngredientProps {
 export interface SoftDrinksProps {
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
-  handleClickSoftDrinks: (softDrink: Ingredient) => void;
   setWithAlcohol: (withAlcocool: boolean) => void;
   withAlcohol: boolean;
+  show: number;
+  setShow: (show: number) => void;
 }
 
 export interface SyrupProps {
   watch: UseFormWatch<CocktailForm>;
   errors: FieldErrors<CocktailForm>;
-  handleClickSyrup: (syrup: Ingredient | null) => void;
+  show: number;
+  setShow: (show: number) => void;
 }

@@ -1,20 +1,31 @@
 import { MoveRight, Skull } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
   selectedTopping,
   selectedAlcohol,
-  handleToppingChange,
   errors,
   watch,
+  setSelectedTopping,
+  show,
+  setShow,
 }: ToppingPartProps) {
+  const { setValue } = useFormContext();
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
   const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
     useState<boolean>(false);
+
+  const handleToppingChange = (value: Topping) => {
+    setSelectedTopping(value);
+    show < 6 ? setShow(6) : null;
+    setValue('topping', value);
+    setShow(6);
+  };
 
   const ingredients = watch('ingredients');
   const selectedIngredient = ingredients ? ingredients[2] : undefined;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Ingredient, SyrupProps } from '@app/types';
 
@@ -6,12 +7,18 @@ import useFetch from '@/hooks/use-fetch';
 
 const url = `/api/ingredient/syrup`;
 
-export default function Syrup({ errors, watch, handleClickSyrup }: SyrupProps) {
+export default function Syrup({ errors, watch, show, setShow }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
+  const { setValue } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleClickSyrup = (syrup: Ingredient | null) => {
+    show < 3 ? setShow(3) : null;
+    syrup === null ? setValue('syrup', null) : setValue('syrup', syrup);
   };
 
   const { data } = useFetch<Ingredient[]>(url);
