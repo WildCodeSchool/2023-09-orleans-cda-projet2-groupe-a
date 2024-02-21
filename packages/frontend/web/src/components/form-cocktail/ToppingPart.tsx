@@ -11,11 +11,7 @@ export default function ToppingPart({
   show,
   setShow,
 }: ToppingPartProps) {
-  const {
-    watch,
-    formState: { errors },
-    setValue,
-  } = useFormContext();
+  const { watch, errors, setValue } = useFormContext();
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);

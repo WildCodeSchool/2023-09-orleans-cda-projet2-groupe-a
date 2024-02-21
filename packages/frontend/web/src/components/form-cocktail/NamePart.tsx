@@ -3,13 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import ShakerIcon from '../icons/ShakerIcon';
 
 export default function NamePart() {
-  const {
-    register,
-    watch,
-    formState: { errors },
-    setError,
-    clearErrors,
-  } = useFormContext();
+  const { register, watch, errors, setError, clearErrors } = useFormContext();
   const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
     const softDrinkValue = watch('softDrink');

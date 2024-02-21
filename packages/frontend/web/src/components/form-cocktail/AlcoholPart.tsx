@@ -10,11 +10,7 @@ export default function AlcoholPart({
   setSelectedAlcohol,
 }: AlcoholPartProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const {
-    setValue,
-    formState: { errors },
-    watch,
-  } = useFormContext();
+  const { setValue, errors, watch } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);

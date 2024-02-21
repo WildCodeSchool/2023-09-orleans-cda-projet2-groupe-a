@@ -1,9 +1,4 @@
-import type {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from 'react-hook-form';
+import type { UseFormWatch } from 'react-hook-form';
 
 import type { Glass, Ingredient, Topping } from '.';
 

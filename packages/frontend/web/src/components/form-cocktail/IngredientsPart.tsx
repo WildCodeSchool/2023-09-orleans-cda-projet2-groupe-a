@@ -13,11 +13,7 @@ export default function IngredientsPart({
   actualIngredient,
   setActualIngredient,
 }: IngredientsPartProps) {
-  const {
-    watch,
-    formState: { errors },
-    setValue,
-  } = useFormContext();
+  const { watch, errors, setValue } = useFormContext();
   const [isFinished, setIsFinished] = useState(false);
   const [beforeIngredient, setBeforeIngredient] = useState(watch('alcohol'));
 

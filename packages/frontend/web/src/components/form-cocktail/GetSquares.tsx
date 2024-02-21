@@ -1,5 +1,3 @@
-import { useFormContext } from 'react-hook-form';
-
 import type { Ingredient, Topping } from '@app/types';
 
 import AlcoholPart from '@/components/form-cocktail/AlcoholPart';

@@ -7,10 +7,7 @@ import type { Glass } from '@app/types';
 const url = `/api/glass`;
 
 export default function GlassPart() {
-  const {
-    formState: { errors },
-    setValue,
-  } = useFormContext();
+  const { errors, setValue } = useFormContext();
   const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
 
   const fetchData = async (url: string, signal: AbortSignal) => {

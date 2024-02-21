@@ -13,10 +13,7 @@ export default function LevelPart({
   show,
   setShow,
 }: LevelPartProps) {
-  const {
-    setValue,
-    formState: { errors },
-  } = useFormContext();
+  const { setValue, errors } = useFormContext();
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(`/api/alcohol/${selectedLevel}`);

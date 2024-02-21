@@ -10,11 +10,7 @@ const url = `/api/ingredient/syrup`;
 export default function Syrup({ show, setShow }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
-  const {
-    setValue,
-    watch,
-    formState: { errors },
-  } = useFormContext();
+  const { setValue, watch, errors } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);

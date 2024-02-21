@@ -12,11 +12,7 @@ export default function SoftDrinks({
   withAlcohol,
 }: SoftDrinksProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const {
-    setValue,
-    watch,
-    formState: { errors },
-  } = useFormContext();
+  const { setValue, watch, errors } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
