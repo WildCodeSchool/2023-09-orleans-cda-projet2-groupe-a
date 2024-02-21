@@ -1,11 +1,15 @@
 import { useFormContext } from 'react-hook-form';
 
-import type { NamePartProps } from '@app/types';
-
 import ShakerIcon from '../icons/ShakerIcon';
 
-export default function NamePart({ register, errors }: NamePartProps) {
-  const { watch, setError, clearErrors } = useFormContext();
+export default function NamePart() {
+  const {
+    register,
+    watch,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useFormContext();
   const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
     const softDrinkValue = watch('softDrink');
@@ -74,6 +78,7 @@ export default function NamePart({ register, errors }: NamePartProps) {
       });
     }
   };
+
   return (
     <>
       <h1 className='relative w-[300px] rotate-[-12deg] text-center text-xl uppercase sm:text-2xl md:bottom-[8%] lg:w-[350px]'>

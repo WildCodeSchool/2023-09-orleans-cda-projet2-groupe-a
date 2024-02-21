@@ -7,13 +7,15 @@ import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 export default function ToppingPart({
   selectedTopping,
   selectedAlcohol,
-  errors,
-  watch,
   setSelectedTopping,
   show,
   setShow,
 }: ToppingPartProps) {
-  const { setValue } = useFormContext();
+  const {
+    watch,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);

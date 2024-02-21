@@ -6,15 +6,17 @@ import type { Ingredient, SoftDrinksProps } from '@app/types';
 import useFetch from '@/hooks/use-fetch';
 
 export default function SoftDrinks({
-  errors,
-  watch,
   show,
   setShow,
   setWithAlcohol,
   withAlcohol,
 }: SoftDrinksProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -50,12 +52,12 @@ export default function SoftDrinks({
       </label>
 
       {errors.softDrink?.type === 'required' ? (
-        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
+        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}
         </span>
       ) : undefined}
       {errors.softDrink?.type === 'validate' ? (
-        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
+        <span className='relative bottom-[-10px] rotate-[-12deg]'>
           {errors.softDrink.message}
         </span>
       ) : undefined}

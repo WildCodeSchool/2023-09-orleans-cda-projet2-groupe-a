@@ -5,14 +5,16 @@ import type { AlcoholPartProps, Ingredient } from '@app/types';
 
 export default function AlcoholPart({
   alcohols,
-  watch,
-  errors,
   setShow,
   show,
   setSelectedAlcohol,
 }: AlcoholPartProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    formState: { errors },
+    watch,
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -22,7 +24,6 @@ export default function AlcoholPart({
     setSelectedAlcohol(alcohol);
     setValue('alcohol', alcohol);
   };
-
   return (
     <>
       <label className='relative bottom-[7%] w-[250px] text-center text-xl uppercase sm:bottom-[12%] sm:w-[300px] sm:text-2xl'>

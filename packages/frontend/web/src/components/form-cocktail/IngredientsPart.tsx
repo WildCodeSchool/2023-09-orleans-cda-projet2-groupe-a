@@ -1,20 +1,23 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import IngredientToChoose from './IngredientToChoose';
 
 export default function IngredientsPart({
-  errors,
-  watch,
-  setValue,
   setShow,
   setIsModalShown,
   actualIngredient,
   setActualIngredient,
 }: IngredientsPartProps) {
+  const {
+    watch,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const [isFinished, setIsFinished] = useState(false);
   const [beforeIngredient, setBeforeIngredient] = useState(watch('alcohol'));
 
@@ -42,7 +45,6 @@ export default function IngredientsPart({
           <Search size={30} />
         </button>
       </div>
-
       {errors.ingredients?.type === 'required' ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}

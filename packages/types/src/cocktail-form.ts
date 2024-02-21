@@ -38,21 +38,13 @@ export type CocktailForm = {
 
 export interface AlcoholPartProps {
   alcohols: Ingredient[];
-  watch: UseFormWatch<CocktailForm>;
-  errors: FieldErrors<CocktailForm>;
   show: number;
   setShow: (show: number) => void;
   setSelectedAlcohol: (alcohol: Ingredient) => void;
 }
 
-export interface NamePartProps {
-  register: UseFormRegister<CocktailForm>;
-  errors: FieldErrors<CocktailForm>;
-}
-
 export interface LevelPartProps {
   level: number;
-  errors: FieldErrors<CocktailForm>;
   setWithAlcohol: (withAlcocool: boolean) => void;
   withAlcohol: boolean;
   setSelectedAlcohols: (alcohols: Ingredient[]) => void;
@@ -61,13 +53,6 @@ export interface LevelPartProps {
   setShow: (show: number) => void;
 }
 export interface IngredientsPartProps {
-  register: UseFormRegister<CocktailForm>;
-  errors: FieldErrors<CocktailForm>;
-  watch: UseFormWatch<CocktailForm>;
-  setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
   setShow: (show: number) => void;
   setIsModalShown: (isModalShown: boolean) => void;
   actualIngredient: number;
@@ -77,18 +62,9 @@ export interface IngredientsPartProps {
   handleIngredientChange?: (ingredient: Ingredient) => void;
 }
 
-export interface GlassPartProps {
-  setValue: UseFormSetValue<CocktailForm>;
-  handleGlassPartNextStepClick?: (section: number) => void;
-  errors: FieldErrors<CocktailForm>;
-}
-
 export interface ToppingPartProps {
-  register: UseFormRegister<CocktailForm>;
   selectedTopping: Topping | undefined;
   selectedAlcohol: Ingredient | null;
-  errors: FieldErrors<CocktailForm>;
-  watch: UseFormWatch<CocktailForm>;
   selectedIngredients: Ingredient[];
   setSelectedTopping: (topping: Topping) => void;
   show: number;
@@ -110,8 +86,6 @@ export interface IngredientProps {
 }
 
 export interface SoftDrinksProps {
-  watch: UseFormWatch<CocktailForm>;
-  errors: FieldErrors<CocktailForm>;
   setWithAlcohol: (withAlcocool: boolean) => void;
   withAlcohol: boolean;
   show: number;
@@ -119,8 +93,6 @@ export interface SoftDrinksProps {
 }
 
 export interface SyrupProps {
-  watch: UseFormWatch<CocktailForm>;
-  errors: FieldErrors<CocktailForm>;
   show: number;
   setShow: (show: number) => void;
 }

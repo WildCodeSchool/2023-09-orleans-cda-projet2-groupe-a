@@ -47,12 +47,6 @@ export default function GetSquares({
   setSelectedAlcohols,
   setSelectedTopping,
 }: UseSquareProps) {
-  const {
-    register,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useFormContext();
   const baseSquares = [
     {
       color: 'blue',
@@ -74,10 +68,6 @@ export default function GetSquares({
       },
       component: (
         <IngredientsPart
-          register={register}
-          errors={errors}
-          watch={watch}
-          setValue={setValue}
           setShow={setShow}
           setIsModalShown={setIsModalShown}
           actualIngredient={actualIngredient}
@@ -103,7 +93,7 @@ export default function GetSquares({
         lg: 0,
         md: 10,
       },
-      component: <GlassPart errors={errors} setValue={setValue} />,
+      component: <GlassPart />,
     },
     {
       color: 'green',
@@ -121,11 +111,8 @@ export default function GetSquares({
       },
       component: (
         <ToppingPart
-          register={register}
           selectedTopping={selectedTopping}
           selectedAlcohol={selectedAlcohol}
-          errors={errors}
-          watch={watch}
           selectedIngredients={[]}
           setSelectedTopping={setSelectedTopping}
           show={show}
@@ -151,7 +138,7 @@ export default function GetSquares({
         lg: 4,
         md: 5,
       },
-      component: <NamePart register={register} errors={errors} />,
+      component: <NamePart />,
     },
   ];
 
@@ -173,7 +160,6 @@ export default function GetSquares({
       component: (
         <LevelPart
           level={level}
-          errors={errors}
           withAlcohol={withAlcohol}
           setWithAlcohol={setWithAlcohol}
           setSelectedAlcohols={setSelectedAlcohols}
@@ -205,8 +191,6 @@ export default function GetSquares({
         <AlcoholPart
           alcohols={selectedAlcohols}
           setSelectedAlcohol={setSelectedAlcohol}
-          watch={watch}
-          errors={errors}
           setShow={setShow}
           show={show}
         />
@@ -232,8 +216,6 @@ export default function GetSquares({
       },
       component: (
         <SoftDrinks
-          watch={watch}
-          errors={errors}
           withAlcohol={withAlcohol}
           setWithAlcohol={setWithAlcohol}
           show={show}
@@ -259,9 +241,7 @@ export default function GetSquares({
         lg: 15,
         md: 16,
       },
-      component: (
-        <Syrup watch={watch} show={show} setShow={setShow} errors={errors} />
-      ),
+      component: <Syrup show={show} setShow={setShow} />,
     },
     ...baseSquares,
   ];

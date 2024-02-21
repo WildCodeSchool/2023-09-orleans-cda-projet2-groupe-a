@@ -7,10 +7,14 @@ import useFetch from '@/hooks/use-fetch';
 
 const url = `/api/ingredient/syrup`;
 
-export default function Syrup({ errors, watch, show, setShow }: SyrupProps) {
+export default function Syrup({ show, setShow }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
-  const { setValue } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -29,14 +33,14 @@ export default function Syrup({ errors, watch, show, setShow }: SyrupProps) {
         {'Choose or not your syrup'}
       </label>
 
-      {errors.alcohol?.type === 'required' ? (
-        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
+      {errors.syrup?.type === 'required' ? (
+        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
           {'This field is required'}
         </span>
       ) : undefined}
-      {errors.alcohol?.type === 'validate' ? (
-        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
-          {errors.alcohol.message}
+      {errors.syrup?.type === 'validate' ? (
+        <span className='relative bottom-[-10px] rotate-[-12deg]'>
+          {errors.syrup.message}
         </span>
       ) : undefined}
 
