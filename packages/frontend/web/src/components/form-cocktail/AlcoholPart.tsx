@@ -10,7 +10,11 @@ export default function AlcoholPart({
   setSelectedAlcohol,
 }: AlcoholPartProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { setValue, errors, watch } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -26,16 +30,11 @@ export default function AlcoholPart({
         {'Choose your booze'}
       </label>
 
-      {errors.alcohol?.type === 'required' ? (
+      {errors.alcohol ? (
         <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
-          {'This field is required'}
+          {errors.alcohol.message as string}
         </span>
-      ) : undefined}
-      {errors.alcohol?.type === 'validate' ? (
-        <span className='relative bottom-[50px] sm:bottom-[90px] md:bottom-[35px]'>
-          {errors.alcohol.message}
-        </span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img

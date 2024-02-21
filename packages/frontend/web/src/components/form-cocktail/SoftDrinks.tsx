@@ -12,7 +12,11 @@ export default function SoftDrinks({
   withAlcohol,
 }: SoftDrinksProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { setValue, watch, errors } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -47,16 +51,11 @@ export default function SoftDrinks({
         {'Choose your booze'}
       </label>
 
-      {errors.softDrink?.type === 'required' ? (
+      {errors.softDrink ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
+          {errors.softDrink.message as string}
         </span>
-      ) : undefined}
-      {errors.softDrink?.type === 'validate' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.softDrink.message}
-        </span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img

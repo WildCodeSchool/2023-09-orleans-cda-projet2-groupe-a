@@ -10,7 +10,11 @@ const url = `/api/ingredient/syrup`;
 export default function Syrup({ show, setShow }: SyrupProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hasSyrupOrNot, setHasSyrupOrNot] = useState('syrup');
-  const { setValue, watch, errors } = useFormContext();
+  const {
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
 
   const handleClickSelect = () => {
     setIsOpen(!isOpen);
@@ -29,16 +33,11 @@ export default function Syrup({ show, setShow }: SyrupProps) {
         {'Choose or not your syrup'}
       </label>
 
-      {errors.syrup?.type === 'required' ? (
+      {errors.syrup ? (
         <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
+          {errors.syrup.message as string}
         </span>
-      ) : undefined}
-      {errors.syrup?.type === 'validate' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.syrup.message}
-        </span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img

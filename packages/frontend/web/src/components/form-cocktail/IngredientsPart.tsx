@@ -13,7 +13,11 @@ export default function IngredientsPart({
   actualIngredient,
   setActualIngredient,
 }: IngredientsPartProps) {
-  const { watch, errors, setValue } = useFormContext();
+  const {
+    watch,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const [isFinished, setIsFinished] = useState(false);
   const [beforeIngredient, setBeforeIngredient] = useState(watch('alcohol'));
 
@@ -41,16 +45,13 @@ export default function IngredientsPart({
           <Search size={30} />
         </button>
       </div>
-      {errors.ingredients?.type === 'required' ? (
-        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.ingredients?.type === 'validate' ? (
+
+      {errors.ingredients ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredients.message}
+          {errors.ingredients.message as string}
         </span>
-      ) : undefined}
+      ) : null}
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

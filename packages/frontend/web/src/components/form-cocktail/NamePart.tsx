@@ -3,7 +3,13 @@ import { useFormContext } from 'react-hook-form';
 import ShakerIcon from '../icons/ShakerIcon';
 
 export default function NamePart() {
-  const { register, watch, errors, setError, clearErrors } = useFormContext();
+  const {
+    register,
+    watch,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useFormContext();
   const handleErrorSubmit = () => {
     const alcoholValue = watch('alcohol');
     const softDrinkValue = watch('softDrink');
@@ -72,7 +78,6 @@ export default function NamePart() {
       });
     }
   };
-
   return (
     <>
       <h1 className='relative w-[300px] rotate-[-12deg] text-center text-xl uppercase sm:text-2xl md:bottom-[8%] lg:w-[350px]'>
@@ -81,7 +86,7 @@ export default function NamePart() {
       <input
         className='w-[200px] rotate-[-12deg] border-b-[2px] border-dashed'
         {...register('name', {
-          required: true,
+          required: { value: true, message: 'write a name' },
           maxLength: { value: 255, message: "can't be longer than 255" },
           validate: {
             isString: (value) =>
@@ -90,21 +95,11 @@ export default function NamePart() {
         })}
       />
 
-      {errors.name?.type === 'required' ? (
+      {errors.name ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {'This field is required'}
+          {errors.name.message as string}
         </span>
-      ) : undefined}
-      {errors.name?.type === 'maxLength' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.name.message}
-        </span>
-      ) : undefined}
-      {errors.name?.type === 'isString' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.name.message}
-        </span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[-30%] flex w-full items-center justify-end md:bottom-[-10%] lg:bottom-[-25%]'>
         <h2 className='md:text-md font-stroke text-light text-xl uppercase lg:text-2xl'>

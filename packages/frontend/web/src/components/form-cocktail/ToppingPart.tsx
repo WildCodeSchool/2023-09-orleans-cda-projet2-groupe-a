@@ -11,7 +11,11 @@ export default function ToppingPart({
   show,
   setShow,
 }: ToppingPartProps) {
-  const { watch, errors, setValue } = useFormContext();
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
@@ -41,7 +45,8 @@ export default function ToppingPart({
     return allFlavours.reduce<Record<Flavour, number>>(
       (count, flavour) => {
         if (flavour !== undefined) {
-          count[flavour] = (count[flavour] || 0) + 1;
+          const flavourKey = flavour as Flavour;
+          count[flavourKey] = (count[flavourKey] || 0) + 1;
         }
         return count;
       },
@@ -123,22 +128,12 @@ export default function ToppingPart({
       <h1 className='relative bottom-[5%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl'>
         {'Pick a topping'}
       </h1>
+      {errors.topping ? (
+        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
+          {errors.topping.message as string}
+        </span>
+      ) : null}
 
-      {errors.topping?.type === 'required' ? (
-        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.topping?.type === 'maxLength' ? (
-        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
-          {errors.topping.message}
-        </span>
-      ) : undefined}
-      {errors.topping?.type === 'isString' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.topping.message}
-        </span>
-      ) : undefined}
       {shouldShowRandomTopping ? (
         <p>{randomTopping.name}</p>
       ) : (

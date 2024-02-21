@@ -7,7 +7,10 @@ import type { Glass } from '@app/types';
 const url = `/api/glass`;
 
 export default function GlassPart() {
-  const { errors, setValue } = useFormContext();
+  const {
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
 
   const fetchData = async (url: string, signal: AbortSignal) => {
@@ -55,14 +58,11 @@ export default function GlassPart() {
         {'Your glass'}
       </h1>
 
-      {errors.glass?.type === 'required' ? (
+      {errors.glass ? (
         <span className='relative bottom-[65px]'>
-          {'This field is required'}
+          {errors.glass.message as string}
         </span>
-      ) : undefined}
-      {errors.glass?.type === 'validate' ? (
-        <span className='relative bottom-[65px]'>{errors.glass.message}</span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
         <p className='w-[200px]'>{glass?.name}</p>

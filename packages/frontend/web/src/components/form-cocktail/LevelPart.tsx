@@ -13,7 +13,10 @@ export default function LevelPart({
   show,
   setShow,
 }: LevelPartProps) {
-  const { setValue, errors } = useFormContext();
+  const {
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const handleLevelClick = async (selectedLevel: number) => {
     try {
       const response = await fetch(`/api/alcohol/${selectedLevel}`);
@@ -54,16 +57,11 @@ export default function LevelPart({
         {'Choose your duel'}
       </h1>
 
-      {errors.level?.type === 'required' ? (
+      {errors.level ? (
         <span className='relative bottom-[25px] sm:bottom-[55px] md:bottom-[25px]'>
-          {'This field is required'}
+          {errors.level.message as string}
         </span>
-      ) : undefined}
-      {errors.level?.type === 'validate' ? (
-        <span className='relative bottom-[25px] sm:bottom-[55px] md:bottom-[25px]'>
-          {errors.level.message}
-        </span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[3%] left-[-4%] flex flex-row-reverse sm:bottom-[6%] sm:left-[-2%]'>
         {numberLevel.map((number) => (
