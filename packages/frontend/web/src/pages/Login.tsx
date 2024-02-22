@@ -16,13 +16,14 @@ export default function Login() {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [isUnderAge, setIsUnderAge] = useState<boolean>();
-  const { setIsImageShown, setIsModalShown, isWow, setIsWow } = useAnimations();
+  const { setIsSubmitted, setIsImageShown, setIsModalShown, isWow, setIsWow } =
+    useAnimations();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
-
+    setIsSubmitted(true);
     // Fetch sends request to /login route and returns a promise that is the answer to that request.
     // Await suspends code execution as soon as the promise is resolved.
     // Param1 from fetch : server adress & route.
@@ -51,67 +52,30 @@ export default function Login() {
       if (data.ok) {
         setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
-        setTimeout(() => {
-          setIsImageShown(true);
-        }, 700);
         if (data.isUnderAge) {
           setTimeout(() => {
             setIsModalShown(true);
-          }, 700);
+          }, 1700);
           setTimeout(() => {
-            setIsModalOpen(true);
+            console.log('coucou ça rentre bien dans cette condition');
             setTimeout(() => {
               navigate('/virgin');
-            }, 7000);
-          }, 3000);
+            }, 4000);
+          }, 1700);
         } else {
-          setIsUnderAge(!isUnderAge);
+          // console.log(isWow);
+          // setIsWow(true);
           setTimeout(() => {
-            console.log(isWow);
-            setIsWow(true);
-            setTimeout(() => {
-              navigate('/shaker');
-            }, 3000);
-          }, 700);
+            navigate('/');
+          }, 3000);
         }
       }
-
-      // console.log('hello', data);
-      // if (data.isLoggedIn && !data.isUnderAge) {
-      //   setIsLoggedIn(true);
-      //   console.log(data.isUnderAge);
-      //   navigate('/'); // If the user is logged in, he's redirected towards homepage.
-      // } else {
-      //   setIsLoggedIn(true);
-      //   setIsUnderAge(true);
-      //   navigate('/virgin'); // If the user is logged in && is under 18, he's redirected towards virgin page where alcohol is prohibited.
-      // }
     } catch (error) {
       console.error(
         'Error occured while logging in. Please try again later.',
         error,
       );
     }
-
-    // if (birthdate && isUnderAge && isLoggedIn) {
-    //   setIsImageShown(true);
-    //   setTimeout(() => {
-    //     setIsModalShown(true);
-    //     setIsModalOpen;
-    //   }, 2500);
-    //   if (isModalOpen) {
-    //     setTimeout(() => {
-    //       setIsModalOpen(false);
-    //       navigate('/register');
-    //     }, 1000);
-    //   }
-    // } else {
-    //   setTimeout(() => {
-    //     if (!isWow) {
-    //       setIsWow(true);
-    //     }
-    //   }, 1200);
-    // }
   };
 
   return (
