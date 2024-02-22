@@ -19,16 +19,6 @@ type Data = {
 
 const url = `/api/favorite/`;
 
-const image = (image: string | undefined, total_degree: number) => {
-  if (image === null) {
-    return total_degree > 0
-      ? '/placeholder-cocktail.webp'
-      : '/placeholder-cocktail-virgin.webp';
-  } else {
-    return `${import.meta.env.VITE_BACKEND_URL}/${image}`;
-  }
-};
-
 export default function Favorite() {
   const navigate = useNavigate();
 
