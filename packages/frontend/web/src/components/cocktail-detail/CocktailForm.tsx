@@ -1,5 +1,4 @@
 import { Upload } from 'lucide-react';
-import { log } from 'node:console';
 import { useState } from 'react';
 
 import type { Cocktail } from '@app/types';
@@ -83,10 +82,12 @@ export default function CocktailForm({
                 name='cocktailPic'
                 placeholder='Upload your image !'
                 onChange={(event) => {
-                  {
-                    event.target.files?.[0]?.size > 2_000_000
-                      ? setFileSizeError(true)
-                      : setUploadedImage(event.target.files?.[0] || null);
+                  const file = event.target.files?.[0];
+                  if (file && file.size > 2_000_000) {
+                    setFileSizeError(true);
+                  } else {
+                    setFileSizeError(false);
+                    setUploadedImage(file || null);
                   }
                 }}
                 className='ms-28 mt-2 w-full'
@@ -109,7 +110,7 @@ export default function CocktailForm({
                 <div className='flex normal-case'>
                   <button
                     type='submit'
-                    disabled={!uploadedImage && !anecdote}
+                    disabled={(!uploadedImage && !anecdote) || fileSizeError}
                     className='ms-auto flex cursor-pointer items-center justify-end transition-transform ease-in-out hover:rotate-3 hover:scale-110'
                   >
                     <p className='uppercase'>{`shake it !`}</p>
