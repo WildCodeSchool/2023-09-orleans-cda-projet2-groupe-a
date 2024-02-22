@@ -2,11 +2,11 @@ import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
-import GreetsLogin from '../components/GreetsLogin';
-
 import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
+
+import GreetsLogin from '../components/GreetsLogin';
 
 const now: Date = new Date();
 
