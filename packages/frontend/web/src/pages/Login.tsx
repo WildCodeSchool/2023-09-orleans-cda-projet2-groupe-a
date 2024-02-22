@@ -48,23 +48,22 @@ export default function Login() {
         isUnderAge: boolean;
       }; // Hover .json shows that it's a promise. Hence, the mention "await" preceed res.json.
 
-      console.log(data);
       if (data.ok) {
         setIsUnderAge(data.isUnderAge);
+        setIsImageShown(true);
         setIsLoggedIn(true);
         if (data.isUnderAge) {
+          setIsWow(false);
           setTimeout(() => {
             setIsModalShown(true);
-          }, 1700);
+          }, 700);
           setTimeout(() => {
-            console.log('coucou ça rentre bien dans cette condition');
             setTimeout(() => {
               navigate('/virgin');
-            }, 4000);
+            }, 3500);
           }, 1700);
         } else {
-          // console.log(isWow);
-          // setIsWow(true);
+          setIsWow(true);
           setTimeout(() => {
             navigate('/');
           }, 3000);
@@ -81,23 +80,20 @@ export default function Login() {
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
       <div
-        className='absolute z-40 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
-        <div className='flex h-screen w-screen flex-col items-center justify-center'>
+        <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
           {isLoggedIn ? <GreetsLogin /> : null}
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
           </h1>
-          {isUnderAge ? (
-            <CheckBirthdateAnimations isUnderAge={isUnderAge} />
-          ) : null}
           <form
             onSubmit={handleSubmit}
-            className='z-50 m-10 flex flex-col items-center gap-2'
+            className='m-10 flex flex-col items-center gap-2'
           >
             <input
-              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
+              className='2px border-dark m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
               type='email'
               placeholder='Email'
               value={email}
@@ -106,7 +102,7 @@ export default function Login() {
               }}
             />
             <input
-              className='2px border-dark z-40 m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
+              className='2px border-dark m-1 h-14 w-72 rounded border-[5px] p-1 text-center text-xl md:w-80 md:text-2xl'
               type='password'
               placeholder='Password'
               value={password}
@@ -123,6 +119,7 @@ export default function Login() {
               </button>
             </div>
           </form>
+          {isUnderAge !== undefined && <CheckBirthdateAnimations />}
         </div>
       </div>
       <div className='fixed top-1 z-40 flex h-1/5 flex-col items-start justify-center'>

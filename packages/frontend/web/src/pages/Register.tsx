@@ -60,7 +60,7 @@ export default function Register() {
           }, 700);
           setTimeout(() => {
             navigate('/virgin');
-          }, 7000);
+          }, 4000);
         } else {
           setTimeout(() => {
             if (!isWow && !data.isUnderAge) {
@@ -68,7 +68,7 @@ export default function Register() {
             }
             setTimeout(() => {
               navigate('/');
-            }, 3000);
+            }, 2500);
           }, 700);
         }
       }
@@ -78,9 +78,9 @@ export default function Register() {
   };
 
   return (
-    <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
+    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
       <div
-        className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        className='absolute h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
         <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
@@ -90,7 +90,7 @@ export default function Register() {
           </h1>
           <form
             onSubmit={handleClick}
-            className='z-50 flex flex-col items-center justify-center pt-[3.5rem]'
+            className='fixed flex flex-col items-center justify-center pt-[3.5rem]'
           >
             <input
               className='2px border-dark m-1 gap-2 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
@@ -171,9 +171,7 @@ export default function Register() {
           </div>
         )}
       </div>
-      {isUnderAge !== undefined && (
-        <CheckBirthdateAnimations isUnderAge={!!isUnderAge} />
-      )}
+      {isUnderAge !== undefined && <CheckBirthdateAnimations />}
     </div>
   );
 }
