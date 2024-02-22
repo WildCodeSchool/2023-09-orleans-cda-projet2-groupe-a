@@ -151,7 +151,6 @@ authRouter.post(
 
       // une fois la birthdate entrée en BDD, on la récupère pour effectuer le calcul de l'âge.
       // On sait donc si l'utilisateur est majeur ou non et on transmet cette information via isUnderAge.
-      // const userDateOfBirth = new Date(birthdate);
 
       // ajouter la logique du JWT + génération d'un cookie ici.
       const jwt = await new jose.SignJWT({
@@ -212,25 +211,9 @@ authRouter.post(
 
       const isCorrectPassword = await Bun.password.verify(
         password,
-        user.password, //à récuperer dans la BDD donc querybuilder ci-dessus l.90)
+        user.password, //à récuperer dans la BDD donc querybuilder ci-dessus l.199)
         'bcrypt',
       );
-
-      const isLoggedIn = isCorrectPassword;
-      const isUnderAge = calculateAge(user.birthdate).isUnderAge;
-
-      if (isLoggedIn) {
-        if (isUnderAge) {
-          console.log(isUnderAge);
-          console.log('coucou mineur', user.birthdate);
-          res.json({ isUnderAge: true });
-        } else {
-          console.log('coucou majeur', user.birthdate);
-          res.json({ isUnderAge: false });
-        }
-      } else {
-        console.log('You are not logged in');
-      }
 
       if (!isCorrectPassword) {
         return res.json({
@@ -267,7 +250,6 @@ authRouter.post(
         signed: true,
       });
 
-      if (isLoggedIn && isUnderAge) console.log({ user });
       return res.json({
         ok: true,
         isLoggedIn: isCorrectPassword,

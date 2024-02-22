@@ -119,7 +119,9 @@ export default function CheckBirthdate() {
           </form>
         </div>
       </div>
-      <CheckBirthdateAnimations isUnderAge={isUnderAge} />
+      {isUnderAge !== undefined && (
+        <CheckBirthdateAnimations isUnderAge={isUnderAge} />
+      )}
     </div>
   );
 }

@@ -42,20 +42,37 @@ export default function Login() {
       });
 
       const data = (await res.json()) as {
+        ok: boolean;
         isLoggedIn: boolean;
         isUnderAge: boolean;
       }; // Hover .json shows that it's a promise. Hence, the mention "await" preceed res.json.
 
       console.log(data);
-      console.log(res.json());
-      if (data.isLoggedIn) {
-        setIsLoggedIn(data.isLoggedIn);
+      if (data.ok) {
+        setIsUnderAge(data.isUnderAge);
+        setIsLoggedIn(true);
+        setTimeout(() => {
+          setIsImageShown(true);
+        }, 700);
         if (data.isUnderAge) {
-          setIsUnderAge(data.isUnderAge);
-          navigate('/virgin');
+          setTimeout(() => {
+            setIsModalShown(true);
+          }, 700);
+          setTimeout(() => {
+            setIsModalOpen(true);
+            setTimeout(() => {
+              navigate('/virgin');
+            }, 7000);
+          }, 3000);
         } else {
-          setIsUnderAge(data.isUnderAge);
-          navigate('/');
+          setIsUnderAge(!isUnderAge);
+          setTimeout(() => {
+            console.log(isWow);
+            setIsWow(true);
+            setTimeout(() => {
+              navigate('/shaker');
+            }, 3000);
+          }, 700);
         }
       }
 
@@ -76,33 +93,25 @@ export default function Login() {
       );
     }
 
-    if (birthdate && isUnderAge && isLoggedIn) {
-      document.body.classList.add('overflow-hidden');
-      setIsImageShown(true);
-      setTimeout(() => {
-        setIsModalShown(true);
-        setIsModalOpen;
-      }, 2500);
-      if (isModalOpen) {
-        setTimeout(() => {
-          setIsModalOpen(false);
-          navigate('/register');
-        }, 1000);
-      }
-    } else {
-      setTimeout(() => {
-        if (!isWow) {
-          setIsWow(true);
-        }
-        setTimeout(() => {
-          document.body.classList.add('overflow-hidden');
-          window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: 'smooth',
-          });
-        }, 700);
-      }, 1200);
-    }
+    // if (birthdate && isUnderAge && isLoggedIn) {
+    //   setIsImageShown(true);
+    //   setTimeout(() => {
+    //     setIsModalShown(true);
+    //     setIsModalOpen;
+    //   }, 2500);
+    //   if (isModalOpen) {
+    //     setTimeout(() => {
+    //       setIsModalOpen(false);
+    //       navigate('/register');
+    //     }, 1000);
+    //   }
+    // } else {
+    //   setTimeout(() => {
+    //     if (!isWow) {
+    //       setIsWow(true);
+    //     }
+    //   }, 1200);
+    // }
   };
 
   return (
@@ -116,7 +125,7 @@ export default function Login() {
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}
           </h1>
-          {isUnderAge !== undefined && isUnderAge !== null && isUnderAge ? (
+          {isUnderAge ? (
             <CheckBirthdateAnimations isUnderAge={isUnderAge} />
           ) : null}
           <form
@@ -159,10 +168,10 @@ export default function Login() {
           </div>
         )}
         {password == '' ||
-          (password.length < 3 && (
+          (password.length < 10 && (
             <>
               <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
-                {'Password must contain at least 3 caracters'}
+                {'Password must contain at least 10 caracters'}
               </div>
               <div className='mb-3 rounded border-2 border-red-600 bg-red-300 p-1 '>
                 {'Password field must be completed'}

@@ -2,11 +2,11 @@ import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+import GreetsLogin from '../components/GreetsLogin';
+
 import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
-
-import GreetsLogin from '../components/GreetsLogin';
 
 const now: Date = new Date();
 
@@ -19,8 +19,7 @@ export default function Register() {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
-  const { setIsImageShown, setIsSubmitted, setIsModalShown, isWow, setIsWow } =
-    useAnimations();
+  const { setIsSubmitted, setIsModalShown, isWow, setIsWow } = useAnimations();
   const { isUnderAge, setIsUnderAge } = useAge();
 
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
@@ -50,11 +49,9 @@ export default function Register() {
       //Hence, the mention "await" preceed res.json.
 
       if (data.ok) {
-        console.log(data.isUnderAge);
         setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
         if (data.isUnderAge) {
-          console.log(data.isUnderAge);
           if (isWow) {
             setIsWow(false);
           }
@@ -65,15 +62,14 @@ export default function Register() {
             navigate('/virgin');
           }, 7000);
         } else {
-          console.log(data.isUnderAge);
           setTimeout(() => {
             if (!isWow && !data.isUnderAge) {
               setIsWow(true);
             }
             setTimeout(() => {
               navigate('/');
-            }, 2500);
-          }, 500);
+            }, 3000);
+          }, 700);
         }
       }
     } catch {
