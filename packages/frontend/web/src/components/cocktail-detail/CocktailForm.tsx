@@ -1,4 +1,5 @@
 import { Upload } from 'lucide-react';
+import { log } from 'node:console';
 import { useState } from 'react';
 
 import type { Cocktail } from '@app/types';
@@ -17,6 +18,7 @@ export default function CocktailForm({
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [anecdote, setAnecdote] = useState('');
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const onSubmit = async () => {
     const formDataToSend = new FormData();
@@ -81,10 +83,17 @@ export default function CocktailForm({
                 name='cocktailPic'
                 placeholder='Upload your image !'
                 onChange={(event) => {
-                  setUploadedImage(event.target.files?.[0] || null);
+                  {
+                    event.target.files?.[0]?.size > 2_000_000
+                      ? setFileSizeError(true)
+                      : setUploadedImage(event.target.files?.[0] || null);
+                  }
                 }}
                 className='ms-28 mt-2 w-full'
               />
+              {fileSizeError ? (
+                <p className='text-red-500'>{'File size too big !'}</p>
+              ) : null}
               <div className='flex w-full justify-around'>
                 <label
                   htmlFor='cocktailPic'
