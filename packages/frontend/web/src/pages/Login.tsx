@@ -6,11 +6,9 @@ import GreetsLogin from '@/components/GreetsLogin';
 import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { useBirth } from '@/contexts/BirthContext';
 
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const { birthdate } = useBirth();
   const { isUnderAge, setIsUnderAge } = useAge();
   const navigate = useNavigate();
 
@@ -53,7 +51,9 @@ export default function Login() {
         setIsImageShown(true);
         setIsLoggedIn(true);
         if (data.isUnderAge) {
-          setIsWow(false);
+          if (isWow) {
+            setIsWow(false);
+          }
           setTimeout(() => {
             setIsModalShown(true);
           }, 700);

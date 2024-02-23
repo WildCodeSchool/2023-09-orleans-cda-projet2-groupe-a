@@ -8,7 +8,7 @@ import { useBirth } from '@/contexts/BirthContext';
 
 export default function CheckBirthdateAnimations() {
   const { isUnderAge } = useAge();
-  const { isImageShown, isSubmitted, isModalShown, isWow, setIsModalShown } =
+  const { isImageShown, isSubmitted, isModalShown, setIsModalShown } =
     useAnimations();
 
   const { birthdate } = useBirth();

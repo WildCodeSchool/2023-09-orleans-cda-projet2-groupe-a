@@ -20,7 +20,7 @@ export default function Layout() {
 
   return (
     <>
-      {!isLoggedIn && <CheckBirthdate />}
+      {!isLoggedIn && !birthdate && <CheckBirthdate />}
       {storedAge
         ? sessionStorage.getItem('isUnderAge') === null && <CheckBirthdate />
         : null}
