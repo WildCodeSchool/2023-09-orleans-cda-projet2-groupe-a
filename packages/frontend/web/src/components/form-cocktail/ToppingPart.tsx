@@ -124,7 +124,7 @@ export default function ToppingPart({
             <div key={topping.id} className='flex gap-3'>
               <input
                 className='hover:cursor-pointer'
-                type='radio'
+                type='checkbox'
                 id={topping.name}
                 value={topping.name}
                 checked={selectedTopping?.name === topping.name}
@@ -146,7 +146,10 @@ export default function ToppingPart({
         </p>
         <MoveRight size={40} />
         <button onClick={handleRandomToppingChoice} type='button'>
-          <Skull size={45} />
+          <Skull
+            className='transition-transform ease-in-out hover:rotate-[180deg] hover:scale-110'
+            size={45}
+          />
         </button>
       </div>
     </>

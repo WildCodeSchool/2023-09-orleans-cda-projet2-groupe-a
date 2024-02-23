@@ -213,26 +213,26 @@ await db.transaction().execute(async (trx) => {
   `.execute(trx);
 
   await sql`
-    INSERT INTO comment (user_id, cocktail_id, content, created_at)
-    VALUES
-    (1, 2, 'Great cocktail!', NOW()),
-    (3, 5, 'Amazing drink!', NOW()),
-    (4, 6, 'Fantastic taste!', NOW());
-  `.execute(trx);
-
-  await sql`
     INSERT INTO favorite (user_id, cocktail_id)
     VALUES
     (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 4),
+    (1, 5),
+    (1, 6),
+    (1, 7),
+    (1, 8),
+    (1, 9),
+    (1, 10),
+    (1, 11),
+    (1, 12),
+    (1, 13),
+    (1, 14),
+    (1, 15),
+    (1, 16),
     (2, 2),
     (3, 3);
-  `.execute(trx);
-
-  await sql`
-    INSERT INTO rating (user_id, cocktail_id, score, created_at)
-    VALUES
-    (1, 1, '5', NOW()),
-    (2, 2, '4', NOW());
   `.execute(trx);
 
   await sql`

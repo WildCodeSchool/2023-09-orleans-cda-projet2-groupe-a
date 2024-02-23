@@ -34,7 +34,7 @@ export default function AlcoholPart({
       <div className='relative bottom-[5%] flex gap-3 sm:bottom-[10%] sm:left-[0%]'>
         <img
           src='form-cocktail/arrow-yellow.png'
-          className={`hover:cursor-pointer ${
+          className={`transition-transform ease-in-out hover:scale-110 hover:cursor-pointer ${
             isOpen
               ? 'relative right-[103%] sm:right-[105%] lg:right-[105%]'
               : ''
@@ -46,19 +46,18 @@ export default function AlcoholPart({
         />
         <div>
           {isOpen ? (
-            <ul className='absolute bottom-[-220px] left-[-12%] h-[250px] w-[125px] overflow-y-scroll p-1 sm:bottom-[-220px] sm:h-[250px] md:bottom-[-95px] md:left-[-11.8%] md:h-[125px] lg:bottom-[-190px] lg:left-[-12%] lg:h-[220px]'>
+            <ul className='border-dark absolute bottom-[-220px] left-[-12%] h-[250px] w-[160px] overflow-y-scroll rounded-lg border-[4px] bg-white p-2 shadow-xl sm:bottom-[-220px] sm:h-[125px] md:bottom-[-95px] md:left-[-11.8%] md:top-[1rem] md:h-[150px] lg:left-[-12%]'>
               <li
-                className='w-[100px] w-full bg-white pl-1 pr-2 hover:cursor-pointer'
+                className='w-[100px] pl-1 pr-2 hover:cursor-pointer'
                 onClick={() => {
                   handleClickSelect();
                 }}
-              >
-                {'Alcohol'}
-              </li>
+              />
+
               {alcohols.map((alcohol) => (
                 <li
                   key={alcohol.id}
-                  className='w-[100px] w-full bg-white pl-1 pr-2 hover:cursor-pointer'
+                  className='w-[100px] pl-1 pr-2 transition-transform ease-in-out hover:scale-110 hover:cursor-pointer'
                   onClick={() => {
                     handleClickAlcohol(alcohol);
                     handleClickSelect();

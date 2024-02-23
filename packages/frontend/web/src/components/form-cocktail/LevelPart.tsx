@@ -28,7 +28,7 @@ export default function LevelPart({
         {numberLevel.map((number) => (
           <div
             key={number}
-            className={`peer h-[90px] w-[70px] bg-[url('/form-cocktail/fire-level.png')] bg-cover bg-no-repeat grayscale hover:cursor-pointer hover:grayscale-0 peer-hover:grayscale-0 sm:h-[120px] sm:w-[100px] ${
+            className={`peer h-[90px] w-[70px] bg-[url('/form-cocktail/fire-level.png')] bg-cover bg-no-repeat grayscale transition-transform ease-in-out hover:scale-110 hover:cursor-pointer hover:grayscale-0 peer-hover:grayscale-0 sm:h-[120px] sm:w-[100px] ${
               level >= number ? 'grayscale-0 ' : 'grayscale'
             }`}
             onClick={() => {

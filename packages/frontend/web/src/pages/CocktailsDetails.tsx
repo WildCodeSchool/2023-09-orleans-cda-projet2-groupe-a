@@ -4,6 +4,7 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import FavoriteHeart from '@/components/FavoriteHeart';
 import CocktailComments from '@/components/cocktail-detail/CocktailComments';
 import CocktailForm from '@/components/cocktail-detail/CocktailForm';
 import FireLevel from '@/components/cocktail-detail/FireLevel';
@@ -29,9 +30,13 @@ type Ingredient = {
   priority: number;
 };
 
+interface CocktailWithFavorite extends Cocktail {
+  is_favorite: number;
+}
+
 export default function CocktailsDetails() {
   const { id } = useParams();
-  const [cocktail, setCocktail] = useState<Cocktail | undefined>();
+  const [cocktail, setCocktail] = useState<CocktailWithFavorite | undefined>();
   const [ingredients, setIngredients] = useState<Ingredient[] | undefined>();
   const [toppings, setToppings] = useState<Topping[] | undefined>();
   const [tools, setTools] = useState<Tool[] | undefined>();
@@ -115,10 +120,11 @@ export default function CocktailsDetails() {
       <div className='flex flex-col justify-center md:flex-row'>
         <div className='relative m-auto h-[30rem] w-[25rem] transition-transform ease-in-out hover:scale-110 sm:m-0'>
           <div className='border-dark bg-pastel-yellow absolute -top-4 left-14 z-50 my-20 h-[21rem] w-[18rem] rounded-sm border-[3px] uppercase'>
+            <FavoriteHeart id={cocktail.id} isFavorite={cocktail.is_favorite} />
             <img
               src={
                 cocktail.image
-                  ? `${import.meta.env.VITE_BACKEND_URL}/${cocktail.image}`
+                  ? `api/${cocktail.image}`
                   : '/cocktail-placeholder.png'
               }
               alt='Cocktail picture'
@@ -202,9 +208,7 @@ export default function CocktailsDetails() {
       <CocktailComments />
       <h2 className='font-stroke text-light mb-10 mt-20 flex px-2 text-center text-[1.4rem] font-extrabold uppercase'>{`you're going to love them !`}</h2>
 
-      <div className='border-dark bg-pastel-pink relative m-auto mb-20 w-[90%] rounded-sm border-[3px] sm:w-[70%] sm:flex-wrap md:w-[90%]'>
-        <SimilarCocktail />
-      </div>
+      <SimilarCocktail />
     </div>
   );
 }

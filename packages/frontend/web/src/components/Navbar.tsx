@@ -24,9 +24,9 @@ type NavbarContent = {
 
 const navbarContentInfo: NavbarContent[] = [
   {
-    name: 'Cocktails',
-    url: '/cocktails',
-    icon: Martini,
+    name: 'Profile',
+    url: '/profile',
+    icon: UserCircle2,
   },
   {
     name: 'Shaker',
@@ -34,13 +34,13 @@ const navbarContentInfo: NavbarContent[] = [
     icon: Plus,
   },
   {
-    name: 'Profile',
-    url: '/profile',
-    icon: UserCircle2,
+    name: 'Cocktails',
+    url: '/cocktails',
+    icon: Martini,
   },
   {
     name: 'Favorite',
-    url: '/favorite',
+    url: '/favorites',
     icon: Heart,
   },
   {
@@ -67,13 +67,9 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/logout`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        },
-      );
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+      });
       if (response.ok) {
         setIsLoggedIn(false);
         navigate('/');

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useSound } from 'use-sound';
 
 import type { CocktailForm, Topping } from '@app/types';
 import type { Ingredient } from '@app/types';
@@ -14,6 +15,7 @@ import NamePart from '@/components/form-cocktail/NamePart';
 import ToppingPart from '@/components/form-cocktail/ToppingPart';
 
 import Shaker from './Shaker';
+import sound from '/shake.mp3';
 
 export default function AddCocktail() {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -29,6 +31,8 @@ export default function AddCocktail() {
   const [selectedTopping, setSelectedTopping] = useState<Topping | undefined>();
 
   const [selectedAlcohols, setSelectedAlcohols] = useState<Ingredient[]>([]);
+
+  const [play, { stop }] = useSound(sound);
 
   const navigate = useNavigate();
   const [isShake, setIsShake] = useState(false);
@@ -51,7 +55,7 @@ export default function AddCocktail() {
 
   const handleLevelClick = async (selectedLevel: number) => {
     try {
-      const response = await fetch(`/api/alcohols/${selectedLevel}`);
+      const response = await fetch(`/api/alcohol/${selectedLevel}`);
       const result = await response.json();
       setSelectedAlcohols(result);
       if (selectedLevel === level) {
@@ -140,31 +144,31 @@ export default function AddCocktail() {
   };
 
   const onSubmit = async (data: CocktailForm) => {
+    setIsShake(true);
+    play();
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/add`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
+      const response = await fetch(`/api/cocktail/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
       const responseBody = await response.json();
-      setIsShake(true);
       if (responseBody.ok === true) {
         const cocktailId = responseBody.cocktailId;
-        setIsShake(false);
 
-        navigate(`/details/${cocktailId}`);
+        setTimeout(() => {
+          stop();
+          navigate(`/details/${cocktailId}`);
+        }, 3000);
       } else if (responseBody.message === 'not connected') {
+        stop();
         navigate(`/login`);
       }
     } catch (error) {

@@ -1,8 +1,7 @@
 import { MoveRight, Skull } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import type { CocktailForm, Ingredient, IngredientProps } from '@app/types';
-
-import useFetch from '@/hooks/use-fetch';
 
 export default function IngredientToChoose({
   watch,
@@ -12,6 +11,10 @@ export default function IngredientToChoose({
   actualIngredient,
   setActualIngredient,
 }: IngredientProps) {
+  const [ingredientsList, setIngredientsList] =
+    useState<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>();
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleIngredientChange = (
     value: Pick<Ingredient, 'name' | 'id'>,
   ): void => {
@@ -25,14 +28,46 @@ export default function IngredientToChoose({
     }
   };
 
-  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}`;
+  const fetchData = async (url: RequestInfo, controller: AbortController) => {
+    const res = await fetch(url, {
+      signal: controller.signal,
+    });
+    const info = await res.json();
 
-  const { data, isLoading } =
-    useFetch<Pick<Ingredient, 'name' | 'id' | 'flavour'>[]>(url);
+    setIngredientsList(info);
+    setIsLoading(false);
+  };
+
+  const ingredients = watch('ingredients') as Ingredient[];
+
+  const queryParameters = new URLSearchParams();
+
+  queryParameters.append(`alcohol`, watch('alcohol.name'));
+
+  if (ingredients !== undefined) {
+    for (const [index, ingredient] of ingredients.entries()) {
+      queryParameters.append(`ingredient${index}`, ingredient.name);
+    }
+  }
+
+  const url = `/api/ingredient/${beforeIngredient?.id ?? 1}?${queryParameters.toString()}`;
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchData(url, controller).catch(() => {
+      setIsLoading(false);
+      console.error('the fetch doesnt work');
+    });
+    return () => {
+      controller.abort();
+    };
+  }, [url]);
 
   const randomIngredient = async () => {
     try {
-      const response = await fetch(`/api/ingredient/random`);
+      const response = await fetch(
+        `/api/ingredient/random?${queryParameters.toString()}`,
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -48,8 +83,6 @@ export default function IngredientToChoose({
     }
   };
 
-  const ingredients = watch('ingredients');
-
   return `ingredients[${actualIngredient}]` === 'ingredients[3]' &&
     ingredients !== undefined ? (
     <ul className='relative bottom-[7%] right-[-7%] h-[136px] sm:bottom-[10%] sm:right-[-13%]'>
@@ -62,11 +95,11 @@ export default function IngredientToChoose({
       <fieldset className='relative bottom-[7%] right-[-7%] grid h-[88px] w-[200px] grid-flow-col grid-rows-3 gap-2 gap-x-2 sm:bottom-[10%] sm:right-[-13%] sm:w-[300px]'>
         {isLoading
           ? undefined
-          : data?.map((ingredient) => (
+          : ingredientsList?.map((ingredient) => (
               <div key={ingredient.id} className='flex gap-3'>
                 <input
                   className='hover:cursor-pointer'
-                  type='radio'
+                  type='checkbox'
                   id={ingredient.name}
                   value={ingredients ? ingredients[2]?.name : undefined}
                   checked={
@@ -98,7 +131,10 @@ export default function IngredientToChoose({
             await randomIngredient();
           }}
         >
-          <Skull size={45} />
+          <Skull
+            className='transition-transform ease-in-out hover:rotate-[180deg] hover:scale-110'
+            size={45}
+          />
         </button>
       </div>
     </>

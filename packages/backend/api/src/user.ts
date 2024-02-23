@@ -4,11 +4,13 @@ import { sql } from 'kysely';
 
 import { db } from '@app/backend-shared';
 
-import loginIdUser from './middlewares/login-id-user';
+import blockNotLogin from './middlewares/block-not-login';
+import checkAuthState from './middlewares/check-auth-state';
 import validateUpdateUser from './middlewares/validate-update-user';
 
 interface RequestWithUser extends Request {
-  userId?: number;
+  userId: number;
+  isloggedIn?: boolean;
 }
 
 const user = express.Router();
@@ -24,7 +26,12 @@ const user = express.Router();
 //    - The rating given in each comment
 //    - The name of the cocktail associated with each comment
 
-async function getUser(id: number, shouldSelectEmail: boolean) {
+async function getUser(
+  id: number,
+  shouldSelectEmail: boolean,
+  isloggedIn: boolean,
+  userId: number = 0,
+) {
   return db.transaction().execute(async (trx) => {
     const result = await sql`
       WITH ranked_ingredients AS (
@@ -74,7 +81,8 @@ async function getUser(id: number, shouldSelectEmail: boolean) {
               WHEN '10' THEN 10 
               ELSE 0 
             END
-          ) AS avg_rating 
+          ) AS avg_rating,
+        (EXISTS(SELECT 1 FROM favorite WHERE favorite.cocktail_id = cocktail.id AND favorite.user_id = ${userId})) AS is_favorite
         FROM user 
         INNER JOIN cocktail ON user.id = cocktail.author 
         LEFT JOIN rating ON cocktail.id = rating.cocktail_id 
@@ -92,6 +100,7 @@ async function getUser(id: number, shouldSelectEmail: boolean) {
               JSON_OBJECT(
                 'cocktail_id', ci.cocktail_id, 
                 'cocktail_name', ci.cocktail_name, 
+                'is_favorite', ci.is_favorite,
                 'avg_rating', ci.avg_rating, 
                 'ingredient_name', ri.ingredient_name, 
                 'family', ri.family
@@ -168,28 +177,40 @@ async function getAllUsers() {
   });
 }
 
-user.get('/profile', loginIdUser, async (req: RequestWithUser, res) => {
-  const id = req.userId;
-  const shouldSelectEmail = true;
-  if (id == null) {
-    res.json({ ok: false, message: 'not connected' });
-    return;
-  }
+user.get(
+  '/profile',
+  checkAuthState,
+  blockNotLogin,
+  async (req: RequestWithUser, res) => {
+    const id = req.userId;
+    let isloggedIn = req.isloggedIn;
+    const shouldSelectEmail = true;
 
-  try {
-    const result = await getUser(id, shouldSelectEmail);
-    res.json(result[0]);
-  } catch {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    if (isloggedIn === undefined) {
+      isloggedIn = false;
+    }
 
-user.get('/:id', async (req, res) => {
+    try {
+      const result = await getUser(id, shouldSelectEmail, isloggedIn, id);
+      res.json(result[0]);
+    } catch {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+);
+
+user.get('/:id', checkAuthState, async (req: RequestWithUser, res) => {
   const id = Number.parseInt(req.params.id);
   const shouldSelectEmail = false;
+  const userId = req.userId;
+  let isloggedIn = req.isloggedIn;
+
+  if (isloggedIn === undefined) {
+    isloggedIn = false;
+  }
 
   try {
-    const result = await getUser(id, shouldSelectEmail);
+    const result = await getUser(id, shouldSelectEmail, isloggedIn, userId);
 
     res.json(result[0]);
   } catch {
@@ -215,12 +236,14 @@ interface Updates {
 
 user.put(
   '/update',
-  loginIdUser,
+  checkAuthState,
+  blockNotLogin,
   validateUpdateUser,
   async (req: RequestWithUser, res: Response) => {
     const userId = req.userId;
+    const isloggedIn = req.isloggedIn;
 
-    if (userId == null) {
+    if (userId == null || !isloggedIn) {
       return res.json({ ok: false, message: 'not connected' });
     }
 

@@ -7,6 +7,7 @@ import AddCocktail from './pages/AddCocktail';
 import Cocktails from './pages/Cocktails';
 import CocktailsDetails from './pages/CocktailsDetails';
 import Community from './pages/Community';
+import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import NoKidsAllowed from './pages/NoKidsAllowed';
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: 'community',
         element: <Community />,
+      },
+      {
+        path: 'favorites',
+        element: <Favorites />,
       },
       {
         path: 'cocktails',

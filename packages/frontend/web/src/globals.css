@@ -285,7 +285,7 @@
     height: 15px;
     width: 15px;
     background: #fff;
-    border: 2px solid #000000;
+    border: 3px solid #000000;
     transform: rotate(-5deg);
   }
   input[type='checkbox']:checked {
@@ -295,5 +295,15 @@
   .shadow-card-community {
     -webkit-box-shadow: -10px 7px 15px 5px rgba(33, 12, 42, 0.57);
     box-shadow: -10px 7px 15px 5px rgba(38, 12, 42, 0.57);
+  }
+
+  .shadow-card-favorite {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(42, 12, 33, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(42, 12, 30, 0.57);
+  }
+
+  .shadow-card-virgin {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(42, 20, 12, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(42, 22, 12, 0.57);
   }
 }

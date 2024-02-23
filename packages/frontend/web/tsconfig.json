@@ -22,7 +22,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "use-sound.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"

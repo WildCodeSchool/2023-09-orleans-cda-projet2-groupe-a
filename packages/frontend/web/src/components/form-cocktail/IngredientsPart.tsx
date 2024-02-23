@@ -51,7 +51,10 @@ export default function IngredientsPart({
             }
           }}
         >
-          <Search size={30} />
+          <Search
+            className='transition-transform ease-in-out hover:scale-110'
+            size={30}
+          />
         </button>
       </div>
 

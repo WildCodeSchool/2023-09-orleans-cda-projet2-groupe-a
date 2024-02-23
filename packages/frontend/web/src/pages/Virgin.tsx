@@ -8,6 +8,7 @@ export type VirginCocktail = {
   cocktail_id: number;
   name: string;
   avg_rating: number;
+  is_favorite: number;
 };
 
 interface Data {
@@ -23,7 +24,7 @@ export default function VirginCocktails() {
 
     const fetchCocktails = async (): Promise<void> => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/virgin`, {
+        const response = await fetch(`/api/virgin`, {
           signal,
         });
         if (!response.ok) {
@@ -47,33 +48,35 @@ export default function VirginCocktails() {
 
   return (
     <div
-      className='z-20 min-h-screen w-screen grid-flow-row overflow-auto bg-cover p-5'
+      className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
       style={{ backgroundImage: `url('/bg-virgin.svg')` }}
     >
-      <div className='flex h-full w-full items-center justify-center'>
-        <div className='bg-card-virgin-orange border-light-orange flex h-full w-full justify-center rounded-lg border-4 p-3 shadow-2xl sm:w-[70vw] md:h-[13rem] md:w-[27rem]'>
-          <div className='flex h-full w-full flex-col items-center justify-center sm:ml-[20px]'>
-            <h1 className='font-stroke xxs:text-2xl md:font-stroke text-light absolute z-50 m-auto mr-[200px] flex stroke-[2rem] py-[4rem] ps-5 text-center text-[2.5rem] font-extrabold uppercase sm:text-2xl md:text-4xl'>
-              {'Virgin'}
-            </h1>
-            <div
-              className='xxs:h-[150px] xs:w-[300px] xxs:ml-[150px] z-50 ml-[250px] h-[200px] w-[350px] bg-center bg-no-repeat'
-              style={{
-                backgroundImage: `url('/feeding-bottle-cocktails-2.svg')`,
-              }}
+      <div
+        className='shadow-card-cocktail bg-card-virgin-orange mx-auto mb-10 flex h-[13rem] w-[90vw] rounded border-[4px] border-[#F5A975] bg-cover bg-center shadow-lg transition-transform ease-in-out hover:scale-110 sm:w-[70vw] md:h-[12.5rem] md:w-[24rem]'
+        style={{ backgroundImage: `url('green-dot.png')` }}
+      >
+        <div className='relative h-full w-full'>
+          <h1 className='font-stroke text-light absolute left-5 z-50 m-auto flex stroke-[2rem] py-[4rem] ps-7 text-center text-[2.5rem] font-extrabold uppercase'>{`Virgin`}</h1>
+          <div className='flex justify-end'>
+            <img
+              src='/home/home-4.png'
+              alt='Feeding bottle'
+              className='absolute z-20 h-[13rem] sm:h-[13rem] sm:w-[12rem]'
             />
           </div>
         </div>
       </div>
-      <div className='px-50 md:pl-28'>
-        <div className='xs:text-xl xxs:-ml-[360px] flex flex-col items-center justify-center gap-y-10 sm:-ml-[80px] sm:px-20 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3'>
+      <div className='sm:scrollbar-bigger-rounded mb-8 mt-[0.5rem] flex h-[65vh] flex-wrap justify-center overflow-x-hidden sm:overflow-y-scroll'>
+        <div className='flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
           {virginCocktails.length > 0 &&
-            virginCocktails.map((cocktail, index) => (
-              <div key={index} className='pb-[22rem]'>
+            virginCocktails.map((cocktail) => (
+              <div key={cocktail.id} className='m-6'>
                 <VirginCocktailCard
                   name={cocktail.name}
                   avg_rating={cocktail.avg_rating}
                   virginCocktail={cocktail}
+                  is_favorite={cocktail.is_favorite}
+                  cocktail_id={cocktail.id}
                 />
               </div>
             ))}

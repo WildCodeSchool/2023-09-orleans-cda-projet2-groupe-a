@@ -27,13 +27,10 @@ export default function CocktailForm({
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}/upload`,
-        {
-          method: 'POST',
-          body: formDataToSend,
-        },
-      );
+      const response = await fetch(`/api/cocktail/${cocktail.id}/upload`, {
+        method: 'POST',
+        body: formDataToSend,
+      });
       if (response.ok) {
         await response.json();
       } else {

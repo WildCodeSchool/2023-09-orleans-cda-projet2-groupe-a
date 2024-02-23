@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import Carousel from './Carousel';
+
 export default function SimilarCocktail() {
   const { id } = useParams();
   const [similarCocktails, setSimilarCocktails] = useState<
@@ -26,12 +28,11 @@ export default function SimilarCocktail() {
     const controller = new AbortController();
     const signal = controller.signal;
 
-    fetchSimilarCocktails(
-      `${import.meta.env.VITE_API_URL}/cocktail/${id}/suggestion`,
-      signal,
-    ).catch((error) => {
-      console.error(error);
-    });
+    fetchSimilarCocktails(`/api/cocktail/${id}/suggestion`, signal).catch(
+      (error) => {
+        console.error(error);
+      },
+    );
 
     return () => {
       controller.abort();
@@ -39,69 +40,82 @@ export default function SimilarCocktail() {
   }, [id]);
 
   return (
-    <div className='m-10 mb-8 flex flex-wrap justify-center md:justify-between'>
-      {similarCocktails?.map((cocktail, index) => (
-        <div
-          className='transition-transform ease-in-out hover:scale-110 '
-          key={cocktail.id}
-        >
-          <Link to={`/details/${cocktail.id}`}>
+    <>
+      <div className='border-dark bg-pastel-pink relative m-auto mb-20 hidden w-[90%] rounded-sm border-[3px] sm:w-[70%] sm:flex-wrap md:block md:w-[90%]'>
+        <div className='m-10 mb-8 flex flex-wrap justify-center md:justify-between'>
+          {similarCocktails?.map((cocktail, index) => (
             <div
-              className={`border-dark mb-12 me-[28px] mt-5 h-[336px] w-[288px] rounded-sm border-[3px] ${
-                index % 2 === 0 ? 'bg-pastel-brown' : 'bg-card-blue'
-              }`}
+              className='transition-transform ease-in-out hover:scale-110 '
+              key={cocktail.id}
             >
-              <div
-                className={`border-dark relative left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px] ${
-                  index % 2 === 0 ? 'bg-card-pink' : 'bg-card-light-green'
-                }`}
-              >
+              <Link to={`/details/${cocktail.id}`}>
                 <div
-                  className={`border-dark relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]  ${
-                    index % 2 === 0 ? 'bg-pastel-yellow' : 'bg-card-dark-green'
+                  className={`border-dark mb-12 me-[28px] mt-5 h-[336px] w-[288px] rounded-sm border-[3px] ${
+                    index % 2 === 0 ? 'bg-pastel-brown' : 'bg-card-blue'
                   }`}
                 >
-                  <img
-                    src={`${
-                      index % 2 === 0
-                        ? '/placeholder-cocktail-virgin.webp'
-                        : '/placeholder-cocktail.webp'
+                  <div
+                    className={`border-dark relative left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px] ${
+                      index % 2 === 0 ? 'bg-card-pink' : 'bg-card-light-green'
                     }`}
-                    alt='Cocktail picture'
-                    className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
-                  />
-                  <div>
-                    <div className='mx-4 mt-3 text-center'>
-                      <h1 className='font-stroke text-light text-md pb-2 normal-case'>
-                        {cocktail.name}
-                      </h1>
-                    </div>
-                    <div className='flex justify-center'>
-                      {Number(cocktail.ratings_average) === 0 ? (
-                        <p className='text-sm font-extralight'>
-                          {'not grade yet'}
-                        </p>
-                      ) : (
-                        [1, 2, 3, 4, 5].map((index) => (
-                          <div
-                            key={cocktail.id}
-                            className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat ${
-                              index <=
-                              Math.floor(Number(cocktail.ratings_average) / 2)
-                                ? 'grayscale-0 '
-                                : 'grayscale'
-                            }`}
-                          />
-                        ))
-                      )}
+                  >
+                    <div
+                      className={`border-dark relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]  ${
+                        index % 2 === 0
+                          ? 'bg-pastel-yellow'
+                          : 'bg-card-dark-green'
+                      }`}
+                    >
+                      <img
+                        src={`${
+                          index % 2 === 0
+                            ? '/placeholder-cocktail-virgin.webp'
+                            : '/placeholder-cocktail.webp'
+                        }`}
+                        alt='Cocktail picture'
+                        className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                      />
+                      <div>
+                        <div className='mx-4 mt-3 text-center'>
+                          <h1 className='font-stroke text-light text-md pb-2 normal-case'>
+                            {cocktail.name}
+                          </h1>
+                        </div>
+                        <div className='flex justify-center'>
+                          {Number(cocktail.ratings_average) === 0 ? (
+                            <p className='text-sm font-extralight'>
+                              {'not grade yet'}
+                            </p>
+                          ) : (
+                            [1, 2, 3, 4, 5].map((index) => (
+                              <div
+                                key={cocktail.id}
+                                className={`h-[30px] w-[30px] bg-[url('/star-yellow.png')] bg-cover bg-no-repeat ${
+                                  index <=
+                                  Math.floor(
+                                    Number(cocktail.ratings_average) / 2,
+                                  )
+                                    ? 'grayscale-0 '
+                                    : 'grayscale'
+                                }`}
+                              />
+                            ))
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
-          </Link>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+      <div className='xs:left-[5rem] relative left-[2rem] mb-14 mt-20 block h-[400px] sm:left-[10rem] md:hidden '>
+        {Array.isArray(similarCocktails) && similarCocktails.length > 0 && (
+          <Carousel similarCocktails={similarCocktails} />
+        )}
+      </div>
+    </>
   );
 }
