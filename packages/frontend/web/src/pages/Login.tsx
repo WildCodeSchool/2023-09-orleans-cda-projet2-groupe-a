@@ -83,7 +83,7 @@ export default function Login() {
         className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
-        <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
+        <div className='z-40 mt-10 flex h-screen w-screen flex-col items-center justify-center'>
           {isLoggedIn ? <GreetsLogin /> : null}
           <h1 className='text-light font-stroke justify mb-4 text-center text-5xl font-bold'>
             {'Login'}

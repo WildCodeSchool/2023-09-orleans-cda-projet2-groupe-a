@@ -83,14 +83,14 @@ export default function Register() {
         className='absolute h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
+        <h1 className='text-light font-stroke mt-[250px] text-center text-5xl font-bold'>
+          {'Register'}
+        </h1>
         <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
           {isLoggedIn ? <GreetsLogin /> : null}
-          <h1 className='text-light font-stroke mt-10 text-center text-5xl font-bold'>
-            {'Register'}
-          </h1>
           <form
             onSubmit={handleClick}
-            className='fixed flex flex-col items-center justify-center pt-[3.5rem]'
+            className='fixed top-[20rem] flex flex-col items-center justify-center pt-[3rem]'
           >
             <input
               className='2px border-dark m-1 gap-2 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
