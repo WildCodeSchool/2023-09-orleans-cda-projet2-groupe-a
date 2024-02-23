@@ -55,7 +55,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/profile-page/bg-profil-page.webp')] bg-cover ">
+    <div className="h-screen w-screen overflow-x-hidden overflow-y-scroll bg-[url('/bg-profile-page.png')] bg-cover ">
       <Header
         pseudo={user.pseudo}
         image={user.image}
@@ -64,21 +64,26 @@ export default function ProfilePage() {
         setIsOpen={setIsOpen}
       />
       <div className='relative top-[-40px] flex w-screen flex-col items-center lg:top-[-100px]'>
-        <h1 className='font-stroke-small-text text-light mb-10 mt-5 text-xl font-extrabold uppercase md:absolute md:right-[75%] md:top-[17%] md:w-[160px] lg:top-[22%] lg:w-[250px] lg:text-2xl '>
+        <h1 className='font-stroke-title text-light mb-10 mt-20 text-[1.6rem] font-extrabold uppercase md:absolute md:left-[2rem] md:top-[17%] md:mt-5 md:w-[160px] lg:top-[12%] lg:w-[250px] lg:text-[1.6rem] '>
           {'your recipes'}
         </h1>
         <div className="z-20 h-[240px] w-[350px] bg-[url('/profile-page/miss-hold-it.webp')] bg-cover sm:h-[400px] sm:w-[600px]" />
-        <div className='bg-light border-dark relative top-[-40px] z-10 h-[400px] w-full border-y-[6px] pe-1 sm:top-[-60px] md:h-[800px] md:w-[98%] md:border-[6px]'>
-          <div className='bg-light scrollbar-bigger-rounded h-full w-full overflow-y-hidden md:overflow-x-hidden md:overflow-y-scroll'>
-            <div className='h-[400px] md:my-5 md:grid md:grid-cols-2 md:gap-5 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
-              {user.cocktails === null ? (
-                'there is no cocktails for the moment'
-              ) : (
+
+        {user.cocktails === null ? (
+          <div className='bg-light border-dark relative top-[-40px] z-10 w-full border-y-[6px] pe-1 sm:top-[-60px] md:w-[50%] md:border-[6px]'>
+            <p className='my-12 flex justify-center'>
+              {'"There is no cocktails for the moment"'}
+            </p>
+          </div>
+        ) : (
+          <div className='bg-light border-dark relative top-[-40px] z-10 h-[400px] w-full border-y-[6px] pe-1 sm:top-[-60px] md:h-[800px] md:w-[98%] md:border-[6px]'>
+            <div className='bg-light scrollbar-bigger-rounded h-full w-full overflow-y-hidden md:overflow-x-hidden md:overflow-y-scroll'>
+              <div className='h-[400px] md:my-5 md:grid md:grid-cols-2 md:gap-5 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
                 <Card cocktails={user.cocktails} />
-              )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <CommentsSection comments={user.comments} />
       {isOpen ? (

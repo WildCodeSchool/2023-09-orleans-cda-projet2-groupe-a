@@ -7,13 +7,9 @@ import Stars from '@/components/favorite/Stars';
 import Title from '@/components/favorite/Title';
 import useFetch from '@/hooks/use-fetch';
 
-interface DataNotConnected {
-  ok: boolean;
-  message: string;
-}
-
 type Data = {
-  status?: DataNotConnected;
+  ok?: boolean;
+  message?: string;
   cocktails?: Pick<
     Cocktail,
     'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
@@ -36,12 +32,7 @@ export default function Favorite() {
   const navigate = useNavigate();
 
   const { data } = useFetch<Data>(url);
-
-  if (
-    data?.status !== undefined &&
-    !data.status.ok &&
-    data.status.message === 'not connected'
-  ) {
+  if (data !== undefined && !data.ok && data.message === 'not connected') {
     navigate('/login');
   }
 
