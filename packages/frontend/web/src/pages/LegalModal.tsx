@@ -48,7 +48,7 @@ export default function LegalNotice() {
             {'Warning against excessive alcohol consumption'}
           </h1>
           <div className='leading-5loose justify-center px-8 text-lg tracking-widest'>
-            <div className='absolute right-0 top-0 mr-[22rem] mt-[16rem] rotate-180 text-center text-sm'>
+            <div className='absolute right-0 top-0 mr-[18rem] mt-[18rem] rotate-180 text-center text-sm'>
               <img
                 src='/scroll-arrow.svg'
                 alt='scroll arrow'
