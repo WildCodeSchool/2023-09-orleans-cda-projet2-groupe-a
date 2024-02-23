@@ -1,9 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const now: Date = new Date();
 
 export default function LegalNotice() {
   const [isModalShown, setIsModalShown] = useState(true);
+  const modalBottomReference: React.MutableRefObject<HTMLElement | null> =
+    useRef<HTMLDivElement>(null);
+
+  const scrollToBottomModal = () => {
+    modalBottomReference.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   // checks LocalStorage when component is mounted.
   // It can store simple datas like user's preferences
@@ -32,13 +38,26 @@ export default function LegalNotice() {
       <div className='z-50 flex h-screen w-screen flex-col items-center justify-center gap-6 text-4xl'>
         <div className='bg-light-green xxs:rounded-xl xxs:text-xl m-2 rounded-[30px] border-[5px] border-black p-4 font-bold transition-transform duration-500 ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:bg-opacity-80 sm:rounded-3xl sm:text-6xl'>
           <a href='/virgin'>{'Legal Notice'}</a>
-          {/* Todo : relier à la page /virgin ou cocktail random healthy */}
         </div>
-        <div className='xxs:rounded-3xl xxs:text-lg z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
+        <div className='xxs:rounded-3xl xxs:text-lg overflowY: scroll z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
           <h1 className='xxs:text-md p-0.3 mx-0.5 my-10 text-center font-bold sm:text-3xl'>
             {'Warning against excessive alcohol consumption'}
           </h1>
           <div className='leading-5loose justify-center px-8 text-lg tracking-widest'>
+            <div className='absolute right-0 top-0 mr-[22rem] mt-[16rem] rotate-180 text-center text-sm'>
+              <img
+                src='/scroll-arrow.svg'
+                alt='scroll arrow'
+                className='mx-5 mt-3 h-[40px] w-[40px] animate-bounce'
+              />
+              <button
+                type='button'
+                onClick={scrollToBottomModal}
+                className='font-stroke animate-color-pulse rotate-180 text-xs'
+              >
+                {'read more'}
+              </button>
+            </div>
             <h2 className='xxs:text-md mb-2 sm:text-xl'>{'Article 1'}</h2>
             <p className='xxs:text-xs xxs:leading-5 mb-4 sm:text-sm'>
               {
@@ -171,12 +190,15 @@ export default function LegalNotice() {
                 />
                 {' 2023 - ' + now.toLocaleDateString().slice(6, 10)}
               </div>
-              <div className='xxs:text-xs xxs:flex xxs:mt-5 flex flex-col items-center justify-center rounded-xl border-2 border-transparent p-2 text-right text-blue-300 duration-500 hover:border-blue-500 sm:mt-0 sm:text-sm'>
+              <div className='xxs:text-xs xxs:flex xxs:mt-5 flex flex-col items-center justify-center rounded-xl border-2 border-transparent p-2 text-right text-blue-200 duration-500 hover:border-blue-600 sm:mt-0 sm:text-sm'>
                 <button type='button' onClick={handleClose}>
                   {"Don't show this message again"}
                 </button>
               </div>
             </div>
+            <div
+              ref={modalBottomReference as React.RefObject<HTMLDivElement>}
+            />
           </div>
         </div>
         <button
