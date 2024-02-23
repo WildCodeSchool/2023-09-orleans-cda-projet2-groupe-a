@@ -8,7 +8,11 @@ export default function LegalNotice() {
     useRef<HTMLDivElement>(null);
 
   const scrollToBottomModal = () => {
-    modalBottomReference.current?.scrollIntoView({ behavior: 'smooth' });
+    modalBottomReference.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    });
   };
 
   // checks LocalStorage when component is mounted.
@@ -39,7 +43,7 @@ export default function LegalNotice() {
         <div className='bg-light-green xxs:rounded-xl xxs:text-xl m-2 rounded-[30px] border-[5px] border-black p-4 font-bold transition-transform duration-500 ease-in-out hover:rotate-1 hover:scale-110 hover:justify-normal hover:bg-opacity-80 sm:rounded-3xl sm:text-6xl'>
           <a href='/virgin'>{'Legal Notice'}</a>
         </div>
-        <div className='xxs:rounded-3xl xxs:text-lg overflowY: scroll z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
+        <div className='xxs:rounded-3xl xxs:text-lg z-50 mt-3 flex h-2/3 w-2/3 flex-col overflow-auto overscroll-y-contain border-[6px] border-black bg-blue-400 object-center opacity-90 shadow-2xl sm:rounded-[90px]'>
           <h1 className='xxs:text-md p-0.3 mx-0.5 my-10 text-center font-bold sm:text-3xl'>
             {'Warning against excessive alcohol consumption'}
           </h1>
@@ -198,6 +202,7 @@ export default function LegalNotice() {
             </div>
             <div
               ref={modalBottomReference as React.RefObject<HTMLDivElement>}
+              style={{ height: '10px', overflow: 'hidden' }}
             />
           </div>
         </div>
