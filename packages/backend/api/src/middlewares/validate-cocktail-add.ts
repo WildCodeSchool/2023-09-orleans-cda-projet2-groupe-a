@@ -7,8 +7,8 @@ const validateCocktailAdd = [
   body('ingredients')
     .exists()
     .withMessage('ingredients is required')
-    .isArray({ min: 3, max: 3 })
-    .withMessage('Cocktail must contain exactly 3 ingredients')
+    .isArray({ min: 1 })
+    .withMessage('Cocktail must contain at least 1 ingredient')
     .custom((ingredients: Ingredient[]) => {
       return ingredients.every((ingredient) => {
         return (
@@ -26,8 +26,23 @@ const validateCocktailAdd = [
       'Each ingredient must be an object with id, flavour, name, and kcal properties',
     ),
   body('alcohol')
-    .exists()
-    .withMessage('Alcohol is required')
+    .optional()
+    .isObject()
+    .withMessage('Alcohol must be an object')
+    .custom((alcohol) => {
+      return (
+        'id' in alcohol &&
+        'name' in alcohol &&
+        'flavour' in alcohol &&
+        'kcal' in alcohol &&
+        'degree' in alcohol
+      );
+    })
+    .withMessage(
+      'Alcohol must be an object with id, name, flavour, kcal, and degree properties',
+    ),
+  body('alcohol')
+    .optional()
     .isObject()
     .withMessage('Alcohol must be an object')
     .custom((alcohol) => {

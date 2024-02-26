@@ -4,6 +4,7 @@ import type { CocktailsProfile } from '@app/types';
 
 import { useAuth } from '@/contexts/AuthContext';
 
+import CardImage from '../CardImage';
 import FavoriteHeart from '../FavoriteHeart';
 
 interface CocktailProfileProps {
@@ -48,14 +49,9 @@ export default function Card({ cocktails }: CocktailProfileProps) {
                       isFavorite={cocktail.is_favorite}
                     />
                   ) : null}
-                  <img
-                    src={`${
-                      cocktail.family === 'alcohol'
-                        ? '/placeholder-cocktail.webp'
-                        : '/placeholder-cocktail-virgin.webp'
-                    }`}
-                    alt='Cocktail picture'
-                    className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                  <CardImage
+                    image={cocktail.cocktail_image}
+                    totalDegree={cocktail.total_degree}
                   />
                   <div>
                     <div className='mx-4 mt-3 text-center'>

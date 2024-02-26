@@ -17,6 +17,7 @@ export default function CocktailForm({
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [anecdote, setAnecdote] = useState('');
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const onSubmit = async () => {
     const formDataToSend = new FormData();
@@ -81,10 +82,19 @@ export default function CocktailForm({
                 name='cocktailPic'
                 placeholder='Upload your image !'
                 onChange={(event) => {
-                  setUploadedImage(event.target.files?.[0] || null);
+                  const file = event.target.files?.[0];
+                  if (file && file.size > 2_000_000) {
+                    setFileSizeError(true);
+                  } else {
+                    setFileSizeError(false);
+                    setUploadedImage(file || null);
+                  }
                 }}
                 className='ms-28 mt-2 w-full'
               />
+              {fileSizeError ? (
+                <p className='text-red-500'>{'File size too big !'}</p>
+              ) : null}
               <div className='flex w-full justify-around'>
                 <label
                   htmlFor='cocktailPic'
@@ -100,7 +110,7 @@ export default function CocktailForm({
                 <div className='flex normal-case'>
                   <button
                     type='submit'
-                    disabled={!uploadedImage && !anecdote}
+                    disabled={(!uploadedImage && !anecdote) || fileSizeError}
                     className='ms-auto flex cursor-pointer items-center justify-end transition-transform ease-in-out hover:rotate-3 hover:scale-110'
                   >
                     <p className='uppercase'>{`shake it !`}</p>
