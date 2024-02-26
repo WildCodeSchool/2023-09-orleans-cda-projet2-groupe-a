@@ -16,6 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "types": ["bun-types"]
-  },
-  "extends": "expo/tsconfig.base"
+  }
 }
