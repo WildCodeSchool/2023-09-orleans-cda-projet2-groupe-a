@@ -30,6 +30,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: 'virgin',
+        element: <Virgin />,
+      },
+      {
         path: 'devteam',
         element: <ShowTeam />,
       },
@@ -59,10 +63,6 @@ const router = createBrowserRouter([
           {
             path: 'shaker',
             element: <AddCocktail />,
-          },
-          {
-            path: 'virgin',
-            element: <Virgin />,
           },
           {
             path: '/cocktail-details/:id',
