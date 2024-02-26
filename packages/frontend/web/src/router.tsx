@@ -35,7 +35,10 @@ const router = createBrowserRouter([
     element: <Virgin />,
   },
   {
-    element: <Layout />,
+    path: 'devteam',
+    element: <ShowTeam />,
+  },
+  {
     element: <LayoutLoggedOut />,
     children: [
       {
@@ -74,10 +77,6 @@ const router = createBrowserRouter([
             element: <AddCocktail />,
           },
           {
-            path: 'virgin',
-            element: <Virgin />,
-          },
-          {
             path: '/cocktail-details/:id',
             element: <CocktailsDetails />,
           },
@@ -92,10 +91,6 @@ const router = createBrowserRouter([
           {
             path: 'cocktails',
             element: <Cocktails />,
-          },
-          {
-            path: 'devteam',
-            element: <ShowTeam />,
           },
           {
             path: '*',
