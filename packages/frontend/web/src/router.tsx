@@ -19,6 +19,26 @@ import Virgin from './pages/Virgin';
 
 const router = createBrowserRouter([
   {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: 'devteam',
+    element: <ShowTeam />,
+  },
+  {
+    path: 'virgin',
+    element: <Virgin />,
+  },
+  {
+    path: 'devteam',
+    element: <ShowTeam />,
+  },
+  {
     element: <LayoutLoggedOut />,
     children: [
       {
@@ -57,10 +77,6 @@ const router = createBrowserRouter([
             element: <AddCocktail />,
           },
           {
-            path: 'virgin',
-            element: <Virgin />,
-          },
-          {
             path: '/cocktail-details/:id',
             element: <CocktailsDetails />,
           },
@@ -77,14 +93,42 @@ const router = createBrowserRouter([
             element: <Cocktails />,
           },
           {
-            path: 'devteam',
-            element: <ShowTeam />,
-          },
-          {
             path: '*',
             element: <NotFound />,
           },
         ],
+      },
+      {
+        path: 'profile',
+        element: <ProfilePage />,
+      },
+      {
+        path: '/details/:id',
+        element: <CocktailsDetails />,
+      },
+      {
+        path: 'shaker',
+        element: <AddCocktail />,
+      },
+      {
+        path: '/cocktail-details/:id',
+        element: <CocktailsDetails />,
+      },
+      {
+        path: 'community',
+        element: <Community />,
+      },
+      {
+        path: 'favorites',
+        element: <Favorites />,
+      },
+      {
+        path: 'cocktails',
+        element: <Cocktails />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },
