@@ -30,6 +30,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: 'devteam',
+        element: <ShowTeam />,
+      },
+      {
         element: <Layout />,
         children: [
           {
@@ -75,10 +79,6 @@ const router = createBrowserRouter([
           {
             path: 'cocktails',
             element: <Cocktails />,
-          },
-          {
-            path: 'devteam',
-            element: <ShowTeam />,
           },
           {
             path: '*',
