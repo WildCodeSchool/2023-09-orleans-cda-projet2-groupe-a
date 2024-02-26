@@ -177,10 +177,11 @@ authRouter.post(
         signed: true,
       });
 
+      // ci-après, l'objet response.json qui contient les paires clés/valeurs qui seront envoyées au client.
       return res.json({
-        ok: true,
-        birthdate: birthdate, // After : is what is sent to the frontend. (Cf. AuthRegisterBody)
-        isUnderAge: calculateAge(birthdate).isUnderAge,
+        ok: true, // indique que l'opération à réussi.
+        birthdate: birthdate, // on renvoie la birthdate pour pouvoir calculer l'âge côté front.
+        isUnderAge: calculateAge(birthdate).isUnderAge, // on renvoie le booléen qui indique si l'utilisateur est majeur ou non, après le calcul de la date de naissance de l'utilisateur.
       });
     } catch (error) {
       return res.json({

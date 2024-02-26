@@ -55,7 +55,9 @@ async function getUser(
       cocktails_with_average_rating AS (
         SELECT 
           cocktail.id AS cocktail_id, 
-          cocktail.name AS cocktail_name, 
+          cocktail.name AS cocktail_name,
+          cocktail.total_degree AS total_degree,
+          cocktail.image AS cocktail_image, 
           user.id AS author_id, 
           AVG(
             CASE rating.score 
@@ -100,6 +102,8 @@ async function getUser(
               JSON_OBJECT(
                 'cocktail_id', ci.cocktail_id, 
                 'cocktail_name', ci.cocktail_name, 
+                'cocktail_image', ci.cocktail_image,
+                'total_degree', ci.total_degree,  
                 'is_favorite', ci.is_favorite,
                 'avg_rating', ci.avg_rating, 
                 'ingredient_name', ri.ingredient_name, 

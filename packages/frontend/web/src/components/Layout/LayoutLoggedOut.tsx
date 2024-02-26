@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import CheckBirthdate from '../CheckBirthdate';
+import Navbar from '../Navbar';
 
 export default function LayoutLoggedOut() {
   const birthdate = localStorage.getItem('birthdate');
@@ -8,6 +9,7 @@ export default function LayoutLoggedOut() {
   return (
     <>
       {birthdate === null && <CheckBirthdate />}
+      <Navbar />
       <Outlet />
     </>
   );
