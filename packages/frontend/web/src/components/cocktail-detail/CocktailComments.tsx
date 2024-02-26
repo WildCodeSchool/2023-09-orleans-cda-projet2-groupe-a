@@ -54,8 +54,6 @@ export default function CocktailComments() {
     };
   }, [id, isReload]);
 
-  console.log('comments', comments);
-
   return (
     <div>
       <div className='ps-2'>
