@@ -9,6 +9,7 @@ ratingRouter.post('/:id', async (req, res) => {
   const { userId, score } = req.body;
   const cocktailId = req.params.id;
   const createdAt = new Date();
+
   if (score < 1 || score > 5 || !userId || !cocktailId) {
     res.status(400).send('Bad Request');
   } else {

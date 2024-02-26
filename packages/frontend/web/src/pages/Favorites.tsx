@@ -2,18 +2,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import CardImage from '@/components/CardImage';
 import FavoriteHeart from '@/components/FavoriteHeart';
 import Stars from '@/components/favorite/Stars';
 import Title from '@/components/favorite/Title';
 import useFetch from '@/hooks/use-fetch';
 
-interface DataNotConnected {
-  ok: boolean;
-  message: string;
-}
-
 type Data = {
-  status?: DataNotConnected;
+  ok?: boolean;
+  message?: string;
   cocktails?: Pick<
     Cocktail,
     'name' | 'id' | 'image' | 'ratings_average' | 'total_degree'
@@ -22,33 +19,18 @@ type Data = {
 
 const url = `/api/favorite/`;
 
-const image = (image: string | undefined, total_degree: number) => {
-  if (image === null) {
-    return total_degree > 0
-      ? '/placeholder-cocktail.webp'
-      : '/placeholder-cocktail-virgin.webp';
-  } else {
-    return `${import.meta.env.VITE_BACKEND_URL}/${image}`;
-  }
-};
-
 export default function Favorite() {
   const navigate = useNavigate();
 
   const { data } = useFetch<Data>(url);
-
-  if (
-    data?.status !== undefined &&
-    !data.status.ok &&
-    data.status.message === 'not connected'
-  ) {
+  if (data !== undefined && !data.ok && data.message === 'not connected') {
     navigate('/login');
   }
 
   return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
-      style={{ backgroundImage: `url('favorites-bg.webp')` }}
+      style={{ backgroundImage: `url('favorite-bg.gif')` }}
     >
       <Title />
       <div className='px-10'>
@@ -63,10 +45,9 @@ export default function Favorite() {
                         <div className='border-dark absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#F57575]'>
                           <div className='border-dark relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#EA2879]'>
                             <FavoriteHeart id={cocktail.id} isFavorite={1} />
-                            <img
-                              src={image(cocktail.image, cocktail.total_degree)}
-                              alt='Cocktail picture'
-                              className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                            <CardImage
+                              image={cocktail.image}
+                              totalDegree={cocktail.total_degree}
                             />
                             <div>
                               <div className='mx-4 mt-3 text-center'>

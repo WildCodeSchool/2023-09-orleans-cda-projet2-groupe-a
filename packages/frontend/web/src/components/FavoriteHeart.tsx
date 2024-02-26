@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 interface FavoriteHeartProps {
   readonly id: number;
-  readonly isFavorite: number;
+  readonly isFavorite: number | undefined;
 }
 
 export default function FavoriteHeart({ id, isFavorite }: FavoriteHeartProps) {

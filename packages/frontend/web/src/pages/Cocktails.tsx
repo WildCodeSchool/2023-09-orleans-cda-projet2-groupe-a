@@ -11,6 +11,7 @@ interface Cocktails {
   avg_rating: number;
   cocktail_image: string;
   cocktail_created: Date;
+  total_degree?: number;
   readonly cardCocktails: Cocktails[] | undefined;
 }
 interface Filters {

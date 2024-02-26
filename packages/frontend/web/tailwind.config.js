@@ -4,6 +4,8 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
   safelist: [
+    'mt-[10.5rem]',
+    'mt-[7rem]',
     'mt-0',
     'mt-10',
     'mr-10',
@@ -82,6 +84,14 @@ export default {
     'md:clip-path-polygon-blue-md',
     'md:clip-path-polygon-orange-md',
     'md:clip-path-polygon-pink-md',
+
+    'md:clip-path-polygon-purple-shaker-md',
+    'md:clip-path-polygon-yellow-shaker-md',
+    'md:clip-path-polygon-green-shaker-md',
+    'md:clip-path-polygon-blue-shaker-md',
+    'md:clip-path-polygon-orange-shaker-md',
+    'md:clip-path-polygon-pink-shaker-md',
+
     'clip-path-polygon-purple',
     'clip-path-polygon-yellow',
     'clip-path-polygon-green',
@@ -230,6 +240,8 @@ export default {
         'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
         'color-pulse': 'color-pulse 2s linear infinite',
         'gradient-x': 'gradient-x 10s linear infinite',
+        'spin-infinite': 'spin 8s linear infinite',
+        bounce: 'bounce 1s infinite',
       },
       keyframes: {
         'gradient-x': {
@@ -250,16 +262,21 @@ export default {
           '50%': { color: 'orange' },
           '75%': { color: 'red' },
         },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        bounce: {
+          '0%, 100%': {
+            transform: 'translateY(-25%)',
+            'animation-timing-function': 'cubic-bezier(0.2, 0.8, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(0)',
+            'animation-timing-function': 'cubic-bezier(0, 0.2, 0.5, 1)',
+          },
+        },
       },
-    },
-    keyframes: {
-      spin: {
-        '0%': { transform: 'rotate(0deg)' },
-        '100%': { transform: 'rotate(360deg)' },
-      },
-    },
-    animation: {
-      'spin-infinite': 'spin 5s linear infinite',
     },
   },
   variants: {},

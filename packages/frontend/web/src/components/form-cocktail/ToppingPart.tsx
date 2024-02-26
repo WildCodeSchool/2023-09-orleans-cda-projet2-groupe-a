@@ -1,20 +1,33 @@
 import { MoveRight, Skull } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Flavour, Topping, ToppingPartProps } from '@app/types';
 
 export default function ToppingPart({
   selectedTopping,
   selectedAlcohol,
-  handleToppingChange,
-  errors,
-  watch,
+  setSelectedTopping,
+  show,
+  setShow,
 }: ToppingPartProps) {
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const [toppings, setToppings] = useState<Topping[]>([]);
   const [mainFlavour, setMainFlavour] = useState<string>('');
   const [randomTopping, setRandomTopping] = useState<Topping | null>(null);
   const [isRandomToppingChoosen, setIsRandomToppingChoosen] =
     useState<boolean>(false);
+
+  const handleToppingChange = (value: Topping) => {
+    setSelectedTopping(value);
+    show < 6 ? setShow(6) : null;
+    setValue('topping', value);
+    setShow(6);
+  };
 
   const ingredients = watch('ingredients');
   const selectedIngredient = ingredients ? ingredients[2] : undefined;
@@ -23,6 +36,8 @@ export default function ToppingPart({
     ingredients?.[1]?.flavour,
     ingredients?.[2]?.flavour,
     selectedAlcohol?.flavour,
+    watch('softDrink.flavour'),
+    watch('syrup.flavour'),
   ];
 
   const memoizedFlavoursCount = useMemo(() => {
@@ -30,7 +45,8 @@ export default function ToppingPart({
     return allFlavours.reduce<Record<Flavour, number>>(
       (count, flavour) => {
         if (flavour !== undefined) {
-          count[flavour] = (count[flavour] || 0) + 1;
+          const flavourKey = flavour as Flavour;
+          count[flavourKey] = (count[flavourKey] || 0) + 1;
         }
         return count;
       },
@@ -47,10 +63,15 @@ export default function ToppingPart({
         neutral: 0,
       },
     );
-  }, [selectedAlcohol?.flavour, selectedIngredient?.flavour]);
+  }, [
+    selectedAlcohol?.flavour,
+    watch('softDrink.flavour'),
+    watch('syrup.flavour'),
+    selectedIngredient?.flavour,
+  ]);
 
   useEffect(() => {
-    if (selectedAlcohol && selectedIngredient) {
+    if ((selectedAlcohol || watch('softDrink')) && selectedIngredient) {
       // eslint-disable-next-line unicorn/no-array-reduce
       const [maxFlavour] = Object.entries(memoizedFlavoursCount).reduce(
         ([currentFlavour, currentCount], [flavour, count]) =>
@@ -74,7 +95,14 @@ export default function ToppingPart({
           );
         });
     }
-  }, [memoizedFlavoursCount, mainFlavour, selectedAlcohol, selectedIngredient]);
+  }, [
+    memoizedFlavoursCount,
+    mainFlavour,
+    selectedAlcohol,
+    watch('softDrink.flavour'),
+    watch('syrup.flavour'),
+    selectedIngredient,
+  ]);
 
   const handleRandomToppingChoice = async () => {
     try {
@@ -100,22 +128,12 @@ export default function ToppingPart({
       <h1 className='relative bottom-[5%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl'>
         {'Pick a topping'}
       </h1>
+      {errors.topping ? (
+        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
+          {errors.topping.message as string}
+        </span>
+      ) : null}
 
-      {errors.topping?.type === 'required' ? (
-        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.topping?.type === 'maxLength' ? (
-        <span className='relative bottom-[40px] sm:bottom-[90px] md:bottom-[45px]'>
-          {errors.topping.message}
-        </span>
-      ) : undefined}
-      {errors.topping?.type === 'isString' ? (
-        <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.topping.message}
-        </span>
-      ) : undefined}
       {shouldShowRandomTopping ? (
         <p>{randomTopping.name}</p>
       ) : (

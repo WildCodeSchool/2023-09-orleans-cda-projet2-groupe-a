@@ -8,20 +8,19 @@ import { useDisclosure } from '@app/frontend-shared';
 import Comment from './Comment';
 import StarRating from './StarRating';
 
-interface CocktailComments {
-  content: string;
+interface CommentsRatings {
   comment_id: number;
-  user_id: number;
   cocktail_id: number;
-  comment_user: string;
-  numberComment: number;
-  score: number;
+  comment: string;
+  rating: number;
   rating_id: number;
+  user_id: number;
+  pseudo: string;
 }
 
 export default function CocktailComments() {
-  const [comments, setComments] = useState<CocktailComments[]>();
-  const [ratings, setRatings] = useState<CocktailComments[]>();
+  const [comments, setComments] = useState<CommentsRatings[]>();
+  const [rating, setRating] = useState<number | null>(null);
   const { id } = useParams();
 
   const { isOpen: isCommentsOpen, onToggle: onCommentsToggle } =
@@ -35,8 +34,8 @@ export default function CocktailComments() {
     });
     if (response.ok) {
       const data = await response.json();
-      setComments(data.commentsByUserIdCocktailId);
-      setRatings(data.ratings);
+      setComments(data.comments_ratings);
+      setRating(data.average_rating);
     } else {
       console.error(`Request error: ${response.status}`);
     }
@@ -78,7 +77,7 @@ export default function CocktailComments() {
           )}
           <h2 className='pe-2'>{`review`}</h2>
           <div className='my-auto flex'>
-            <StarRating ratings={ratings} />
+            <StarRating rating={rating} />
           </div>
         </div>
       </div>

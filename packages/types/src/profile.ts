@@ -9,10 +9,12 @@ export interface CommentsProfile {
 export interface CocktailsProfile {
   cocktail_id: number;
   cocktail_image: string;
+  total_degree: number;
   avg_rating: number;
   cocktail_name: string;
   ingredient_name: string;
   family: string;
+  is_favorite?: number | undefined;
 }
 
 export interface UserProfile {

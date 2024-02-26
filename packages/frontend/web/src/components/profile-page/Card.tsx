@@ -2,11 +2,18 @@ import { Link } from 'react-router-dom';
 
 import type { CocktailsProfile } from '@app/types';
 
+import { useAuth } from '@/contexts/AuthContext';
+
+import CardImage from '../CardImage';
+import FavoriteHeart from '../FavoriteHeart';
+
 interface CocktailProfileProps {
   readonly cocktails: CocktailsProfile[];
 }
 
 export default function Card({ cocktails }: CocktailProfileProps) {
+  const { isLoggedIn } = useAuth();
+
   return (
     <>
       {cocktails.map((cocktail) => (
@@ -36,14 +43,15 @@ export default function Card({ cocktails }: CocktailProfileProps) {
                       : 'bg-card-virgin-salmon'
                   } relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]`}
                 >
-                  <img
-                    src={`${
-                      cocktail.family === 'alcohol'
-                        ? '/placeholder-cocktail.webp'
-                        : '/placeholder-cocktail-virgin.webp'
-                    }`}
-                    alt='Cocktail picture'
-                    className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                  {isLoggedIn ? (
+                    <FavoriteHeart
+                      id={cocktail.cocktail_id}
+                      isFavorite={cocktail.is_favorite}
+                    />
+                  ) : null}
+                  <CardImage
+                    image={cocktail.cocktail_image}
+                    totalDegree={cocktail.total_degree}
                   />
                   <div>
                     <div className='mx-4 mt-3 text-center'>
