@@ -30,7 +30,7 @@ export default function Favorite() {
   return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
-      style={{ backgroundImage: `url('favorites-bg.webp')` }}
+      style={{ backgroundImage: `url('favorite-bg.gif')` }}
     >
       <Title />
       <div className='px-10'>
