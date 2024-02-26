@@ -237,28 +237,33 @@ cocktailRouter.post(
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
-  const cocktailId = Number.parseInt(req.params.id);
-  const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
-  const cocktailPicName = req.file ? req.file.filename : null;
-  const updateData: UpdateData = {};
+  const fileSizeLimit = 2 * 1024 * 1024;
+  if (req.file && req.file.size > fileSizeLimit) {
+    return res.status(400).send('The file size is too big (2 MB maximum)');
+  } else {
+    const cocktailId = Number.parseInt(req.params.id);
+    const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
+    const cocktailPicName = req.file ? req.file.filename : null;
+    const updateData: UpdateData = {};
 
-  if (anecdote !== null) {
-    updateData.anecdote = anecdote;
-  }
-  if (cocktailPicName !== null) {
-    updateData.image = cocktailPicName;
-  }
+    if (anecdote !== null) {
+      updateData.anecdote = anecdote;
+    }
+    if (cocktailPicName !== null) {
+      updateData.image = cocktailPicName;
+    }
 
-  try {
-    const result = await db
-      .updateTable('cocktail')
-      .set(updateData)
-      .where('id', '=', cocktailId)
-      .execute();
-    res.send('Fichier uploadé avec succès!');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    try {
+      const result = await db
+        .updateTable('cocktail')
+        .set(updateData)
+        .where('id', '=', cocktailId)
+        .execute();
+      res.send('Fichier uploadé avec succès!');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
   }
 });
 
