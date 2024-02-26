@@ -61,16 +61,17 @@ export interface IngredientTable {
     | 'milk'
     | 'cream'
     | 'condiment'
-    | 'other';
+    | 'other'
+    | 'softdrink';
 }
 export interface CocktailTable {
   id: Generated<number>;
   name: string;
-  image: string;
-  total_kcal?: number;
+  image?: string;
+  total_kcal: number;
   total_degree: number;
   author: number;
-  ratings_average:
+  ratings_average?:
     | '0'
     | '0.5'
     | '1'
@@ -82,7 +83,7 @@ export interface CocktailTable {
     | '4'
     | '4.5'
     | '5';
-  glass_id: number;
+  glass_id: number | null;
   final_flavour:
     | 'fruity'
     | 'spicy'
@@ -96,7 +97,7 @@ export interface CocktailTable {
     | 'neutral';
   created_at: Date;
   total_quantity: number;
-  anecdote: string;
+  anecdote?: string;
 }
 export interface CommentTable {
   id: Generated<number>;

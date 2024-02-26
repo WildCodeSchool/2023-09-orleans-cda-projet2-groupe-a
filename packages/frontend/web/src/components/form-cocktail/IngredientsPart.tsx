@@ -1,41 +1,33 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import type { Ingredient, IngredientsPartProps } from '@app/types';
 
 import IngredientToChoose from './IngredientToChoose';
 
-interface IngredientArray {
-  beforeIngredient: Pick<Ingredient, 'id' | 'name'> | undefined;
-  condition: boolean;
-}
-
 export default function IngredientsPart({
-  errors,
-  watch,
-  setValue,
   setShow,
   setIsModalShown,
   actualIngredient,
   setActualIngredient,
 }: IngredientsPartProps) {
-  const ingredientArray = watch('ingredients');
-  const ingredients: IngredientArray[] = [
-    {
-      beforeIngredient: watch('alcohol'),
-      condition: ingredientArray === undefined,
-    },
-    {
-      beforeIngredient: ingredientArray?.[0],
-      condition:
-        ingredientArray?.[0] !== undefined && ingredientArray[1] === undefined,
-    },
-    {
-      beforeIngredient: ingredientArray?.[1],
-      condition:
-        ingredientArray?.[0] !== undefined && ingredientArray[1] !== undefined,
-    },
-  ];
+  const {
+    watch,
+    formState: { errors },
+    setValue,
+  } = useFormContext();
+  const [isFinished, setIsFinished] = useState(false);
+  const [beforeIngredient, setBeforeIngredient] = useState(watch('alcohol'));
+
+  const ingredients = watch('ingredients');
+
+  useEffect(() => {
+    if (ingredients !== undefined) {
+      setBeforeIngredient(ingredients[actualIngredient - 1] as Ingredient);
+    }
+  }, [actualIngredient]);
 
   return (
     <>
@@ -44,6 +36,7 @@ export default function IngredientsPart({
           {'Choose your fuse'}
         </h1>
         <button
+          className={`${isFinished ? 'hidden' : 'block'}`}
           type='button'
           onClick={() => {
             setIsModalShown(true);
@@ -53,37 +46,28 @@ export default function IngredientsPart({
         </button>
       </div>
 
-      {errors.ingredients?.type === 'required' ? (
-        <span className='relative bottom-[30px] sm:bottom-[80px] md:bottom-[25px]'>
-          {'This field is required'}
-        </span>
-      ) : undefined}
-      {errors.ingredients?.type === 'validate' ? (
+      {errors.ingredients ? (
         <span className='relative bottom-[-10px] rotate-[-12deg]'>
-          {errors.ingredients.message}
+          {errors.ingredients.message as string}
         </span>
-      ) : undefined}
-      {ingredients.map((ingredient) => {
-        if (ingredient.condition) {
-          return (
-            <motion.div
-              key={`ingredients[${actualIngredient}]`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <IngredientToChoose
-                watch={watch}
-                setValue={setValue}
-                setShow={setShow}
-                beforeIngredient={ingredient.beforeIngredient}
-                actualIngredient={actualIngredient}
-                setActualIngredient={setActualIngredient}
-              />
-            </motion.div>
-          );
-        }
-      })}
+      ) : null}
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <IngredientToChoose
+          watch={watch}
+          setValue={setValue}
+          setShow={setShow}
+          beforeIngredient={beforeIngredient}
+          actualIngredient={actualIngredient}
+          setActualIngredient={setActualIngredient}
+          isFinished={isFinished}
+          setIsFinished={setIsFinished}
+        />
+      </motion.div>
     </>
   );
 }

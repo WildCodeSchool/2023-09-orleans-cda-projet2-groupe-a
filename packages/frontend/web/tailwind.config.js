@@ -4,6 +4,8 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 export default {
   content: ['./index.html', './src/**/*.{js,ts,tsx}'],
   safelist: [
+    'mt-[10.5rem]',
+    'mt-[7rem]',
     'mt-0',
     'mt-10',
     'mr-10',
@@ -82,6 +84,14 @@ export default {
     'md:clip-path-polygon-blue-md',
     'md:clip-path-polygon-orange-md',
     'md:clip-path-polygon-pink-md',
+
+    'md:clip-path-polygon-purple-shaker-md',
+    'md:clip-path-polygon-yellow-shaker-md',
+    'md:clip-path-polygon-green-shaker-md',
+    'md:clip-path-polygon-blue-shaker-md',
+    'md:clip-path-polygon-orange-shaker-md',
+    'md:clip-path-polygon-pink-shaker-md',
+
     'clip-path-polygon-purple',
     'clip-path-polygon-yellow',
     'clip-path-polygon-green',
@@ -192,7 +202,7 @@ export default {
         'card-green': '#85DABF',
         'card-pink-dark': '#F5A975',
         'pastel-blue': '#A7D9EF',
-        'pastel-pink': '#FF017B',
+        'pastel-pink': '#FDE0C7',
         'card-blue': '#85ACDA',
         'card-light-green': '#85DA89',
         'card-dark-green': '#85DABF',
@@ -202,6 +212,7 @@ export default {
         'card-virgin-light-blue': '#A2C3F5',
         'card-virgin-strong-pink': '#FB86DA',
         'card-virgin-strong-purple': '#E08AEC',
+        'card-virgin-orange': '#FF9900',
         'profile-picture-blue': '#07BCD5',
         'profile-picture-green': '#35B888',
         'profile-picture-orange': '#F2682F',
@@ -216,13 +227,26 @@ export default {
       textStroke: (theme) => ({
         dark: '4px #000000',
       }),
+      backgroundImage: (theme) => ({
+        'gradient-animation':
+          'linear-gradient(90deg, #B61BCB, #EA2879, #F58643, #FCE544, #C1F0DB, #0AD2E4, #B61BCB)',
+      }),
+      backgroundSize: {
+        200: '200% 100%',
+      },
       animation: {
         'fade-out': 'fade-out 1500ms ease-in forwards',
         'scale-up': 'scale-up 700ms linear forwards',
         'scale-up-delayed': 'scale-up 1000ms ease-out 500ms forwards',
         'color-pulse': 'color-pulse 2s linear infinite',
+        'gradient-x': 'gradient-x 10s linear infinite',
+        'spin-infinite': 'spin 8s linear infinite',
       },
       keyframes: {
+        'gradient-x': {
+          '0%': { 'background-position': '0%' },
+          '100%': { 'background-position': '100%' },
+        },
         'scale-up': {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
@@ -237,16 +261,11 @@ export default {
           '50%': { color: 'orange' },
           '75%': { color: 'red' },
         },
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
       },
-    },
-    keyframes: {
-      spin: {
-        '0%': { transform: 'rotate(0deg)' },
-        '100%': { transform: 'rotate(360deg)' },
-      },
-    },
-    animation: {
-      'spin-infinite': 'spin 5s linear infinite',
     },
   },
   variants: {},

@@ -19,3 +19,14 @@ services:
       timeout: 5s # Timeout for each health checking.
       retries: 20 # Hou many times retries.
       start_period: 10s
+
+  nginx:
+    image: nginx:1.21.3
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./../packages/backend/api/uploads:/uploads
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'

@@ -3,21 +3,24 @@ import * as jose from 'jose';
 
 interface RequestWithUser extends Request {
   userId?: number;
+  isloggedIn?: boolean;
 }
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const loginIdUser = async function (
+const checkAuthState = async function (
   req: RequestWithUser,
   res: Response,
   next: NextFunction,
 ) {
+  req.isloggedIn = false;
   const jwt: string | undefined = req.signedCookies.token;
 
   const SECRET = new TextEncoder().encode(JWT_SECRET);
 
   if (jwt === undefined) {
-    return res.json({ ok: false, message: 'not connected' });
+    next();
+    return;
   }
 
   try {
@@ -27,19 +30,17 @@ const loginIdUser = async function (
     });
 
     if (!result.payload || typeof result.payload.sub !== 'string') {
-      return res.json({ ok: false, message: 'not connected' });
+      next();
+      return;
     }
     const userid = Number.parseInt(result.payload.sub);
-
+    req.isloggedIn = true;
     req.userId = userid;
-  } catch (error) {
-    if (error instanceof jose.errors.JWTExpired) {
-      return res.json({ ok: false, message: 'not connected' });
-    }
-    return res.json({ ok: false, message: 'not connected' });
+  } catch {
+    next();
+    return;
   }
-
   next();
 };
 
-export default loginIdUser;
+export default checkAuthState;

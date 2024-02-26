@@ -47,17 +47,13 @@ export default function ModalForm({
 
   const onSubmit = async (data: UserInfoForm) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/user/update`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
+      const response = await fetch(`/api/user/update`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
       const responseData = await response.json();
       if (responseData.ok === true) {
         setIsOpen(false);
@@ -145,7 +141,7 @@ export default function ModalForm({
           >
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='bg-light flex h-[90%] w-[80%] flex-col overflow-x-hidden overflow-y-scroll rounded-sm bg-opacity-80 p-2 py-3 md:justify-center md:overflow-hidden md:p-4 md:py-6'
+              className='bg-light flex h-[90%] w-[90%] flex-col overflow-x-hidden overflow-y-scroll rounded-sm bg-opacity-80 p-2 py-3 md:justify-center md:overflow-hidden md:p-4 md:py-6'
             >
               <div className='flex flex-col items-center'>
                 <div className='flex flex-col items-center gap-10 md:flex-row'>
@@ -153,7 +149,7 @@ export default function ModalForm({
                     <img
                       src={`/avatar/${selectedImage}`}
                       alt='user image'
-                      className={`border-dark ml-1 h-[175px] w-[200px] rounded-full border-[7px] bg-profile-picture-${selectedColor} object-cover`}
+                      className={`border-dark ml-1 mt-5 h-[10rem] w-[10rem] rounded-full border-[4px] md:mt-0 md:h-[12rem] md:w-[14.5rem] bg-profile-picture-${selectedColor} object-cover`}
                     />
                   </div>
                   <FormPart register={register} errors={errors} />
@@ -162,7 +158,7 @@ export default function ModalForm({
                 <div
                   className={`${
                     Object.keys(errors).length === 0 ? 'mt-10' : 'mt-0'
-                  } self-start px-4`}
+                  } justify-center px-4`}
                 >
                   {errors.color?.type === 'validate' ? (
                     <span className='text-sm'>{errors.color.message}</span>

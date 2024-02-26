@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 
+import CardImage from '../CardImage';
+import FavoriteHeart from '../FavoriteHeart';
+
 interface CardCocktail {
   cocktail_id: number;
   cocktail_name: string;
   avg_rating: number;
   cocktail_image: string;
   cocktail_created: Date;
+  is_favorite?: number;
+  total_degree?: number;
   readonly cardCocktails: CardCocktail[] | undefined;
 }
 type CardCocktailProps = {
@@ -14,7 +19,7 @@ type CardCocktailProps = {
 
 export default function CardCocktail({ cocktails }: CardCocktailProps) {
   return (
-    <div className='mb-2 mt-[0.5rem] flex flex-wrap justify-center'>
+    <div className='sm:scrollbar-bigger-rounded mb-16 mt-[0.5rem] flex h-[75vh] flex-wrap justify-center sm:overflow-y-scroll'>
       {cocktails?.map((cocktail) => (
         <div key={cocktail.cocktail_id} className='m-6'>
           <Link to={`/details/${cocktail.cocktail_id}`}>
@@ -22,10 +27,15 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
               <div className='relative'>
                 <div className='border-dark bg-card-light-green absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px]'>
                   <div className='border-dark bg-card-dark-green relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px]'>
-                    <img
-                      src={`${'/placeholder-cocktail.webp'}`}
-                      alt='Cocktail picture'
-                      className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                    {cocktail.is_favorite === undefined ? null : (
+                      <FavoriteHeart
+                        id={cocktail.cocktail_id}
+                        isFavorite={cocktail.is_favorite}
+                      />
+                    )}
+                    <CardImage
+                      image={cocktail.cocktail_image}
+                      totalDegree={1}
                     />
                     <div>
                       <div className='mx-4 mt-3 text-center'>

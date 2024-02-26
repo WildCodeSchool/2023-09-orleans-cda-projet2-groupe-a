@@ -5,12 +5,19 @@ import type { Cocktail } from '@app/types';
 
 type CocktailFormProps = {
   readonly cocktail: Cocktail;
+  readonly isFormVisible: boolean;
+  readonly setIsFormVisible: (isFormVisible: boolean) => void;
 };
 
-export default function CocktailForm({ cocktail }: CocktailFormProps) {
+export default function CocktailForm({
+  cocktail,
+  isFormVisible,
+  setIsFormVisible,
+}: CocktailFormProps) {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [anecdote, setAnecdote] = useState('');
+  const [fileSizeError, setFileSizeError] = useState(false);
 
   const onSubmit = async () => {
     const formDataToSend = new FormData();
@@ -21,84 +28,103 @@ export default function CocktailForm({ cocktail }: CocktailFormProps) {
     }
 
     try {
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/cocktail/${cocktail.id}/upload`,
-        {
-          method: 'POST',
-          body: formDataToSend,
-        },
-      );
+      const response = await fetch(`/api/cocktail/${cocktail.id}/upload`, {
+        method: 'POST',
+        body: formDataToSend,
+      });
+      if (response.ok) {
+        await response.json();
+      } else {
+        throw new Error('Server responded with non-OK status');
+      }
     } catch (error) {
-      console.error(`Erreur de requête`, error);
+      console.error(`Request error`, error);
     }
     setIsFormSubmitted(true);
     setUploadedImage(null);
+    setIsFormVisible(false);
   };
 
   return (
     <div>
       <div>
-        <form
-          encType='multipart/form-data'
-          onSubmit={async (event) => {
-            event.preventDefault();
-            await onSubmit();
-          }}
-          className={`border-dark bg-pastel-yellow relative m-auto mb-20 h-[26rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap`}
-        >
-          <div className='mx-auto mt-6 flex flex-col items-center'>
-            <label htmlFor='text' className='uppercase'>
-              {cocktail.name}
-            </label>
-            <input
-              type='text'
-              id='text'
-              placeholder='Put your description !'
-              className='bg-light-beige border-dark mt-10 h-[13rem] w-[85%] rounded-sm border-2 p-5'
-              value={anecdote}
-              onChange={(event) => {
-                setAnecdote(event.target.value);
-              }}
-            />
-            <div className='flex'>
-              <label htmlFor='cocktailPic' className='sr-only'>
-                {'Upload Image'}
+        {isFormVisible ? (
+          <form
+            encType='multipart/form-data'
+            onSubmit={async (event) => {
+              event.preventDefault();
+              await onSubmit();
+            }}
+            className='border-dark bg-pastel-yellow relative m-auto mb-20 h-[27rem] w-[80%] rounded-sm border-[3px] uppercase sm:flex-wrap'
+          >
+            <div className='mx-auto mt-6 flex flex-col items-center'>
+              <label htmlFor='text' className='mb-3 uppercase'>
+                {cocktail.name}
               </label>
+              {isFormSubmitted ? (
+                <div className='m-auto text-center normal-case text-green-500'>
+                  {'Form sent successfully !'}
+                </div>
+              ) : null}
+              <input
+                type='text'
+                id='text'
+                placeholder='Put your description !'
+                className='bg-light-beige border-dark mt-5 h-[14rem] w-[85%] rounded-sm border-2 p-5'
+                value={anecdote}
+                onChange={(event) => {
+                  setAnecdote(event.target.value);
+                }}
+              />
               <input
                 type='file'
                 id='cocktailPic'
                 name='cocktailPic'
+                placeholder='Upload your image !'
                 onChange={(event) => {
-                  setUploadedImage(event.target.files?.[0] || null);
+                  const file = event.target.files?.[0];
+                  if (file && file.size > 2_000_000) {
+                    setFileSizeError(true);
+                  } else {
+                    setFileSizeError(false);
+                    setUploadedImage(file || null);
+                  }
                 }}
-                className='hidden'
+                className='ms-28 mt-2 w-full'
               />
-              <label
-                htmlFor='cocktailPic'
-                className='flex cursor-pointer items-center'
-              >
-                <Upload className='mt-4 stroke-[3px]' />
-              </label>
-            </div>
-            <button
-              type='submit'
-              disabled={!uploadedImage && !anecdote}
-              className='ms-auto flex items-center p-3'
-            >
-              <p className='uppercase'>{`shake it !`}</p>
-              <img
-                src='/shaker.svg'
-                alt='shaker'
-                className=' my-auto h-10 w-10 rotate-[30deg] cursor-pointer'
-              />
-              {isFormSubmitted ? (
-                <div className='mt-4 text-center text-green-500'>
-                  {'Form sent successfully !'}
-                </div>
+              {fileSizeError ? (
+                <p className='text-red-500'>{'File size too big !'}</p>
               ) : null}
-            </button>
-          </div>
-        </form>
+              <div className='flex w-full justify-around'>
+                <label
+                  htmlFor='cocktailPic'
+                  className='mt-2 normal-case transition-transform ease-in-out hover:scale-110'
+                >
+                  <p className='my-2'>{'Upload your image!'}</p>
+                  <Upload className='m-auto stroke-[3px]' />
+                </label>
+                <label
+                  htmlFor='cocktailPic'
+                  className='flex cursor-pointer items-center'
+                />
+                <div className='flex normal-case'>
+                  <button
+                    type='submit'
+                    disabled={(!uploadedImage && !anecdote) || fileSizeError}
+                    className='ms-auto flex cursor-pointer items-center justify-end transition-transform ease-in-out hover:rotate-3 hover:scale-110'
+                  >
+                    <p className='uppercase'>{`shake it !`}</p>
+                    <img
+                      src='/shaker.svg'
+                      alt='shaker'
+                      className=' my-auto h-10 w-10 rotate-[30deg] cursor-pointer'
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        ) : null}
       </div>
       <div
         className={`border-dark bg-pastel-beige m-auto mb-20 w-[80%] rounded-sm border-[3px]`}

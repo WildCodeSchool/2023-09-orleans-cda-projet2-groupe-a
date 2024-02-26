@@ -12,7 +12,6 @@ export default function CocktailCard() {
         <div>
           <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>{`Cocktail's name`}</p>
           <div className='mt-2 flex justify-center' />
-          {/* StarRating */}
         </div>
       </div>
     </div>

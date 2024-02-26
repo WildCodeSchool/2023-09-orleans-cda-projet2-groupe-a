@@ -12,14 +12,12 @@ export default function Comments({ comments }: CommentsProfileProps) {
       {comments.map((comment) => (
         <div
           key={comment.comment_id}
-          className='h-[30vh] w-[35vh] border-[6px] border-black bg-[url("/comment-1.png")] bg-cover bg-center bg-no-repeat sm:h-[48.5vh] sm:w-[60vh] md:w-full'
+          className='m-3 mb-0 h-[15rem] w-[18rem] bg-[url("/comment.png")] bg-contain bg-no-repeat'
         >
-          <div className='mt-[15%] flex h-[30vh] w-[35vh] flex-col items-center sm:h-[48.5vh] sm:w-[60vh] md:mt-[20%] md:w-full'>
-            <h1 className='text-md sm:mb-3 sm:text-2xl'>
-              <Link to={`/details/${comment.cocktail_id}`}>
-                {comment.cocktail_name}
-              </Link>
-            </h1>
+          <div className='flex h-full w-full flex-col items-center justify-center overflow-auto text-center'>
+            <Link to={`/details/${comment.cocktail_id}`}>
+              <p className='mb-3 mt-10 text-sm'>{comment.cocktail_name}</p>
+            </Link>
             <div className='flex'>
               {[1, 2, 3, 4, 5].map((index) => (
                 <div

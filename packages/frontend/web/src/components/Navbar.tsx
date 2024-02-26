@@ -1,15 +1,20 @@
 import {
   Heart,
   Home,
+  LogIn,
+  LogOut,
   Martini,
   Milk,
   Plus,
   UserCircle2,
+  UserPlus,
   Users,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '@/contexts/AuthContext';
 
 type NavbarContent = {
   name: string;
@@ -17,7 +22,7 @@ type NavbarContent = {
   icon: LucideIcon;
 };
 
-const navbarContent: NavbarContent[] = [
+const navbarContentInfo: NavbarContent[] = [
   {
     name: 'Cocktails',
     url: '/cocktails',
@@ -35,7 +40,7 @@ const navbarContent: NavbarContent[] = [
   },
   {
     name: 'Favorite',
-    url: '/favorite',
+    url: '/favorites',
     icon: Heart,
   },
   {
@@ -51,9 +56,57 @@ const navbarContent: NavbarContent[] = [
 ];
 
 export default function Navbar() {
+  const [navbarContent, setNavbarContent] =
+    useState<NavbarContent[]>(navbarContentInfo);
   const [color, setColor] = useState<string>('#000000');
   const [hover, setHover] = useState<string>('#000000');
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST',
+      });
+      if (response.ok) {
+        setIsLoggedIn(false);
+        navigate('/');
+      } else {
+        console.error('Error while logging out');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setNavbarContent(() => [
+        {
+          name: 'Logout',
+          url: '/',
+          icon: LogOut,
+        },
+        ...navbarContentInfo,
+      ]);
+    } else {
+      setNavbarContent(() => [
+        {
+          name: 'Login',
+          url: '/login',
+          icon: LogIn,
+        },
+        {
+          name: 'Register',
+          url: '/register',
+          icon: UserPlus,
+        },
+        ...navbarContentInfo,
+      ]);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -97,7 +150,7 @@ export default function Navbar() {
 
   return (
     <div className='flex justify-center'>
-      <div className='ms:p-0 group fixed bottom-0 z-[100] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:h-[28px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
+      <div className='ms:p-0 group fixed bottom-0 z-[50] flex w-[325px] flex-row-reverse justify-between rounded-t-lg p-2 backdrop-blur-xl sm:right-[10px] sm:top-[18px] sm:h-[28px] sm:w-auto sm:justify-end sm:bg-transparent sm:backdrop-blur-0'>
         <Link to='/'>
           <Home
             className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
@@ -116,18 +169,37 @@ export default function Navbar() {
                 (index + 1) * 100
               }ms] sm:group-hover:max-h-full sm:group-hover:opacity-100`}
             >
-              <Link to={content.url}>
-                <content.icon
-                  className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
-                />
-                <p
-                  className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
-                    (index + 1) * 40
-                  }px]`}
-                >
-                  {content.name}
-                </p>
-              </Link>
+              {content.name === 'Logout' ? (
+                <>
+                  <content.icon
+                    className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                    onClick={() => handleLogout()}
+                  />
+                  <p
+                    className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
+                      (index + 1) * 40
+                    }px]`}
+                  >
+                    {content.name}
+                  </p>
+                </>
+              ) : (
+                <Link to={content.url}>
+                  <content.icon
+                    className={`peer h-7 w-7 cursor-pointer sm:my-auto sm:me-3 text-[${color}] hover:text-[${hover}]`}
+                    {...(content.name === 'Logout' && {
+                      onClick: handleLogout,
+                    })}
+                  />
+                  <p
+                    className={`text-[${color}] absolute max-h-0 opacity-0 transition-all peer-hover:max-h-full peer-hover:opacity-70 sm:right-[${
+                      (index + 1) * 40
+                    }px]`}
+                  >
+                    {content.name}
+                  </p>
+                </Link>
+              )}
             </div>
           );
         })}

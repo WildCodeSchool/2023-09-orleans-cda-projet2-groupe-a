@@ -79,17 +79,39 @@
   .clip-path-polygon-pink-md {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 7% 100%);
   }
+  .clip-path-polygon-blue-shaker-md {
+    clip-path: polygon(0 0, 98% 0, 85% 100%, 0 100%);
+  }
 
+  .clip-path-polygon-orange-shaker-md {
+    clip-path: polygon(13% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-purple-shaker-md {
+    clip-path: polygon(0 0, 80% 0%, 100% 100%, 0% 100%);
+  }
+
+  .clip-path-polygon-yellow-shaker-md {
+    clip-path: polygon(1% 0, 100% 0, 100% 100%, 19% 100%);
+  }
+
+  .clip-path-polygon-green-shaker-md {
+    clip-path: polygon(0 0, 90% 0%, 97% 100%, 0 100%);
+  }
+
+  .clip-path-polygon-pink-shaker-md {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 7% 100%);
+  }
   ::-webkit-scrollbar {
     width: 3px;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #f4f7f6;
+    background-color: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #c0bdbd;
+    background-color: transparent;
     border-radius: 5px;
   }
 
@@ -261,23 +283,39 @@
     filter: drop-shadow(0 0 3em #f257ced3);
   }
 
+  .shadow-card-cocktail {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(25, 42, 12, 0.57);
+  }
+
+  input[type='file']::file-selector-button {
+    background-color: transparent;
+    border: none;
+    display: none;
+  }
+
   input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
   }
 
-  input[type='checkbox'] {
+  .rounded-rotate input[type='checkbox'] {
     position: relative;
     top: 50%;
     border-radius: 4px;
     height: 15px;
     width: 15px;
     background: #fff;
-    border: 2px solid #000000;
+    border: 3px solid #000000;
     transform: rotate(-5deg);
   }
-  input[type='checkbox']:checked {
+  .rounded-rotate input[type='checkbox']:checked {
     background: rgb(0, 0, 0);
+  }
+
+  .shadow-card-community {
+    -webkit-box-shadow: -10px 7px 15px 5px rgba(33, 12, 42, 0.57);
+    box-shadow: -10px 7px 15px 5px rgba(38, 12, 42, 0.57);
   }
 }
