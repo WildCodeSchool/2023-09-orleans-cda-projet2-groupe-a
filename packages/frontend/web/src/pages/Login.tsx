@@ -87,11 +87,11 @@ export default function Login() {
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
-      {!isLoading && (
+      {isLoading ? (
         <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-lg'>
           <Loading />
         </div>
-      )}
+      ) : null}
       <div
         className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}

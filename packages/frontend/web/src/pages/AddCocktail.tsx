@@ -15,11 +15,11 @@ export default function AddCocktail() {
 
   return (
     <FormProvider {...methods}>
-      {!isShake && (
+      {isShake ? (
         <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-lg'>
           <Shaker />
         </div>
-      )}
+      ) : null}
       <MainForm
         setIsModalShown={setIsModalShown}
         setActualIngredient={setActualIngredient}
