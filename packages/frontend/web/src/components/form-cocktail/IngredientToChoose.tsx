@@ -97,7 +97,8 @@ export default function IngredientToChoose({
               <div key={ingredient.id} className='flex gap-3'>
                 <input
                   className='hover:cursor-pointer'
-                  type='radio'
+                  type='checkbox'
+                  hidden
                   id={ingredient.name}
                   value={
                     ingredients
@@ -114,7 +115,7 @@ export default function IngredientToChoose({
                   }}
                 />
                 <label
-                  className='hover:cursor-pointer'
+                  className='transition-transform ease-in-out hover:scale-110 hover:cursor-pointer'
                   htmlFor={ingredient.name}
                 >
                   {ingredient.name}
@@ -131,7 +132,7 @@ export default function IngredientToChoose({
         <p>{'done?'}</p>
         <CheckCircle2 />
       </div>
-      <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:right-[0%] lg:top-[70%] lg:me-0 lg:gap-6'>
+      <div className='relative top-[210%] flex w-full items-center justify-end gap-2 md:right-[12%] md:top-[11%] lg:right-[0%] lg:top-[5rem] lg:me-0 lg:gap-6'>
         <p className='lg:text-md md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           {'Choose your blend or amend'}
         </p>
@@ -142,7 +143,10 @@ export default function IngredientToChoose({
             await randomIngredient();
           }}
         >
-          <Skull size={45} />
+          <Skull
+            className='transition-transform ease-in-out hover:rotate-[180deg] hover:scale-110'
+            size={45}
+          />
         </button>
       </div>
     </>

@@ -111,8 +111,8 @@ const router = createBrowserRouter([
         element: <AddCocktail />,
       },
       {
-        path: '/cocktail-details/:id',
-        element: <CocktailsDetails />,
+        path: 'virgin',
+        element: <Virgin />,
       },
       {
         path: 'community',

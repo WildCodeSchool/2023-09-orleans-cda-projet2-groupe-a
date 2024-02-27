@@ -7,10 +7,14 @@ import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 
+import Loading from './Loading';
+
 export default function Login() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { isUnderAge, setIsUnderAge } = useAge();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -22,6 +26,8 @@ export default function Login() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents default behaviour that would refresh the page.
     setIsSubmitted(true);
+    setIsLoading(true);
+
     // Fetch sends request to /login route and returns a promise that is the answer to that request.
     // Await suspends code execution as soon as the promise is resolved.
     // Param1 from fetch : server adress & route.
@@ -50,6 +56,7 @@ export default function Login() {
         setIsUnderAge(data.isUnderAge);
         setIsImageShown(true);
         setIsLoggedIn(true);
+        setIsLoading(false);
         if (data.isUnderAge) {
           if (isWow) {
             setIsWow(false);
@@ -59,6 +66,7 @@ export default function Login() {
           }, 700);
           setTimeout(() => {
             setTimeout(() => {
+              setIsLoading(false);
               navigate('/virgin');
             }, 3500);
           }, 1700);
@@ -79,6 +87,11 @@ export default function Login() {
 
   return (
     <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
+      {isLoading ? (
+        <div className='absolute top-0 z-[100] bg-black bg-opacity-60 shadow-lg'>
+          <Loading />
+        </div>
+      ) : null}
       <div
         className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}

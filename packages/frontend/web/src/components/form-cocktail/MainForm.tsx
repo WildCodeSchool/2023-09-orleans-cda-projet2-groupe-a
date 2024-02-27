@@ -1,21 +1,25 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useSound } from 'use-sound';
 
 import type { CocktailForm, Ingredient, Topping } from '@app/types';
 
 import GetSquares from './GetSquares';
+import sound from '/shake.mp3';
 
 interface MainFormProps {
   readonly setIsModalShown: (isModalShown: boolean) => void;
   readonly setActualIngredient: (actualIngredient: number) => void;
   readonly actualIngredient: number;
+  readonly setIsShake: (isShake: boolean) => void;
 }
 
 export default function MainForm({
   setIsModalShown,
   setActualIngredient,
   actualIngredient,
+  setIsShake,
 }: MainFormProps) {
   const { handleSubmit } = useFormContext();
   const [withAlcohol, setWithAlcohol] = useState(true);
@@ -33,7 +37,11 @@ export default function MainForm({
 
   const navigate = useNavigate();
 
+  const [play, { stop }] = useSound(sound, { volume: 0.5 });
+
   const onSubmit = async (data: CocktailForm) => {
+    setIsShake(true);
+    play();
     try {
       const response = await fetch(`/api/cocktail/add`, {
         method: 'POST',
@@ -50,8 +58,13 @@ export default function MainForm({
       const responseBody = await response.json();
       if (responseBody.ok === true) {
         const cocktailId = responseBody.cocktailId;
-        navigate(`/details/${cocktailId}`);
+
+        setTimeout(() => {
+          stop();
+          navigate(`/details/${cocktailId}`);
+        }, 3000);
       } else if (responseBody.message === 'not connected') {
+        stop();
         navigate(`/login`);
       }
     } catch (error) {
@@ -59,7 +72,10 @@ export default function MainForm({
     }
   };
   return (
-    <form className='flex justify-center' onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className='flex justify-center overflow-hidden'
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <GetSquares
         withAlcohol={withAlcohol}
         setShow={setShow}
