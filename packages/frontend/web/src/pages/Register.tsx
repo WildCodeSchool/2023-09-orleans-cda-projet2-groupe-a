@@ -27,7 +27,7 @@ export default function Register() {
     setIsSubmitted(true);
 
     try {
-      const res = await fetch(`api/auth/register`, {
+      const res = await fetch(`/api/auth/register`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // Header contains the type of content of the HTTP request. Aka JSON.

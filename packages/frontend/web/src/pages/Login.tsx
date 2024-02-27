@@ -28,7 +28,7 @@ export default function Login() {
     // Param2: Object containing : method, credentials, headers, body.
 
     try {
-      const res = await fetch(`api/auth/login`, {
+      const res = await fetch(`/api/auth/login`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // The "content-type" header specifies Express what kind of content is in the http request. Aka JSON.
