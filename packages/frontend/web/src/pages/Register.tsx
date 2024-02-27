@@ -1,7 +1,8 @@
 import { type FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+import CheckBirthdateAnimations from '@/components/CheckBirthdateAnimations';
+import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -18,20 +19,15 @@ export default function Register() {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [birthdate, setBirthdate] = useState<string>('');
-  const { setIsImageShown, setIsSubmitted, setIsModalShown, isWow, setIsWow } =
-    useAnimations();
-  // const [isUnderAge, setIsUnderAge] = useState<boolean>();
+  const { setIsSubmitted, setIsModalShown, isWow, setIsWow } = useAnimations();
+  const { isUnderAge, setIsUnderAge } = useAge();
 
   const handleClick = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // prevents refresh.
     setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 1500);
-    document.body.classList.remove('overflow-hidden');
 
     try {
-      const res = await fetch(`/api/auth/register`, {
+      const res = await fetch(`api/auth/register`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json', // Header contains the type of content of the HTTP request. Aka JSON.
@@ -48,37 +44,33 @@ export default function Register() {
       const data = (await res.json()) as {
         ok: boolean;
         isLoggedIn: boolean;
-        // isUnderAge: boolean;
+        isUnderAge: boolean;
       }; // Intend to correctly type "ok". hover json ci-contre shows a promise.
       //Hence, the mention "await" preceed res.json.
 
       if (data.ok) {
-        // setIsUnderAge(data.isUnderAge);
+        setIsUnderAge(data.isUnderAge);
         setIsLoggedIn(true);
-        setTimeout(() => {
-          if (!isWow) {
-            setIsWow;
+        if (data.isUnderAge) {
+          if (isWow) {
+            setIsWow(false);
           }
           setTimeout(() => {
-            window.scrollTo({
-              top: document.body.scrollHeight,
-              behavior: 'smooth',
-            });
+            setIsModalShown(true);
           }, 700);
-        }, 1200);
-        navigate('/'); // If user is registered, he's automatically logged in and redirected towards homepage, regarding he's underage or not.
-      } else {
-        document.body.classList.add('overflow-hidden');
-        setIsWow(false);
-        setIsImageShown(true);
-        setTimeout(() => {
-          setIsModalShown(true);
-        }, 2500);
-        // User Registered but not logged in
-        setIsLoggedIn(true);
-        setTimeout(() => {
-          navigate('/virgin');
-        }, 6000);
+          setTimeout(() => {
+            navigate('/virgin');
+          }, 4000);
+        } else {
+          setTimeout(() => {
+            if (!isWow && !data.isUnderAge) {
+              setIsWow(true);
+            }
+            setTimeout(() => {
+              navigate('/');
+            }, 2500);
+          }, 700);
+        }
       }
     } catch {
       console.error('An error occured while registering.');
@@ -86,19 +78,19 @@ export default function Register() {
   };
 
   return (
-    <div className='bg-pastel-blue z-20 flex h-screen items-center justify-center p-5'>
+    <div className='bg-pastel-blue flex h-screen items-center justify-center p-5'>
       <div
-        className='absolute z-30 h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
+        className='absolute h-screen w-screen overflow-x-hidden bg-center bg-no-repeat'
         style={{ backgroundImage: `url('/enter.svg')` }}
       >
+        <h1 className='text-light font-stroke mt-[250px] text-center text-5xl font-bold'>
+          {'Register'}
+        </h1>
         <div className='z-40 flex h-screen w-screen flex-col items-center justify-center'>
           {isLoggedIn ? <GreetsLogin /> : null}
-          <h1 className='text-light font-stroke mt-10 text-center text-5xl font-bold'>
-            {'Register'}
-          </h1>
           <form
             onSubmit={handleClick}
-            className='z-50 flex flex-col items-center justify-center pt-[3.5rem]'
+            className='fixed top-[20rem] flex flex-col items-center justify-center pt-[3rem]'
           >
             <input
               className='2px border-dark m-1 gap-2 rounded border-[5px] p-1 text-center text-sm md:w-96 md:text-xl'
@@ -179,9 +171,7 @@ export default function Register() {
           </div>
         )}
       </div>
-      {/* {isUnderAge !== undefined && (
-        <CheckBirthdateAnimations isUnderAge={isUnderAge} />
-      )} */}
+      {isUnderAge !== undefined && <CheckBirthdateAnimations />}
     </div>
   );
 }
