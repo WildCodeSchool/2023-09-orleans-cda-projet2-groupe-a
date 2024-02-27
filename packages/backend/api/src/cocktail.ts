@@ -455,6 +455,7 @@ cocktailRouter.get(
                 'tool.name as tool_name',
                 'tool.image as tool_image',
               ])
+              .groupBy('tool.id')
               .whereRef('recipe.cocktail_id', '=', 'cocktail.id'),
           ).as('tools'),
 
