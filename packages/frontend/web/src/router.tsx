@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import Layout from './components/Layout/Layout';
+import LayoutLoggedOut from './components/Layout/LayoutLoggedOut';
 import NotFound from './components/NotFound';
 import ShowTeam from './components/ShowTeam';
 import AddCocktail from './pages/AddCocktail';
@@ -26,19 +27,76 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    element: <Layout />,
+    path: 'devteam',
+    element: <ShowTeam />,
+  },
+  {
+    path: 'virgin',
+    element: <Virgin />,
+  },
+  {
+    path: 'devteam',
+    element: <ShowTeam />,
+  },
+  {
+    element: <LayoutLoggedOut />,
     children: [
       {
-        path: '/',
-        element: <Home />,
+        path: '/register',
+        element: <Register />,
       },
       {
-        path: '/nokidsallowed', // TODO : attribuer cette page avec virgins filtrés ou autres.
-        element: <NoKidsAllowed />, // Composant ébauché.
+        path: '/login',
+        element: <Login />,
       },
       {
-        path: 'profile/:id',
-        element: <PublicProfilePage />,
+        element: <Layout />,
+        children: [
+          {
+            path: '/',
+            element: <Home />,
+          },
+          {
+            path: '/nokidsallowed', // TODO : attribuer cette page avec virgins filtrés ou autres.
+            element: <NoKidsAllowed />, // Composant ébauché.
+          },
+          {
+            path: 'profile/:id',
+            element: <PublicProfilePage />,
+          },
+          {
+            path: 'profile',
+            element: <ProfilePage />,
+          },
+          {
+            path: '/details/:id',
+            element: <CocktailsDetails />,
+          },
+          {
+            path: 'shaker',
+            element: <AddCocktail />,
+          },
+          {
+            path: '/cocktail-details/:id',
+            element: <CocktailsDetails />,
+          },
+          {
+            path: 'community',
+            element: <Community />,
+          },
+          {
+            path: 'favorites',
+            element: <Favorites />,
+          },
+          {
+            path: 'cocktails',
+            element: <Cocktails />,
+          },
+          {
+            path: '*',
+            element: <NotFound />,
+          },
+        ],
       },
       {
         path: 'profile',
@@ -67,10 +125,6 @@ const router = createBrowserRouter([
       {
         path: 'cocktails',
         element: <Cocktails />,
-      },
-      {
-        path: 'devteam',
-        element: <ShowTeam />,
       },
       {
         path: '*',

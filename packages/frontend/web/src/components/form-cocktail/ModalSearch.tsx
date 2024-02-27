@@ -1,18 +1,11 @@
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import type { UseFormWatch } from 'react-hook-form';
+import { useForm, useFormContext } from 'react-hook-form';
 
 import type { CocktailForm, Ingredient } from '@app/types';
 
 interface ModalSearchProps {
   readonly setIsModalShown: (isModalShown: boolean) => void;
-  readonly setValue: (
-    name: keyof CocktailForm,
-    value: string | { id: number; name: string },
-  ) => void;
-  readonly watchIngredient: UseFormWatch<CocktailForm>;
-  readonly setShow: (show: number) => void;
   readonly actualIngredient: number;
   readonly setActualIngredient: (actualIngredient: number) => void;
 }
@@ -23,12 +16,10 @@ interface SearchIngredient {
 
 export default function ModalSearch({
   setIsModalShown,
-  setValue,
-  watchIngredient,
-  setShow,
   actualIngredient,
   setActualIngredient,
 }: ModalSearchProps) {
+  const { setValue } = useFormContext();
   const { register, watch } = useForm<SearchIngredient>();
   const [data, setData] = useState<Pick<Ingredient, 'name' | 'id'>[]>();
   const [isLoading, setIsLoading] = useState(true);
@@ -56,33 +47,14 @@ export default function ModalSearch({
       controller.abort();
     };
   }, [url, searchIngredient]);
-  const ingredients = watchIngredient('ingredients');
 
   const chooseIngredient = (ingredient: Pick<Ingredient, 'name' | 'id'>) => {
-    if (ingredients === undefined) {
-      setValue('ingredients[0]' as keyof CocktailForm, ingredient);
-      setActualIngredient(actualIngredient + 1);
-      setIsModalShown(false);
-    } else if (
-      ingredients !== undefined &&
-      ingredients[0] !== undefined &&
-      ingredients[1] === undefined &&
-      ingredients[2] === undefined
-    ) {
-      setValue('ingredients[1]' as keyof CocktailForm, ingredient);
-      setActualIngredient(actualIngredient + 1);
-      setIsModalShown(false);
-    } else if (
-      ingredients !== undefined &&
-      ingredients[0] !== undefined &&
-      ingredients[1] !== undefined &&
-      ingredients[2] === undefined
-    ) {
-      setValue('ingredients[2]' as keyof CocktailForm, ingredient);
-      setActualIngredient(actualIngredient + 1);
-      setShow(5);
-      setIsModalShown(false);
-    }
+    setIsModalShown(false);
+    setValue(
+      `ingredients[${actualIngredient}]` as keyof CocktailForm,
+      ingredient,
+    );
+    setActualIngredient(actualIngredient + 1);
   };
 
   return (

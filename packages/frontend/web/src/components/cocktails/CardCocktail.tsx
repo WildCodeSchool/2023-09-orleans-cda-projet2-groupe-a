@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import CardImage from '../CardImage';
 import FavoriteHeart from '../FavoriteHeart';
 
 interface CardCocktail {
@@ -9,6 +10,7 @@ interface CardCocktail {
   cocktail_image: string;
   cocktail_created: Date;
   is_favorite?: number;
+  total_degree?: number;
   readonly cardCocktails: CardCocktail[] | undefined;
 }
 type CardCocktailProps = {
@@ -31,10 +33,9 @@ export default function CardCocktail({ cocktails }: CardCocktailProps) {
                         isFavorite={cocktail.is_favorite}
                       />
                     )}
-                    <img
-                      src={`${'/placeholder-cocktail.webp'}`}
-                      alt='Cocktail picture'
-                      className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                    <CardImage
+                      image={cocktail.cocktail_image}
+                      totalDegree={1}
                     />
                     <div>
                       <div className='mx-4 mt-3 text-center'>

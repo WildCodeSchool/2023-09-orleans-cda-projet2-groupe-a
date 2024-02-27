@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import type { Cocktail } from '@app/types';
 
+import CardImage from '@/components/CardImage';
 import FavoriteHeart from '@/components/FavoriteHeart';
 import Stars from '@/components/favorite/Stars';
 import Title from '@/components/favorite/Title';
@@ -18,16 +19,6 @@ type Data = {
 
 const url = `/api/favorite/`;
 
-const image = (image: string | undefined, total_degree: number) => {
-  if (image === null) {
-    return total_degree > 0
-      ? '/placeholder-cocktail.webp'
-      : '/placeholder-cocktail-virgin.webp';
-  } else {
-    return `${import.meta.env.VITE_BACKEND_URL}/${image}`;
-  }
-};
-
 export default function Favorite() {
   const navigate = useNavigate();
 
@@ -39,7 +30,7 @@ export default function Favorite() {
   return (
     <div
       className='h-screen w-screen overflow-x-hidden overflow-y-scroll bg-cover bg-center bg-no-repeat pt-16'
-      style={{ backgroundImage: `url('favorites-bg.webp')` }}
+      style={{ backgroundImage: `url('favorite-bg.gif')` }}
     >
       <Title />
       <div className='sm:scrollbar-bigger-rounded mb-8 mt-[0.5rem] flex h-[65vh] flex-wrap justify-center overflow-x-hidden sm:overflow-y-scroll'>
@@ -54,10 +45,9 @@ export default function Favorite() {
                         <div className='border-dark absolute left-[11px] top-[11px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#F57575]'>
                           <div className='border-dark relative left-[12px] top-[12px] h-[336px] w-[288px] rounded-sm border-[3px] bg-[#EA2879]'>
                             <FavoriteHeart id={cocktail.id} isFavorite={1} />
-                            <img
-                              src={image(cocktail.image, cocktail.total_degree)}
-                              alt='Cocktail picture'
-                              className='border-dark mx-auto mt-8 h-[13rem] w-[14rem] rounded-sm border-[3px] object-cover'
+                            <CardImage
+                              image={cocktail.image}
+                              totalDegree={cocktail.total_degree}
                             />
                             <div>
                               <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>
