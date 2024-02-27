@@ -31,7 +31,7 @@ export default function Community() {
             <img
               src='/home/home-1.png'
               alt='Girls talking'
-              className='absolute top-2 z-20  h-[11rem] w-[11rem]'
+              className='absolute top-2 z-20 h-[11rem] w-[11rem]'
             />
           </div>
         </div>
