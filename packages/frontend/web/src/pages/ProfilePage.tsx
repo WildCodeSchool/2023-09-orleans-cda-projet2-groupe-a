@@ -78,7 +78,7 @@ export default function ProfilePage() {
             </p>
           </div>
         ) : (
-          <div className='bg-light border-dark relative top-[-40px] z-10 h-[400px] w-full border-y-[6px] pe-1 sm:top-[-60px] md:h-[800px] md:w-[98%] md:border-[6px]'>
+          <div className='bg-light border-dark xs:w-[95%] relative top-[-40px] z-10 min-h-[30rem] border-[6px] pe-1 sm:top-[-60px]'>
             <div className='bg-light scrollbar-bigger-rounded h-full w-full overflow-y-hidden md:overflow-x-hidden md:overflow-y-scroll'>
               <div className='h-[400px] md:my-5 md:grid md:grid-cols-2 md:gap-5 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
                 <Card cocktails={user.cocktails} />
