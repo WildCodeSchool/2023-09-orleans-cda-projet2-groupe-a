@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useFormContext } from 'react-hook-form';
 
 import type { LevelPartProps } from '@app/types';
