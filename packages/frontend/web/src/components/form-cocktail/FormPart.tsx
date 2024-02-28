@@ -44,13 +44,13 @@ export default function FormPart({ square, index, show }: FormPartProps) {
           className={`bg-dark-${square.color} lg:clip-path-polygon-${square.color}-lg md:clip-path-polygon-${square.color}-shaker-md border-dark relative h-screen w-full border-[10px] md:h-full md:border-none`}
         >
           <div
-            className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('polygon-black.png')]`}
+            className={`filter-black-to-${square.color} flex h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat md:h-full md:bg-[url('/polygon-black.png')]`}
           />
           <div
             className={`
             ${show < index + 1 ? 'opacity-0' : 'opacity-100'} 
             absolute left-[3%] 
-            top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('form-cocktail/bubble/bubble-${
+            top-0 flex h-screen w-[95%] flex-col items-center justify-center transition-opacity duration-500 sm:left-[10%] md:left-0 bg-[url('/form-cocktail/bubble/bubble-${
               index + 1
             }.png')] bg-contain bg-center bg-no-repeat sm:w-[80%] md:h-full md:w-full md:bg-auto`}
           >
