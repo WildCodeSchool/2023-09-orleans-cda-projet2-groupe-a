@@ -61,7 +61,6 @@ export default function PublicProfilePage() {
           className='z-20 mt-10 w-[500px]'
           src='/profile-page/miss-hold-it.webp'
         />
-        {/* <div className=' md:my-5 md:grid md:grid-cols-2 md:gap-5 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'> */}
         {user.cocktails === null ? (
           <div className='bg-light border-dark relative top-[-55px] z-10 w-full border-y-[6px] pe-1 md:w-[50%] md:border-[6px]'>
             <p className='my-12 flex justify-center'>
@@ -71,11 +70,12 @@ export default function PublicProfilePage() {
         ) : (
           <div className='bg-light border-dark relative top-[-40px] z-10  w-full border-y-[6px] pe-1 sm:top-[-55px] md:w-[98%] md:border-[6px]'>
             <div className='bg-light scrollbar-bigger-rounded h-full max-h-[800px] w-full overflow-y-hidden md:overflow-x-hidden md:overflow-y-scroll'>
-              <Card cocktails={user.cocktails} />
+              <div className='h-[400px] md:my-5 md:grid md:grid-cols-2 md:gap-5 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
+                <Card cocktails={user.cocktails} />
+              </div>
             </div>
           </div>
         )}
-        {/* </div> */}
       </div>
       <CommentsSection comments={user.comments} />
     </div>
