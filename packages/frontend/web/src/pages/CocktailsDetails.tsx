@@ -100,7 +100,6 @@ export default function CocktailsDetails() {
   if (!cocktail) {
     return <Navigate to='/' />;
   }
-  console.log(tools);
 
   return (
     <div
