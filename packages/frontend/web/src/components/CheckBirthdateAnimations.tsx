@@ -1,13 +1,13 @@
+import { useAge } from '@/contexts/AgeContext';
 import { useAnimations } from '@/contexts/AnimationsContext';
 import { useBirth } from '@/contexts/BirthContext';
 
-type CheckBirthdateAnimationsProps = {
-  readonly isUnderAge: boolean;
-};
+// type CheckBirthdateAnimationsProps = {
+//   readonly isUnderAge: boolean | null;
+// };
 
-export default function CheckBirthdateAnimations({
-  isUnderAge,
-}: CheckBirthdateAnimationsProps) {
+export default function CheckBirthdateAnimations() {
+  const { isUnderAge } = useAge();
   const { isImageShown, isSubmitted, isModalShown, setIsModalShown } =
     useAnimations();
 
@@ -17,7 +17,7 @@ export default function CheckBirthdateAnimations({
 
   return (
     <>
-      <div className='fixed top-1 z-40 flex h-1/5 flex-col items-center justify-center'>
+      <div className='fixed top-1 z-[60] flex h-1/5 flex-col items-center justify-center'>
         {isSubmitted && birthdate !== '' && birthdate !== null ? (
           birthdate && isUnderAge ? (
             <div className='w-7/8 h-7/8 fixed top-12 flex rounded border-2 border-red-600 bg-red-300 p-1'>
@@ -55,13 +55,10 @@ export default function CheckBirthdateAnimations({
         ) : null}
       </div>
       {isModalShown && isUnderAge ? (
-        <div className='flex-end font-stroke text-light flex items-center'>
-          <div className='z-40 flex h-1/6 flex-col items-center gap-6 text-4xl'>
-            <div className='animate-color-pulse hover:text-dark-orange hover:bg-light-yellow m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500 ease-in-out  hover:rotate-1 hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
-              <a href='/virgin'>{'Grab your Mocktail!'}</a>
-            </div>
+        <div className='flex-end font-stroke text-light z-60 fixed bottom-10 flex items-center'>
+          <div className='z-60 flex h-1/6 flex-col items-center gap-6 text-4xl'>
             <img
-              className='shadow-2x1 z-50 h-2/3 w-2/3 justify-center rounded-[90px] border-[6px] border-black object-center opacity-100 shadow-inner'
+              className='shadow-2x1 z-[1000] h-2/3 w-2/3 justify-center rounded-[90px] border-[6px] border-black object-center opacity-100 shadow-inner'
               src='alcohol-free-cocktails.webp'
               alt='redirection page for under18'
             />
@@ -74,6 +71,9 @@ export default function CheckBirthdateAnimations({
             >
               <div>{'X'}</div>
             </button>
+            <div className='animate-color-pulse hover:text-dark-orange hover:bg-light-yellow z-[100] m-2 rounded-[30px] border-[5px] border-transparent p-4 text-6xl font-bold transition-transform duration-500 ease-in-out  hover:rotate-1 hover:scale-110 hover:animate-none hover:justify-normal hover:border-[5px] hover:border-black hover:bg-opacity-80'>
+              <a href='/virgin'>{'Grab your Mocktail!'}</a>
+            </div>
           </div>
         </div>
       ) : null}

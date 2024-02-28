@@ -1,11 +1,16 @@
 import { Shuffle } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import type { Glass, GlassPartProps } from '@app/types';
+import type { Glass } from '@app/types';
 
 const url = `/api/glass`;
 
-export default function GlassPart({ errors, setValue }: GlassPartProps) {
+export default function GlassPart() {
+  const {
+    formState: { errors },
+    setValue,
+  } = useFormContext();
   const [glass, setGlass] = useState<Pick<Glass, 'name' | 'id'>>();
 
   const fetchData = async (url: string, signal: AbortSignal) => {
@@ -47,21 +52,17 @@ export default function GlassPart({ errors, setValue }: GlassPartProps) {
       console.error(error);
     }
   };
-
   return (
     <>
       <h1 className='relative bottom-[9%] w-[300px] text-center text-xl uppercase sm:bottom-[15%] sm:text-2xl md:bottom-[22%]'>
         {'Your glass'}
       </h1>
 
-      {errors.glass?.type === 'required' ? (
+      {errors.glass ? (
         <span className='relative bottom-[65px]'>
-          {'This field is required'}
+          {errors.glass.message as string}
         </span>
-      ) : undefined}
-      {errors.glass?.type === 'validate' ? (
-        <span className='relative bottom-[65px]'>{errors.glass.message}</span>
-      ) : undefined}
+      ) : null}
 
       <div className='relative bottom-[5%] flex md:bottom-[12%]'>
         <p className='w-[200px]'>{glass?.name}</p>

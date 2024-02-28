@@ -27,5 +27,6 @@ services:
       - 80:8080
     volumes:
       - ./nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./../packages/backend/api/uploads:/uploads
     extra_hosts:
       - 'host.docker.internal:host-gateway'

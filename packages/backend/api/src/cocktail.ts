@@ -19,14 +19,33 @@ interface RequestWithUser extends Request {
   isloggedIn?: boolean;
 }
 
+interface Data {
+  totalQuantity: number;
+  totalComplexity: number;
+  totalDuration: number;
+  totalkcal: number;
+  quantity: number[];
+  complexity: number[];
+  duration: number[];
+  kcal: number[];
+  flavors: number[];
+  maxCount: number;
+  maxItems: Flavour[];
+}
+
 cocktailRouter.post(
   '/add',
   checkAuthState,
   blockNotLogin,
   validateCocktailAdd,
   async (req: RequestWithUser, res: Response) => {
-    const { name, glass, ingredients, alcohol, topping } = req.body;
+    const { name, glass, ingredients, alcohol, topping, softDrink, syrup } =
+      req.body;
     const userId = req.userId;
+
+    if (userId === undefined) {
+      return res.status(500).send('Internal Server Error');
+    }
 
     const verb: ActionTable['verb'][] = [
       'muddle',
@@ -65,55 +84,53 @@ cocktailRouter.post(
 
     try {
       const shaker = await db.transaction().execute(async (trx) => {
-        const allIngredients = [...ingredients, alcohol];
-
-        let totalQuantity = 0;
-        let totalkcal = 0;
-        let totalComplexity = 0;
-        let totalDuration = 0;
-        const quantity: number[] = [];
-        const kcal = [];
-        const complexity: number[] = [];
-        const duration: number[] = [];
-        const flavors = [];
-        const counts = {
-          fruity: 0,
-          spicy: 0,
-          herbaceous: 0,
-          floral: 0,
-          woody: 0,
-          bitter: 0,
-          sweet: 0,
-          salty: 0,
-          sour: 0,
-          neutral: 0,
-        };
-        let maxCount = 0;
-        let maxItems = [];
+        const allIngredients = [...ingredients];
+        alcohol ? allIngredients.push(alcohol) : null;
+        softDrink ? allIngredients.push(softDrink) : null;
+        syrup ? allIngredients.push(syrup) : null;
 
         // eslint-disable-next-line unicorn/no-array-reduce
-        const data = allIngredients.reduce((ingredient: Ingredient) => {
-          const numberQuantity = Math.floor(Math.random() * 10 + 1);
-          const numberComplexity = Math.floor(Math.random() * 10 + 1);
-          const numberDuration = Math.floor(Math.random() * 10 + 1);
-          totalQuantity += numberQuantity;
-          totalComplexity += numberComplexity;
-          totalDuration += numberDuration;
-          totalkcal += ingredient.kcal;
-          quantity.push(numberQuantity);
-          complexity.push(numberComplexity);
-          duration.push(numberDuration);
-          kcal.push(ingredient.kcal);
-          flavors.push(ingredient.flavour);
+        const data = allIngredients.reduce(
+          (data, ingredient: Ingredient): Data => {
+            const numberQuantity = Math.floor(Math.random() * 10 + 1);
+            const numberComplexity = Math.floor(Math.random() * 10 + 1);
+            const numberDuration = Math.floor(Math.random() * 10 + 1);
+            data.totalQuantity += numberQuantity;
+            data.totalComplexity += numberComplexity;
+            data.totalDuration += numberDuration;
+            data.totalkcal += ingredient.kcal;
+            data.quantity.push(numberQuantity);
+            data.complexity.push(numberComplexity);
+            data.duration.push(numberDuration);
+            data.kcal.push(ingredient.kcal);
+            data.flavors.push(ingredient.flavour);
 
-          counts[ingredient.flavour] = (counts[ingredient.flavour] || 0) + 1;
-          if (counts[ingredient.flavour] > maxCount) {
-            maxCount = counts[ingredient.flavour];
-            maxItems = [ingredient.flavour];
-          } else if (counts[ingredient.flavour] === maxCount) {
-            maxItems.push(ingredient.flavour);
-          }
-        });
+            data.counts[ingredient.flavour] =
+              (data.counts[ingredient.flavour] || 0) + 1;
+            if (data.counts[ingredient.flavour] > data.maxCount) {
+              data.maxCount = data.counts[ingredient.flavour];
+              data.maxItems = [ingredient.flavour];
+            } else if (data.counts[ingredient.flavour] === data.maxCount) {
+              data.maxItems.push(ingredient.flavour);
+            }
+
+            return data;
+          },
+          {
+            totalQuantity: 0,
+            totalComplexity: 0,
+            totalDuration: 0,
+            totalkcal: 0,
+            quantity: [],
+            complexity: [],
+            duration: [],
+            kcal: [],
+            flavors: [],
+            counts: {},
+            maxCount: 0,
+            maxItems: [],
+          },
+        );
 
         const finalFlavour: Flavour =
           data.maxItems[Math.floor(Math.random() * data.maxItems.length)];
@@ -126,11 +143,11 @@ cocktailRouter.post(
             name: name,
             glass_id: glass.id,
             total_degree: 23,
-            total_kcal: totalkcal,
+            total_kcal: data.totalkcal,
             created_at: createdAt,
             author: userId,
             final_flavour: finalFlavour,
-            total_quantity: totalQuantity,
+            total_quantity: data.totalQuantity,
           })
           .executeTakeFirstOrThrow();
 
@@ -164,8 +181,8 @@ cocktailRouter.post(
               verb: randomVerb,
               priority: Math.floor(Math.random() * 10),
               tool_id: toolId,
-              duration: duration[index],
-              complexity: complexity[index],
+              duration: data.duration[index],
+              complexity: data.complexity[index],
               is_mandatory: [true, false][Math.floor(Math.random() * 2)],
             })
             .executeTakeFirstOrThrow();
@@ -181,7 +198,7 @@ cocktailRouter.post(
             .values({
               ingredient_id: ingredient.id,
               action_id: Number(actionId),
-              quantity: quantity[index],
+              quantity: data.quantity[index],
             })
             .executeTakeFirstOrThrow();
 
@@ -190,8 +207,8 @@ cocktailRouter.post(
             .values({
               cocktail_id: Number(cocktailId),
               action_id: Number(actionId),
-              total_complexity: totalComplexity,
-              total_duration: totalDuration,
+              total_complexity: data.totalComplexity,
+              total_duration: data.totalDuration,
               step: 1,
             })
             .executeTakeFirstOrThrow();
@@ -220,28 +237,33 @@ cocktailRouter.post(
 
 // Route post pour uploader un fichier
 cocktailRouter.post('/:id/upload', multerConfig, async (req, res) => {
-  const cocktailId = Number.parseInt(req.params.id);
-  const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
-  const cocktailPicName = req.file ? req.file.filename : null;
-  const updateData: UpdateData = {};
+  const fileSizeLimit = 2 * 1024 * 1024;
+  if (req.file && req.file.size > fileSizeLimit) {
+    return res.status(400).send('The file size is too big (2 MB maximum)');
+  } else {
+    const cocktailId = Number.parseInt(req.params.id);
+    const anecdote = req.body.anecdote === '' ? null : req.body.anecdote;
+    const cocktailPicName = req.file ? req.file.filename : null;
+    const updateData: UpdateData = {};
 
-  if (anecdote !== null) {
-    updateData.anecdote = anecdote;
-  }
-  if (cocktailPicName !== null) {
-    updateData.image = cocktailPicName;
-  }
+    if (anecdote !== null) {
+      updateData.anecdote = anecdote;
+    }
+    if (cocktailPicName !== null) {
+      updateData.image = cocktailPicName;
+    }
 
-  try {
-    const result = await db
-      .updateTable('cocktail')
-      .set(updateData)
-      .where('id', '=', cocktailId)
-      .execute();
-    res.send('Fichier uploadé avec succès!');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    try {
+      const result = await db
+        .updateTable('cocktail')
+        .set(updateData)
+        .where('id', '=', cocktailId)
+        .execute();
+      res.send('Fichier uploadé avec succès!');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
   }
 });
 

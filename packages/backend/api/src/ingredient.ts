@@ -5,6 +5,28 @@ import { db } from '@app/backend-shared';
 
 const ingredient = express.Router();
 
+ingredient.get('/softdrinks', async (req, res) => {
+  const ingredients = await db
+    .selectFrom('ingredient')
+    .selectAll()
+    .where('ingredient.family', '=', 'softdrink')
+    .orderBy('ingredient.name', 'asc')
+    .execute();
+
+  return res.json(ingredients);
+});
+
+ingredient.get('/syrup', async (req, res) => {
+  const ingredients = await db
+    .selectFrom('ingredient')
+    .selectAll()
+    .where('ingredient.family', '=', 'syrup')
+    .orderBy('ingredient.name', 'asc')
+    .execute();
+
+  return res.json(ingredients);
+});
+
 ingredient.get('/random', async (req, res) => {
   const mixedArray = Object.values(req.query).map((value) => value);
   const chosenIngredients: string[] = mixedArray.filter(
