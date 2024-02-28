@@ -142,7 +142,7 @@ export default function ToppingPart({
             <div key={topping.id} className='flex gap-3'>
               <input
                 className='hover:cursor-pointer'
-                type='radio'
+                type='checkbox'
                 id={topping.name}
                 value={topping.name}
                 checked={selectedTopping?.name === topping.name}
@@ -150,21 +150,27 @@ export default function ToppingPart({
                   handleToppingChange(topping);
                 }}
               />
-              <label className='hover:cursor-pointer' htmlFor={topping.name}>
+              <label
+                className='transition-transform ease-in-out hover:scale-110 hover:cursor-pointer '
+                htmlFor={topping.name}
+              >
                 {topping.name}
               </label>
             </div>
           ))}
         </fieldset>
       )}
-      <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[24%] lg:me-0 lg:mr-20 lg:gap-1'>
+      <div className='relative top-[33%] flex w-full items-center justify-end gap-2 md:top-[11%] md:me-[150px] lg:top-[8rem] lg:me-0 lg:mr-20 lg:gap-1'>
         <p className='md:text-md font-stroke text-light text-end uppercase sm:w-[50%] lg:w-full'>
           <span className='block'>{'Or random...'}</span>
           <span className='block'>{'At your peril !'}</span>
         </p>
         <MoveRight size={40} />
         <button onClick={handleRandomToppingChoice} type='button'>
-          <Skull size={45} />
+          <Skull
+            className='transition-transform ease-in-out hover:rotate-[180deg] hover:scale-110'
+            size={45}
+          />
         </button>
       </div>
     </>

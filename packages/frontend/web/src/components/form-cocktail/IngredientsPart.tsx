@@ -42,7 +42,10 @@ export default function IngredientsPart({
             setIsModalShown(true);
           }}
         >
-          <Search size={30} />
+          <Search
+            className='transition-transform ease-in-out hover:scale-110'
+            size={30}
+          />
         </button>
       </div>
 

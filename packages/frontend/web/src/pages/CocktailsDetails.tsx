@@ -155,16 +155,17 @@ export default function CocktailsDetails() {
           />
           <div className='border-dark bg-pastel-green m-auto my-20 w-[80%] rounded-sm border-[3px] sm:my-0 sm:mt-14 md:mt-0'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`tools`}</h3>
-            <div className='flex-row px-5 pb-5 leading-10'>
+            <ul className='flex flex-wrap gap-5 px-5 pb-5 leading-10'>
               {tools?.map((tool) => (
-                <ul key={tool.tool_name}>
-                  <li className='flex'>
-                    <p className='ms-4'>{tool.tool_image}</p>
-                    <p className='ms-4'>{tool.tool_name}</p>
-                  </li>
-                </ul>
+                <li key={tool.tool_name} className=''>
+                  <img
+                    src={`/tools/${tool.tool_image}`}
+                    className='h-[100px] w-[100px]'
+                  />
+                  <p className='ms-4'>{tool.tool_name}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
           <div className='border-dark bg-pastel-pink m-auto mt-20 w-[80%] rounded-sm border-[3px]'>
             <h3 className='m-4 ms-8 mt-8 uppercase'>{`ingredients`}</h3>

@@ -1,7 +1,7 @@
 export default function Title() {
   return (
     <div
-      className='mx-auto flex h-[13rem] w-[90vw] rounded border-[4px] border-[#FEADB3] bg-[#EA2879] bg-cover bg-center shadow-lg sm:w-[70vw] md:h-[13rem] md:w-[27rem]'
+      className='shadow-card-favorite mx-auto mb-10 flex h-[13rem] w-[90vw] rounded border-[4px] border-[#FEADB3] bg-[#EA2879] bg-cover bg-center shadow-lg transition-transform ease-in-out hover:scale-110 sm:w-[70vw] md:h-[12.5rem] md:w-[24rem]'
       style={{ backgroundImage: `url('/dot-favorites.png')` }}
     >
       <div className='relative h-full w-full'>

@@ -102,7 +102,7 @@ export default function NamePart() {
       ) : null}
 
       <div className='relative bottom-[-30%] flex w-full items-center justify-end md:bottom-[-10%] lg:bottom-[-25%]'>
-        <h2 className='md:text-md font-stroke text-light text-xl uppercase lg:text-2xl'>
+        <h2 className='md:text-md font-stroke text-light cursor-pointer text-xl uppercase transition-transform ease-in-out hover:scale-110 lg:text-2xl'>
           {'Shake it!'}
         </h2>
         <button

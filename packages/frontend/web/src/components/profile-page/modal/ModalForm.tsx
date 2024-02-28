@@ -147,7 +147,11 @@ export default function ModalForm({
                 <div className='flex flex-col items-center gap-10 md:flex-row'>
                   <div>
                     <img
-                      src={`/avatar/${selectedImage}`}
+                      src={
+                        selectedImage === null
+                          ? '/placeholder-avatar.png'
+                          : `/avatar/${selectedImage}`
+                      }
                       alt='user image'
                       className={`border-dark ml-1 mt-5 h-[10rem] w-[10rem] rounded-full border-[4px] md:mt-0 md:h-[12rem] md:w-[14.5rem] bg-profile-picture-${selectedColor} object-cover`}
                     />

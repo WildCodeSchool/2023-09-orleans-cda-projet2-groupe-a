@@ -241,6 +241,7 @@ export default {
         'color-pulse': 'color-pulse 2s linear infinite',
         'gradient-x': 'gradient-x 10s linear infinite',
         'spin-infinite': 'spin 8s linear infinite',
+        'jump-shaking': 'jump-shaking 1s infinite',
         bounce: 'bounce 1s infinite',
       },
       keyframes: {
@@ -266,6 +267,15 @@ export default {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(360deg)' },
         },
+        'jump-shaking': {
+          '0%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateY(-9px)' },
+          '35%': { transform: 'translateY(-9px) rotate(17deg)' },
+          '55%': { transform: 'translateY(-9px) rotate(-17deg)' },
+          '65%': { transform: 'translateY(-9px) rotate(17deg)' },
+          '75%': { transform: 'translateY(-9px) rotate(-17deg)' },
+          '100%': { transform: 'translateY(0) rotate(0)' },
+        },
         bounce: {
           '0%, 100%': {
             transform: 'translateY(-25%)',
@@ -280,7 +290,6 @@ export default {
     },
   },
   variants: {},
-  plugins: [],
   plugins: [
     function ({ addUtilities, theme }) {
       const newUtilities = {
