@@ -8,7 +8,7 @@ const picture = (image: string | undefined, total_degree: number) => {
       ? '/placeholder-cocktail.webp'
       : '/placeholder-cocktail-virgin.webp';
   } else {
-    return `${import.meta.env.VITE_BACKEND_URL}/${image}`;
+    return `uploads/${image}`;
   }
 };
 export default function CardImage({ image, totalDegree }: CardImageProps) {
