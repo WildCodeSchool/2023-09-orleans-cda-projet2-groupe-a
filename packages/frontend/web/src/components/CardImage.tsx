@@ -8,7 +8,7 @@ const picture = (image: string | undefined, total_degree: number) => {
       ? '/placeholder-cocktail.webp'
       : '/placeholder-cocktail-virgin.webp';
   } else {
-    return `uploads/${image}`;
+    return `/uploads/${image}`;
   }
 };
 export default function CardImage({ image, totalDegree }: CardImageProps) {
