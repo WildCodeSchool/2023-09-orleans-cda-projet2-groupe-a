@@ -42,7 +42,7 @@ export default function SimilarCocktail() {
   return (
     <>
       <div className='border-dark bg-pastel-pink relative m-auto mb-20 hidden w-[90%] rounded-sm border-[3px] sm:w-[70%] sm:flex-wrap md:block md:w-[90%]'>
-        <div className='m-10 mb-8 flex flex-wrap justify-center md:justify-between'>
+        <div className='m-10 mb-8 flex flex-wrap justify-center md:justify-around'>
           {similarCocktails?.map((cocktail, index) => (
             <div
               className='transition-transform ease-in-out hover:scale-110 '
