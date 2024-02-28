@@ -1,7 +1,7 @@
 export default function ShakerIcon() {
   return (
     <svg
-      className='h-[100px] rotate-[15deg] md:h-[55px] lg:h-[100px]'
+      className='my-auto h-[100px] w-[80px] rotate-[30deg] cursor-pointer transition-transform ease-in-out hover:rotate-3 hover:scale-110 md:h-[55px] lg:h-[100px]'
       fill='#F4F7F6'
       version='1.1'
       id='Layer_1'

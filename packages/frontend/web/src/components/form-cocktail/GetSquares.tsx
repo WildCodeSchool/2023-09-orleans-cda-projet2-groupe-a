@@ -28,6 +28,7 @@ interface UseSquareProps {
   readonly setSelectedAlcohols: (alcohols: Ingredient[]) => void;
   readonly setSelectedTopping: (topping: Topping) => void;
 }
+
 export default function GetSquares({
   withAlcohol,
   setShow,

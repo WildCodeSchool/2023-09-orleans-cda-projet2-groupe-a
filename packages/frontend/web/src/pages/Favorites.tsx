@@ -33,7 +33,7 @@ export default function Favorite() {
       style={{ backgroundImage: `url('favorite-bg.gif')` }}
     >
       <Title />
-      <div className='px-10'>
+      <div className='sm:scrollbar-bigger-rounded mb-8 mt-[0.5rem] flex h-[65vh] flex-wrap justify-center overflow-x-hidden sm:overflow-y-scroll'>
         <div className='flex flex-col items-center justify-center gap-y-10 md:my-5 md:grid md:grid-cols-2 md:flex-row lg:grid-cols-3 xl:grid-cols-4 2xl:px-20'>
           {data === undefined || data.cocktails === undefined
             ? null
@@ -50,11 +50,9 @@ export default function Favorite() {
                               totalDegree={cocktail.total_degree}
                             />
                             <div>
-                              <div className='mx-4 mt-3 text-center'>
-                                <h1 className='font-stroke text-light text-md mb-2'>
-                                  {cocktail.name}
-                                </h1>
-                              </div>
+                              <p className='font-stroke text-light text-md mx-4 mt-3 text-center'>
+                                {cocktail.name}
+                              </p>
                               <Stars
                                 ratings_average={cocktail.ratings_average}
                               />

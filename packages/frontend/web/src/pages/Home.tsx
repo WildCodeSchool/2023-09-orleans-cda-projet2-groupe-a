@@ -206,7 +206,7 @@ export default function Home() {
                   className={`bg-dark-${square.color} group lg:clip-path-polygon-${square.color}-lg clip-path-polygon-${square.color} md:clip-path-polygon-${square.color}-md relative h-full w-full md:h-full`}
                 >
                   <div
-                    className={`filter-black-to-${square.color} group-hover:animate-spin-infinite absolute left-[-5rem] top-[-6rem] z-[100] flex h-[200%] w-[200%] items-center justify-center bg-[url('polygon-black.png')] bg-cover bg-center bg-no-repeat object-fill sm:left-[-12rem] sm:top-[-6rem] md:left-[-15rem] md:top-[-6rem] lg:left-[-15rem] lg:top-[-12rem] xl:left-[-15rem] 2xl:left-[-22rem] 2xl:top-[-13rem]`}
+                    className={`filter-black-to-${square.color} group-hover:animate-spin-infinite absolute left-[-5rem] top-[-6rem] z-[100] flex h-[200%] w-[200%] items-center justify-center bg-[url('/polygon-black.png')] bg-cover bg-center bg-no-repeat object-fill sm:left-[-12rem] sm:top-[-6rem] md:left-[-15rem] md:top-[-6rem] lg:left-[-15rem] lg:top-[-12rem] xl:left-[-15rem] 2xl:left-[-22rem] 2xl:top-[-13rem]`}
                   />
                   {square.color === 'blue' ? (
                     <div
