@@ -9,7 +9,7 @@ export async function up(db: Kysely<Database>): Promise<void> {
       VALUES
       ('Shaker', 'shaker.png'),
       ('Knife', 'knife.png'),
-      ('Spoon', 'spoon.jpg'),
+      ('Spoon', 'spoon.png'),
       ('Muddler', 'muddler.png'),
       ('Bar Spoon', 'bar-spoon.png'),
       ('Jigger', 'jigger.png'),
